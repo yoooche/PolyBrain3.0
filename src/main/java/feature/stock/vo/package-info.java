@@ -1,0 +1,1 @@
+package feature.stock.vo;
