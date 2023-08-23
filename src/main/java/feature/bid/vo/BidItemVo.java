@@ -4,14 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Clob;
 
-@Entity(name = "BID_ITEM")
+@Entity
+@Table(name = "BID_ITEM")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,7 +19,8 @@ public class BidItemVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "BID_ITEM_NO")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "BID_ITEM_NO", insertable = false)
     private String bidItemNo;
 
     @Column(name = "BID_ITEM_NAME")

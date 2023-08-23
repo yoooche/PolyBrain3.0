@@ -125,13 +125,10 @@
             <div id="layoutSidenav_content">
 
                  <main class="main">
-<<<<<<< Updated upstream
-=======
                     <h1 class="main_area_header">管理員資料</h1>
                                             <ol class="breadcrumb mb-4">
                                                 <li class="breadcrumb-item active">Dashboard</li>
                                             </ol>
->>>>>>> Stashed changes
                                <div>
                                <form method="post" action="EmpListController">
                                <select>

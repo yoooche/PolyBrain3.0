@@ -15,7 +15,7 @@ public class BidItemDaoImpl implements BidItemDao {
     }
     @Override
     public List<BidItemVo> selectAll() {
-        final String hql = "FROM BidItemVo ORDER BY BidItemNo";
+        final String hql = "FROM BidItemVo ORDER BY bidItemNo";
         return session
                 .createQuery(hql, BidItemVo.class)
                 .getResultList();
