@@ -4,14 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity(name = "BID_EVENT")
+@Entity
+@Table(name = "BID_EVENT")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,12 +18,8 @@ public class BidEventVo implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name = "BID_EVENT_NO")
-    private Integer bidEventNo;
-
-    @Column(name = "BID_ITEM_NO")
-    private String bidItemNo;
+    @EmbeddedId
+    private BidEventId bidEventId;
 
     @Column(name = "FLOOR_PRICE")
     private Integer floorPrice;
@@ -40,5 +35,9 @@ public class BidEventVo implements Serializable {
 
     @Column(name = "DIRECTIVE_PRICE")
     private Integer directivePrice;
+
+    @OneToOne
+    @JoinColumn(name = "BID_ITEM_NO", referencedColumnName = "BID_ITEM_NO")
+    private BidItemVo bidItemVo;
 
 }

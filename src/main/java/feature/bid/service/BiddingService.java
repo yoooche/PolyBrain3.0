@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface BiddingService extends CoreService {
     List<BidItemVo> viewAll();
+    public void addAnItem(BidItemVo bidItemVo);
 }
