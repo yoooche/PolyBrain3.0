@@ -5,11 +5,14 @@
 <%@ page import="feature.bid.service.*" %>
 <%@ page import="feature.bid.dao.*" %>
 
-<% 
-BiddingService biddingService=new BiddingServiceImpl(); 
-List<BidItemVo> list = biddingService.viewAll();
+<%
+BiddingService biddingService = new BiddingServiceImpl();
+List<BidEventVo> list = biddingService.viewAllEvent();
 pageContext.setAttribute("list", list);
 %>
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -171,25 +174,28 @@ pageContext.setAttribute("list", list);
                             <table id="datatablesSimple">
                                 <thead>
                                     <tr>
+                                        <th>競標活動編號</th>
                                         <th>競標商品編號</th>
-                                        <th>競標商品名稱</th>
-                                        <th>商品描述</th>
-                                        <th>商品類別</th>
-                                        <th>遊戲發行商</th>
+                                        <th>起標時間</th>
+                                        <th>結標時間</th>
+                                        <th>底價</th>
+                                        <th>最小出價</th>
+                                        <th>直購價</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    <% List<BidItemVo> listAll = (List<BidItemVo>
-                                            )pageContext.getAttribute("list"); %>
-                                            <% if(listAll !=null) { %>
-                                                <% for(BidItemVo bidItemVo : listAll) {%>
+                                    <% List<BidEventVo> eventlist = (List<BidEventVo>) pageContext.getAttribute("list"); %>
+                                            <% if(eventlist !=null ) { %>
+                                                <% for(BidEventVo bidEventVo : eventlist) {%>
                                                     <tr>
-                                                        <td><%= bidItemVo.getBidItemNo() %></td>
-                                                        <td><%= bidItemVo.getBidItemName() %></td>
-                                                        <td><%= bidItemVo.getBidItemDescribe() %></td>
-                                                        <td><%= bidItemVo.getItemClassNo() %></td>
-                                                        <td><%= bidItemVo.getGamePublisher() %></td>
+                                                        <td><%= bidEventVo.getBidEventNo() %></td>
+                                                        <td><%= bidEventVo.getBidItemVo().getBidItemNo() %></td>
+                                                        <td><%= bidEventVo.getStartTime() %></td>
+                                                        <td><%= bidEventVo.getCloseTime() %></td>
+                                                        <td><%= bidEventVo.getFloorPrice() %></td>
+                                                        <td><%= bidEventVo.getLeastOffers() %></td>
+                                                        <td><%= bidEventVo.getDirectivePrice() %></td>
                                                     </tr>
                                                     <% } %>
                                                         <% } %>

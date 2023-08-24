@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @WebServlet("/bid/BidItemList")
 public class BidItemListServlet extends HttpServlet {
-    private BiddingService biddingService = new BiddingServiceImpl();
+    public BiddingService biddingService;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doPost(req, resp);

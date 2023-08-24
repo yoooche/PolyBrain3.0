@@ -1,10 +1,19 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.*" %>
+<%@ page import="feature.bid.vo.*" %>
+<%@ page import="feature.bid.service.*" %>
+<%@ page import="feature.bid.dao.*" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+            <title>Shop Item - Start Bootstrap Template</title>
     <style>
         html,
         body {
@@ -44,8 +53,14 @@
 </head>
 
 <body onload="connect();" onunload="disconnect();">
+
+<!-- Navigation-->
+
+
+
     <h1>Bidding Room</h1>
     <h3 id="statusOutput" class="statusOutput">heading</h3>
+    <div id="countDown" style="margin-bottom:10px;">coming soon...</div>
     <textarea id="bidRecordArea" class="panel bidRecordArea" readonly></textarea>
 
     <div class="panel inputArea form-check form-switch">
@@ -109,15 +124,15 @@
                 "biddingRange": biddingRangeValue
             }
             webSocket.send(JSON.stringify(jsonObj));
-            fetch('/BidOnePage/yoooche', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(jsonObj),
-            })
-            .then(resp => resp.json())
-            .then(data => {
+// <!--            fetch('/BidOnePage/yoooche', {-->
+// <!--                method: 'POST',-->
+// <!--                headers: {'Content-Type': 'application/json'},-->
+// <!--                body: JSON.stringify(jsonObj),-->
+// <!--            })-->
+// <!--            .then(resp => resp.json())-->
+// <!--            .then(data => {-->
 
-            })
+// <!--            })-->
         }
         function disconnect() {
             webSocket.close();
@@ -137,10 +152,32 @@
             bidding.value = `出價 $${biddingRange.value}`;
         }
 
+        function updateCountDown()  {
+            let biddingTimeSecs = ${biddingTimeSec};
+            const countDown = document.querySelector('#countDown');
 
+            let hrs = Math.floor(biddingTimeSecs / 3600);
+            let mins = Math.floor((biddingTimeSecs % 3600) / 60);
+            let secs = biddingTimeSecs % 60;
 
+            countDown.textContent = hrs + ":" + mins + ":" + secs;
+
+            if(biddingTimeSecs > 0){
+                biddingTimeSecs--;
+                setTimeout(updateCountDown, 1000);
+            } else{
+                countDown.textContent = "bidding is over";
+            }
+
+        }
+        window.onload = function(){
+            updateCountDown();
+        }
     </Script>
-    
+     <!-- Bootstrap core JS-->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+     <!-- Core theme JS-->
+     <script src="js/scripts.js"></script>
 
 </body>
 

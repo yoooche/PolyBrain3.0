@@ -20,7 +20,7 @@ public class BidItemVo implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "BID_ITEM_NO", insertable = false)
+    @Column(name = "BID_ITEM_NO", insertable = false, updatable = false)
     private String bidItemNo;
 
     @Column(name = "BID_ITEM_NAME")

@@ -18,8 +18,10 @@ public class BidEventVo implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @EmbeddedId
-    private BidEventId bidEventId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "BID_EVENT_NO", insertable = false, updatable = false)
+    private Integer bidEventNo;
 
     @Column(name = "FLOOR_PRICE")
     private Integer floorPrice;
