@@ -24,6 +24,12 @@ public class BiddingServiceImpl implements BiddingService{
     public void addAnItem(BidItemVo bidItemVo) {
         dao.insert(bidItemVo);
     }
+
+    @Override
+    public BidItemVo getOneItem(Integer bidItemNo) {
+        return dao.selectById(bidItemNo);
+    }
+
     @Override
     public List<BidEventVo> viewAllEvent() {
         return bidEventDao.selectAll();

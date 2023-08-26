@@ -20,6 +20,7 @@ public class BidOneController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         Integer bidEventNo = Integer.valueOf(req.getParameter("id"));
+
         biddingService = new BiddingServiceImpl();
         Date startTime = biddingService.getEventByNo(bidEventNo).getStartTime();
         Date closeTime = biddingService.getEventByNo(bidEventNo).getCloseTime();

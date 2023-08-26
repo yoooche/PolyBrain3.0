@@ -6,13 +6,16 @@ import feature.bid.vo.BidItemVo;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 
 @WebServlet("/bid/BidItemList")
+@MultipartConfig(fileSizeThreshold = 0 * 1024 * 1024, maxFileSize = 1 * 1024 * 1024, maxRequestSize = 10 * 1024 * 1024)
 public class BidItemListServlet extends HttpServlet {
     public BiddingService biddingService;
     @Override
@@ -37,6 +40,15 @@ public class BidItemListServlet extends HttpServlet {
             bidItemVo.setItemClassNo(itemClassNo);
             bidItemVo.setGamePublisher(gamePublisher);
             bidItemVo.setBidItemDescribe(bidItemDescribe);
+
+            InputStream inputStream = req.getPart("bidItemPic").getInputStream();
+            byte[] bidItemPic = null;
+            if(inputStream.available() != 0){
+                bidItemPic = new byte[inputStream.available()];
+                inputStream.read(bidItemPic);
+                inputStream.close();
+            }
+            bidItemVo.setBidItemPic(bidItemPic);
 
             biddingService = new BiddingServiceImpl();
             biddingService.addAnItem(bidItemVo);

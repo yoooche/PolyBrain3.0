@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BidItemPicVo implements Serializable {
+public class BidItemPicVo implements Serializable { // 先暫時不用，先存單張圖片
     @Serial
     private static final long serialVersionUID = 1L;
 
