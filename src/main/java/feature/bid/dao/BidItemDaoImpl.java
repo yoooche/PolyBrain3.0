@@ -21,6 +21,8 @@ public class BidItemDaoImpl implements BidItemDao {
     }
     @Override
     public void deleteById(Integer bidItemNo) {
+        BidItemVo bidItemVo = session.load(BidItemVo.class, bidItemNo);
+        session.remove(bidItemVo);
     }
     @Override
     public BidItemVo selectById(Integer bidItemNo) {

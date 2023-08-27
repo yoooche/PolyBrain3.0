@@ -31,6 +31,12 @@ public class BiddingServiceImpl implements BiddingService{
     }
 
     @Override
+    public void removeOneItem(Integer bidItemNo) {
+        System.out.println("xxx");
+        dao.deleteById(bidItemNo);
+    }
+
+    @Override
     public List<BidEventVo> viewAllEvent() {
         return bidEventDao.selectAll();
     }

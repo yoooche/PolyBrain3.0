@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @WebServlet("/bid/BidItemList")
-@MultipartConfig(fileSizeThreshold = 0 * 1024 * 1024, maxFileSize = 1 * 1024 * 1024, maxRequestSize = 10 * 1024 * 1024)
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class BidItemListServlet extends HttpServlet {
     public BiddingService biddingService;
     @Override
@@ -42,12 +42,8 @@ public class BidItemListServlet extends HttpServlet {
             bidItemVo.setBidItemDescribe(bidItemDescribe);
 
             InputStream inputStream = req.getPart("bidItemPic").getInputStream();
-            byte[] bidItemPic = null;
-            if(inputStream.available() != 0){
-                bidItemPic = new byte[inputStream.available()];
-                inputStream.read(bidItemPic);
-                inputStream.close();
-            }
+            byte[] bidItemPic = inputStream.readAllBytes();
+
             bidItemVo.setBidItemPic(bidItemPic);
 
             biddingService = new BiddingServiceImpl();
@@ -56,6 +52,13 @@ public class BidItemListServlet extends HttpServlet {
 //            String url = "/view/bid/BidItemList.jsp";
 //            RequestDispatcher bidItemList = req.getRequestDispatcher(url);
 //            bidItemList.forward(req, resp);
+
+            resp.sendRedirect(req.getContextPath() + "/view/bid/BidItemList.jsp");
+        }
+        if("delete".equals(action)){
+            Integer bidItemNo = Integer.valueOf(req.getParameter("bidItemNo"));
+            biddingService = new BiddingServiceImpl();
+            biddingService.removeOneItem(bidItemNo);
 
             resp.sendRedirect(req.getContextPath() + "/view/bid/BidItemList.jsp");
         }

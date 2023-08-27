@@ -206,7 +206,6 @@ pageContext.setAttribute("list", list);
                                                                         </div>
                                                                         <div class="modal-body">
                                                                             <%= bidItemVo.getBidItemDescribe() %>
-                                                                            <!-- ${bidItemVo.bidItemDescribe} -->
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -221,23 +220,25 @@ pageContext.setAttribute("list", list);
                                                         <td><%= bidItemVo.getGamePublisher() %></td>
                                                         <td>
                                                             <!-- 新增一筆競標商品資料 -->
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bid_item_edit"style="float: right; margin-bottom: 1px;">
+                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bid_item_edit_<%= bidItemVo.getBidItemNo() %>"style="float: right; margin-bottom: 1px;">
                                                                 編輯
                                                             </button>
                                                             <!-- Modal -->
-                                                            <div class="modal fade" id="bid_item_edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal fade" id="bid_item_edit_<%= bidItemVo.getBidItemNo() %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h5 class="modal-title" id="exampleModalLabel">競標商品新增</h5>
+                                                                            <h5 class="modal-title">競標商品修改</h5>
                                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                         </div>
                                                                         <div class="modal-body">
-                                                                            <form action="<%=request.getContextPath()%>/bid/BidItemList" method="post">
+                                                                            <form action="<%=request.getContextPath()%>/bid/BidItemList" method="post" enctype="multipart/form-data">
                                                                                 <div style="margin-bottom: 10px; display: inline-block;">
-                                                                                    <label for="bidItemName">競標品名稱:</label>
-                                                                                    <input type="text" id="bidItemName" name="bidItemName">
-                                                                                    <select id="itemClassNo" name="itemClassNo">
+
+                                                                                    <label for="bidItemName_edit">競標品名稱:</label>
+                                                                                    <input type="text" id="bidItemName_edit" name="bidItemName" value="<%=bidItemVo.getBidItemName()%>">
+
+                                                                                    <select id="itemClassNo_edit" name="itemClassNo">
                                                                                         <option disabled selected>--類別--</option>
                                                                                         <option value="1">策略</option>
                                                                                         <option value="2">派對</option>
@@ -248,19 +249,24 @@ pageContext.setAttribute("list", list);
                                                                                     </select>
                                                                                 </div>
                                                                                 <div>
-                                                                                    <label for="gamePublisher">遊戲發行商:</label>
-                                                                                    <input type="text" id="gamePublisher" name="gamePublisher">
+                                                                                    <label for="gamePublisher_edit">遊戲發行商:</label>
+                                                                                    <input type="text" id="gamePublisher_edit" name="gamePublisher" value="<%=bidItemVo.getGamePublisher()%>">
                                                                                 </div>
                                                                                 <div style="border: 1px solid white; margin: 10px 0;"></div>
                                                                                 <div>
-                                                                                    <label for="bidItemDescribe">商品描述:</label><br>
-                                                                                    <textarea id="bidItemDescribe" name="bidItemDescribe" cols="30" rows="10"
-                                                                                        style="width: 100%; height: 150px; resize: none;"></textarea>
+                                                                                    <label for="bidItemPic_edit">商品圖片:</label>
+                                                                                    <input type="file" id="bidItemPic_edit" name="bidItemPic" onclick="previewEdit()" multiple="multiple">
+                                                                                    <div id="blob_holder_edit"><img src="<%=request.getContextPath()%>/bid/BidItemPic?bidItemNo=<%=bidItemVo.getBidItemNo()%>" width="100px" height="100px"></div>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <label for="bidItemDescribe_edit">商品描述:</label><br>
+                                                                                    <textarea id="bidItemDescribe_edit" name="bidItemDescribe" cols="30" rows="10"
+                                                                                        style="width: 100%; height: 150px; resize: none;"><%= bidItemVo.getBidItemDescribe() %></textarea>
                                                                                 </div>
                                                                                 <div class="modal-footer">
                                                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                                                                    <input type="hidden" name="action" value="insert">
-                                                                                    <button type="submit" class="btn btn-primary">儲存</button>
+                                                                                    <input type="hidden" name="action" value="edit">
+                                                                                    <button type="submit" id="submit_edit" class="btn btn-primary">儲存變更</button>
                                                                                 </div>
                                                                             </form>
                                                                         </div>
@@ -290,7 +296,7 @@ pageContext.setAttribute("list", list);
                                                                         <form action="<%=request.getContextPath()%>/bid/BidItemList" method="get">
                                                                         <button type="submit" class="btn btn-primary">確認刪除</button>
                                                                         <input type="hidden" name="bidItemNo" value="<%= bidItemVo.getBidItemNo() %>">
-                                                                        <input type="hidden" name="action" id="delete">
+                                                                        <input type="hidden" name="action" value="delete">
                                                                         </form>
                                                                     </div>
                                                                 </div>
@@ -299,7 +305,7 @@ pageContext.setAttribute("list", list);
                                                         </td>
                                                     </tr>
                                                     <% } %>
-                                                        <% } %>
+                                                    <% } %>
                                 </tbody>
                             </table>
                             <!-- 新增一筆競標商品資料 -->
@@ -386,6 +392,38 @@ pageContext.setAttribute("list", list);
             'image/jpeg' : true,
             'image/gif' : true
         }
+        // 修改圖片
+        function previewEdit(){
+            let bidItemPic_edit = document.getElementById('bidItemPic_edit');
+            bidItemPic_edit.addEventListener("change", function(event){
+                let files = event.target.files || event.dataTransfer.files;
+                for(let i = 0; i < files.length; i++){
+                    previewfileEdit(files[i])
+                }
+            }, false);
+        }
+        function previewfileEdit(file){
+            if(filereader_support === true && acceptedTypes[file.type] === true){
+                let reader = new FileReader();
+                reader.onload = function(event){
+                    let image = new Image();
+                    image.src = event.target.result;
+                    image.width = 100;
+                    image.height = 75;
+                    image.border = 2;
+                    if(blob_holder_edit.hasChildNodes()){
+                        blob_holder_edit.removeChild(blob_holder_edit.childNodes[0]);
+                    }
+                    blob_holder_edit.appendChild(image);
+                };
+                reader.readAsDataURL(file);
+                document.getElementById('submit_edit').disabled = false;
+            }else{
+                blob_holder_edit.innerHTML = "<div style='text-align: left;'>" + "filename" + file.name;
+                document.getElementById('submit_edit').disabled = true;
+            }
+        }
+        // 新增圖片
         function preview(){
             let bidItemPic = document.getElementById('bidItemPic');
             bidItemPic.addEventListener("change", function(event){
