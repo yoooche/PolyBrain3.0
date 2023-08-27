@@ -47,12 +47,12 @@
 </c:if>
 
 <ul>
-  <li><a href='order/listAllOrder.jsp'>List</a> all orders.  <br><br></li>
+  <li><a href="<%=request.getContextPath()%>/view/order/listAllOrder.jsp">>List</a> all orders.  <br><br></li>
 
 
 
   <li>
-    <form method="post" action="order.tw" >
+    <form method="post" action="<%=request.getContextPath()%>/view/order/order.tw" >
         <b>輸入訂單編號 (如1 ):</b>
         <input type="text" name="orderNo">
         <input type="hidden" name="test1" value="getOne_For_Display">
@@ -60,7 +60,7 @@
     </form>
 
   </li>
-<jsp:useBean id="odSvc" scope="page" class="web.order.dao.OrderService" />
+<jsp:useBean id="odSvc" scope="page" class="feature.order.service.OrderService" />
 
 </ul>
 
