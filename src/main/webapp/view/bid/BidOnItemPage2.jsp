@@ -18,6 +18,50 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="./css/styles-item-detail.css" rel="stylesheet" />
+        <style>
+        #timer {
+        font-size: 1em;
+        font-weight: 100;
+        color: white;
+        padding: 20px;
+        color: white;
+
+        }
+
+        #timer div {
+        display: inline-block;
+        min-width: 30px;
+        padding: 15px;
+        background: #020b43;
+        border-radius: 10px;
+        border: 2px solid #030d52;
+        margin: 15px;
+        }
+        .bidunit {
+        font-weight: bold;
+        color: rgb(37, 37, 37);
+        }
+        .bid-record{
+        width: 490px;
+        height: 180px;
+        overflow-y: scroll;
+        border: 1px solid #ccc; 
+        }
+        footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        background-color: #343a40;
+        color: #ffffff;
+        padding: 10px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        }
+
+        </style>
     </head>
     <body onload="connect();" onunload="disconnect();">
         <!-- Navigation-->
@@ -53,21 +97,24 @@
         <section class="py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
-                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="" alt="..." /></div>
+                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="http://localhost:8080/PolyBrain/view/bid/images/ACQUIRE.jpg"/></div>
                     <div class="col-md-6">
-                        <div class="small mb-1">SKU: BST-498</div>
-                        <h1 class="display-5 fw-bolder">Shop item template</h1>
-                        <div class="fs-5 mb-5">
-                            <span class="text-decoration-line-through">$45.00</span>
-                            <span>$40.00</span>
-                        </div>
-                        <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>
-                        <div class="d-flex">
-                            <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
-                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                                <i class="bi-cart-fill me-1"></i>
-                                Add to cart
-                            </button>
+                        <h1 class="display-5 fw-bolder">ACQIRE:</h1>
+                        <h3>by Renegade Game Studios</h3>
+                        <div class="fs-5 mb-5" style="text-align: left;">
+                            <span>距離結標時間還有:</span>
+                            <div id="timer"></div>
+                            <ul class="list-group bid-record">
+                                <li class="list-group-item list-group-item-action">A disabled item</li>
+                                <li class="list-group-item list-group-item-action">A second item</li>
+                                <li class="list-group-item list-group-item-action">A third item</li>
+                                <li class="list-group-item list-group-item-action">A third item</li>
+                                <li class="list-group-item list-group-item-action">A third item</li>
+                                <li class="list-group-item list-group-item-action">A third item</li>
+                                <li class="list-group-item list-group-item-action">A third item</li>
+                                <li class="list-group-item list-group-item-action">A third item</li>
+                            </ul>
+                        </li>
                         </div>
                     </div>
                 </div>
@@ -190,10 +237,11 @@
                     </div>
                 </section>
         <!-- Footer-->
-        <footer class="py-5 bg-dark">
+        
+        <footer class="bg-dark">
             <div class="container panel inputArea form-check form-switch">
-            <!-- <label class="form-check-label" for="flexSwitchCheckChecked">參與競標</label>
-                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked> -->
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                <label class="form-check-label" for="flexSwitchCheckChecked">參與競標</label>
                     <input type="text" id="bidder" class="textField" placeholder="bidder">
                     <input type="range" id="biddingRange" min="50" max="500" step="50" oninput="updateBiddingValue();">
                     <input type="button" id="bidding" class="btn_bidding" value="出價 $ --" onclick="bidding();">
@@ -249,15 +297,6 @@
                         "biddingRange": biddingRangeValue
                     }
                     webSocket.send(JSON.stringify(jsonObj));
-        <!--            fetch('/BidOnePage/yoooche', {-->
-        <!--                method: 'POST',-->
-        <!--                headers: {'Content-Type': 'application/json'},-->
-        <!--                body: JSON.stringify(jsonObj),-->
-        <!--            })-->
-        <!--            .then(resp => resp.json())-->
-        <!--            .then(data => {-->
-
-        <!--            })-->
                 }
                 function disconnect() {
                     webSocket.close();
@@ -276,32 +315,62 @@
 
                     bidding.value = `出價 $${biddingRange.value}`;
                 }
+                let bidTimer = setInterval(updateTimer, 1000);
 
-                function updateCountDown()  {
-                    let biddingTimeSecs = ${biddingTimeSec};
-                    const countDown = document.querySelector('#countDown');
+        function updateTimer() {
 
-                    let hrs = Math.floor(biddingTimeSecs / 3600);
-                    let mins = Math.floor((biddingTimeSecs % 3600) / 60);
-                    let secs = biddingTimeSecs % 60;
+            future = Date.parse("2023-08-28 01:36:50");
+            now = new Date();
+            diff = future - now;
+            days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            hours = Math.floor(diff / (1000 * 60 * 60));
+            mins = Math.floor(diff / (1000 * 60));
+            secs = Math.floor(diff / 1000);
 
-                    countDown.textContent = hrs + ":" + mins + ":" + secs;
+            d = days;
+            h = hours - days * 24;
+            m = mins - hours * 60;
+            s = secs - mins * 60;
 
-                    if(biddingTimeSecs > 0){
-                        biddingTimeSecs--;
-                        setTimeout(updateCountDown, 1000);
-                    } else{
-                        countDown.textContent = "bidding is over";
-                    }
+            d = (d < 10) ? "0" + d : d;
+            h = (h < 10) ? "0" + h : h;
+            m = (m < 10) ? "0" + m : m;
+            s = (s < 10) ? "0" + s : s;
 
+            document.getElementById('timer')
+                .innerHTML =
+                '<div>' + d + '</div>' + '<span class="bidunit">天</span>' +
+                '<div>' + h + '</div>' + '<span class="bidunit">時</span>' +
+                '<div>' + m + '</div>' + '<span class="bidunit">分</span>' +
+                '<div>' + s + '</div>' + '<span class="bidunit">秒</span>';
+
+            if (d == 0 && h == 0 && m == 0 && s == 0) {
+                bidClose();
+                console.log('xxx');
+
+                fetch('http://localhost:8080/PolyBrain/test', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-url-encoded'
+                    },
+                    body: new URLSearchParams({
+                        message : 'closed'
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Backend response:', data);
+                    })
+                    .catch(error => {
+                        console.error('Error', error);
+                    });
                 }
-                window.onload = function(){
-                    updateCountDown();
-                }
+            }
+            function bidClose() {
+            clearInterval(bidTimer);
+            }
             </Script>
-        <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
 
     </body>

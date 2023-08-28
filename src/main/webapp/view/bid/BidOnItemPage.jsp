@@ -57,7 +57,6 @@
 <!-- Navigation-->
 
 
-
     <h1>Bidding Room</h1>
     <h3 id="statusOutput" class="statusOutput">heading</h3>
     <div id="countDown" style="margin-bottom:10px;">coming soon...</div>
@@ -76,7 +75,7 @@
     </div>
 
 
-    <Script>
+    <script>
         let myEndPoint = "/BidOnePage/yoooche";
         let host = window.location.host;
         let path = window.location.pathname;
@@ -87,7 +86,7 @@
 
         function connect() {
             //create a websocket
-            webSocket = new WebSocket(endPointURL)
+            webSocket = new WebSocket(endPointURL);
 
             webSocket.onopen = function (event) {
                 updateStatus("Websocket Connected");
@@ -101,6 +100,7 @@
                 let bidRecord = jsonObj.bidder + ":" + jsonObj.biddingRange + "\r\n";
                 bidRecordArea.value = bidRecordArea.value + bidRecord;
                 bidRecordArea.scrollTop = bidRecordArea.scrollHeight;
+
             }
             webSocket.onclose = function (event) {
                 updateStatus("Websocket Disconnected");
@@ -124,15 +124,7 @@
                 "biddingRange": biddingRangeValue
             }
             webSocket.send(JSON.stringify(jsonObj));
-// <!--            fetch('/BidOnePage/yoooche', {-->
-// <!--                method: 'POST',-->
-// <!--                headers: {'Content-Type': 'application/json'},-->
-// <!--                body: JSON.stringify(jsonObj),-->
-// <!--            })-->
-// <!--            .then(resp => resp.json())-->
-// <!--            .then(data => {-->
 
-// <!--            })-->
         }
         function disconnect() {
             webSocket.close();
@@ -152,8 +144,8 @@
             bidding.value = `出價 $${biddingRange.value}`;
         }
 
-        function updateCountDown()  {
-            let biddingTimeSecs = ${biddingTimeSec};
+        function updateCountDown(biddingTimeSec)  {
+            let biddingTimeSecs = biddingTimeSec;
             const countDown = document.querySelector('#countDown');
 
             let hrs = Math.floor(biddingTimeSecs / 3600);
@@ -170,10 +162,7 @@
             }
 
         }
-        window.onload = function(){
-            updateCountDown();
-        }
-    </Script>
+    </script>
      <!-- Bootstrap core JS-->
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
      <!-- Core theme JS-->

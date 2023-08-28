@@ -19,6 +19,13 @@ public class BidItemDaoImpl implements BidItemDao {
                 .createQuery(hql, BidItemVo.class)
                 .getResultList();
     }
-
-
+    @Override
+    public void deleteById(Integer bidItemNo) {
+        BidItemVo bidItemVo = session.load(BidItemVo.class, bidItemNo);
+        session.remove(bidItemVo);
+    }
+    @Override
+    public BidItemVo selectById(Integer bidItemNo) {
+        return session.get(BidItemVo.class, bidItemNo);
+    }
 }

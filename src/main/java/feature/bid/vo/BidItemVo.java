@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
-import java.sql.Clob;
 
 @Entity
 @Table(name = "BID_ITEM")
@@ -21,7 +20,7 @@ public class BidItemVo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BID_ITEM_NO", insertable = false, updatable = false)
-    private String bidItemNo;
+    private Integer bidItemNo;
 
     @Column(name = "BID_ITEM_NAME")
     private String bidItemName;
@@ -34,4 +33,7 @@ public class BidItemVo implements Serializable {
 
     @Column(name = "GAME_PUBLISHER")
     private String gamePublisher;
+
+    @Column(name = "BID_ITEM_PIC")
+    private byte[] bidItemPic;
 }
