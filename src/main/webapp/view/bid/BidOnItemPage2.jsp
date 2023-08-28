@@ -52,7 +52,7 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        height: 90px;
+        height: 70px;
         background-color: #343a40;
         color: #ffffff;
         padding: 10px;
@@ -238,7 +238,7 @@
                 </section>
         <!-- Footer-->
         
-        <footer class="py-5bg-dark">
+        <footer class="bg-dark">
             <div class="container panel inputArea form-check form-switch">
                 <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
                 <label class="form-check-label" for="flexSwitchCheckChecked">參與競標</label>
@@ -319,7 +319,7 @@
 
         function updateTimer() {
 
-            future = Date.parse("2023-08-28 00:00:00");
+            future = Date.parse("2023-08-28 01:36:50");
             now = new Date();
             diff = future - now;
             days = Math.floor(diff / (1000 * 60 * 60 * 24));
