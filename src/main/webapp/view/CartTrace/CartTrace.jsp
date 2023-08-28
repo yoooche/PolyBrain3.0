@@ -3,7 +3,9 @@
 <%@ page import="java.util.*"%>
 <%@ page import="feature.cart.dao.*"%>
 <%@ page import="feature.cart.vo.*"%>
+<%@ page import="feature.item.vo.*"%>
 <%@ page import="feature.cart.service.*"%>
+<%@ page import="feature.item.dao.impl.*"%>
 
 <!-- <%@ page isELIgnored="false"%> -->
 
@@ -12,8 +14,17 @@
 
     <%CartTraceService CTSvc = new CartTraceService();%>
     <%List<CartTraceVO> list = CTSvc.getAllCartItem(1001);%>
-    <%pageContext.setAttribute("listaaa",list);%>
-
+    <%ItemDAOimpl iopl = new ItemDAOimpl();%>
+      <%List<itemVO> itemVOList = iopl.selectAll();%>
+      <%List<itemVO> newList = new ArrayList<>();%>
+             <% for(CartTraceVO lista : list){
+                  for(itemVO itemVOs : itemVOList){
+                      if(lista.getItemNo()==itemVOs.getItemNo()){
+                          newList.add(itemVOs);
+                      }
+                  }
+              }%>
+    <%pageContext.setAttribute("listabcccccc",newList);%>
 
 
 <html>
@@ -69,11 +80,11 @@
         <th>商品編號</th>
         <th>數量</th>
 	</tr>
-	<c:forEach var="itemordervo" items="${listaaa}" >
+	<c:forEach var="itemordervo" items="${listabcccccc}" >
 		<tr>
-			<td>${itemordervo.memNo}</td>
-			<td>${itemordervo.itemNo}</td>
-			<td>${itemordervo.quantity}</td>
+			<td>${itemordervo.itemName}</td>
+			<td>${itemordervo.itemPrice}</td>
+			<td>${itemordervo.itemProdDescription}</td>
 
 		</tr>
 	</c:forEach>

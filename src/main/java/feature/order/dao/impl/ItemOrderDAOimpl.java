@@ -45,8 +45,8 @@ public class ItemOrderDAOimpl implements ItemOrderDAO {
     }
 
     @Override
-    public ItemOrderVO selectByMemberNumber(Integer memberNo) {
-        return getSession().get(ItemOrderVO.class, memberNo );
+    public ItemOrderVO selectByMemberNumber(Integer memNo) {
+        return getSession().get(ItemOrderVO.class, memNo );
     }
 
     public ItemOrderVO updateAnOrder(ItemOrderVO itemordervo){
