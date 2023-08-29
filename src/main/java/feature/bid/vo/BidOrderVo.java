@@ -1,15 +1,15 @@
 package feature.bid.vo;
 
+import feature.mem.vo.MemVo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
-@Entity(name = "BID_ORDER")
+@Entity
+@Table(name = "BID_ORDER")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,7 +30,7 @@ public class BidOrderVo implements Serializable {
     @Column(name = "FINAL_PRICE")
     private Integer finalPrice;
 
-    @Column(name = "MEM_NO")
-    private Integer memNo;
-
+    @OneToOne
+    @JoinColumn(name = "MEM_NO")
+    private MemVo memVo;
 }
