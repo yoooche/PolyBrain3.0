@@ -28,15 +28,15 @@ public class BidOneWebsocket {
         System.out.println(text);
 
         // 測試剛進入競標頁面的使用者也可以看到先前的出價紀錄
-//        Set<Tuple> allRecords = jedis.zrangeWithScores("1", 0, -1);
-//        for(Tuple record : allRecords){
-//            String bidder = record.getElement();
-//            Integer biddingRange = (int)record.getScore();
-//            JsonObject jsonObject = new JsonObject();
-//            jsonObject.addProperty("bidder", bidder);
-//            jsonObject.addProperty("biddingRange", biddingRange);
-//            memSession.getAsyncRemote().sendText(jsonObject.toString());
-//        }
+        Set<Tuple> allRecords = jedis.zrangeWithScores("1", 0, -1);
+        for(Tuple record : allRecords){
+            String bidder = record.getElement();
+            Integer biddingRange = (int)record.getScore();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("bidder", bidder);
+            jsonObject.addProperty("biddingRange", biddingRange);
+            memSession.getBasicRemote().sendText(jsonObject.toString());
+        }
     }
     @OnMessage
     public void onMessage(Session memSession, String message) {
