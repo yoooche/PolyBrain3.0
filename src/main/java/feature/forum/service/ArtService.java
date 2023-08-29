@@ -1,0 +1,67 @@
+package web.forum.service;
+
+import web.forum.dao.ArtDao;
+import web.forum.dao.ArtDaoImpl;
+import web.forum.vo.ArtVo;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+public class ArtService {
+    private ArtDaoImpl dao;
+
+    public ArtService(){
+        dao = new ArtDao();
+    }
+
+    public ArtVo addArt(Integer memNo, String artTitle, String artCon, Date artTime, Byte artState, Integer artGame){
+
+        ArtVo artVo =new ArtVo();
+
+        artVo.setMemNo(memNo);
+        artVo.setArtTitle(artTitle);
+        artVo.setArtCon(artCon);
+        artVo.setArtTime(artTime);
+        artVo.setArtState(artState);
+        artVo.setArtGame(artGame);
+        dao.insert(artVo);
+
+        return artVo;
+    }
+    public ArtVo updateArt(Integer artNo,Integer memNo, String artTitle, String artCon, Date artTime, Byte artState, Integer artGame){
+
+        ArtVo artVo =new ArtVo();
+
+        artVo.setArtNo(artNo);
+        artVo.setMemNo(memNo);
+        artVo.setArtTitle(artTitle);
+        artVo.setArtCon(artCon);
+        artVo.setArtTime(artTime);
+        artVo.setArtState(artState);
+        artVo.setArtGame(artGame);
+        dao.update(artVo);
+
+        return dao.findByPrimaryKey(artNo);
+    }
+    public void updateArt(ArtVo artVo) {
+        dao.update(artVo);
+    }
+
+    public void deleteArt(Integer artNo) {
+        dao.delete(artNo);
+    }
+
+    public ArtVo getOneArt(Integer artNo) {
+        return dao.findByPrimaryKey(artNo);
+    }
+
+    public List<ArtVo> getAll() {
+        return dao.getAll();
+    }
+
+
+
+
+
+}
