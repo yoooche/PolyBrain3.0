@@ -92,7 +92,6 @@ public class ItemOrderServlet extends HttpServlet {
             if(itemordervo == null){
                 return;
             }
-            else
 
             req.setAttribute("itemorder", itemordervo);
             String url = "/view/order/updateOrder_input.jsp";

@@ -9,8 +9,8 @@ import java.util.List;
 public class ItemOrderDAOimpl implements ItemOrderDAO {
 
     @Override
-    public Integer insert(ItemOrderVO pojo) {
-        getSession().persist(pojo);
+    public Integer insert(ItemOrderVO itemOrderVO) {
+        getSession().persist(itemOrderVO);
         return 1 ;
     }
 
