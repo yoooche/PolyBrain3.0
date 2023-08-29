@@ -1,8 +1,6 @@
 package feature.bid.controller;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Tuple;
 
@@ -48,7 +46,7 @@ public class BidOneWebsocket {
         String bidder = jsonObject.get("bidder").getAsString();
         Integer biddingRange = jsonObject.get("biddingRange").getAsInt();
 //        System.out.println("Message received:" + message);
-        jedis.zadd("1", biddingRange, bidder); //key值不能寫死
+        jedis.zadd("1", biddingRange, bidder); // key值不能寫死
     }
     @OnClose
     public void onClose(Session memSession, CloseReason reason) {
