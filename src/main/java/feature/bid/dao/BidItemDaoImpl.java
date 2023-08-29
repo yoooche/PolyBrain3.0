@@ -7,11 +7,10 @@ import org.hibernate.Session;
 import java.util.List;
 
 public class BidItemDaoImpl implements BidItemDao {
-    Session session = HibernateUtil.getSessionFactory().openSession();
+    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
     @Override
-    public Integer insert(BidItemVo bidItemVo) {
+    public void insert(BidItemVo bidItemVo) {
         session.persist(bidItemVo);
-        return 1;
     }
     @Override
     public List<BidItemVo> selectAll() {
@@ -20,6 +19,13 @@ public class BidItemDaoImpl implements BidItemDao {
                 .createQuery(hql, BidItemVo.class)
                 .getResultList();
     }
-
-
+    @Override
+    public void deleteById(Integer bidItemNo) {
+        BidItemVo bidItemVo = session.load(BidItemVo.class, bidItemNo);
+        session.remove(bidItemVo);
+    }
+    @Override
+    public BidItemVo selectById(Integer bidItemNo) {
+        return session.get(BidItemVo.class, bidItemNo);
+    }
 }
