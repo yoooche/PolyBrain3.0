@@ -6,12 +6,17 @@ import feature.bid.dao.BidItemDao;
 import feature.bid.dao.BidItemDaoImpl;
 import feature.bid.vo.BidEventVo;
 import feature.bid.vo.BidItemVo;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Tuple;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
 
 public class BiddingServiceImpl implements BiddingService{
     private final BidItemDao dao;
     private final BidEventDao bidEventDao;
+    Jedis jedis = new Jedis("localhost", 6379);
     public BiddingServiceImpl(){
         dao = new BidItemDaoImpl();
         bidEventDao = new BidEventDaoImpl();
@@ -48,6 +53,20 @@ public class BiddingServiceImpl implements BiddingService{
     @Override
     public BidEventVo getEventByNo(Integer bidEventNo) {
         return bidEventDao.selectById(bidEventNo);
+    }
+
+    @Override
+    public void createOneOrder(String bidEventNo) {
+        Set<Tuple> highestRecord =  jedis.zrevrangeWithScores(bidEventNo, 0, 0);
+        Stream<Tuple> tupleStream = highestRecord.stream();
+        tupleStream.forEach(tuple -> {
+            String member = tuple.getElement();
+            int score = (int)tuple.getScore();
+            System.out.println("Member: " + member + ", Score: " + score);
+        });
+        jedis.close();
+
+
     }
 
 }

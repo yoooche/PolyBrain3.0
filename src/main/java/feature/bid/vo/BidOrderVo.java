@@ -24,13 +24,14 @@ public class BidOrderVo implements Serializable {
     @Column(name = "BID_EVENT_NO")
     private int bidEventNo;
 
-    @Column(name = "BID_ITEM_NO")
-    private String bidItemNo;
-
     @Column(name = "FINAL_PRICE")
     private Integer finalPrice;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "MEM_NO")
     private MemVo memVo;
+
+    @OneToOne
+    @JoinColumn(name = "BID_ITEM_NAME")
+    private BidItemVo bidItemVo;
 }

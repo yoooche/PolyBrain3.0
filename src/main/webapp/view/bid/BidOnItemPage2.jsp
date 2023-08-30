@@ -109,21 +109,13 @@
                             <span>距離結標時間還有:</span>
                             <div id="timer"></div>
                             <ul id="biddingRoom" class="list-group bid-record">
-                                <li id="statusOutput" class="list-group-item list-group-item-action">尚未開始競標...</li>
+                                <li id="statusOutput" class="list-group-item list-group-item-action" >競標中</li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
-
-
-        <!-- Related items section-->
-        <!-- <section class="py-5 bg-light">
-           <h3 id="statusOutput" class="statusOutput">heading</h3>
-           <textarea id="bidRecordArea" class="panel bidRecordArea" style="width:100%; height:300px; resize:none; overflow:auto; box-sizing: border-box;" readonly></textarea>
-        </section> -->
         <!-- Related items section-->
                 <section class="py-5 bg-light">
                     <div class="container px-4 px-lg-5 mt-5">
@@ -237,8 +229,6 @@
                     <input type="text" id="bidder" class="textField" style="height: 38px;" placeholder="bidder">
                     <input type="range" id="biddingRange" style="width:40%; height: 14px; margin-left: 20px;" min="50" max="500" step="50" oninput="updateBiddingValue();">
                     <button type="submit" id="bidding" class="btn_bidding btn btn-primary" style="float: right;" onclick="bidding();">出價＄--</button>
-                    <!-- <input type="button" id="connect" class="btn_connect" value="connect" onclick="connect();">
-                    <input type="button" id="disconnect" class="btn_disconnect" value="disconnect" onclick="disconnect();"> -->
             </div>
         </footer>
         <Script>
@@ -257,8 +247,6 @@
                     webSocket.onopen = function (event) {
                         updateStatus("Websocket Connected");
                         document.querySelector("#bidding").disabled = false;
-                        // document.querySelector("#connect").disabled = true;
-                        // document.querySelector("#disconnect").disabled = false;
                     }
                     webSocket.onmessage = function (event) {
                         let biddingRoom = document.querySelector("#biddingRoom");
@@ -295,9 +283,6 @@
                 }
                  function disconnect() {
                      webSocket.close();
-                //     document.querySelector("#bidding").disabled = true;
-                //     document.querySelector("#connect").disabled = false;
-                //     document.querySelector("#disconnect").disabled = true;
                  }
 
                 function updateStatus(newStatus) {
@@ -314,7 +299,7 @@
 
         function updateTimer() {
 
-            future = Date.parse("2023-08-30 00:00:00"); //時間要從資料庫撈出來，要判斷是哪一場競標（編號），不能寫死
+            future = Date.parse("2023-08-31 00:00:00"); //時間要從資料庫撈出來，要判斷是哪一場競標（編號），不能寫死
             now = new Date();
             diff = future - now;
             days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -341,24 +326,21 @@
 
             if (d == 0 && h == 0 && m == 0 && s == 0) {
                 bidClose();
-                console.log('xxx');
+                let urlParams = new URLSearchParams(window.location.search);
+                let bidEventId = urlParams.get('bidEventId');
+                console.log(bidEventId);
 
                 fetch('http://localhost:8080/PolyBrain/test', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/x-www-form-url-encoded'
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     body: new URLSearchParams({
-                        message : 'closed'
+                        message : 'closed',
+                        bidEventId: bidEventId
                     })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Backend response:', data);
-                    })
-                    .catch(error => {
-                        console.error('Error', error);
-                    });
+                });
+                    
                 }
             }
             function bidClose() {
