@@ -192,7 +192,7 @@ pageContext.setAttribute("list", list);
                                                         <td><%= bidItemVo.getBidItemName() %></td>
                                                         <td>
                                                             <!-- Button trigger modal -->
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bid_item_describe_<%= bidItemVo.getBidItemNo() %>">
+                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bid_item_describe_<%= bidItemVo.getBidItemNo()%>">
                                                                 商品說明
                                                             </button>
                                                             

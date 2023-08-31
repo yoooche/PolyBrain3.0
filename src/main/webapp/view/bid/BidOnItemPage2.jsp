@@ -299,7 +299,7 @@
 
         function updateTimer() {
 
-            future = Date.parse("2023-08-31 00:00:00"); //時間要從資料庫撈出來，要判斷是哪一場競標（編號），不能寫死
+            future = Date.parse("2023-08-30 21:52:30"); //時間要從資料庫撈出來，要判斷是哪一場競標（編號），不能寫死
             now = new Date();
             diff = future - now;
             days = Math.floor(diff / (1000 * 60 * 60 * 24));

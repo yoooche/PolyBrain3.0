@@ -1,11 +1,12 @@
 package feature.bid.service;
 
-import feature.bid.dao.BidEventDao;
-import feature.bid.dao.BidEventDaoImpl;
-import feature.bid.dao.BidItemDao;
-import feature.bid.dao.BidItemDaoImpl;
+import feature.bid.dao.*;
 import feature.bid.vo.BidEventVo;
 import feature.bid.vo.BidItemVo;
+import feature.bid.vo.BidOrderVo;
+import feature.mem.dao.MemDao;
+import feature.mem.dao.MemDaoImpl;
+import feature.mem.vo.MemVo;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Tuple;
 
@@ -16,10 +17,16 @@ import java.util.stream.Stream;
 public class BiddingServiceImpl implements BiddingService{
     private final BidItemDao dao;
     private final BidEventDao bidEventDao;
+    private final MemDao memDao;
+    private final BidOrderDao bidOrderDao;
+    private final BidOrderVo bidOrderVo;
     Jedis jedis = new Jedis("localhost", 6379);
     public BiddingServiceImpl(){
         dao = new BidItemDaoImpl();
         bidEventDao = new BidEventDaoImpl();
+        memDao = new MemDaoImpl();
+        bidOrderDao = new BidOrderDaoImpl();
+        bidOrderVo = new BidOrderVo();
     }
     @Override
     public List<BidItemVo> viewAll() {
@@ -63,9 +70,15 @@ public class BiddingServiceImpl implements BiddingService{
             String member = tuple.getElement();
             int score = (int)tuple.getScore();
             System.out.println("Member: " + member + ", Score: " + score);
-        });
-        jedis.close();
+            MemVo memVo = memDao.selectByMemName(member);
+            System.out.println(memVo);
+            bidOrderVo.getBidEventVo().setBidEventNo(Integer.valueOf(bidEventNo));
+//            bidOrderVo.setFinalPrice(score);
+//            bidOrderVo.getBidEventVo().getBidItemVo().getBidItemName();
+//            bidOrderVo.getMemVo().setMemName(member);
 
+//            bidOrderDao.insert(bidOrderVo);
+        });
 
     }
 

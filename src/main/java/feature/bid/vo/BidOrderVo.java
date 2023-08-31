@@ -19,13 +19,16 @@ public class BidOrderVo implements Serializable {
 
     @Id
     @Column(name = "BID_ORDER_NO")
-    private int bidOrderNo;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer bidOrderNo;
 
-    @Column(name = "BID_EVENT_NO")
-    private int bidEventNo;
 
     @Column(name = "FINAL_PRICE")
     private Integer finalPrice;
+
+    @OneToOne
+    @JoinColumn(name = "BID_EVENT_NO", updatable = false, insertable = false)
+    private BidEventVo bidEventVo;
 
     @ManyToOne
     @JoinColumn(name = "MEM_NO")
