@@ -104,6 +104,8 @@ body {
     padding: 20px;
     border-radius: 5px;
     cursor: pointer;
+    max-width: 600px;
+    min-height: 120px;
 }
 
 .preview .text {
@@ -112,6 +114,19 @@ body {
 
 .center {
   text-align: center;
+}
+
+img.preview{
+  width: 200px;
+}
+ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+ul > li{
+  display: inline-block;
+  vertical-align: top;
 }
 
 
@@ -163,11 +178,17 @@ body {
         <select id="minPlayers" name="minPlayers">
             <option value="0" class="text-center" selected disabled>---未選擇---</option>
             <!-- 迴圈生成人數選項 -->
-            <script>
-                for (let i = 1; i <= 10; i++) {
-                    document.write(`<option value="${i}">${i} 人</option>`);
-                }
-            </script>
+            <option value="1">1 人</option>
+            <option value="2">2 人</option>
+            <option value="3">3 人</option>
+            <option value="4">4 人</option>
+            <option value="5">5 人</option>
+            <option value="6">6 人</option>
+            <option value="7">7 人</option>
+            <option value="8">8 人</option>
+            <option value="9">9 人</option>
+            <option value="10">10 人</option>
+            <option value="11">10 人以上</option>
             <option value="11">10 人以上</option>
         </select>
     </div>
@@ -176,12 +197,16 @@ body {
         <label for="maxPlayers">最大遊玩人數:</label>
         <select id="maxPlayers" name="maxPlayers">
             <option value="0" class="text-center" selected disabled>---未選擇---</option>
-            <!-- 迴圈生成人數選項 -->
-            <script>
-                for (let i = 1; i <= 10; i++) {
-                    document.write(`<option value="${i}">${i} 人</option>`);
-                }
-            </script>
+            <option value="1">1 人</option>
+            <option value="2">2 人</option>
+            <option value="3">3 人</option>
+            <option value="4">4 人</option>
+            <option value="5">5 人</option>
+            <option value="6">6 人</option>
+            <option value="7">7 人</option>
+            <option value="8">8 人</option>
+            <option value="9">9 人</option>
+            <option value="10">10 人</option>
             <option value="11">10 人以上</option>
         </select>
     </div>
@@ -207,11 +232,9 @@ body {
     </div>
     <div>
         <label>商品圖片：</label>
-        <input type="file" id="p_file">
+        <input type="file" id="p_file" multiple>
+        <ul class="picture_list"></ul>
         <br>
-        <div id="preview">
-            <span class="text">可將圖片拖曳至此處</span>
-        </div>
     </div>
     <div>
         <input type="hidden" name="action" value="insert">

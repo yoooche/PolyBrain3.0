@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	const itemClassNoSelect = document.getElementById('itemClassNo');
 	var p_file_el = document.getElementById("p_file");
 	var preview_el = document.getElementById("preview");
-	let categoryMap = {};//宣告categoryMap變數
 
 	// 通過 fetch 取得遊戲類別列表
 	fetch('http://localhost:8080/PolyBrain/item/ItemClass', {
@@ -40,52 +39,23 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 
 
-	// =========================== 拖拉圖片檔 ========================= //
-	preview_el.addEventListener("dragover", function (e) {
-		e.preventDefault();
-		e.target.classList.add("-on");
-	});
-	preview_el.addEventListener("dragleave", function (e) {
-		e.target.classList.remove("-on");
-	});
-	preview_el.addEventListener("drop", function (e) {
-		e.preventDefault();
-
-		e.target.classList.remove("-on");
-		//console.log(e.dataTransfer.files); // 取得 files
-		preview_img(e.dataTransfer.files[0]);
-		p_file_el.value = ""; // 將 type="file" 那個清空
-	});
-
-	// =========================== 透過 File 取得預覽圖 ========================= //
-	var preview_img = function (file) {
-
-		var reader = new FileReader(); // 用來讀取檔案
-		reader.readAsDataURL(file); // 讀取檔案
-		reader.addEventListener("load", function () {
-			//console.log(reader.result);
-			/*
-			let img_node = document.createElement("img"); // <img>
-			img_node.setAttribute("src", reader.result); // <img src="base64">
-			img_node.setAttribute("class", "preview_img"); // <img src="base64" class="preview_img">
-			preview_el.innerHTML = '';
-			preview_el.append(img_node);
-			*/
-
-			let img_str = '<img src="' + reader.result + '" class="preview_img">';
-			preview_el.innerHTML = img_str;
+		var file_el = document.getElementById("p_file");
+		file_el.addEventListener("change", function(e){          
+		  // 寫在這
+		  var picture_list = document.getElementsByClassName("picture_list")[0];
+		  picture_list.innerHTML = ""; // 清空
+		  
+		  // 跑每個使用者選的檔案，留意 i 的部份
+		  for (let i = 0; i < this.files.length; i++) {
+			let reader = new FileReader(); // 用來讀取檔案
+			reader.readAsDataURL(this.files[i]); // 讀取檔案
+			reader.addEventListener("load", function () {
+			  //console.log(reader.result);
+			  let li_html = `<li><img src="${reader.result}" class="preview"></li>`;
+			  picture_list.insertAdjacentHTML("beforeend", li_html); // 加進節點
+			});
+		  }
 		});
-	};
-
-
-	p_file_el.addEventListener("change", function (e) {
-		if (this.files.length > 0) {
-			preview_img(this.files[0]);
-		} else {
-			preview_el.innerHTML = '<span class="text">預覽圖</span>';
-		}
-	});
-
 
 
 	//點擊送出按鈕後使用燈箱效果顯示確認取消對話框
@@ -124,6 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			return;
 		}
 
+
 		fetch('/PolyBrain/item/addItem', {
 			method: 'POST',
 			headers: {
@@ -139,6 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				maxPlayer: maxPlayers.value,
 				gameTime: gameTime.value,
 				itemProdDescription: itemProdDescription.value,
+				// imageFile: imgData
 			}),
 		})
 			.then(resp => resp.json())

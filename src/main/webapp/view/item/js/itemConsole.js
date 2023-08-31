@@ -20,22 +20,6 @@ $(document).ready(function () {
             dataTable.destroy(); // 銷毀當前的DataTables實例
         }
 
-        //從資料庫獲取遊戲類別及對應的編號
-        fetch('http://localhost:8080/PolyBrain/item/ItemClass', {
-            method: 'GET'
-        })
-            .then(response => {
-                return response.json();
-            })
-            .then(itemClasses => {
-                categoryMap = {}; // 清空 categoryMap，重新填充数据
-                itemClasses.forEach(itemClass => {
-                    categoryMap[itemClass.itemClassNo] = itemClass.itemClassName;
-                });
-            })
-            .catch(error => {
-                console.error("发生错误：", error);
-            });
 
         dataTable = $('#itemTable').DataTable({
             "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "全部"]]
@@ -57,8 +41,7 @@ $(document).ready(function () {
             columns: [
                 { data: 'itemNo' },
                 {
-                    data: 'itemClassNo',
-                    render: data => categoryMap[data]
+                    data: 'itemClass.itemClassName',
                 },
                 {
                     data: 'itemName',
@@ -146,7 +129,7 @@ $(document).ready(function () {
     $('#itemTable tbody').on('click', '.btn-edit', function () {
         const rowData = dataTable.row($(this).closest('tr')).data();
         // 将行数据填充到编辑表单中
-        localStorage.setItem('editedRowData', JSON.stringify(rowData));
+        sessionStorage.setItem('editedRowData', JSON.stringify(rowData));
         // 轉跳到 updateItem.html 頁面
         window.location.href = "../item/updateItem.html";
 

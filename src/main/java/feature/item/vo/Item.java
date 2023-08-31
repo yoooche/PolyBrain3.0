@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serial;
+import java.util.List;
 
 @Entity
 @Setter
@@ -43,5 +44,5 @@ public class Item extends Core {
 	private ItemClass itemClass;
 	@OneToMany
 	@JoinColumn(name ="ITEM_NO", insertable = false, updatable = false)
-	private ItemClass itemImg;
+	private List<ItemImg> itemImg;
 }

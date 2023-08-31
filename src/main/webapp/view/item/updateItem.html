@@ -130,13 +130,12 @@
     </div>
 
     <script>
-        // 獲取 localStorage 中存儲的數據
-        const editedRowData = JSON.parse(localStorage.getItem('editedRowData'));
+        // 獲取 sessionStorage 中存儲的數據
+        const editedRowData = JSON.parse(sessionStorage.getItem('editedRowData'));
 
         // 將數據填充到編輯表單中
         $('#editItemNo').val(editedRowData.itemNo);
-        // $('#editItemclassno').val(categoryMap[editedRowData.itemClassNo]);
-        $('#editItemclassno').val(editedRowData.itemClassNo);
+        $('#editItemclassno').val(editedRowData.itemClass.itemClassName);
         $('#editItemName').val(editedRowData.itemName);
         $('#editPrice').val(editedRowData.itemPrice);
         $('#editState').val(editedRowData.itemState);
@@ -178,14 +177,9 @@
 			},
 			body: JSON.stringify({
                 itemNo:editItemNo.value,
-                itemClassNo:editItemclassno.value,
-                itemName:editItemName.value,
 				itemPrice: editPrice.value,
 				itemState: editState.value,
 				itemQty: editQty.value,
-                minPlayers:minPlayers.value,
-                minPlayers:minPlayers.value,
-                gameTime:gameTime.value,
 				itemProdDescription: editProdDescription.value,
 			}),
 		})
