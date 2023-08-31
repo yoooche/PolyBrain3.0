@@ -6,7 +6,7 @@ import feature.cart.vo.CartTraceVO;
 import feature.item.dao.impl.ItemDAOimplPeter;
 import feature.item.vo.itemVOPeter;
 import feature.mail.service.MailService;
-import feature.mem.dao.MemDaoImplPeter;
+import feature.mem.dao.MemDaoImpl;
 import feature.mem.vo.MemVo;
 import feature.order.service.OrderService;
 
@@ -144,7 +144,7 @@ public class CartTraceServlet extends HttpServlet {
 
 
 
-            MemDaoImplPeter memDaoimpl = new MemDaoImplPeter(); //改成service
+            MemDaoImpl memDaoimpl = new MemDaoImpl(); //改成service
             MemVo all = memDaoimpl.selectById(memNo);
 
             String memName = all.getMemName(); //會員姓名

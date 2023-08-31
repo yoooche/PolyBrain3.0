@@ -1,20 +1,15 @@
 package feature.mem.dao;
 
 import core.util.HibernateUtil;
+import feature.mem.vo.MemVo;
 import org.hibernate.Session;
 import org.jetbrains.annotations.NotNull;
-import feature.mem.vo.MemVo;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.PersistenceContext;
 import java.util.List;
-@Repository
-@Transactional
-public class MemDaoImplPeter implements MemDao {
-    @PersistenceContext
-    private Session session;
 
+public class MemDaoImpl implements MemDao {
+
+    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
     public Integer insert(MemVo memVo) {
         return (Integer) session.save(memVo);
     }
@@ -36,7 +31,7 @@ public class MemDaoImplPeter implements MemDao {
 
 
     public MemVo selectById(Integer memNo) {
-        return getSession().get(MemVo.class, memNo);
+        return session.get(MemVo.class, memNo);
     }
 
     public boolean updateById(@NotNull MemVo newMemVo) {
