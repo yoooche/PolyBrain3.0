@@ -15,8 +15,11 @@ public interface BiddingService extends CoreService {
     public BidItemVo getOneItem(Integer bidItemNo);
     public void removeOneItem(Integer bidItemNo);
 
-    // ========== about bidding event =========
+    // ========== about bidding event ==========
     List<BidEventVo> viewAllEvent();
     public void addAnEvent(BidEventVo bidEventVo);
     public BidEventVo getEventByNo(Integer bidEventNo);
+
+    // ========== about bidding order ==========
+    public void createOneOrder(String bidEventNo);
 }

@@ -79,9 +79,9 @@
 
                 <div class="container">
                     <div class="carousel-caption text-start">
-                        <h1>Example headline.</h1>
+                        <h1>ACQIRE:</h1>
                         <p>Some representative placeholder content for the first slide of the carousel.</p>
-                        <p><a class="btn btn-lg btn-primary" href="http://localhost:8080/PolyBrain/bidEventPage?id=1">查看商品詳情</a></p>
+                        <p><a class="btn btn-lg btn-primary bidEventList" href="#" data-event-id="1">查看商品詳情</a></p>
                     </div>
                 </div>
             </div>
@@ -206,7 +206,18 @@
     </footer>
 </main>
 
-
+<script>
+    let bidEventList = document.querySelectorAll('.bidEventList');
+    bidEventList.forEach(link => {
+        link.addEventListener('click', function(event){
+            event.preventDefault();
+            const biddingEvent = link.getAttribute('data-event-id');
+            const bidEventURL = 'http://localhost:8080/PolyBrain/view/bid/BidOnItemPage2.jsp';
+            const url = `${bidEventURL}?bidEventId=${biddingEvent}`;
+            window.location.href = url;
+        });
+    });
+</script>
 <script src="./js/bootstrap.bundle.min.js"></script>
 
 

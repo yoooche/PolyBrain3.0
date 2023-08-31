@@ -1,5 +1,6 @@
 package feature.mem.dao;
 
+import core.util.HibernateUtil;
 import org.hibernate.Session;
 import org.jetbrains.annotations.NotNull;
 import feature.mem.vo.MemVo;
@@ -13,6 +14,7 @@ import java.util.List;
 public class MemDaoImplPeter implements MemDao {
     @PersistenceContext
     private Session session;
+
     public Integer insert(MemVo memVo) {
         return (Integer) session.save(memVo);
     }

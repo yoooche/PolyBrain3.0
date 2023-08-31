@@ -1,3 +1,4 @@
+//不知道是啥的原本套版資料
 window.addEventListener('DOMContentLoaded', event => {
     const sidebarToggle = document.body.querySelector('#sidebarToggle');
     if (sidebarToggle) {
@@ -9,15 +10,32 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 
 });
-
-
+let categoryMap = {};//宣告categoryMap變數
+let dataTable; // 宣告 DataTables 變數
+//data tables的資料匯入
 $(document).ready(function () {
-    let dataTable; // 宣告 DataTables 變數
     // 初始化 DataTable
     function initializeDataTable(data) {
         if (dataTable) {
             dataTable.destroy(); // 銷毀當前的DataTables實例
         }
+
+        //從資料庫獲取遊戲類別及對應的編號
+        fetch('http://localhost:8080/PolyBrain/item/ItemClass', {
+            method: 'GET'
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(itemClasses => {
+                categoryMap = {}; // 清空 categoryMap，重新填充数据
+                itemClasses.forEach(itemClass => {
+                    categoryMap[itemClass.itemClassNo] = itemClass.itemClassName;
+                });
+            })
+            .catch(error => {
+                console.error("发生错误：", error);
+            });
 
         dataTable = $('#itemTable').DataTable({
             "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "全部"]]
@@ -32,7 +50,7 @@ $(document).ready(function () {
                 ]
             },
             ajax: {
-                url: "/selectAllServlet",
+                url: "http://localhost:8080/PolyBrain/selectAllServlet",
                 method: "POST",
                 dataSrc: "" // 数据源为空，因为数据是直接数组
             },
@@ -49,18 +67,18 @@ $(document).ready(function () {
                     }
                 },
                 { data: 'itemPrice' },
+                { data: 'itemQty' },
                 {
                     data: 'itemState',
-                    render: data => data ? '上架' : '下架'
+                    render: data => data ? '<span class="text-primary">上架</span>' : '<span class="text-danger">下架</span>'
                 },
-                { data: 'itemQty' },
                 {
                     data: 'itemProdDescription', "className": "none"    //加none代表為上面第五種type默認隱藏
                 }, {
                     data: null, title: "操作功能",  // 這邊是欄位
                     render: function (data, type, row) {
-                        return '<button type="button" class="btn btn-warning btn-sm">編輯</button> ' +
-                            '<button type="button" class="btn btn-danger btn-sm">刪除</button>'
+                        return '<button type="button" class="btn btn-warning btn-sm btn-edit">編輯</button> ' +
+                            '<button type="button" class="btn btn-danger btn-sm btn-remove">刪除</button>'
                     }
                 },
             ],
@@ -81,31 +99,75 @@ $(document).ready(function () {
             // 其他设置...
         });
     }
-
-    // 添加一个事件监听器，当鼠标悬停在省略的内容上时显示完整描述
-    $('#itemTable tbody').on('mouseenter', '.ellipsis', function () {
-        var content = $(this).attr('title');
-        $(this).popover({
-            trigger: 'manual',
-            placement: 'top',
-            content: content
-        }).popover('show');
-    }).on('mouseleave', '.ellipsis', function () {
-        $(this).popover('hide');
+    //點擊新增商品
+    const addButton = document.getElementById('bt-add_item');
+    addButton.addEventListener('click', () => {
+        window.location.href = "addItem.html";
     });
 
-    const categoryMap = {
-        1: '策略',
-        2: '派對',
-        3: '親子',
-        4: '合作',
-        5: '陣營',
-        6: '派對'
-    };
+
+    //燈箱效果
+    const lightboxClose = document.querySelector('#lightbox-close');
+    lightboxClose.addEventListener('click', () => {
+        lightbox.style.display = 'none';
+    });
 
     // 初始化 DataTable，首次加载
     initializeDataTable([]);
 });
 
 
+$(document).ready(function () {
+    // 绑定删除按钮的點擊事件
+    $('#itemTable tbody').on('click', '.btn-remove', function () {
+        const rowData = dataTable.row($(this).closest('tr')).data();
+        onRemoveClick(rowData.itemNo);
+    });
+
+    // 删除操作
+    function onRemoveClick(itemNo) {
+        if (!confirm('確定刪除?')) {
+            return;
+        }
+        fetch('http://localhost:8080/PolyBrain/item/remove', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+            body: JSON.stringify({ itemNo })
+        })
+            .then(resp => resp.json())
+            .then(body => {
+                if (body.success) {
+                    location.reload();  // 成功后刷新页面
+                }
+            });
+    }
+
+    //绑定編輯按钮的點擊事件
+    $('#itemTable tbody').on('click', '.btn-edit', function () {
+        const rowData = dataTable.row($(this).closest('tr')).data();
+        // 将行数据填充到编辑表单中
+        localStorage.setItem('editedRowData', JSON.stringify(rowData));
+        // 轉跳到 updateItem.html 頁面
+        window.location.href = "../item/updateItem.html";
+
+
+        // 打开编辑模态框或弹出式窗口
+        // 例如：$('#editModal').modal('show');
+    });
+
+    //     // 点击編輯按钮后执行的函数
+    // function addNewItem() {
+    //     // 在这里构建一个包含需要传递的数据的对象
+    //     var data = {
+    //         // 数据属性...
+    //     };
+
+    //     // 将数据保存在本地存储中
+    //     localStorage.setItem("newItemData", JSON.stringify(data));
+
+    //     // 跳转到 addItem.html 页面
+    //     window.location.href = "addItem.html";
+    // }
+
+});
 
