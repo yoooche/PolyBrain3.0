@@ -1,18 +1,37 @@
 package feature.item.vo;
 
-public class itemVO {
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+@Data
+@Table(name="item")
+@NoArgsConstructor
+@Entity
+public class itemVOPeter {
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@Column(name="item_No")
 	private int itemNo;
+	@Column(name="item_Class_No")
 	private int itemClassNo;
+	@Column(name="item_Name")
 	private String itemName;
+	@Column(name="item_Price")
 	private int itemPrice;
+	@Column(name="item_State")
 	private int itemState;
+	@Column(name="item_Qty")
 	private int itemQty;
+	@Column(name="player")
 	private int player;
+	@Column(name="gameTime")
 	private int gameTime;
+	@Column(name="item_Prod_Description")
 	private String itemProdDescription;
 
-	public itemVO(int itemNo, int itemClassNo, String itemName, int itemPrice, int itemState, int itemQty, int player, int gameTime, String itemProdDescription) {
+	public itemVOPeter(int itemNo, int itemClassNo, String itemName, int itemPrice, int itemState, int itemQty, int player, int gameTime, String itemProdDescription) {
         this.itemNo = itemNo;
         this.itemClassNo = itemClassNo;
         this.itemName = itemName;

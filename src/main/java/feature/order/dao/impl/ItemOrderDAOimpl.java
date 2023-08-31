@@ -11,7 +11,7 @@ public class ItemOrderDAOimpl implements ItemOrderDAO {
     @Override
     public Integer insert(ItemOrderVO itemOrderVO) {
         getSession().persist(itemOrderVO);
-        return 1 ;
+        return itemOrderVO.getOrderNo() ;
     }
 
     @Override
@@ -54,6 +54,12 @@ public class ItemOrderDAOimpl implements ItemOrderDAO {
         session.update(itemordervo);
         return itemordervo;
     }
+
+    public Integer insertAnDetail(ItemOrderVO itemOrderVO){
+        getSession().persist(itemOrderVO);
+        return 1;
+    }
+
 
 
 }

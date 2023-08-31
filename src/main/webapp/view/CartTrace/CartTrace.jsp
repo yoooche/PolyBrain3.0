@@ -126,6 +126,7 @@
 			</div>
 			<input type="hidden" name="action" value="orderConfirm" id="actionInput">
 			<input type="submit" class="confirmButton" value="confirm" id="orderconfirm">
+			<p style="display: block; color: red; padding: 0px 3px">${errorMsgs["receiverAddress"]}</p>
 			<a href="#" class="canceled">返回購物車</a>
 
 

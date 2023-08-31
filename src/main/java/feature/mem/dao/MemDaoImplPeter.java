@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 @Repository
 @Transactional
-public class MemDaoImpl implements MemDao {
+public class MemDaoImplPeter implements MemDao {
     @PersistenceContext
     private Session session;
     public Integer insert(MemVo memVo) {
@@ -33,8 +33,8 @@ public class MemDaoImpl implements MemDao {
     }
 
 
-    public MemVo selectById(Integer id) {
-        return null;
+    public MemVo selectById(Integer memNo) {
+        return getSession().get(MemVo.class, memNo);
     }
 
     public boolean updateById(@NotNull MemVo newMemVo) {

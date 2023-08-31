@@ -13,7 +13,7 @@ public class OrderService {
     public OrderService(){
         dao = new ItemOrderDAOimpl();
     }
-    public ItemOrderVO addOrder (Integer memNo,  Integer orderTotal, Integer orderState, String receiverName, String receiverAddress, String receiverPhone, Integer receiverMethod){
+    public Integer addOrder (Integer memNo,  Integer orderTotal, Integer orderState, String receiverName, String receiverAddress, String receiverPhone, Integer receiverMethod){
         ItemOrderVO itemOrderVO = new ItemOrderVO();
         itemOrderVO.setMemNo(memNo);
         itemOrderVO.setOrderTotal(orderTotal);
@@ -22,16 +22,8 @@ public class OrderService {
         itemOrderVO.setReceiverAddress(receiverAddress);
         itemOrderVO.setReceiverPhone(receiverPhone);
         itemOrderVO.setReceiverMethod(receiverMethod);
-        Integer resultCount = dao.insert(itemOrderVO);
-        if (resultCount < 1) {
-            itemOrderVO.setMessage("錯誤!! 請聯絡管理員!");
-            itemOrderVO.setSuccess(false);
-            return itemOrderVO;
-        }
 
-        itemOrderVO.setMessage("成功!!");
-        itemOrderVO.setSuccess(true);
-        return itemOrderVO;
+        return dao.insert(itemOrderVO);
     }
 
     public ItemOrderVO getOneOrder(Integer orderNo){
@@ -65,5 +57,6 @@ public class OrderService {
     public boolean deleteById(Integer orderNo){
             return dao.deleteById(orderNo) > 0;
     }
+
 
 }
