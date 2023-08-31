@@ -1,20 +1,20 @@
 package feature.order.dao.impl;
 
+import core.coreDao.CoreDao;
 import org.hibernate.Session;
 import feature.order.dao.ItemOrderDAO;
 import feature.order.vo.ItemOrderVO;
 
 import java.util.List;
 
-public class ItemOrderDAOimpl implements ItemOrderDAO {
+public class ItemOrderDAOImpl implements ItemOrderDAO {
 
-    @Override
+
     public Integer insert(ItemOrderVO itemOrderVO) {
         getSession().persist(itemOrderVO);
         return itemOrderVO.getOrderNo() ;
     }
 
-    @Override
     public Integer deleteById(Integer orderNo) {
         Session session = getSession();
         ItemOrderVO pojo = session.get(ItemOrderVO.class, orderNo);
@@ -22,12 +22,10 @@ public class ItemOrderDAOimpl implements ItemOrderDAO {
         return 1;
     }
 
-    @Override
     public Integer update(ItemOrderVO itemOrderVO) {
         return null;
     }
 
-    @Override
     public ItemOrderVO selectById(Integer orderNo) {
 
         return getSession().get(ItemOrderVO.class, orderNo );

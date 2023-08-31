@@ -11,4 +11,5 @@ public interface ItemOrderDAO extends CoreDao<ItemOrderVO, Integer>{
     ItemOrderVO selectByMemberNumber(Integer memberNo);
 
     ItemOrderVO updateAnOrder(ItemOrderVO itemordervo);
+
 }

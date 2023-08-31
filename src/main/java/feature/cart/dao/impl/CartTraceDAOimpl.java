@@ -98,25 +98,7 @@ public class CartTraceDAOimpl implements CartTraceDAO {
         return list;
     }
 
-    @Override
-    public Integer insert(CartTraceVO pojo) {
-        return 0;
-    }
 
-    @Override
-    public Integer deleteById(Integer id) {
-        return 0;
-    }
-
-    @Override
-    public Integer update(CartTraceVO cartTraceVO) {
-        return null;
-    }
-
-    @Override
-    public CartTraceVO selectById(Integer id) {
-        return null;
-    }
 
     @Override
     public List<CartTraceVO> selectAll() {

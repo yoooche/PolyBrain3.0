@@ -1,17 +1,17 @@
 package feature.order.service;
 
 import feature.order.dao.ItemOrderDAO;
-import feature.order.dao.impl.ItemOrderDAOimpl;
+import feature.order.dao.impl.ItemOrderDAOImpl;
 import feature.order.vo.ItemOrderVO;
 
 import java.util.List;
 
 public class OrderService {
 
-    private ItemOrderDAO dao;
+    private ItemOrderDAOImpl dao;
 
     public OrderService(){
-        dao = new ItemOrderDAOimpl();
+        dao = new ItemOrderDAOImpl();
     }
     public Integer addOrder (Integer memNo,  Integer orderTotal, Integer orderState, String receiverName, String receiverAddress, String receiverPhone, Integer receiverMethod){
         ItemOrderVO itemOrderVO = new ItemOrderVO();

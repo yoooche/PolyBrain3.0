@@ -7,22 +7,18 @@ import java.util.List;
 
 public class ItemDAOimplPeter implements CoreDao {
 
-    @Override
     public Object insert(Object o) {
         return null;
     }
 
-    @Override
     public Object deleteById(Object id) {
         return null;
     }
 
-    @Override
     public Object update(Object o) {
         return null;
     }
 
-    @Override
     public Object selectById(Object id) {
         return null;
     }
