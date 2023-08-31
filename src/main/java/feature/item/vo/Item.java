@@ -41,4 +41,7 @@ public class Item extends Core {
 	@ManyToOne
 	@JoinColumn(name ="ITEM_CLASS_NO", insertable = false, updatable = false)
 	private ItemClass itemClass;
+	@OneToMany
+	@JoinColumn(name ="ITEM_NO", insertable = false, updatable = false)
+	private ItemClass itemImg;
 }
