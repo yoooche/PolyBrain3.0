@@ -1,12 +1,12 @@
 package feature.item.vo;
 
-public class itemImgVO {
+public class ItemImg {
 	private int itemImgNo;
 	private int itemNo;
 	private byte[] itemImg;
 	private String itemImgName;
 
-	public itemImgVO(int itemImgNo, int itemNo, byte[] itemImg, String itemImgName) {
+	public ItemImg(int itemImgNo, int itemNo, byte[] itemImg, String itemImgName) {
 		this.itemImgNo = itemImgNo;
 		this.itemNo = itemNo;
 		this.itemImg = itemImg;
