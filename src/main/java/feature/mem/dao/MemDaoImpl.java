@@ -1,5 +1,6 @@
 package feature.mem.dao;
 
+import core.util.HibernateUtil;
 import org.hibernate.Session;
 import org.jetbrains.annotations.NotNull;
 import feature.mem.vo.MemVo;
@@ -8,11 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.PersistenceContext;
 import java.util.List;
-@Repository
-@Transactional
 public class MemDaoImpl implements MemDao {
-    @PersistenceContext
-    private Session session;
+    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
     public Integer insert(MemVo memVo) {
         return (Integer) session.save(memVo);
     }
