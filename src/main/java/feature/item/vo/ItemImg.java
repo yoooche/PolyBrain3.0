@@ -24,6 +24,6 @@ public class ItemImg {
 	@Column(name = "item_No")
 	private int itemNo;
 	@Column(name = "item_Img")
-	private byte[] itemImg;
+	private String itemImg;
 
 }
