@@ -28,17 +28,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">歡迎回來!</h1>
                                     </div>
-                                    <!-- 显示错误消息 -->
-                                    <%
-                                        if (request.getAttribute("error") != null) {
-                                    %>
-                                    <div class="text-center text-danger mb-3">
-                                        信箱或密碼輸入錯誤，請重新輸入。
-                                    </div>
-                                    <%
-                                        }
-                                    %>
-                                    <form class="user" method="POST">
+                                    <form class="user" method="POST" action="<%= request.getContextPath() %>/loginServlet/do">
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
@@ -76,53 +66,5 @@
         </div>
 
     </div>
-
-    <%
-        if (request.getMethod().equalsIgnoreCase("POST")) {
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-
-            // 準備 SQL 查詢
-            String sql = "SELECT * FROM member WHERE MEM_EMAIL = ? AND MEM_PWD = ?";
-            Connection connection = null;
-            boolean loginSuccessful = false;
-
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                String jdbcUrl = "jdbc:mysql://localhost:3306/polybrain";
-                String dbUser = "root";
-                String dbPassword = "asd347asd";
-                connection = DriverManager.getConnection(jdbcUrl, dbUser, dbPassword);
-
-                PreparedStatement preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, email);
-                preparedStatement.setString(2, password);
-
-                ResultSet resultSet = preparedStatement.executeQuery();
-
-                // 如果有結果集，表示驗證成功
-                if (resultSet.next()) {
-                    loginSuccessful = true;
-
-                    // 登入成功，設置Session以標識登入狀態
-                    session.setAttribute("loggedIn", "true");
-                    response.sendRedirect("Member_Information.jsp"); // 登录成功后跳转到sessionTest.jsp
-                } else {
-                    // 登录失败，设置错误消息属性
-                    request.setAttribute("error", "true");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    try {
-                        connection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    %>
 </body>
 </html>
