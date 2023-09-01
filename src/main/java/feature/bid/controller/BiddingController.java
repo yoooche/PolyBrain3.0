@@ -24,7 +24,8 @@ public class BiddingController extends HttpServlet {
 
         if("closed".equals(message)){
             biddingService = new BiddingServiceImpl();
-            biddingService.createOneOrder(bidEventId);
+            Integer bidEventNo = Integer.valueOf(bidEventId);
+            biddingService.createOneOrder(bidEventNo);
         }
     }
 

@@ -63,21 +63,20 @@ public class BiddingServiceImpl implements BiddingService{
     }
 
     @Override
-    public void createOneOrder(String bidEventNo) {
-        Set<Tuple> highestRecord =  jedis.zrevrangeWithScores(bidEventNo, 0, 0);
+    public void createOneOrder(Integer bidEventNo) {
+        Set<Tuple> highestRecord =  jedis.zrevrangeWithScores(String.valueOf(bidEventNo), 0, 0);
         Stream<Tuple> tupleStream = highestRecord.stream();
         tupleStream.forEach(tuple -> {
             String member = tuple.getElement();
             int score = (int)tuple.getScore();
-            System.out.println("Member: " + member + ", Score: " + score);
+//            System.out.println("Member: " + member + ", Score: " + score); // 測試用
             MemVo memVo = memDao.selectByMemName(member);
-            System.out.println(memVo);
-            bidOrderVo.getBidEventVo().setBidEventNo(Integer.valueOf(bidEventNo));
-//            bidOrderVo.setFinalPrice(score);
-//            bidOrderVo.getBidEventVo().getBidItemVo().getBidItemName();
-//            bidOrderVo.getMemVo().setMemName(member);
-
-//            bidOrderDao.insert(bidOrderVo);
+            System.out.println(memVo); // 測試用
+            bidOrderVo.setBidEventNo(bidEventNo); // 競標活動編號
+            bidOrderVo.setMemNo(memVo.getMemNo()); // 競標參與者會員編號
+            bidOrderVo.setFinalPrice(score); // 結標價
+            bidOrderVo.setBidItemNo(bidEventDao.selectItemNoByEveNo(bidEventNo)); // 競標商品編號
+            bidOrderDao.insert(bidOrderVo);
         });
 
     }

@@ -21,5 +21,5 @@ public interface BiddingService extends CoreService {
     public BidEventVo getEventByNo(Integer bidEventNo);
 
     // ========== about bidding order ==========
-    public void createOneOrder(String bidEventNo);
+    public void createOneOrder(Integer bidEventNo);
 }
