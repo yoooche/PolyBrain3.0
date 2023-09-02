@@ -12,7 +12,7 @@ import java.sql.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "booking")
+@Table(name = "bookinglist")
 public class BookingVo implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -20,11 +20,17 @@ public class BookingVo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BOOKING_NO",insertable = false )
     private Integer bookingno;
+    @Column(name = "TABLE_NO")
+    private Integer tableno;
+    @Column(name = "TABLE_DATE")
+    private  Date tabledate;
+    @Column(name = "BOOKING_CHECK_STATE")
+    private Integer bookingcheckstate;
+    @Column(name = "BOOKING_STATE")
+    private Integer bookingstate;
+    @Column(name = "PERIOD_TIME")
+    private Integer periodtime;
     @Column(name = "MEM_NO" )
     private Integer memno;
-    @Column(name = "BOOKING_STATE")
-    private  Integer bookingstate;
-    @Column(name = "BOOKING_DATE", insertable = false)
-    private Date bookingdate;
 
 }
