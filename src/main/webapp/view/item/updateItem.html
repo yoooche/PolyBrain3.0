@@ -43,8 +43,24 @@
             margin-left: auto;
             margin-right: auto;
         }
+
+        img.preview {
+            width: 200px;
+            height: 150px;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        ul>li {
+            display: inline-block;
+            vertical-align: top;
+        }
     </style>
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
 </head>
 
 <body>
@@ -77,12 +93,12 @@
             </div>
 
             <div>
-                    <label for="editState">上架狀態:</label>
-                    <select id="editState" name="editState" >
-                        <option value="0">下架</option>
-                        <option value="1">上架</option>
-                        <option value="2">售完</option>
-                    </select>
+                <label for="editState">上架狀態:</label>
+                <select id="editState" name="editState">
+                    <option value="0">下架</option>
+                    <option value="1">上架</option>
+                    <option value="2">售完</option>
+                </select>
             </div>
 
             <div>
@@ -117,8 +133,9 @@
 
             <div>
                 <label for="editFiles">商品圖片:</label>
-                <input id="editFiles" name="editFiles" type="file" onclick="previewImage()" multiple="multiple" />
-                <div id="blob_holder"></div>
+                <input id="editFiles" name="editFiles" type="file" multiple="multiple" />
+                <ul class="picture_list"></ul>
+                <br>
             </div>
 
             <div>
@@ -132,7 +149,8 @@
     <script>
         // 獲取 sessionStorage 中存儲的數據
         const editedRowData = JSON.parse(sessionStorage.getItem('editedRowData'));
-
+        var picture_list = document.getElementsByClassName("picture_list")[0];
+        const itemImageList = [];
         // 將數據填充到編輯表單中
         $('#editItemNo').val(editedRowData.itemNo);
         $('#editItemclassno').val(editedRowData.itemClass.itemClassName);
@@ -144,66 +162,123 @@
         $('#maxPlayers').val(editedRowData.maxPlayer);
         $('#gameTime').val(editedRowData.gameTime);
         $('#editProdDescription').val(editedRowData.itemProdDescription);
-        // $('#editFiles').val(editedRowData.itemPrice);
+        if (editedRowData.itemImg.length > 0) {
+            var imagesHTML = '';
+            for (i = 0; i < editedRowData.itemImg.length; i++) {
+                let li_html = `<li><img src="${editedRowData.itemImg[i].itemImg}" class="preview"></li>`;
+                picture_list.insertAdjacentHTML("beforeend", li_html);
+            }
+        }
 
-        updt_submit.addEventListener('click', () => {
-		let errorMsg = '';
+        console.log(editedRowData);
 
-		if (editPrice.value <= 99) {
-			errorMsg += '<li>售價有誤請再確認';
-		}
-		if (editQty.value < 1 && editState.value == 2) {
-			errorMsg += '<li>庫存量為0，不得上架';
-		}
-		if (errorMsg !== '') {
-			const errorList = errorMsg.split('<li>').filter(item => item !== '').map((item, index) => {
-				return `<li><span style="margin-right: 10px;">${index + 1}.</span>${item}</li>`;
-			}).join('');
+        document.addEventListener('DOMContentLoaded', function () {
+            var file_el = document.getElementById("editFiles");
+            file_el.addEventListener("change", function (e) {
+                picture_list.innerHTML = ""; // 清空
 
-			// 使用 SweetAlert2 顯示錯誤視窗
-			Swal.fire({
-				icon: 'error',
-				title: '修改商品失敗...',
-				html: `<ul style="text-align: left; padding-left: 120px; list-style-position: inside;">${errorList}</ul>`,
-			});
-			return;
-		}
+                // 跑每個使用者選的檔案，留意 i 的部份
+                for (let i = 0; i < this.files.length; i++) {
+                    let reader = new FileReader(); // 用來讀取檔案
+                    reader.readAsDataURL(this.files[i]); // 讀取檔案
+                    reader.addEventListener("load", function () {
+                        let li_html = `<li><img src="${reader.result}" class="preview"></li>`;
+                        picture_list.insertAdjacentHTML("beforeend", li_html); // 加進節點
+                    });
+                }
+            });
 
-        const inputs = document.querySelectorAll('input');
-		fetch('/PolyBrain/item/addItem', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json;charset=UTF-8',
-			},
-			body: JSON.stringify({
-                itemNo:editItemNo.value,
-				itemPrice: editPrice.value,
-				itemState: editState.value,
-				itemQty: editQty.value,
-				itemProdDescription: editProdDescription.value,
-			}),
-		})
-			.then(resp => resp.json())
-			.then(body => {
-				// console.log("Item Name Value:", itemName.value);
-				const { success } = body;
-				if (success) {
-					for (let input of inputs) {
-						input.disabled = true;
-					}
-					updt_submit.disabled = true;
-					Swal.fire('修改成功').then(() => {
-					window.location.href = "../item/itemConsole.html";
-					});
-				} else {
-					Swal.fire({
-						icon: 'error',
-						title: '修改失敗..',
-						text: '有些地方發生錯誤，請聯繫系統管理員除錯!',
-					})
-				}
-			});
-	});
+            updt_submit.addEventListener('click', async () => {
+                let errorMsg = '';
+
+                if (editPrice.value <= 99) {
+                    errorMsg += '<li>售價有誤請再確認';
+                }
+                if (editQty.value < 1 && editState.value == 2) {
+                    errorMsg += '<li>庫存量為0，不得上架';
+                }
+                if (errorMsg !== '') {
+                    const errorList = errorMsg.split('<li>').filter(item => item !== '').map((item, index) => {
+                        return `<li><span style="margin-right: 10px;">${index + 1}.</span>${item}</li>`;
+                    }).join('');
+
+                    // 使用 SweetAlert2 顯示錯誤視窗
+                    Swal.fire({
+                        icon: 'error',
+                        title: '修改商品失敗...',
+                        html: `<ul style="text-align: left; padding-left: 120px; list-style-position: inside;">${errorList}</ul>`,
+                    });
+                    return;
+                }
+
+                // 將上傳的檔案轉換成 base64 字串並存放在陣列中
+                if (file_el.files.length > 0) {
+                    // 遍历每个选择的文件
+                    for (let i = 0; i < file_el.files.length; i++) {
+                        const reader = new FileReader();
+
+                        // 使用 Promise 包装 FileReader 的加载操作
+                        const imageLoadingPromise = new Promise((resolve) => {
+                            reader.onload = function (event) {
+                                const imageData = event.target.result;
+                                itemImageList.push(imageData);
+                                resolve(); // 解决 Promise 表示图片加载完成
+                            };
+                        });
+
+                        reader.readAsDataURL(file_el.files[i]);
+
+                        // 等待该图片加载完成
+                        await imageLoadingPromise;
+                    }
+                }
+
+
+                let Data = {
+                    item: {
+                        itemNo: editItemNo.value,
+                        itemPrice: editPrice.value,
+                        itemState: editState.value,
+                        itemQty: editQty.value,
+                        itemProdDescription: editProdDescription.value,
+                    }
+                }
+
+                if (itemImageList) {
+                    Data.itemImageList = itemImageList;
+                }
+
+
+                const inputs = document.querySelectorAll('input');
+                fetch('/PolyBrain/item/addItem', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=UTF-8',
+                    },
+                    body: JSON.stringify(Data),
+                })
+                    .then(resp => resp.json())
+                    .then(body => {
+                        // console.log("Item Name Value:", itemName.value);
+                        const { success } = body;
+                        if (success) {
+                            for (let input of inputs) {
+                                input.disabled = true;
+                            }
+                            updt_submit.disabled = true;
+                            Swal.fire('修改成功').then(() => {
+                                window.location.href = "../item/itemConsole.html";
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: '修改失敗..',
+                                text: '有些地方發生錯誤，請聯繫系統管理員除錯!',
+                            })
+                        }
+                    });
+            });
+        });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
 </body>

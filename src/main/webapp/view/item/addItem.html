@@ -117,17 +117,19 @@ body {
 }
 
 img.preview{
-  width: 200px;
+  width: 150px;
+  height: 150px;
 }
 ul{
   list-style: none;
   margin: 0;
   padding: 0;
 }
-ul > li{
+ul > span{
   display: inline-block;
   vertical-align: top;
 }
+
 
 
     </style>
@@ -188,8 +190,7 @@ ul > li{
             <option value="8">8 人</option>
             <option value="9">9 人</option>
             <option value="10">10 人</option>
-            <option value="11">10 人以上</option>
-            <option value="11">10 人以上</option>
+            <option value="10">10 人以上</option>
         </select>
     </div>
 
@@ -225,10 +226,9 @@ ul > li{
         </select>
     </div>
 
-    <div>
-        <label for="itemProdDescription">商品敘述:</label>
-        <br>
-        <textarea id="itemProdDescription" name="itemProdDescription" rows="4" cols="50"></textarea>
+    <div >
+        <label for="itemProdDescription" >商品敘述:</label>
+        <textarea id="itemProdDescription" name="itemProdDescription" rows="4" cols="40"></textarea>
     </div>
     <div>
         <label>商品圖片：</label>

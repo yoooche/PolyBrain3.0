@@ -11307,5 +11307,8 @@ table.dataTable.dtr-inline > tbody > tr[role="row"] > th.control:before {
 }
 /* =========以上是圖片預覽及拖拉的SCC========== */
 
-
-
+/* =========datatable圖片的SCC========== */
+.table-image {
+  max-width: 100px; /* 设置最大宽度 */
+  max-height: 100px; /* 设置最大高度 */
+}

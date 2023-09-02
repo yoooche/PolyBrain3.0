@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const itemState = document.querySelector('#itemState');
 	const inputs = document.querySelectorAll('input');
 	const itemClassNoSelect = document.getElementById('itemClassNo');
+
 	var file_el = document.getElementById("p_file");
 
 	// 通過 fetch 取得遊戲類別列表
@@ -46,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			reader.readAsDataURL(this.files[i]); // 讀取檔案
 			reader.addEventListener("load", function () {
 				//console.log(reader.result);
-				let li_html = `<li><img src="${reader.result}" class="preview"></li>`;
+				let li_html = `<span><img src="${reader.result}" class="preview"></span>`;
 				picture_list.insertAdjacentHTML("beforeend", li_html); // 加進節點
 			});
 		}
@@ -72,6 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (minPlayers.value == 0 || maxPlayers.value == 0) {
 			errorMsg += '<li>請選擇遊戲人數';
 		}
+		// if (minPlayers.value > maxPlayers.value) {
+		// 	errorMsg += '<li>遊戲人數設定有誤';
+		// }
 		if (gameTime.value == 0) {
 			errorMsg += '<li>請選擇遊戲時間';
 		}
@@ -89,30 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			return;
 		}
 		const itemImageList = [];
-
-		// if (file_el.files.length > 0) {
-		// 	for (let i = 0; i < file_el.files.length; i++) {
-		// 	  const reader = new FileReader();
-		  
-		// 	  const imageDataPromise = new Promise((resolve, reject) => {
-		// 		reader.onload = () => {
-		// 		  const byteArray = new Uint8Array(reader.result);
-		// 		  resolve(byteArray);
-		// 		};
-		// 		reader.onerror = reject;
-		// 	  });
-		  
-		// 	  reader.readAsArrayBuffer(file_el.files[i]);
-		  
-		// 	  try {
-		// 		const byteArray = await imageDataPromise;
-		// 		itemImageList.push({byteArray});
-		// 	  } catch (error) {
-		// 		console.error("读取文件错误:", error);
-		// 	  }
-		// 	}
-		//   }
-		  
 
 		// 將上傳的檔案轉換成 base64 字串並存放在陣列中
 		if (file_el.files.length > 0) {
@@ -136,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		}
 
-		  console.log("itemImageList:", itemImageList);
+		console.log("itemImageList:", itemImageList);
 
 		let Data = {
 			item: {
@@ -156,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		console.log(itemImageList);
 		console.log(Data);
 
-		fetch('/PolyBrain/item/addItemImg', {
+		fetch('/PolyBrain/item/addItem', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json;charset=UTF-8',

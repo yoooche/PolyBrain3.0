@@ -1,7 +1,9 @@
 package feature.item.dao;
 
 
+import feature.item.vo.Item;
 import feature.item.vo.ItemImg;
+import org.eclipse.core.internal.runtime.Product;
 
 import java.util.List;
 
@@ -15,6 +17,14 @@ public class ItemImgDaoImpl implements ItemImgDao{
         ItemImg itemImg = getSession().get(ItemImg.class, itemImgNo);
         getSession().remove(itemImg);
         return -1;
+    }
+
+    public Integer deleteByItem(Integer itemNo){
+        final  String  hql = "DELETE FROM ItemImg WHERE itemNo = :itemNo";
+        return getSession()
+                .createQuery(hql)
+                .setParameter("itemNo", itemNo)
+                .executeUpdate();
     }
 
     public Integer update(ItemImg itemImg){

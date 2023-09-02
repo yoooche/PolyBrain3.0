@@ -16,6 +16,9 @@ public interface ItemImgDao extends CoreDao<ItemImg, Integer> {
 //    byte[] itemimg = item.getItemImg()[0].getItemImg();
     //刪除圖片
     Integer deleteById(Integer itemImgNo);
+    //刪除單一商品的所有圖片
+    Integer deleteByItem(Integer itemNo);
+
     //更新圖片
     Integer update(ItemImg itemImg);
     List<ItemImg> selectAll();
