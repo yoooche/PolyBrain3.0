@@ -46,6 +46,7 @@ public class ItemOrderDAOImpl implements ItemOrderDAO {
     public List<ItemOrderVO> selectAll() {
         final String hql = "FROM ItemOrderVO ORDER BY ORDER_NO";
         return getSession().createQuery(hql, ItemOrderVO.class).getResultList() ;
+
     }
 
     @Override
