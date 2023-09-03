@@ -24,7 +24,7 @@ public class ItemOrderServlet extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException{
         req.setCharacterEncoding("UTF-8");
-
+        System.out.println("helloMoto");
         String action = req.getParameter("test1");
 
         if("getOne_For_Display".equals(action)){
@@ -99,6 +99,10 @@ public class ItemOrderServlet extends HttpServlet {
             successView.forward(req, res);
         }
 
+        if("getAllOrder".equals(action)){
+
+        }
+
 
 
         if("update".equals(action)){
@@ -145,10 +149,10 @@ public class ItemOrderServlet extends HttpServlet {
             itemordervo.setReceiverAddress(receiverAddress);
             itemordervo.setReceiverPhone(receiverPhone);
 
-            itemordervo.setReceiverMethod(oldVO.getReceiverMethod());
-            itemordervo.setOrderState(oldVO.getOrderState());
-            itemordervo.setOrderTotal(oldVO.getOrderTotal());
-            itemordervo.setTranTime(oldVO.getTranTime());
+//            itemordervo.setReceiverMethod(oldVO.getReceiverMethod());
+//            itemordervo.setOrderState(oldVO.getOrderState());
+//            itemordervo.setOrderTotal(oldVO.getOrderTotal());
+//            itemordervo.setTranTime(oldVO.getTranTime());
 
             if(!errorMsgs.isEmpty()){
                 req.setAttribute("itemorder", itemordervo);
@@ -174,9 +178,5 @@ public class ItemOrderServlet extends HttpServlet {
             RequestDispatcher red =req.getRequestDispatcher(url);
             red.forward(req, res);
         }
-
-
-
-
     }
 }

@@ -2,6 +2,7 @@ package feature.order.service;
 
 import feature.order.dao.ItemOrderDAO;
 import feature.order.dao.impl.ItemOrderDAOImpl;
+import feature.order.vo.ItemOrderDetailVO;
 import feature.order.vo.ItemOrderVO;
 
 import java.util.List;
@@ -58,5 +59,13 @@ public class OrderService {
             return dao.deleteById(orderNo) > 0;
     }
 
+    public Integer addAnOrderDetail(ItemOrderDetailVO itemOrderDetailVO){
+        dao.insertAnDetail(itemOrderDetailVO);
+        return 1;
+    }
+
+    public List<ItemOrderVO> serlectFromMemNo (Integer memNo){
+        return dao.selectByMemberNumber(memNo);
+    }
 
 }
