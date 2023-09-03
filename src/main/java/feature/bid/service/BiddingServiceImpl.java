@@ -49,6 +49,16 @@ public class BiddingServiceImpl implements BiddingService{
     }
 
     @Override
+    public List<String> viewAllName() {
+        List<BidItemVo> all = dao.selectAll();
+        List<String> allName = new ArrayList<>();
+        for(BidItemVo bidItemVo : all){
+            allName.add(bidItemVo.getBidItemName());
+        }
+        return allName;
+    }
+
+    @Override
     public List<BidEventVo> viewAllEvent() {
         return bidEventDao.selectAll();
     }

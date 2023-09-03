@@ -16,6 +16,7 @@ public interface BiddingService extends CoreService {
     public void addAnItem(BidItemVo bidItemVo);
     public BidItemVo getOneItem(Integer bidItemNo);
     public void removeOneItem(Integer bidItemNo);
+    List<String> viewAllName();
 
     // ========== about bidding event ==========
     List<BidEventVo> viewAllEvent();

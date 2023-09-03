@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet("/test")
@@ -37,14 +38,11 @@ public class BiddingController extends HttpServlet {
             biddingService = new BiddingServiceImpl();
             Integer bidEventNo = Integer.valueOf(bidEventId);
             BidEventVo bidEventVo =  biddingService.getEventByNo(bidEventNo);
-
             Integer floorPrice =  bidEventVo.getFloorPrice();
             Integer directivePrice =  bidEventVo.getDirectivePrice();
-
             Map<String, Integer> priceRange = new HashMap<>();
             priceRange.put("floorPrice", floorPrice);
             priceRange.put("directivePrice", directivePrice);
-
             resp.setContentType("application/json");
             Gson gson = new Gson();
             String jsonPrice = gson.toJson(priceRange);
@@ -59,8 +57,20 @@ public class BiddingController extends HttpServlet {
             Map<String, String> timer = biddingService.getStartTimeByNo(bidEventNo);
             Gson gson = new Gson();
             String jsonTimer = gson.toJson(timer);
+            resp.setContentType("application/json");
             PrintWriter out = resp.getWriter();
             out.print(jsonTimer);
+            out.flush();
+        }
+        if("selectItem".equals(message)){
+            System.out.println("xxx");
+            biddingService = new BiddingServiceImpl();
+            List<String> allName = biddingService.viewAllName();
+            Gson gson = new Gson();
+            String jsonItemName = gson.toJson(allName);
+            resp.setContentType("application/json");
+            PrintWriter out = resp.getWriter();
+            out.print(jsonItemName);
             out.flush();
         }
     }
