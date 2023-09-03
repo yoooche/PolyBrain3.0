@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="./js/jquery-3.7.0.min.js"></script>
+    <title>商品資料修改</title>
+    <style type="text/css">
+        button {
+            padding: 5px;
+        }
+
+        form {
+            display: table;
+        }
+
+        form div {
+            display: table-row;
+        }
+
+        label,
+        input,
+        span,
+        select {
+            display: table-cell;
+            text-align: left;
+        }
+
+        input[type=text],
+        input[type=password],
+        select,
+        textarea {
+            width: 200px;
+            margin: 5px;
+        }
+
+        form div div {
+            display: table-cell;
+        }
+
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+        <div align="center">
+            <h2>商品資料修改</h2>
+            <h3><a class="navbar-brand" href="itemConsole.html">返回商品列表</a></h3>
+        </div>
+    </nav>
+
+    <div align="center">
+        <h3><b>請確認要更新的資料</b></h3>
+        <form id="empForm" enctype="multipart/form-data">
+            <div>
+                <label for="editItemNo">商品編號:</label>
+                <input id="editItemNo" name="editItemNo" type="text" style="border:0px; font-weight: bold;" readonly />
+            </div>
+
+            <div>
+                <label for="editItemclassno">遊戲類別:</label>
+                <input id="editItemclassno" name="editItemclassno" type="text" style="border:0px; font-weight: bold;"
+                    readonly />
+            </div>
+
+            <div>
+                <label for="editItemName">商品名稱:</label>
+                <input id="editItemName" name="editItemName" type="text" style="border:0px; font-weight: bold;"
+                    readonly />
+            </div>
+
+            <div>
+                    <label for="editState">上架狀態:</label>
+                    <select id="editState" name="editState" >
+                        <option value="0">下架</option>
+                        <option value="1">上架</option>
+                        <option value="2">售完</option>
+                    </select>
+            </div>
+
+            <div>
+                <label for="editQty">庫存量:</label>
+                <input id="editQty" name="editQty" type="text" />
+            </div>
+
+            <div>
+                <label for="editPrice">售價:</label>
+                <input id="editPrice" name="editPrice" type="text" />
+            </div>
+
+            <div>
+                <label for="minPlayers">最小遊玩人數:</label>
+                <input id="minPlayers" name="minPlayers" type="text" style="border:0px; font-weight: bold;" readonly />
+            </div>
+
+            <div>
+                <label for="maxPlayers">最大遊玩人數:</label>
+                <input id="maxPlayers" name="maxPlayers" type="text" style="border:0px; font-weight: bold;" readonly />
+            </div>
+
+            <div>
+                <label for="gameTime">遊玩時間:</label>
+                <input id="gameTime" name="gameTime" type="text" style="border:0px; font-weight: bold;" readonly />
+            </div>
+
+            <div>
+                <label for="editProdDescription">商品敘述:</label>
+                <textarea id="editProdDescription" name="editProdDescription" rows="4" cols="50"></textarea>
+            </div>
+
+            <div>
+                <label for="editFiles">商品圖片:</label>
+                <input id="editFiles" name="editFiles" type="file" onclick="previewImage()" multiple="multiple" />
+                <div id="blob_holder"></div>
+            </div>
+
+            <div>
+                <div></div>
+                <button type="button" id="updt_submit"> 送出修改 </button>
+                <div></div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // 獲取 localStorage 中存儲的數據
+        const editedRowData = JSON.parse(localStorage.getItem('editedRowData'));
+
+        // 將數據填充到編輯表單中
+        $('#editItemNo').val(editedRowData.itemNo);
+        // $('#editItemclassno').val(categoryMap[editedRowData.itemClassNo]);
+        $('#editItemclassno').val(editedRowData.itemClassNo);
+        $('#editItemName').val(editedRowData.itemName);
+        $('#editPrice').val(editedRowData.itemPrice);
+        $('#editState').val(editedRowData.itemState);
+        $('#editQty').val(editedRowData.itemQty);
+        $('#minPlayers').val(editedRowData.minPlayer);
+        $('#maxPlayers').val(editedRowData.maxPlayer);
+        $('#gameTime').val(editedRowData.gameTime);
+        $('#editProdDescription').val(editedRowData.itemProdDescription);
+        // $('#editFiles').val(editedRowData.itemPrice);
+
+        updt_submit.addEventListener('click', () => {
+		let errorMsg = '';
+
+		if (editPrice.value <= 99) {
+			errorMsg += '<li>售價有誤請再確認';
+		}
+		if (editQty.value < 1 && editState.value == 2) {
+			errorMsg += '<li>庫存量為0，不得上架';
+		}
+		if (errorMsg !== '') {
+			const errorList = errorMsg.split('<li>').filter(item => item !== '').map((item, index) => {
+				return `<li><span style="margin-right: 10px;">${index + 1}.</span>${item}</li>`;
+			}).join('');
+
+			// 使用 SweetAlert2 顯示錯誤視窗
+			Swal.fire({
+				icon: 'error',
+				title: '修改商品失敗...',
+				html: `<ul style="text-align: left; padding-left: 120px; list-style-position: inside;">${errorList}</ul>`,
+			});
+			return;
+		}
+
+        const inputs = document.querySelectorAll('input');
+		fetch('/PolyBrain/item/addItem', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json;charset=UTF-8',
+			},
+			body: JSON.stringify({
+                itemNo:editItemNo.value,
+                itemClassNo:editItemclassno.value,
+                itemName:editItemName.value,
+				itemPrice: editPrice.value,
+				itemState: editState.value,
+				itemQty: editQty.value,
+                minPlayers:minPlayers.value,
+                minPlayers:minPlayers.value,
+                gameTime:gameTime.value,
+				itemProdDescription: editProdDescription.value,
+			}),
+		})
+			.then(resp => resp.json())
+			.then(body => {
+				// console.log("Item Name Value:", itemName.value);
+				const { success } = body;
+				if (success) {
+					for (let input of inputs) {
+						input.disabled = true;
+					}
+					updt_submit.disabled = true;
+					Swal.fire('修改成功').then(() => {
+					window.location.href = "../item/itemConsole.html";
+					});
+				} else {
+					Swal.fire({
+						icon: 'error',
+						title: '修改失敗..',
+						text: '有些地方發生錯誤，請聯繫系統管理員除錯!',
+					})
+				}
+			});
+	});
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+</body>
+
+</html>

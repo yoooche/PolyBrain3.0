@@ -1,8 +1,6 @@
 package feature.bid.controller;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Tuple;
 
@@ -12,13 +10,16 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.*;
 
 import static core.util.Constants.GSON;
 
 @ServerEndpoint("/BidOnePage/{memName}")
 public class BidOneWebsocket {
     private static final Set<Session> bidders = Collections.synchronizedSet(new HashSet<>());
+//    private static ScheduledExecutorService schedule = Executors.newScheduledThreadPool(1);
     Jedis jedis = new Jedis("localhost", 6379);
 
     @OnOpen
@@ -28,15 +29,16 @@ public class BidOneWebsocket {
         System.out.println(text);
 
         // 測試剛進入競標頁面的使用者也可以看到先前的出價紀錄
-//        Set<Tuple> allRecords = jedis.zrangeWithScores("1", 0, -1);
-//        for(Tuple record : allRecords){
-//            String bidder = record.getElement();
-//            Integer biddingRange = (int)record.getScore();
-//            JsonObject jsonObject = new JsonObject();
-//            jsonObject.addProperty("bidder", bidder);
-//            jsonObject.addProperty("biddingRange", biddingRange);
-//            memSession.getAsyncRemote().sendText(jsonObject.toString());
-//        }
+        Set<Tuple> allRecords = jedis.zrangeWithScores("1", 0, -1);
+        for(Tuple record : allRecords){
+            String bidder = record.getElement();
+            Integer biddingRange = (int)record.getScore();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("bidder", bidder);
+            jsonObject.addProperty("biddingRange", biddingRange);
+            memSession.getBasicRemote().sendText(jsonObject.toString());
+        }
+
     }
     @OnMessage
     public void onMessage(Session memSession, String message) {
@@ -48,7 +50,7 @@ public class BidOneWebsocket {
         String bidder = jsonObject.get("bidder").getAsString();
         Integer biddingRange = jsonObject.get("biddingRange").getAsInt();
 //        System.out.println("Message received:" + message);
-        jedis.zadd("1", biddingRange, bidder); //key值不能寫死
+        jedis.zadd("1", biddingRange, bidder); // key值不能寫死
     }
     @OnClose
     public void onClose(Session memSession, CloseReason reason) {
@@ -62,4 +64,28 @@ public class BidOneWebsocket {
         System.out.println("Error" + e.toString());
     }
 
+//    public void notifiedTimer(){
+//        schedule.scheduleAtFixedRate(() -> {
+//            jedis.select(1);
+//            filterPushMessage();
+//        }, 0, 3, TimeUnit.SECONDS);
+//    }
+
+//    public void filterPushMessage(){
+//        //
+//        "20230901"+"01"
+//        jedis.keys()
+//        for()
+//        String message = jedis.get("2023090101");
+//
+//    }
+
+//    一次性推送後刪除
+//    Hkey : 競標活動_場次編號_以結束
+//    key : memId
+//    value : 恭喜XXX
+
+//    Hkey : memId
+//    key : 場次編號
+//    value : 狀態__恭喜XXX
 }

@@ -19,5 +19,6 @@
 		<mapping class="feature.mem.vo.MemVo" />
 		<mapping class="feature.bid.vo.BidItemVo" />
 		<mapping class="feature.bid.vo.BidEventVo" />
+		<mapping class="feature.bid.vo.BidOrderVo" />
 	</session-factory>
 </hibernate-configuration>

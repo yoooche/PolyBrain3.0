@@ -16,6 +16,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="./css/styles-item-detail.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <style>
         #timer {
         font-size: 1em;
@@ -64,6 +65,10 @@
             border-radius: 0px;
             text-align: center;
         }
+        .readyToBidding{
+            background-color: rgb(6, 174, 6);
+            border: 0;
+        }
 
         </style>
     </head>
@@ -109,21 +114,13 @@
                             <span>距離結標時間還有:</span>
                             <div id="timer"></div>
                             <ul id="biddingRoom" class="list-group bid-record">
-                                <li id="statusOutput" class="list-group-item list-group-item-action">尚未開始競標...</li>
+                                <li id="statusOutput" class="list-group-item list-group-item-action" ></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
-
-
-        <!-- Related items section-->
-        <!-- <section class="py-5 bg-light">
-           <h3 id="statusOutput" class="statusOutput">heading</h3>
-           <textarea id="bidRecordArea" class="panel bidRecordArea" style="width:100%; height:300px; resize:none; overflow:auto; box-sizing: border-box;" readonly></textarea>
-        </section> -->
         <!-- Related items section-->
                 <section class="py-5 bg-light">
                     <div class="container px-4 px-lg-5 mt-5">
@@ -235,10 +232,8 @@
         <footer class="bg-dark">
             <div class="container panel inputArea form-check form-switch">
                     <input type="text" id="bidder" class="textField" style="height: 38px;" placeholder="bidder">
-                    <input type="range" id="biddingRange" style="width:40%; height: 14px; margin-left: 20px;" min="50" max="500" step="50" oninput="updateBiddingValue();">
-                    <button type="submit" id="bidding" class="btn_bidding btn btn-primary" style="float: right;" onclick="bidding();">出價＄--</button>
-                    <!-- <input type="button" id="connect" class="btn_connect" value="connect" onclick="connect();">
-                    <input type="button" id="disconnect" class="btn_disconnect" value="disconnect" onclick="disconnect();"> -->
+                    <input type="range" id="biddingRange" style="width:40%; height: 14px; margin-left: 20px;" min="" max="" value="" step="50" oninput="updateBiddingValue();">
+                    <button type="submit" id="bidding" class="btn_bidding btn btn-primary" style="float: right; width:160px;" onclick="bidding();">出價＄--</button>
             </div>
         </footer>
         <Script>
@@ -250,15 +245,18 @@
                 let statusOutput = document.querySelector("#statusOutput");
                 let webSocket;
 
+                $(document).ready(function(){
+                    getRangeOfRangeBar();
+                    getBiddingTimer();
+                });
+
                 function connect() {
                     //create a websocket
                     webSocket = new WebSocket(endPointURL)
 
                     webSocket.onopen = function (event) {
-                        updateStatus("Websocket Connected");
+                        updateStatus("Bidding Room");
                         document.querySelector("#bidding").disabled = false;
-                        // document.querySelector("#connect").disabled = true;
-                        // document.querySelector("#disconnect").disabled = false;
                     }
                     webSocket.onmessage = function (event) {
                         let biddingRoom = document.querySelector("#biddingRoom");
@@ -268,6 +266,10 @@
                         let jsonObj = JSON.parse(event.data);
                         newBidRecord.innerHTML = jsonObj.bidder + ":" + jsonObj.biddingRange;
                         biddingRoom.appendChild(newBidRecord);
+
+                        let biddingBtn = document.querySelector("#bidding");
+                        biddingBtn.innerHTML = '當前最高價＄' + jsonObj.biddingRange;
+
                         biddingRoom.scrollTop = biddingRoom.scrollHeight;
                     }
                     webSocket.onclose = function (event) {
@@ -295,26 +297,93 @@
                 }
                  function disconnect() {
                      webSocket.close();
-                //     document.querySelector("#bidding").disabled = true;
-                //     document.querySelector("#connect").disabled = false;
-                //     document.querySelector("#disconnect").disabled = true;
                  }
 
                 function updateStatus(newStatus) {
                     statusOutput.innerHTML = newStatus;
                 }
+                function getBiddingTimer(){
+                    let urlParams = new URLSearchParams(window.location.search);
+                    let bidEventId = urlParams.get('bidEventId');
+                    fetch('http://localhost:8080/PolyBrain/test', {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams({
+                            message: 'getBiddingTimer',
+                            bidEventId: bidEventId
+                        })
+                    })
+                    .then(resp => resp.json())
+                    .then(data => {
+                        let startTime = data.startTime;
+                        let closeTime = data.closeTime;
+                        updateTimer(closeTime);
+                    })
+                    .catch(error => {
+                        console.log("error", error);
+                    });
+                }
+                
 
-                function updateBiddingValue() {
+                function getRangeOfRangeBar(){
+
+                    let urlParams = new URLSearchParams(window.location.search);
+                    let bidEventId = urlParams.get('bidEventId');
+                    fetch('http://localhost:8080/PolyBrain/test', {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams({
+                            message: 'rangeBarSetting',
+                            bidEventId: bidEventId
+                        })
+                    })
+                    .then(resp => resp.json())
+                    .then(data => {
+
+                        let floorPrice = data.floorPrice;
+                        let directivePrice = data.directivePrice;
+                        console.log('not yet maybe')
+                        $("#biddingRange").attr("min", floorPrice);
+                        $("#biddingRange").attr("max", directivePrice);
+                        $("#biddingRange").attr("value", floorPrice);
+                        $('#bidding').html('底價開標＄' + floorPrice);
+
+                    })
+                    .catch(error => {
+                        console.log("error", error);
+                    });
+                }
+
+                function updateBiddingValue() { 
                     const biddingRange = document.querySelector("#biddingRange");
                     const bidding = document.querySelector("#bidding");
+                    const biddingRoomList = document.querySelector("#biddingRoom");
+                    
 
-                    bidding.innerHTML = '出價＄' + biddingRange.value;
+                    if(biddingRoomList.childNodes.length >= 2){
+                        let previousPrice =  biddingRoomList.lastChild.textContent.split(':');
+                        
+                        if(previousPrice[1] !== null){
+
+                            biddingRange.value = (parseInt(biddingRange.value) + parseInt(previousPrice[1].trim()));
+                            bidding.innerHTML = '出價＄' + biddingRange.value;
+                            bidding.classList.add('readyToBidding');
+                        }
+
+                    }else{
+                        console.log('出價設定錯誤');
+                    }
+
                 }
-                let bidTimer = setInterval(updateTimer, 1000);
 
-        function updateTimer() {
+        function updateTimer(time) {
+            future = Date.parse(time); //時間要從資料庫撈出來，要判斷是哪一場競標（編號），不能寫死
+            let bidTimer = setInterval(function(){
 
-            future = Date.parse("2023-08-30 00:00:00"); //時間要從資料庫撈出來，要判斷是哪一場競標（編號），不能寫死
             now = new Date();
             diff = future - now;
             days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -341,29 +410,25 @@
 
             if (d == 0 && h == 0 && m == 0 && s == 0) {
                 bidClose();
-                console.log('xxx');
+                let urlParams = new URLSearchParams(window.location.search);
+                let bidEventId = urlParams.get('bidEventId');
+                console.log(bidEventId);
 
                 fetch('http://localhost:8080/PolyBrain/test', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/x-www-form-url-encoded'
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     body: new URLSearchParams({
-                        message : 'closed'
+                        message : 'closed',
+                        bidEventId: bidEventId
                     })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Backend response:', data);
-                    })
-                    .catch(error => {
-                        console.error('Error', error);
-                    });
+                });
+                clearInterval(bidTimer);
                 }
-            }
-            function bidClose() {
-            clearInterval(bidTimer);
-            }
+            }, 1000);
+        }
+
             </Script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="js/scripts.js"></script>

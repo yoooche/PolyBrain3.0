@@ -49,10 +49,6 @@ public class BidItemListServlet extends HttpServlet {
             biddingService = new BiddingServiceImpl();
             biddingService.addAnItem(bidItemVo);
 
-//            String url = "/view/bid/BidItemList.jsp";
-//            RequestDispatcher bidItemList = req.getRequestDispatcher(url);
-//            bidItemList.forward(req, resp);
-
             resp.sendRedirect(req.getContextPath() + "/view/bid/BidItemList.jsp");
         }
         if("delete".equals(action)){
