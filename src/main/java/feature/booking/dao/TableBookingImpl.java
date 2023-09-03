@@ -47,22 +47,13 @@ public class TableBookingImpl implements TableBookingDao{
         return getSession().createQuery(hql, TableBookingVo.class).getResultList();
     }
     //用來選擇日期及時段跑出對應開放時間
-    public List<TableBookingVo> SelectByChoose(Date date, int tableno){
+    public List<TableBookingVo> SelectByChoose(int tableno){
 
         //entity.TABLE_DATE儲存日期的sql表格
-        String hql = "SELECT entity FROM TableBookingVo entity WHERE entity.tabledate = :startDate\n";
-
-        if(tableno != 0){
-             hql += " AND entity.tableno = :table";
-        }
+        String hql = "SELECT entity FROM TableBookingVo entity WHERE entity.tableno = :table\n";
 
         Session session = getSession();
         Query<TableBookingVo> query = session.createQuery(hql, TableBookingVo.class);
-        query.setParameter("startDate", date);
-        LocalDate StartDate = date.toLocalDate();
-        Date startDate = Date.valueOf(date.toLocalDate());
-        System.out.println(date);
-        System.out.println(startDate);
 
         if(tableno != 0){
             query.setParameter("table",tableno);
@@ -72,10 +63,9 @@ public class TableBookingImpl implements TableBookingDao{
         return tableBook;
     }
     //改變狀態
-    public TableBookingVo updateByState(Integer stateNo,Date bookDate,Integer tableNo){
+    public TableBookingVo updateByState(Integer stateNo,Date tabledate,Integer tableNo){
         try {
             Session session = getSession();
-            //session.beginTransaction();
             // 根据 periodTime 的值确定要更新的列名
             String columnName;
             switch (stateNo) {
@@ -95,14 +85,14 @@ public class TableBookingImpl implements TableBookingDao{
             if(!columnName.isEmpty()){
                 // 创建 HQL 更新查询
                 String hql = "UPDATE TableBookingVo SET " + columnName + " = :newValue " +
-                        "WHERE TABLE_NO = :tableNo AND TABLE_DATE = :bookDate";
+                        "WHERE TABLE_NO = :tableNo AND TABLE_DATE = :tabledate";
                 Query<?> query = session.createQuery(hql);
-                query.setParameter("newValue", 0); // 更新的新值
+                query.setParameter("newValue", 1); // 更新的新值
                 query.setParameter("tableNo", tableNo);
-                query.setParameter("bookDate", bookDate);
+                query.setParameter("tabledate", tabledate);
                 //=============================================
                 System.out.println("tableNo:" +tableNo);
-                System.out.println("bookDate" +bookDate);
+                System.out.println("bookDate" +tabledate);
                 System.out.println(hql);
                 // 执行更新操作
                 int rowsUpdated = query.executeUpdate();
@@ -127,10 +117,10 @@ public class TableBookingImpl implements TableBookingDao{
 
                     return updatedBooking;
                 } else {
-                    session.getTransaction().rollback();
+                    //session.getTransaction().rollback();
                 }
             } else {
-                session.getTransaction().rollback();
+                //session.getTransaction().rollback();
             }
 
         }catch (Exception e){

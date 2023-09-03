@@ -1,5 +1,6 @@
 package feature.booking.vo;
 
+import core.coreVO.Core;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "bookinglist")
-public class BookingVo implements Serializable {
+public class BookingVo extends Core {
     @Serial
     private static final long serialVersionUID = 1L;
     @Id
@@ -24,13 +25,13 @@ public class BookingVo implements Serializable {
     private Integer tableno;
     @Column(name = "TABLE_DATE")
     private  Date tabledate;
-    @Column(name = "BOOKING_CHECK_STATE")
+    @Column(name = "BOOKING_CHECK_STATE", insertable = false)
     private Integer bookingcheckstate;
-    @Column(name = "BOOKING_STATE")
+    @Column(name = "BOOKING_STATE", insertable = false)
     private Integer bookingstate;
     @Column(name = "PERIOD_TIME")
     private Integer periodtime;
-    @Column(name = "MEM_NO" )
+    @Column(name = "MEM_NO")
     private Integer memno;
 
 }

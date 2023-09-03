@@ -17,7 +17,7 @@ public interface TableBookingDao extends CoreDao<TableBookingVo, Integer> {
     //選全部
     List<TableBookingVo> selectAll();
 
-    public List<TableBookingVo> SelectByChoose(Date date, int tableno);
+    public List<TableBookingVo> SelectByChoose(int tableno);
     public TableBookingVo updateByState(Integer stateNo,Date bookDate,Integer tableNo);
     public TableBookingVo cancelByState(Integer stateNo,Date bookDate,Integer tableNo);
 
