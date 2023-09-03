@@ -11,10 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookingDaoImpl implements BookingDao {
+    //新增的!
     @Override
     public Integer insert(BookingVo bookingvo) {
-        getSession().persist(bookingvo);
-        return (Integer) 1;
+        Session session = getSession();
+        try{
+            session.merge(bookingvo);
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("daoWrong:" + bookingvo);
+            return -1;
+        }
     }
 
     @Override
