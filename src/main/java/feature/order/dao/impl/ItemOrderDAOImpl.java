@@ -1,14 +1,26 @@
 package feature.order.dao.impl;
 
-import core.coreDao.CoreDao;
+import feature.order.vo.ItemOrderDetailVO;
 import org.hibernate.Session;
 import feature.order.dao.ItemOrderDAO;
 import feature.order.vo.ItemOrderVO;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.util.List;
 
 public class ItemOrderDAOImpl implements ItemOrderDAO {
-
+    private static DataSource ds = null;
+    static {
+        try {
+            Context ctx = new InitialContext();
+            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB2");
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+    }
 
     public Integer insert(ItemOrderVO itemOrderVO) {
         getSession().persist(itemOrderVO);
@@ -27,7 +39,6 @@ public class ItemOrderDAOImpl implements ItemOrderDAO {
     }
 
     public ItemOrderVO selectById(Integer orderNo) {
-
         return getSession().get(ItemOrderVO.class, orderNo );
     }
 
@@ -42,9 +53,9 @@ public class ItemOrderDAOImpl implements ItemOrderDAO {
         return null;
     }
 
-    @Override
-    public ItemOrderVO selectByMemberNumber(Integer memNo) {
-        return getSession().get(ItemOrderVO.class, memNo );
+    public List<ItemOrderVO> selectByMemberNumber(Integer memNo) {
+        final  String hql = "FROM ItemOrderVO WHERE MEM_NO ="+ memNo +"ORDER BY MEM_NO";
+        return getSession().createQuery(hql, ItemOrderVO.class ).getResultList();
     }
 
     public ItemOrderVO updateAnOrder(ItemOrderVO itemordervo){
@@ -53,10 +64,11 @@ public class ItemOrderDAOImpl implements ItemOrderDAO {
         return itemordervo;
     }
 
-    public Integer insertAnDetail(ItemOrderVO itemOrderVO){
-        getSession().persist(itemOrderVO);
-        return 1;
+    public void insertAnDetail(ItemOrderDetailVO itemOrderDetailVO){
+        getSession().persist(itemOrderDetailVO);
+        System.out.println("新增訂單明細成功");
     }
+
 
 
 
