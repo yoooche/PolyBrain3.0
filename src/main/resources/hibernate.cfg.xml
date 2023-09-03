@@ -20,5 +20,8 @@
 		<mapping class="feature.bid.vo.BidItemVo" />
 		<mapping class="feature.bid.vo.BidEventVo" />
 		<mapping class="feature.bid.vo.BidOrderVo" />
+		<mapping class="feature.bid.vo.Item" />
+		<mapping class="feature.bid.vo.ItemClass" />
+		<mapping class="feature.bid.vo.ItemImg" />
 	</session-factory>
 </hibernate-configuration>
