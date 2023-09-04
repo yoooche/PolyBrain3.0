@@ -10,8 +10,8 @@ import feature.mem.vo.MemVo;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Tuple;
 
-import java.util.List;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class BiddingServiceImpl implements BiddingService{
@@ -49,6 +49,16 @@ public class BiddingServiceImpl implements BiddingService{
     }
 
     @Override
+    public List<String> viewAllName() {
+        List<BidItemVo> all = dao.selectAll();
+        List<String> allName = new ArrayList<>();
+        for(BidItemVo bidItemVo : all){
+            allName.add(bidItemVo.getBidItemName());
+        }
+        return allName;
+    }
+
+    @Override
     public List<BidEventVo> viewAllEvent() {
         return bidEventDao.selectAll();
     }
@@ -63,6 +73,22 @@ public class BiddingServiceImpl implements BiddingService{
     }
 
     @Override
+    public Map<String, String> getStartTimeByNo(Integer bidEventNo) {
+        BidEventVo bidEventVo = bidEventDao.selectById(bidEventNo);
+        Date startTimeOrigin = bidEventVo.getStartTime();
+        Date closeTimeOrigin = bidEventVo.getCloseTime();
+
+        SimpleDateFormat timerTrans = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String startTime = timerTrans.format(startTimeOrigin);
+        String closeTime = timerTrans.format(closeTimeOrigin);
+
+        Map<String, String> timer = new HashMap<>();
+        timer.put("startTime", startTime);
+        timer.put("closeTime", closeTime);
+        return timer;
+    }
+
+    @Override
     public void createOneOrder(Integer bidEventNo) {
         Set<Tuple> highestRecord =  jedis.zrevrangeWithScores(String.valueOf(bidEventNo), 0, 0);
         Stream<Tuple> tupleStream = highestRecord.stream();
@@ -70,8 +96,11 @@ public class BiddingServiceImpl implements BiddingService{
             String member = tuple.getElement();
             int score = (int)tuple.getScore();
 //            System.out.println("Member: " + member + ", Score: " + score); // 測試用
+//            String message = "Hi" + member + "! 您好，您以" +  score + "元的高價得標，請到訂單確認頁面完成後續的出貨流程。";
+//            jedis.select(1);
+//            jedis.set("bidOrder" + bidEventNo, message);
+
             MemVo memVo = memDao.selectByMemName(member);
-            System.out.println(memVo); // 測試用
             bidOrderVo.setBidEventNo(bidEventNo); // 競標活動編號
             bidOrderVo.setMemNo(memVo.getMemNo()); // 競標參與者會員編號
             bidOrderVo.setFinalPrice(score); // 結標價

@@ -60,7 +60,7 @@
 <table id="table-1">
 	<tr><td>
 		 <h3>所有員工資料 - listAllEmp.jsp</h3>
-		 <h4><a href="select.jsp">回首頁</a></h4>
+		 <h4><a href="/view/order/select.jsp">回首頁</a></h4>
 	</td></tr>
 </table>
 
