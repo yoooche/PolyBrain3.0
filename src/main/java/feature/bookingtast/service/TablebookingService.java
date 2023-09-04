@@ -1,11 +1,9 @@
 package feature.bookingtast.service;
 
 import java.util.List;
-import java.util.Map;
 
-import core.coreService.CoreService;
 import feature.bookingtast.dao.TablebookingDAO;
-import feature.bookingtast.dao.interf.Tablebooking_interface;
+import feature.bookingtast.dao.Tablebooking_interface;
 import feature.bookingtast.vo.TablebookingVO;
 
 public class TablebookingService  {

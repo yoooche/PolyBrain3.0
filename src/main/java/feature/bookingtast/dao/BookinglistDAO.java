@@ -1,7 +1,6 @@
 package feature.bookingtast.dao;
 
 import core.util.HibernateUtil;
-import feature.bookingtast.dao.interf.Bookinglist_interface;
 import feature.bookingtast.vo.BookinglistVO;
 import org.hibernate.Session;
 

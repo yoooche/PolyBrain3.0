@@ -3,7 +3,7 @@ package feature.bookingtast.service;
 import java.util.List;
 
 import feature.bookingtast.dao.BookinglistDAO;
-import feature.bookingtast.dao.interf.Bookinglist_interface;
+import feature.bookingtast.dao.Bookinglist_interface;
 import feature.bookingtast.vo.BookinglistVO;
 
 public class BookinglistService {

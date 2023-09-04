@@ -2,7 +2,7 @@ package feature.bookingtast.service;
 import java.util.List;
 
 import feature.bookingtast.dao.GametableDAO;
-import feature.bookingtast.dao.interf.Gametable_interface;
+import feature.bookingtast.dao.Gametable_interface;
 import feature.bookingtast.vo.GametableVO;
 
 public class GametableService {
