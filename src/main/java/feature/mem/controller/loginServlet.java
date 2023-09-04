@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
 
 @WebServlet("/loginServlet")
 public class loginServlet extends HttpServlet {
@@ -34,7 +35,8 @@ public class loginServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/index.jsp");
         } else {
             // 登入失敗，可以重新導向回登入頁面或顯示錯誤信息
-            response.sendRedirect("login.jsp?error=true");
+            String encodedMessage = URLEncoder.encode(" ", "UTF-8");
+            response.sendRedirect(request.getContextPath() +"/view/member/login.jsp?error=true&message=" + encodedMessage);
         }
     }
 }

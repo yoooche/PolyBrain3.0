@@ -1,17 +1,14 @@
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+
 
 @WebFilter(urlPatterns = { "*.jsp", "*.html" })
 public class SessionFilter implements Filter {
@@ -33,6 +30,7 @@ public class SessionFilter implements Filter {
                 || "/view/member/register_success.html".equals(requestPath)
                 || "/view/member/register_fail.html".equals(requestPath)
                 || "/index.jsp".equals(requestPath)
+                || "/view/member/Member_Information".equals(requestPath)
         ) {
             chain.doFilter(request, response);
         } else {

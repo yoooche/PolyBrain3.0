@@ -9,6 +9,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>PolyBrain - 會員登入</title>
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <style>
+    .error-message {
+        background-color: #f8d7da; /* 警告背景顏色 */
+        border-color: #f5c6cb; /* 警告邊框顏色 */
+        color: #721c24; /* 警告文本顏色 */
+        padding: 10px; /* 內邊距 */
+        border-radius: 5px; /* 邊框圓角 */
+        font-weight: bold; /* 文本加粗 */
+        text-align: center; /* 文本居中對齊 */
+    }
+    </style>
+
 </head>
 <body>
 
@@ -38,6 +51,19 @@
                                         <h1 class="h4 text-gray-900 mb-4">歡迎回來!</h1>
                                     </div>
                                     <form class="user" method="POST" action="<%= request.getContextPath() %>/loginServlet/do">
+
+                                        <%-- 檢查是否有錯誤訊息 --%>
+                                        <% String errorMessage = request.getParameter("error"); %>
+                                        <% String message = request.getParameter("message"); %>
+
+                                        <%-- 如果有錯誤，顯示錯誤訊息 --%>
+                                        <% if (errorMessage != null && errorMessage.equals("true")) { %>
+                                            <div class="error-message">
+                                                <strong>錯誤：</strong> 信箱或密碼輸入錯誤
+                                            </div>
+                                        <% } %>
+                                        <br>
+
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"

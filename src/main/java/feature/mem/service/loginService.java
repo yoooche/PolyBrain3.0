@@ -1,29 +1,28 @@
 package feature.mem.service;
 
-import feature.mem.dao.MemberDAO;
-import feature.mem.dao.MemberDAOImpl;
-import feature.mem.vo.MemberVO;
+import feature.mem.dao.MemDaoImpl;
+import feature.mem.vo.MemVo;
 
 import java.util.List;
 
 public class loginService {
 
-    private MemberDAO memberDAO; // 注入MemberDAO的實例
+    private MemDaoImpl memDao; // 注入MemberDAO的實例
 
     public loginService(){
-        memberDAO = new MemberDAOImpl();
+        memDao = new MemDaoImpl();
     }
 
-    public loginService(MemberDAO memberDAO) {
-        this.memberDAO = memberDAO;
+    public loginService(MemDaoImpl memDao) {
+        this.memDao = memDao;
     }
 
     public boolean isValidUser(String email, String password) {
         // 查詢所有會員
-        List<MemberVO> members = memberDAO.getAllMembers();
+        List<MemVo> members = memDao.getAllMembers();
 
         // 遍歷所有會員，檢查是否有匹配的電子郵件和密碼
-        for (MemberVO member : members) {
+        for (MemVo member : members) {
             if (email.equals(member.getMemEmail()) && password.equals(member.getMemPwd())) {
                 return true; // 有效的用戶
             }

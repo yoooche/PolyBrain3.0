@@ -9,11 +9,13 @@ import java.sql.Date;
 import java.util.Arrays;
 
 
-@Entity(name = "member")
+//@Entity(name = "member")
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "MEMBER")
 public class MemVo implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -21,11 +23,11 @@ public class MemVo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MEM_NO", insertable = false, updatable = false)
     private Integer memNo;
-    @Column(name = "MEM_NAME", updatable = false)
+    @Column(name = "MEM_NAME")
     private String memName;
-    @Column(name = "MEM_PID", updatable = false)
+    @Column(name = "MEM_PID")
     private String memPid;
-    @Column(name = "MEM_GENDER", updatable = false)
+    @Column(name = "MEM_GENDER")
     private Byte memGender;
     @Column(name = "MEM_PIC", insertable = false)
     private Byte[] memPic;
@@ -37,7 +39,7 @@ public class MemVo implements Serializable {
     private String memPh;
     @Column(name = "MEM_ADDRS")
     private String memAddress;
-    @Column(name = "MEM_BIRTH", updatable = false)
+    @Column(name = "MEM_BIRTH")
     private Date memBirth;
     @Column(name = "MEM_AUTH")
     private Byte memAuth;
