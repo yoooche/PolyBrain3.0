@@ -1,9 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
-<%@ page import="web.order.dao.*"%>
-<%@ page import="web.order.vo.*"%>
-<%@ page import="web.order.service.*"%>
+<%@ page import="feature.order.dao.*"%>
+<%@ page import="feature.order.vo.*"%>
+<%@ page import="feature.order.service.*"%>
 
 <!-- <%@ page isELIgnored="false"%> -->
 
@@ -54,13 +54,13 @@
 </style>
 
 </head>
-<body bgcolor='green'>
+<body bgcolor='lightpink'>
 
 <h4>此頁練習採用 EL 的寫法取值:</h4>
 <table id="table-1">
 	<tr><td>
 		 <h3>所有員工資料 - listAllEmp.jsp</h3>
-		 <h4><a href="select.jsp">回首頁</a></h4>
+		 <h4><a href="/view/order/select.jsp">回首頁</a></h4>
 	</td></tr>
 </table>
 
@@ -79,6 +79,7 @@
 	<%@ include file="page1.file" %>
 	<c:forEach var="itemordervo" items="${listaaa}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		<tr>
+
 			<td>${itemordervo.orderNo}</td>
 			<td>${itemordervo.memNo}</td>
 			<td>${itemordervo.tranTime}</td>
@@ -89,21 +90,22 @@
 			<td>${itemordervo.receiverPhone}</td>
 			<td>${itemordervo.receiverMethod}</td>
 			<td>
-			  <form method="post" action="<%=request.getContextPath()%>/emp/emp.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="修改">
-			     <input type="hidden" name="empno"  value="${empVO.empno}">
-			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
+			  <form method="post" action="<%=request.getContextPath()%>/view/order/order.tw" style="margin-bottom: 0px;">
+			     <input type="submit" value="修改" >
+			     <input type="hidden" name="orderNo"  value="${itemordervo.orderNo}">
+			     <input type="hidden" name="test1"	value="getOne_For_Update"></FORM>
 			</td>
 			<td>
-			  <form method="post" action="<%=request.getContextPath()%>/order/orderAll.do" style="margin-bottom: 0px;">
+			  <form method="post" action="<%=request.getContextPath()%>/view/order/order.tw" style="margin-bottom: 0px;">
 			     <input type="submit" value="刪除">
-			     <input type="hidden" name="empno"  value="${empVO.empno}">
-			     <input type="hidden" name="action" value="delete"></FORM>
+			     <input type="hidden" name="orderNo"  value="${itemordervo.orderNo}">
+			     <input type="hidden" name="test1" value="delete"></FORM>
 			</td>
 		</tr>
 	</c:forEach>
 </table>
 <%@ include file="page2.file" %>
+
 
 </body>
 </html>

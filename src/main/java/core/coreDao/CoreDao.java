@@ -1,4 +1,4 @@
-package core.coreDAO;
+package core.coreDao;
 
 import core.util.HibernateUtil;
 import org.hibernate.Session;
@@ -11,7 +11,7 @@ public interface CoreDao<Vo, Integer>{
 //    Integer insert(Vo vo);
 //    Integer deleteById(Integer id);
 //    Integer update(Vo vo);
-////    Vo selectById(Integer id);
+//    Vo selectById(Integer id);
     List<Vo> selectAll();
     default Session getSession() {
 //        return getSessionFactory().openSession();

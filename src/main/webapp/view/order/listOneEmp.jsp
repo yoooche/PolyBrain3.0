@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="web.order.vo.*"%>
+<%@ page import="feature.order.vo.*"%>
 
 <%ItemOrderVO itemordervo = (ItemOrderVO) request.getAttribute("itemorder");%>
 
