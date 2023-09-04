@@ -1,18 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-	const btn1 = document.querySelector('#addsubmit');
 	const lightbox = document.querySelector('#lightbox');
 	const btnCancel = document.querySelector('#cancel');
 	const lightboxClose = document.querySelector('#lightbox-close');
-	const lightboxMessage = document.querySelector('#lightbox-message');
 	const itemPrice = document.querySelector('#itemPrice');
 	const itemName = document.querySelector('#itemName');
 	const itemQty = document.querySelector('#itemQty');
 	const itemState = document.querySelector('#itemState');
 	const inputs = document.querySelectorAll('input');
 	const itemClassNoSelect = document.getElementById('itemClassNo');
-	var p_file_el = document.getElementById("p_file");
-	var preview_el = document.getElementById("preview");
-	let categoryMap = {};//宣告categoryMap變數
+
+	var file_el = document.getElementById("p_file");
 
 	// 通過 fetch 取得遊戲類別列表
 	fetch('http://localhost:8080/PolyBrain/item/ItemClass', {
@@ -39,57 +36,26 @@ document.addEventListener("DOMContentLoaded", () => {
 			console.error("发生错误：", error);
 		});
 
+	file_el.addEventListener("change", function (e) {
+		// 寫在這
+		var picture_list = document.getElementsByClassName("picture_list")[0];
+		picture_list.innerHTML = ""; // 清空
 
-	// =========================== 拖拉圖片檔 ========================= //
-	preview_el.addEventListener("dragover", function (e) {
-		e.preventDefault();
-		e.target.classList.add("-on");
-	});
-	preview_el.addEventListener("dragleave", function (e) {
-		e.target.classList.remove("-on");
-	});
-	preview_el.addEventListener("drop", function (e) {
-		e.preventDefault();
-
-		e.target.classList.remove("-on");
-		//console.log(e.dataTransfer.files); // 取得 files
-		preview_img(e.dataTransfer.files[0]);
-		p_file_el.value = ""; // 將 type="file" 那個清空
-	});
-
-	// =========================== 透過 File 取得預覽圖 ========================= //
-	var preview_img = function (file) {
-
-		var reader = new FileReader(); // 用來讀取檔案
-		reader.readAsDataURL(file); // 讀取檔案
-		reader.addEventListener("load", function () {
-			//console.log(reader.result);
-			/*
-			let img_node = document.createElement("img"); // <img>
-			img_node.setAttribute("src", reader.result); // <img src="base64">
-			img_node.setAttribute("class", "preview_img"); // <img src="base64" class="preview_img">
-			preview_el.innerHTML = '';
-			preview_el.append(img_node);
-			*/
-
-			let img_str = '<img src="' + reader.result + '" class="preview_img">';
-			preview_el.innerHTML = img_str;
-		});
-	};
-
-
-	p_file_el.addEventListener("change", function (e) {
-		if (this.files.length > 0) {
-			preview_img(this.files[0]);
-		} else {
-			preview_el.innerHTML = '<span class="text">預覽圖</span>';
+		// 跑每個使用者選的檔案，留意 i 的部份
+		for (let i = 0; i < this.files.length; i++) {
+			let reader = new FileReader(); // 用來讀取檔案
+			reader.readAsDataURL(this.files[i]); // 讀取檔案
+			reader.addEventListener("load", function () {
+				//console.log(reader.result);
+				let li_html = `<span><img src="${reader.result}" class="preview"></span>`;
+				picture_list.insertAdjacentHTML("beforeend", li_html); // 加進節點
+			});
 		}
 	});
 
 
-
 	//點擊送出按鈕後使用燈箱效果顯示確認取消對話框
-	addsubmit.addEventListener('click', () => {
+	addsubmit.addEventListener('click', async () => {
 		let errorMsg = '';
 
 		if (itemClassNo.value == 0) {
@@ -107,6 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (minPlayers.value == 0 || maxPlayers.value == 0) {
 			errorMsg += '<li>請選擇遊戲人數';
 		}
+		// if (minPlayers.value > maxPlayers.value) {
+		// 	errorMsg += '<li>遊戲人數設定有誤';
+		// }
 		if (gameTime.value == 0) {
 			errorMsg += '<li>請選擇遊戲時間';
 		}
@@ -123,13 +92,34 @@ document.addEventListener("DOMContentLoaded", () => {
 			});
 			return;
 		}
+		const itemImageList = [];
 
-		fetch('/PolyBrain/item/addItem', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json;charset=UTF-8',
-			},
-			body: JSON.stringify({
+		// 將上傳的檔案轉換成 base64 字串並存放在陣列中
+		if (file_el.files.length > 0) {
+			// 遍历每个选择的文件
+			for (let i = 0; i < file_el.files.length; i++) {
+				const reader = new FileReader();
+
+				// 使用 Promise 包装 FileReader 的加载操作
+				const imageLoadingPromise = new Promise((resolve) => {
+					reader.onload = function (event) {
+						const imageData = event.target.result;
+						itemImageList.push(imageData);
+						resolve(); // 解决 Promise 表示图片加载完成
+					};
+				});
+
+				reader.readAsDataURL(file_el.files[i]);
+
+				// 等待该图片加载完成
+				await imageLoadingPromise;
+			}
+		}
+
+		console.log("itemImageList:", itemImageList);
+
+		let Data = {
+			item: {
 				itemClassNo: itemClassNo.value,
 				itemName: itemName.value,
 				itemPrice: itemPrice.value,
@@ -139,7 +129,19 @@ document.addEventListener("DOMContentLoaded", () => {
 				maxPlayer: maxPlayers.value,
 				gameTime: gameTime.value,
 				itemProdDescription: itemProdDescription.value,
-			}),
+			},
+
+			itemImageList: itemImageList,
+		}
+		console.log(itemImageList);
+		console.log(Data);
+
+		fetch('/PolyBrain/item/addItem', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json;charset=UTF-8',
+			},
+			body: JSON.stringify(Data),
 		})
 			.then(resp => resp.json())
 			.then(body => {

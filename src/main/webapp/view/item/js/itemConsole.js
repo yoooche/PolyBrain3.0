@@ -20,22 +20,6 @@ $(document).ready(function () {
             dataTable.destroy(); // 銷毀當前的DataTables實例
         }
 
-        //從資料庫獲取遊戲類別及對應的編號
-        fetch('http://localhost:8080/PolyBrain/item/ItemClass', {
-            method: 'GET'
-        })
-            .then(response => {
-                return response.json();
-            })
-            .then(itemClasses => {
-                categoryMap = {}; // 清空 categoryMap，重新填充数据
-                itemClasses.forEach(itemClass => {
-                    categoryMap[itemClass.itemClassNo] = itemClass.itemClassName;
-                });
-            })
-            .catch(error => {
-                console.error("发生错误：", error);
-            });
 
         dataTable = $('#itemTable').DataTable({
             "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "全部"]]
@@ -55,27 +39,42 @@ $(document).ready(function () {
                 dataSrc: "" // 数据源为空，因为数据是直接数组
             },
             columns: [
-                { data: 'itemNo' },
+                { data: 'itemNo',width: '120px' },
+                { data: 'itemImg',width: '130px', 
+                render: function(data, type, row) {
+                    // 如果是显示类型，返回包含图像的HTML
+                    if (type === 'display' && data && data.length > 0) { // 添加对 data 是否存在的检查
+                        var imagesHTML = '';
+                        // 使用循环处理每个Base64编码的图像
+                            var base64Image = data[0].itemImg;
+                            imagesHTML += `<img src="${base64Image}" alt="Image"><br>`;
+                        return imagesHTML;
+                    }
+                    // 如果是排序或其他类型，返回原始数据
+                    return data;
+                }
+            
+            
+            },
                 {
-                    data: 'itemClassNo',
-                    render: data => categoryMap[data]
+                    data: 'itemClass.itemClassName',width: '120px',
                 },
                 {
-                    data: 'itemName',
+                    data: 'itemName',width: '180px',
                     render: function (data, type, row) {
                         return '<a href="" target="_blank">' + data + '</a>' // 這邊是加連結
                     }
                 },
-                { data: 'itemPrice' },
-                { data: 'itemQty' },
+                { data: 'itemPrice' ,width: '100px'},
+                { data: 'itemQty' ,width: '120px'},
                 {
-                    data: 'itemState',
+                    data: 'itemState',width: '150px',
                     render: data => data ? '<span class="text-primary">上架</span>' : '<span class="text-danger">下架</span>'
                 },
                 {
                     data: 'itemProdDescription', "className": "none"    //加none代表為上面第五種type默認隱藏
                 }, {
-                    data: null, title: "操作功能",  // 這邊是欄位
+                    data: null, title: "操作功能",width: '150px',  // 這邊是欄位
                     render: function (data, type, row) {
                         return '<button type="button" class="btn btn-warning btn-sm btn-edit">編輯</button> ' +
                             '<button type="button" class="btn btn-danger btn-sm btn-remove">刪除</button>'
@@ -92,11 +91,15 @@ $(document).ready(function () {
                     },
                 },
                 {
-                    targets: [0, 1, 2, 3, 4, 5, 7],//_all才是全部欄
+                    targets: [0, 1, 2, 3, 4, 5, 6,8],//_all才是全部欄
                     className: 'text-center'       //置中
                 }
             ],
             // 其他设置...
+            createdRow: function (row, data, dataIndex) {
+                // 在此回调函数中，为每个单元格设置高度
+                $(row).find('td').css('height', '100px'); // 将所有列的高度设置为150像素
+                }
         });
     }
     //點擊新增商品
@@ -146,7 +149,7 @@ $(document).ready(function () {
     $('#itemTable tbody').on('click', '.btn-edit', function () {
         const rowData = dataTable.row($(this).closest('tr')).data();
         // 将行数据填充到编辑表单中
-        localStorage.setItem('editedRowData', JSON.stringify(rowData));
+        sessionStorage.setItem('editedRowData', JSON.stringify(rowData));
         // 轉跳到 updateItem.html 頁面
         window.location.href = "../item/updateItem.html";
 

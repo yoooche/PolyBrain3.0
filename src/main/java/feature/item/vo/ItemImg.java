@@ -1,49 +1,29 @@
 package feature.item.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.io.Serial;
+
+@Entity
+@Table(name = "ITEM_IMAGE")
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ItemImg {
+	@Serial
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "item_ImgNo")
 	private int itemImgNo;
+	@Column(name = "item_No")
 	private int itemNo;
-	private byte[] itemImg;
-	private String itemImgName;
+	@Column(name = "item_Img")
+	private String itemImg;
 
-	public ItemImg(int itemImgNo, int itemNo, byte[] itemImg, String itemImgName) {
-		this.itemImgNo = itemImgNo;
-		this.itemNo = itemNo;
-		this.itemImg = itemImg;
-		this.itemImgName = itemImgName;
-	}
-
-	public int getItemImgNo() {
-		return itemImgNo;
-	}
-
-	public void setItemImgNo(int itemImgNo) {
-		this.itemImgNo = itemImgNo;
-	}
-
-	public int getItemNo() {
-		return itemNo;
-	}
-
-	public void setItemNo(int itemNo) {
-		this.itemNo = itemNo;
-	}
-
-	public byte[] getItemImg() {
-		return itemImg;
-	}
-
-	public void setItemImg(byte[] itemImg) {
-		this.itemImg = itemImg;
-	}
-
-	public String getItemImgName() {
-		return itemImgName;
-	}
-
-	public void setItemImgName(String itemImgName) {
-		this.itemImgName = itemImgName;
-	}
-	
-	
 }

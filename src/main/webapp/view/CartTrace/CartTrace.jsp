@@ -11,7 +11,7 @@
 
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 
-
+<% %>
 
 
 
@@ -70,18 +70,18 @@
         <th>數量</th>
         <th>總價</th>
 	</tr>
-	<c:forEach var="itemVOs" items="${itemVOnewList}" >
+	<c:forEach var="itemVOs" items="${itemVONewList}" >
 		<tr>
 			<td>${itemVOs.itemName}</td>
 			<td>${itemVOs.itemProdDescription}</td>
 			<td>${itemVOs.itemPrice}</td>
 		<td>
+
 	    <c:forEach var="cartTraceVOs" items="${cartTraceVOList}" >
            <c:if test="${cartTraceVOs.itemNo eq itemVOs.itemNo}">
                 ${cartTraceVOs.quantity}
            <td>${cartTraceVOs.quantity * itemVOs.itemPrice}</td>
           </c:if>
-
         </c:forEach>
         </td>
 		</tr>
@@ -101,17 +101,16 @@
 
 					</div>
 					<div class="form-row">
-
 						<label for="receiverPhone">收件人電話：</label>
 						<input type="text" id="receiverPhone" name="receiverPhone" >
 						<p style="display: block; color: red; padding: 0px 3px">${errorMsgs["receiverPhone"]}</p>
 					</div>
+
 					<div class="form-row">
 						<label for="receiverAddress">收件人地址：</label>
 						<input type="text"
 						id="receiverAddress" name="receiverAddress">
 						<p style="display: block; color: red; padding: 0px 3px">${errorMsgs["receiverAddress"]}</p>
-
 					</div>
 				</div>
 			</div>
@@ -126,7 +125,7 @@
 			</div>
 			<input type="hidden" name="action" value="orderConfirm" id="actionInput">
 			<input type="submit" class="confirmButton" value="confirm" id="orderconfirm">
-			<p style="display: block; color: red; padding: 0px 3px">${errorMsgs["receiverAddress"]}</p>
+			<p style="display: block; color: red; padding: 0px 3px">${errorMsgs["noConfirmOrder"]}</p>
 			<a href="#" class="canceled">返回購物車</a>
 
 
