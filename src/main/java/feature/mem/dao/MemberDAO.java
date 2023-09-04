@@ -20,4 +20,12 @@ public interface MemberDAO {
     // 獲取所有會員
     List<MemberVO> getAllMembers();
 
+
+    // 检查是否存在具有相同电子邮件的会员
+    boolean isEmailExists(String email);
+    // 检查是否存在具有相同电子邮件的会员
+    boolean isPidExists(String pid);
+    // 检查是否存在具有相同电子邮件的会员
+    boolean isPhoneExists(String phone);
+
 }

@@ -11,6 +11,15 @@
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 </head>
 <body>
+
+    <%
+        // 检查是否已登录，如果已登录则直接重定向到其他页面
+        String account = (String) session.getAttribute("account");
+        if (account != null) {
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
+        }
+    %>
+
     <div class="container">
 
         <!-- Outer Row -->

@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 import java.util.Arrays;
 

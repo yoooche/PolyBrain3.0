@@ -31,6 +31,8 @@ public class SessionFilter implements Filter {
                 || "/view/member/loginplz.html".equals(requestPath)
                 || "/view/member/register.jsp".equals(requestPath)
                 || "/view/member/register_success.html".equals(requestPath)
+                || "/view/member/register_fail.html".equals(requestPath)
+                || "/index.jsp".equals(requestPath)
         ) {
             chain.doFilter(request, response);
         } else {
