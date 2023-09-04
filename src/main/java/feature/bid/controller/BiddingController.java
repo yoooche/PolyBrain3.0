@@ -63,7 +63,6 @@ public class BiddingController extends HttpServlet {
             out.flush();
         }
         if("selectItem".equals(message)){
-            System.out.println("xxx");
             biddingService = new BiddingServiceImpl();
             List<String> allName = biddingService.viewAllName();
             Gson gson = new Gson();

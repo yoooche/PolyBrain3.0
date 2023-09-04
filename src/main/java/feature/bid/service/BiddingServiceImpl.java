@@ -101,7 +101,6 @@ public class BiddingServiceImpl implements BiddingService{
 //            jedis.set("bidOrder" + bidEventNo, message);
 
             MemVo memVo = memDao.selectByMemName(member);
-            System.out.println(memVo); // 測試用
             bidOrderVo.setBidEventNo(bidEventNo); // 競標活動編號
             bidOrderVo.setMemNo(memVo.getMemNo()); // 競標參與者會員編號
             bidOrderVo.setFinalPrice(score); // 結標價
