@@ -1,9 +1,8 @@
 package feature.bookingtast.controller;
 
-import feature.bookingtast.dao.TablebookingDAO;
 import feature.bookingtast.service.TablebookingService;
 import feature.bookingtast.vo.TablebookingVO;
-import com.google.gson.Gson;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -12,14 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 @WebServlet("/bookingtast/inserservlet")
 @MultipartConfig   //有用到檔案上傳的接收入口設置
-public class inserservlet extends HttpServlet {
+public class Updateservlet extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws
             ServletException, IOException {
         doPost(req, res);
