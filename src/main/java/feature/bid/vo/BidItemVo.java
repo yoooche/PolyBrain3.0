@@ -1,5 +1,6 @@
 package feature.bid.vo;
 
+import feature.item.vo.ItemClass;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,4 +37,8 @@ public class BidItemVo implements Serializable {
 
     @Column(name = "BID_ITEM_PIC")
     private byte[] bidItemPic;
+
+    @ManyToOne
+    @JoinColumn(name ="ITEM_CLASS_NO", insertable = false, updatable = false)
+    private ItemClass itemClass;
 }

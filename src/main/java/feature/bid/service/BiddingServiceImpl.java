@@ -10,6 +10,7 @@ import feature.mem.vo.MemVo;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Tuple;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Stream;
@@ -75,8 +76,8 @@ public class BiddingServiceImpl implements BiddingService{
     @Override
     public Map<String, String> getStartTimeByNo(Integer bidEventNo) {
         BidEventVo bidEventVo = bidEventDao.selectById(bidEventNo);
-        Date startTimeOrigin = bidEventVo.getStartTime();
-        Date closeTimeOrigin = bidEventVo.getCloseTime();
+        Timestamp startTimeOrigin = bidEventVo.getStartTime();
+        Timestamp closeTimeOrigin = bidEventVo.getCloseTime();
 
         SimpleDateFormat timerTrans = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String startTime = timerTrans.format(startTimeOrigin);
@@ -101,7 +102,6 @@ public class BiddingServiceImpl implements BiddingService{
 //            jedis.set("bidOrder" + bidEventNo, message);
 
             MemVo memVo = memDao.selectByMemName(member);
-            System.out.println(memVo); // 測試用
             bidOrderVo.setBidEventNo(bidEventNo); // 競標活動編號
             bidOrderVo.setMemNo(memVo.getMemNo()); // 競標參與者會員編號
             bidOrderVo.setFinalPrice(score); // 結標價
