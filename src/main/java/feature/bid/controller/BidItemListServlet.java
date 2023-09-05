@@ -53,6 +53,7 @@ public class BidItemListServlet extends HttpServlet {
         }
         if("delete".equals(action)){
             Integer bidItemNo = Integer.valueOf(req.getParameter("bidItemNo"));
+            System.out.println(bidItemNo);
             biddingService = new BiddingServiceImpl();
             biddingService.removeOneItem(bidItemNo);
 

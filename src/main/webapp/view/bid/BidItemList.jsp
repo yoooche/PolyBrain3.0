@@ -22,6 +22,7 @@ pageContext.setAttribute("list", list);
     <meta name="author" content="" />
     <title>Tables - SB Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
@@ -216,7 +217,7 @@ pageContext.setAttribute("list", list);
                                                             </div>
                                                             
                                                         </td>
-                                                        <td><%= bidItemVo.getItemClassNo() %></td>
+                                                        <td><%= bidItemVo.getItemClass().getItemClassName() %></td>
                                                         <td><%= bidItemVo.getGamePublisher() %></td>
                                                         <td>
                                                             <!-- 新增一筆競標商品資料 -->
@@ -276,12 +277,12 @@ pageContext.setAttribute("list", list);
                                                         </td>
                                                         <td>
                                                         <!-- Button trigger modal -->
-                                                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#bid_item_delete">
+                                                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#bid_item_delete_<%= bidItemVo.getBidItemNo() %>">
                                                             刪除
                                                         </button>
                                                         
                                                         <!-- Modal -->
-                                                        <div class="modal fade" id="bid_item_delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal fade" id="bid_item_delete_<%= bidItemVo.getBidItemNo() %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
@@ -331,12 +332,6 @@ pageContext.setAttribute("list", list);
                                                         <input type="text" id="bidItemName" name="bidItemName">
                                                         <select id="itemClassNo" name="itemClassNo">
                                                             <option disabled selected>--類別--</option>
-                                                            <option value="1">策略</option>
-                                                            <option value="2">派對</option>
-                                                            <option value="3">親子</option>
-                                                            <option value="4">合作</option>
-                                                            <option value="5">陣營</option>
-                                                            <option value="6">派對</option>
                                                         </select>
                                                 </div>
                                                 <div>
@@ -383,6 +378,39 @@ pageContext.setAttribute("list", list);
         </div>
     </div>
     <script>
+
+        $(document).ready(function(){
+            selectClass();
+        });
+
+        function selectClass(){
+            fetch('http://localhost:8080/PolyBrain/test',{
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    message: 'selectClass'
+                })
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                console.log('yyy')
+                for(let itemClass of data){
+                    let option = document.createElement('option');
+                    option.value = itemClass.itemClassNo;
+                    option.textContent = itemClass.itemClassName;
+                    console.log(option.value);
+                    console.log(option.textContent);
+                    let itemClassSelect = document.getElementById('itemClassNo');
+                    itemClassSelect.appendChild(option);
+                }
+            })
+            .catch(error => {
+                console.log("error", error);
+            });
+        }
+
         let filereader_support = typeof FileReader != 'undefined';
         if(!filereader_support){
             alert("No FileReader Support");
