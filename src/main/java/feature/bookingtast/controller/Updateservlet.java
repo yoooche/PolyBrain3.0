@@ -65,23 +65,24 @@ public class Updateservlet extends HttpServlet {
             java.sql.Date TABLE_DATE = java.sql.Date.valueOf(req.getParameter("TABLE_DATE").trim());
 
             Integer TABLE_NO = Integer.valueOf(req.getParameter("TABLE_NO").trim());
+
+
             Integer TABLE_MOR = Integer.valueOf(req.getParameter("TABLE_MOR").trim());
             Integer TABLE_EVE = Integer.valueOf(req.getParameter("TABLE_EVE").trim());
             Integer TABLE_NIGHT = Integer.valueOf(req.getParameter("TABLE_NIGHT").trim());
-
 
             /***************************2.開始修改資料*****************************************/
             TablebookingService tabSvc = new TablebookingService();
             TablebookingVO tablebookingVO = tabSvc.updatetab(TABLE_BOOK_NO, TABLE_DATE, TABLE_NO, TABLE_MOR, TABLE_EVE, TABLE_NIGHT);
 
             /***************************3.修改完成,準備轉交(Send the Success view)*************/
-            String url = "/view/bookingtast/1.jsp";
-            RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+            String url = "/view/bookingtast/2.jsp";
+            req.setAttribute("tablebookingVO", tablebookingVO);
+            RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
             successView.forward(req, res);
-            req.setAttribute("message", "修改成功");
 
 
         }
 
-}
+    }
 }
