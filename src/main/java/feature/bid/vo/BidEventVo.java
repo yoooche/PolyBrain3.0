@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -23,6 +24,9 @@ public class BidEventVo implements Serializable {
     @Column(name = "BID_EVENT_NO", insertable = false, updatable = false)
     private Integer bidEventNo;
 
+    @Column(name = "BID_ITEM_NO", insertable = false, updatable = false)
+    private Integer bidItemNo;
+
     @Column(name = "FLOOR_PRICE")
     private Integer floorPrice;
 
@@ -30,10 +34,10 @@ public class BidEventVo implements Serializable {
     private Integer leastOffers;
 
     @Column(name = "START_TIME")
-    private Date startTime;
+    private Timestamp startTime;
 
     @Column(name = "CLOSE_TIME")
-    private Date closeTime;
+    private Timestamp closeTime;
 
     @Column(name = "DIRECTIVE_PRICE")
     private Integer directivePrice;
