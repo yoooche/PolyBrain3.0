@@ -34,7 +34,9 @@ public class BiddingController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String message = req.getParameter("message");
-        String bidEventId = req.getParameter("bidEventId");
+        String bidEventId = req.getParameter("bidEventId"); // url的QueryString
+        String bidEventNo_table = req.getParameter("bidEventNo");
+
         biddingService = new BiddingServiceImpl();
         itemClassService = new ItemClassServiceImpl();
 
@@ -94,9 +96,31 @@ public class BiddingController extends HttpServlet {
             out.print(jsonEvent);
             out.flush();
         }
+        if("bidEventEditByPk".equals(message)){
+            Integer bidEventNo_edit = Integer.valueOf(bidEventNo_table);
+            BidEventVo bidEventVo = biddingService.getEventByNo(bidEventNo_edit);
+            Gson gson = new Gson();
+            String jsonEvent = gson.toJson(bidEventVo);
+            resp.setContentType("application/json");
+            PrintWriter out = resp.getWriter();
+            out.print(jsonEvent);
+            out.flush();
+        }
+        if("deleteEvent".equals(message)){
+            Integer bidEventNo_delete = Integer.valueOf(bidEventNo_table);
+            System.out.println(bidEventNo_delete);
+            biddingService.removeEventById(bidEventNo_delete);
+            Map<String, Integer> success = new HashMap<>();
+            success.put("remove", 1);
+            Gson gson = new Gson();
+            String jsonSuccess = gson.toJson(success);
+            resp.setContentType("application/json");
+            PrintWriter out = resp.getWriter();
+            out.print(jsonSuccess);
+            out.flush();
+        }
+
         BidEventVo bidEventVo = json2Pojo(req, BidEventVo.class);
-        System.out.println(bidEventVo);
-        System.out.println("xxx");
         biddingService.addAnEvent(bidEventVo);
     }
 

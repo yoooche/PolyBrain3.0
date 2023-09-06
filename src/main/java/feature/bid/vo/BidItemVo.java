@@ -35,10 +35,8 @@ public class BidItemVo implements Serializable {
     @Column(name = "GAME_PUBLISHER")
     private String gamePublisher;
 
-    @Column(name = "BID_ITEM_PIC")
-    private byte[] bidItemPic;
-
     @ManyToOne
     @JoinColumn(name ="ITEM_CLASS_NO", insertable = false, updatable = false)
     private ItemClass itemClass;
+
 }

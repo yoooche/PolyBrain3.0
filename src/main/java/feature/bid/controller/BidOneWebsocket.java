@@ -10,9 +10,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.*;
 
 import static core.util.Constants.GSON;
 
@@ -49,8 +47,9 @@ public class BidOneWebsocket {
         JsonObject jsonObject = GSON.fromJson(message, JsonObject.class);
         String bidder = jsonObject.get("bidder").getAsString();
         Integer biddingRange = jsonObject.get("biddingRange").getAsInt();
+        String bidEventId = jsonObject.get("bidEventId").getAsString();
 //        System.out.println("Message received:" + message);
-        jedis.zadd("1", biddingRange, bidder); // key值不能寫死
+        jedis.zadd(bidEventId, biddingRange, bidder); // key值不能寫死
     }
     @OnClose
     public void onClose(Session memSession, CloseReason reason) {
