@@ -14,10 +14,44 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/cb31023646.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <style>
         .search-right {
     margin-left: auto;
     }
+
+ body {
+     font-family: Arial, Helvetica, sans-serif;
+     margin: auto;
+ }
+
+ .carousel-inner {
+     height: 300px; /* 設定一個你希望的高度 */
+     width: 70%;   /* 根據你的需求，可能需要定義具體的寬度 */
+     margin: auto;
+ }
+
+ .carousel-inner img {
+     /* 如果你希望圖片不超過某個尺寸，但仍然保持原始比例 */
+    height: 300px;  /* 設定想要的高度 */
+    width: 500px;   /* 設定想要的寬度 */
+
+     /* 如果你想直接設定一個固定的尺寸，使用以下設定（但可能會失去原始比例） */
+/*
+     width: 120px;   // 固定寬度
+     height: 80px;   // 固定高度
+*/
+
+     /* 讓圖片在 Carousel 中水平和垂直居中 */
+     display: block;
+     margin: auto;
+ }
+
+ div-class {
+      width: 50%;
+      height: auto;
+  }
     </style>
 </head>
 
@@ -62,13 +96,9 @@
                         <li class="nav-item">
                             <a class="nav-link" id="discuss" href="#" role="button">討論區</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="memberdistrict" href="#" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">會員中心</a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                                <li><a class="dropdown-item" href="blog-home.html">個人資料</a></li>
-                                <li><a class="dropdown-item" href="blog-post.html">設定</a></li>
-                            </ul>
+                        <li class="nav-item ">
+                            <a class="nav-link" id="memberdistrict" href="#" role="button">會員中心</a>
+
                         </li>
                         <li class="nav-item"><a class="nav-link" href="faq.html">常見問題</a></li>
                         <li class="nav-item"><a class="nav-link" href="contact.html">登入</a></li>
@@ -87,7 +117,6 @@
                                         <i class="fas fa-search"></i>
                                     </button>
                                 </div>
-
                         </li>
                     </ul>
                 </div>
@@ -95,25 +124,83 @@
         </nav>
         <!-- Header-->
         <header class="bg-dark py-5">
-            <div class="container px-5">
-                <div class="row gx-5 align-items-center justify-content-center">
-                    <div class="col-lg-8 col-xl-7 col-xxl-6">
-                        <div class="my-5 text-center text-xl-start">
-                            <h1 class="display-5 fw-bolder text-white mb-2">最新遊戲推薦
-                            </h1>
-                            <!-- <p class="lead fw-normal text-white-50 mb-4">Quickly design and customize responsive
-                                mobile-first sites with Bootstrap, the world’s most popular front-end open source
-                                toolkit!</p> -->
-                            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
-                                <a class="btn btn-primary btn-lg px-4 me-sm-3" href="#features">Get Started</a>
-                                <a class="btn btn-outline-light btn-lg px-4" href="#!">Learn More</a>
+
+            <!-- 旋轉木馬 -->
+            <div class="container">
+                <div id="blah" class="carousel slide" data-ride="carousel">
+                    <!--indicators-->
+                    <ul class="carousel-indicators">
+                        <li data-target="#blah" data-slide-to="0" class="active"></li>
+                        <li data-target="#blah" data-slide-to="1"></li>
+                        <li data-target="#blah" data-slide-to="2"></li>
+                        <li data-target="#blah" data-slide-to="3"></li>
+                        <li data-target="#blah" data-slide-to="4"></li>
+                        <li data-target="#blah" data-slide-to="5"></li>
+                        <li data-target="#blah" data-slide-to="6"></li>
+                        <li data-target="#blah" data-slide-to="7"></li>
+
+
+                    </ul>
+
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <a href="http://localhost:8080/PolyBrain/view/bookingtast/1.jsp">
+                                <img src="images/1.jpg" alt="crystal handle">
+                            </a>
+                        </div>
+                        <div class="carousel-item">
+                            <a href="http://localhost:8080/PolyBrain/view/bookingtast/1.jsp">
+                                <img src="images/2.jpg" alt="a group of rods by me" >
+                            </a>
+                            <div class="carousel-caption"> <!-- Example caption -->
+                                <h3></h3>
+                                <p></p>
                             </div>
                         </div>
+                        <div class="carousel-item">
+                            <a href="http://localhost:8080/PolyBrain/view/bookingtast/1.jsp">
+                                <img src="images/3.jpg" alt="black rod" >
+                            </a>
+                        </div>
+                        <div class="carousel-item">
+                            <a href="http://localhost:8080/PolyBrain/view/bookingtast/1.jsp">
+                                <img src="images/4.jpg" alt="royal blue rod">
+                            </a>
+                        </div>
+                        <div class="carousel-item">
+                            <a href="http://localhost:8080/PolyBrain/view/bookingtast/1.jsp">
+                                <img src="images/5.jpg" alt="royal blue rod">
+                            </a>
+                        </div>
+                        <div class="carousel-item">
+                            <a href="http://localhost:8080/PolyBrain/view/bookingtast/1.jsp">
+                                <img src="images/6.jpg" alt="royal blue rod">
+                            </a>
+                        </div>
+                        <div class="carousel-item">
+                            <a href="http://localhost:8080/PolyBrain/view/bookingtast/1.jsp">
+                                <img src="images/7.jpg" alt="royal blue rod">
+                            </a>
+                        </div>
+                        <div class="carousel-item">
+                            <a href="http://localhost:8080/PolyBrain/view/bookingtast/1.jsp">
+                                <img src="images/8.jpg" alt="royal blue rod">
+                            </a>
+                        </div>
+
+
                     </div>
-                    <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5"
-                            src="https://dummyimage.com/600x400/343a40/6c757d" alt="..." /></div>
+                    <!--controls/arrows-->
+                    <a class="carousel-control-prev" href="#blah" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#blah" data-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </a>
+
                 </div>
             </div>
+
         </header>
         <!-- Features section-->
         <section class="py-5" id="bid">
@@ -322,7 +409,7 @@
                     <div class="small m-0 text-white">Copyright © 2023 PolyBrain. All rights reserved. </div>
                 </div>
                 <div class="col-auto">
-                    <a class="link-light small" href="http://localhost:63342/PolyBrain3.0/src/main/webapp/view/head/jump.html">隱私權協定</a>
+                    <a class="link-light small" href="http://localhost:63342/PolyBrain3.0/src/main/webapp/view/head/Privacy.html">隱私權協定</a>
                     <span class="text-white mx-1">&middot;</span>
                     <a class="link-light small" href="http://localhost:63342/PolyBrain3.0/src/main/webapp/view/head/forus.html">關於我們</a>
                     <span class="text-white mx-1">&middot;</span>
@@ -335,10 +422,13 @@
         </div>
     </footer>
     <!-- Bootstrap core JS-->
+    <!-- JavaScript part -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.min.js"
         integrity="sha512-fHY2UiQlipUq0dEabSM4s+phmn+bcxSYzXP4vAXItBvBHU7zAM/mkhCZjtBEIJexhOMzZbgFlPLuErlJF2b+0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="js/scripts.js"></script>
 </body>
