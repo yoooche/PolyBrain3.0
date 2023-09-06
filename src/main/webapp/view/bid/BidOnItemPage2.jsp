@@ -288,10 +288,12 @@
                     }
                     let biddingRange = document.querySelector("#biddingRange");
                     let biddingRangeValue = biddingRange.value;
-                    console.log(biddingRangeValue);
+                    let urlParams = new URLSearchParams(window.location.search);
+                    let bidEventId = urlParams.get('bidEventId');
                     let jsonObj = {
                         "bidder": bidderName,
-                        "biddingRange": biddingRangeValue
+                        "biddingRange": biddingRangeValue,
+                        "bidEventId": bidEventId
                     }
                     webSocket.send(JSON.stringify(jsonObj));
                 }

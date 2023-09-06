@@ -64,4 +64,8 @@ public class GametableDAO implements Gametable_interface {
 		return session.createQuery(hql, GametableVO.class).getResultList();
 	}
 
+	@Override
+	public List<GametableVO> selectAll() {
+		return null;
+	}
 }

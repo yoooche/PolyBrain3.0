@@ -1,22 +1,25 @@
 package feature.mem.vo;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 import java.util.Arrays;
 
 
-//@Entity(name = "member")
 @Entity
+@Table(name = "MEMBER")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "MEMBER")
-public class MemVo implements Serializable {
+public class MemberVO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     @Id
