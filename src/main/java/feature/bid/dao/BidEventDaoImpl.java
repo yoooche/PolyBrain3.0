@@ -21,6 +21,13 @@ public class BidEventDaoImpl implements BidEventDao{
                 .createQuery(hql, BidEventVo.class)
                 .getResultList();
     }
+
+    @Override
+    public void deleteById(Integer bidEventNo) {
+        BidEventVo bidEventVo = session.get(BidEventVo.class, bidEventNo);
+        session.remove(bidEventVo);
+    }
+
     @Override
     public BidEventVo selectById(Integer bidEventNo) {
         return session.get(BidEventVo.class, bidEventNo);

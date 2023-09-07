@@ -2,6 +2,7 @@ package feature.bid.service;
 
 import feature.bid.dao.*;
 import feature.bid.vo.BidEventVo;
+import feature.bid.vo.BidItemPicVo;
 import feature.bid.vo.BidItemVo;
 import feature.bid.vo.BidOrderVo;
 import feature.mem.dao.MemDao;
@@ -10,6 +11,7 @@ import feature.mem.vo.MemVo;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Tuple;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Stream;
@@ -20,6 +22,7 @@ public class BiddingServiceImpl implements BiddingService{
     private final MemDao memDao;
     private final BidOrderDao bidOrderDao;
     private final BidOrderVo bidOrderVo;
+    private final BidItemPicDao bidItemPicDao;
     Jedis jedis = new Jedis("localhost", 6379);
     public BiddingServiceImpl(){
         dao = new BidItemDaoImpl();
@@ -27,6 +30,7 @@ public class BiddingServiceImpl implements BiddingService{
         memDao = new MemDaoImpl();
         bidOrderDao = new BidOrderDaoImpl();
         bidOrderVo = new BidOrderVo();
+        bidItemPicDao = new BidItemPicDaoImpl();
     }
     @Override
     public List<BidItemVo> viewAll() {
@@ -44,8 +48,22 @@ public class BiddingServiceImpl implements BiddingService{
 
     @Override
     public void removeOneItem(Integer bidItemNo) {
-        System.out.println("xxx");
         dao.deleteById(bidItemNo);
+    }
+
+    @Override
+    public List<String> viewAllName() {
+        List<BidItemVo> all = dao.selectAll();
+        List<String> allName = new ArrayList<>();
+        for(BidItemVo bidItemVo : all){
+            allName.add(bidItemVo.getBidItemName());
+        }
+        return allName;
+    }
+
+    @Override
+    public void addPics(BidItemPicVo bidItemPicVo) {
+        bidItemPicDao.insert(bidItemPicVo);
     }
 
     @Override
@@ -65,8 +83,8 @@ public class BiddingServiceImpl implements BiddingService{
     @Override
     public Map<String, String> getStartTimeByNo(Integer bidEventNo) {
         BidEventVo bidEventVo = bidEventDao.selectById(bidEventNo);
-        Date startTimeOrigin = bidEventVo.getStartTime();
-        Date closeTimeOrigin = bidEventVo.getCloseTime();
+        Timestamp startTimeOrigin = bidEventVo.getStartTime();
+        Timestamp closeTimeOrigin = bidEventVo.getCloseTime();
 
         SimpleDateFormat timerTrans = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String startTime = timerTrans.format(startTimeOrigin);
@@ -76,6 +94,11 @@ public class BiddingServiceImpl implements BiddingService{
         timer.put("startTime", startTime);
         timer.put("closeTime", closeTime);
         return timer;
+    }
+
+    @Override
+    public void removeEventById(Integer bidEventNo) {
+        bidEventDao.deleteById(bidEventNo);
     }
 
     @Override
@@ -91,7 +114,6 @@ public class BiddingServiceImpl implements BiddingService{
 //            jedis.set("bidOrder" + bidEventNo, message);
 
             MemVo memVo = memDao.selectByMemName(member);
-            System.out.println(memVo); // 測試用
             bidOrderVo.setBidEventNo(bidEventNo); // 競標活動編號
             bidOrderVo.setMemNo(memVo.getMemNo()); // 競標參與者會員編號
             bidOrderVo.setFinalPrice(score); // 結標價
