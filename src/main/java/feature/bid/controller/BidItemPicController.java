@@ -25,7 +25,7 @@ public class BidItemPicController extends HttpServlet {
         try {
             Integer bidItemNo = Integer.valueOf(req.getParameter("bidItemNo"));
             BiddingService biddingService = new BiddingServiceImpl();
-            servletOutputStream.write(biddingService.getOneItem(bidItemNo).getBidItemPic());
+//            servletOutputStream.write(.getBytes());
         } catch (Exception e){
             InputStream inputStream = getServletContext().getResourceAsStream("/view/bid/images/null.jpg");
             byte[] nullPic = new byte[inputStream.available()];

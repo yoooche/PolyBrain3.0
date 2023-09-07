@@ -27,6 +27,7 @@ pageContext.setAttribute("list", list);
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -181,6 +182,8 @@ pageContext.setAttribute("list", list);
                                         <th>底價</th>
                                         <th>最小出價</th>
                                         <th>直購價</th>
+                                        <th>編輯</th>
+                                        <th>刪除</th>
                                     </tr>
                                 </thead>
 
@@ -196,6 +199,85 @@ pageContext.setAttribute("list", list);
                                                         <td><%= bidEventVo.getFloorPrice() %></td>
                                                         <td><%= bidEventVo.getLeastOffers() %></td>
                                                         <td><%= bidEventVo.getDirectivePrice() %></td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" id="btn_edit"
+                                                            data-bs-target="#bidEvent_edit" style="float: right; margin-bottom: 1px;" onclick="bidEventEditByPk(this)">
+                                                                編輯
+                                                            </button>
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="bidEvent_edit" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                                aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="bidEvent_edit_title">競標商品編輯</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                                aria-label="Close"></button>
+                                                                        </div>
+
+                                                                        <div class="modal-body">
+                                                                                <div style="margin-bottom: 10px; display: inline-block;">
+                                                                                        <label for="bidItemName">競標商品:</label>
+                                                                                        <select id="bidItemNo_edit" class="bidItemNo">
+                                                                                            <option disabled selected>--請選擇--</option>
+                                                                                        </select>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <label for="startTime">起標時間:</label>
+                                                                                    <input type="datetime-local" id="startTime_edit">
+                                                                                </div>
+                                                                                <div style="margin-top: 10px;">
+                                                                                    <label for="closeTime">結標時間:</label>
+                                                                                    <input type="datetime-local" id="closeTime_edit">
+                                                                                </div>
+                                                                                <div style="margin-top: 10px; display: inline-block;">
+                                                                                    <label for="floorPrice">底價:</label>
+                                                                                    <input type="text" id="floorPrice_edit" style="width: 100px;">
+                                                                                </div>
+                                                                                <div style="margin-top: 10px; margin-left: 10px; display: inline-block;">
+                                                                                    <label for="directivePrice">直購價:</label>
+                                                                                    <input type="text" id="directivePrice_edit" style="width: 100px;">
+                                                                                </div>
+                                                                                <div style="margin-top: 10px; margin-bottom: 20px;">
+                                                                                    <label for="leastOffers">最小出價金額:</label>
+                                                                                    <input type="text" id="leastOffers_edit" style="width: 207px;">
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-secondary"
+                                                                                        data-bs-dismiss="modal">取消</button>
+                                                                                    <button type="button" onclick="insert()" class="btn btn-primary">儲存</button>
+                                                                                </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </td>
+                                                        <td>
+                                                            <!-- Button trigger modal -->
+                                                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#bidEvent_delete_<%= bidEventVo.getBidEventNo() %>" onclick="deleteByPk(this)">
+                                                                刪除
+                                                            </button>
+                                                            
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="bidEvent_delete_<%= bidEventVo.getBidEventNo() %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            確定刪除嗎?
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                                                            <button type="button" class="btn btn-primary" onclick="deleteEvent(this)">確認刪除</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            </td>
                                                     </tr>
                                                     <% } %>
                                                         <% } %>
@@ -217,37 +299,39 @@ pageContext.setAttribute("list", list);
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
+
                                         <div class="modal-body">
-                                            <form action="<%=request.getContextPath()%>/bid/BidItemList" method="post">
                                                 <div style="margin-bottom: 10px; display: inline-block;">
-                                                        <label for="bidItemName">競標品名稱:</label>
-                                                        <input type="text" id="bidItemName" name="bidItemName">
-                                                        <select id="itemClassNo" name="itemClassNo">
-                                                            <option disabled selected>--類別--</option>
-                                                            <option value="1">策略</option>
-                                                            <option value="2">派對</option>
-                                                            <option value="3">親子</option>
-                                                            <option value="4">合作</option>
-                                                            <option value="5">陣營</option>
-                                                            <option value="6">派對</option>
+                                                        <label for="bidItemNo">競標商品:</label>
+                                                        <select id="bidItemNo_insert" class="bidItemNo">
+                                                            <option disabled selected>--請選擇--</option>
                                                         </select>
                                                 </div>
                                                 <div>
-                                                    <label for="gamePublisher">遊戲發行商:</label>
-                                                    <input type="text" id="gamePublisher" name="gamePublisher">
+                                                    <label for="startTime">起標時間:</label>
+                                                    <input type="datetime-local" id="startTime">
                                                 </div>
-                                                <div style="border: 1px solid white; margin: 10px 0;"></div>
-                                                <div>
-                                                    <label for="bidItemDescribe">商品描述:</label><br>
-                                                    <textarea id="bidItemDescribe" name="bidItemDescribe" cols="30" rows="10" style="width: 100%; height: 150px; resize: none;"></textarea>
+                                                <div style="margin-top: 10px;">
+                                                    <label for="closeTime">結標時間:</label>
+                                                    <input type="datetime-local" id="closeTime">
+                                                </div>
+                                                <div style="margin-top: 10px; display: inline-block;">
+                                                    <label for="floorPrice">底價:</label>
+                                                    <input type="text" id="floorPrice" style="width: 100px;">
+                                                </div>
+                                                <div style="margin-top: 10px; margin-left: 10px; display: inline-block;">
+                                                    <label for="directivePrice">直購價:</label>
+                                                    <input type="text" id="directivePrice" style="width: 100px;">
+                                                </div>
+                                                <div style="margin-top: 10px; margin-bottom: 20px;">
+                                                    <label for="leastOffers">最小出價金額:</label>
+                                                    <input type="text" id="leastOffers" style="width: 207px;">
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">取消</button>
-                                                    <input type="hidden" name="action" value="insert">
-                                                    <button type="submit" class="btn btn-primary">儲存</button>
+                                                    <button type="button" onclick="insert()" class="btn btn-primary">儲存</button>
                                                 </div>
-                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -270,11 +354,171 @@ pageContext.setAttribute("list", list);
             </footer>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
+    <script>
+
+        let bidItemNo = document.querySelector('#bidItemNo_insert');
+        let startTime = document.querySelector('#startTime');
+        let closeTime = document.querySelector('#closeTime');
+        let floorPrice = document.querySelector('#floorPrice');
+        let leastOffers = document.querySelector('#leastOffers');
+        let directivePrice = document.querySelector('#directivePrice');
+
+        $(document).ready(function(){
+            selectItem();
+            console.log('reload');
+
+        });
+
+        function deleteByPk(button){
+            let parent_ele = button.closest('tr');
+            let bidEventNo = parent_ele.querySelector('td:first-child').textContent;
+            console.log(bidEventNo);
+
+        }
+        function deleteEvent(button){
+            let parent_ele = button.closest('tr');
+            let bidEventNo = parent_ele.querySelector('td:first-child').textContent;
+            console.log(bidEventNo);
+            console.log(parent_ele);
+            
+            fetch('http://localhost:8080/PolyBrain/test',{
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    message: 'deleteEvent',
+                    bidEventNo: bidEventNo
+                })
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                console.log(data);
+                window.location.reload();
+            })
+            .catch(error => {
+                console.log("error", error);
+            });
+        }
+
+        function bidEventEditByPk(button){
+
+            let parent_ele = button.closest('tr');
+            let bidEventNo = parent_ele.querySelector('td:first-child').textContent;
+
+            fetch('http://localhost:8080/PolyBrain/test',{
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    message: 'bidEventEditByPk',
+                    bidEventNo: bidEventNo
+                })
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                $('#bidItme_edit').val(data.bidItemNo);
+                $('#startTime_edit').val(data.startTime);
+                $('#closeTime_edit').val(data.closeTime);
+                $('#floorPrice_edit').val(data.floorPrice);
+                $('#leastOffers_edit').val(data.leastOffers);
+                $('#directivePrice_edit').val(data.directivePrice);
+            })
+            .catch(error => {
+                console.log("error", error);
+            });
+        }
+
+        function selectItem(){
+            // $('.bidItemNo').html('<option disabled selected>--請選擇--</option>');
+            console.log("111");
+            fetch('http://localhost:8080/PolyBrain/test',{
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    message: 'selectItem'
+                })
+            })
+            .then(resp => resp.json())
+            .then(data => {
+
+                for(let item of data){
+                    var select = document.querySelectorAll('.bidItemNo');
+                    let option = document.createElement('option');
+                    option.value = item.bidItemNo;
+                    option.innerHTML = item.bidItemName;
+                    for(let i = 0; i < select.length; i++){
+                        select[i].appendChild(option.cloneNode(true));
+                    }
+                }
+            })
+            .catch(error => {
+                console.log("error", error);
+            });
+        }
+        // function selectAllEvent(){
+        //     fetch('http://localhost:8080/PolyBrain/test',{
+        //         method: 'POST',
+        //         headers: {
+        //             'content-type': 'application/x-www-form-urlencoded'
+        //         },
+        //         body: new URLSearchParams({
+        //             message: 'selectAllEvent'
+        //         })
+        //     })
+        //     .then(resp => resp.json())
+        //     .then(data => {
+        //         data.forEach(bidEventVo => {
+        //             let tableRow = document.createElement('tr');
+        //             tableRow.innerHTML = `
+        //             <td>${bidEventVo.bidEventNo}</td>
+        //             <td>${bidEventVo.bidItemNo}</td>
+        //             <td>${bidEventVo.startTime}</td>
+        //             <td>${bidEventVo.closeTime}</td>
+        //             <td>${bidEventVo.floorPrice}</td>
+        //             <td>${bidEventVo.leastOffers}</td>
+        //             <td>${bidEventVo.directivePrice}</td>
+        //             `;
+        //             $('.datatable-table').children('tbody').append(tableRow);
+        //         });
+        //     })
+        //     .catch(error => {
+        //         console.log('error', error);
+        //     })
+        // }
+        function insert(){
+            let bidItemVo = {
+                bidItemNo: bidItemNo.value
+            };
+            fetch('http://localhost:8080/PolyBrain/test',{
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                        bidItemVo: bidItemVo,
+                        startTime: new Date(startTime.value),
+                        closeTime: new Date(closeTime.value),
+                        floorPrice: floorPrice.value,
+                        leastOffers: leastOffers.value,
+                        directivePrice: directivePrice.value
+                    }),
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                window.location.reload();
+            })
+            .catch(error => {
+                console.log('error', error);
+            })
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
 </body>
 
