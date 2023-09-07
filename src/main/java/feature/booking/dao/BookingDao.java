@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BookingDao extends CoreDao{
 
-    Integer insert(BookingVo book);
+    BookingVo insert(BookingVo book);
 
     Integer deletbyId(Integer bookingno);
     List<BookingVo> selectAll();
@@ -19,10 +19,12 @@ public interface BookingDao extends CoreDao{
 //    List<BookingVo> selectById(Integer bookingno);
 
     //查一個
-    List<BookingVo> selectById(Integer state);
+    BookingVo selectById(Integer bookingno);
+    //獲取對應的會員編號，以利發信
+    Integer selectByIdMem(Integer bookingno);
 
     //查日期
-    public List<BookingVo> selectByDate(int state, Date startDate, Date endDate);
+    public List<BookingVo> selectByDate(int state, Date startDate, Date endDate, Integer bookingNo);
 
     //取消
 //    Integer cancel (Integer bookno);

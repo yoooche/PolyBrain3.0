@@ -42,7 +42,15 @@ public class BookingServlet extends HttpServlet {
         if (endDateStr != null && !endDateStr.isEmpty()) {
             endDateParam = Date.valueOf(endDateStr);
         }
-        List<BookingVo> bookings = SERVICE.selectdate(state, startDateParam, endDateParam);
+
+        //獲得訂單編號
+        String bookingNoParam = request.getParameter("bookingno");
+        Integer bookingNo = null;
+        if(bookingNoParam != null){
+            bookingNo = Integer.parseInt(bookingNoParam);
+        }
+        System.out.println("bookingNoParam:" + bookingNoParam);
+        List<BookingVo> bookings = SERVICE.selectdate(state, startDateParam, endDateParam, bookingNo);
         writePojo2Json(response, bookings);
 
     }
