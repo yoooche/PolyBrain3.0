@@ -41,6 +41,21 @@
             z-index: 1;
             /* 将z-index设置为较高的值，使其显示在图片上层 */
         }
+
+        .badge {
+            --bs-badge-font-size: 0.85em;
+        }
+
+        /* 禁止加入購物車的樣式 */
+        .disabled-button {
+            color: #ccc;
+            /* 禁用时的文本颜色 */
+            background-color: #f2f2f2;
+            /* 禁用时的背景颜色 */
+            cursor: not-allowed;
+            /* 鼠标样式为禁止符号 */
+        }
+
         /* 以下是頁碼的CSS */
         .pagination {
             display: flex;

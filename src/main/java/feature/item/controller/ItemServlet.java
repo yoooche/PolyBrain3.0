@@ -46,12 +46,18 @@ public class ItemServlet extends HttpServlet {
                 commonUtil.writePojo2Json(response, service.getItempage(page));
                 break;
             case "selectID":    //若請求是搜尋單個商品
-                Integer ID = Integer.valueOf(request.getParameter("ID"));
-                commonUtil.writePojo2Json(response, service.getAllItems());
+                System.out.println("開始搜尋單項商品");
+                Integer ID = Integer.valueOf(request.getParameter("itemID"));
+                commonUtil.writePojo2Json(response, service.FindByItemId(ID));
                 break;
             case "selectName":  //若請求是搜尋以商品搜尋
                 String name = request.getParameter("name");
                 commonUtil.writePojo2Json(response, service.getAllItems());
+                break;
+            case "selectClass":  //若請求是搜尋以商品搜尋
+                System.out.println("開始隨機抓取商品數量");
+                Integer classNO = Integer.valueOf(request.getParameter("ItemClass"));
+                commonUtil.writePojo2Json(response, service.FindByItemClass(classNO));
                 break;
         }
     }

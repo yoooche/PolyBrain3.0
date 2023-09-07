@@ -20,13 +20,12 @@ public interface ItemDao extends CoreDao<Item, Integer> {
     //依照分頁去搜尋
     Map<String, Object> selectpage(Integer page) ;
     //以ID搜尋商品
-    Item SelectByItemId(Item itemid);
+    Item SelectByItemId(Integer itemid);
     //以名稱搜尋商品
     List<Item>  SelectByItemName(String itemname);
-    //以人數搜尋商品
-
     //以類別搜尋商品
     List<Item> SelectByItemClass(Integer classNo);
+    //以人數搜尋商品
 
 
 }

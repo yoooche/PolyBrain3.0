@@ -42,7 +42,7 @@ public class ItemDaoImpl implements ItemDao{
     }
 
     //單筆查詢
-    public Item SelectByItemId(Item itemid) {
+    public Item SelectByItemId(Integer itemid) {
         return getSession().get(Item.class,itemid);}
 
     //搜尋依照商品名稱搜尋
@@ -68,7 +68,7 @@ public class ItemDaoImpl implements ItemDao{
     public Map<String, Object> selectpage(Integer page) {
         int number = (page - 1) * 4;    //每頁顯示第幾到第幾個項目 以8個為一頁
         final String hql = "FROM Item WHERE itemState IN (1, 2) ORDER BY itemNo ASC";
-        final String countHql = "SELECT COUNT(*) FROM Item WHERE itemState IN (1, 2)";
+        final String countHql = "SELECT COUNT(*) FROM Item ";
         Query<Item> query = getSession()
                 .createQuery(hql, Item.class)
                 .setFirstResult(number) // 略過筆數
@@ -88,11 +88,9 @@ public class ItemDaoImpl implements ItemDao{
         return result;
     }
 
-
-
-    //搜尋依照類別分類商品 未使用
+    //搜尋依照類別分類商品
     public List<Item> SelectByItemClass(Integer classNo) {
-        final String hql = "FROM Item ORDER BY itemClass = :classNo ORDER BY itemClassASC";
+        final String hql = "FROM Item WHERE itemClassNo = :classNo ORDER BY itemClassNo ASC";
         return getSession()
                 .createQuery(hql, Item.class)
                 .setParameter("classNo", classNo)

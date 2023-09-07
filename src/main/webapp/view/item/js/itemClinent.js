@@ -56,20 +56,24 @@ function getProduct(move, numberpage) {
                 cardColumn.innerHTML = `
                     <div class="card">
                         <div class="image-container">
-                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html">
+                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=${item.itemNo}">
                                 <img class="card-img-top" src="${item.itemImg[0].itemImg}" alt="商品圖片" itemState ="${item.itemState}">
                             </a>
                         </div>
                         <div class="card-body p-4">
                             <div class="text-center">
                                 <h5 class="fw-bolder">${item.itemName}</h5>
-                                $${item.itemPrice}
+                                類別：${item.itemClass.itemClassName}類
+                                <span>$${item.itemPrice}</span>
+                            </div>
+                            <div class="text-center">
+                            遊戲人數：${item.minPlayer}人到${item.maxPlayer}人
                             </div>
                         </div>
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                             <div class="text-center">
                                 <a class="btn btn-outline-dark mt-auto" href="#">收藏</a>
-                                <a class="btn btn-outline-dark mt-auto" href="#">加入購物車</a>
+                                <a class="btn btn-outline-dark mt-auto" href="#" >加入購物車</a>
                             </div>
                         </div>
                     </div>
@@ -78,13 +82,12 @@ function getProduct(move, numberpage) {
 
                 // 取得插入的 card-img-top 元素
                 const cardImgTop = cardColumn.querySelector('.card-img-top');
-
                 // 取得 itemState 属性的值
                 const itemState = cardImgTop.getAttribute('itemState');
 
                 // 如果是已售完狀態，插入 Sale 符號
                 if (itemState === '2') {
-                    cardImgTop.insertAdjacentHTML('beforebegin', '<div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem" >Sale</div>');
+                    cardImgTop.insertAdjacentHTML('beforebegin', '<div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem" >已售完</div>');
                 }
             });
 
@@ -95,6 +98,7 @@ function getProduct(move, numberpage) {
             console.error('獲取數據時出現問題:', error);
         });
 }
+
 
 // 生成頁碼的函數
 function getPage(totalPages, currentPage) {
@@ -130,4 +134,5 @@ window.addEventListener('DOMContentLoaded', event => {
     getProduct("page", 1);
 
 });
+
 

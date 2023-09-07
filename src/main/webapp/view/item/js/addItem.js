@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	const itemState = document.querySelector('#itemState');
 	const inputs = document.querySelectorAll('input');
 	const itemClassNoSelect = document.getElementById('itemClassNo');
-
 	var file_el = document.getElementById("p_file");
 
 	// 通過 fetch 取得遊戲類別列表
