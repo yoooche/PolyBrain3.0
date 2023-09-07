@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URLEncoder;
 
-@WebServlet("/loginServlet")
+
 public class loginServlet extends HttpServlet {
 
     // 注入MemberDAO的實例

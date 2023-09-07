@@ -1,52 +1,29 @@
 package feature.mem.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.*;
-import java.io.Serial;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 import java.util.Arrays;
 
 
-@Entity
-@Table(name = "MEMBER")
+//@Entity(name = "member")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberVO implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MEM_NO", insertable = false, updatable = false)
+public class MemberVo implements Serializable {
     private Integer memNo;
-    @Column(name = "MEM_NAME")
     private String memName;
-    @Column(name = "MEM_PID")
     private String memPid;
-    @Column(name = "MEM_GENDER")
     private Byte memGender;
-    @Column(name = "MEM_PIC", insertable = false)
-    private Byte[] memPic;
-    @Column(name = "MEM_EMAIL")
+    private byte[] memPic;
     private String memEmail;
-    @Column(name = "MEM_PWD")
     private String memPwd;
-    @Column(name = "MEM_PH")
     private String memPh;
-    @Column(name = "MEM_ADDRS")
     private String memAddress;
-    @Column(name = "MEM_BIRTH")
     private Date memBirth;
-    @Column(name = "MEM_AUTH")
     private Byte memAuth;
-    @Column(name = "MEM_VIO")
     private Byte memVio;
 
     @Override
