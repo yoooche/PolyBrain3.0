@@ -10,26 +10,24 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.*;
 
 import static core.util.Constants.GSON;
 
-@ServerEndpoint("/BidOnePage/{memName}")
+@ServerEndpoint("/BidOnePage/{memName}/{bidEventId}")
 public class BidOneWebsocket {
     private static final Set<Session> bidders = Collections.synchronizedSet(new HashSet<>());
 //    private static ScheduledExecutorService schedule = Executors.newScheduledThreadPool(1);
     Jedis jedis = new Jedis("localhost", 6379);
 
     @OnOpen
-    public void onOpen(@PathParam("memName") String memName, Session memSession) throws IOException {
+    public void onOpen(@PathParam("memName") String memName, Session memSession, @PathParam("bidEventId") String bidEventId) throws IOException {
         bidders.add(memSession);
-        String text = String.format("Session ID = %s, connected; memName = %s", memSession.getId(), memName);
+        String text = String.format("Session ID = %s, connected; memName = %s, bidEventId = %s", memSession.getId(), memName, bidEventId);
         System.out.println(text);
 
         // 測試剛進入競標頁面的使用者也可以看到先前的出價紀錄
-        Set<Tuple> allRecords = jedis.zrangeWithScores("1", 0, -1);
+        Set<Tuple> allRecords = jedis.zrangeWithScores(bidEventId, 0, -1);
         for(Tuple record : allRecords){
             String bidder = record.getElement();
             Integer biddingRange = (int)record.getScore();
@@ -49,8 +47,9 @@ public class BidOneWebsocket {
         JsonObject jsonObject = GSON.fromJson(message, JsonObject.class);
         String bidder = jsonObject.get("bidder").getAsString();
         Integer biddingRange = jsonObject.get("biddingRange").getAsInt();
+        String bidEventId = jsonObject.get("bidEventId").getAsString();
 //        System.out.println("Message received:" + message);
-        jedis.zadd("1", biddingRange, bidder); // key值不能寫死
+        jedis.zadd(bidEventId, biddingRange, bidder); // key值不能寫死
     }
     @OnClose
     public void onClose(Session memSession, CloseReason reason) {
