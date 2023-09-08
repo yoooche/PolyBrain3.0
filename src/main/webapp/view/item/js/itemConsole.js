@@ -20,7 +20,6 @@ $(document).ready(function () {
             dataTable.destroy(); // 銷毀當前的DataTables實例
         }
 
-
         dataTable = $('#itemTable').DataTable({
             "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "全部"]]
             , responsive: {
@@ -67,8 +66,10 @@ $(document).ready(function () {
                 },
                 {
                     data: 'itemName', width: '180px',
-                    render: function (data, type, row) {
-                        return '<a href="" target="_blank">' + data + '</a>' // 這邊是加連結
+                     render: function (data, type, row) {
+        const itemNo = row.itemNo; // 取得 itemNo 的值
+        const link = `http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=${itemNo}`;
+        return `<a href="${link}" target="_blank">${data}</a>`;
                     }
                 },
                 { data: 'itemPrice', width: '100px' },
@@ -117,75 +118,118 @@ $(document).ready(function () {
             }
         });
     }
-    //點擊新增商品
-    const addButton = document.getElementById('bt-add_item');
-    addButton.addEventListener('click', () => {
-        window.location.href = "addItem.html";
-    });
 
 
-    //燈箱效果
-    const lightboxClose = document.querySelector('#lightbox-close');
-    lightboxClose.addEventListener('click', () => {
-        lightbox.style.display = 'none';
-    });
-
-    // 初始化 DataTable，首次加载
+    // 初始化 DataTable，首次加载 ，否則刪除與編輯無法使用
     initializeDataTable([]);
-});
 
 
-$(document).ready(function () {
-    // 绑定删除按钮的點擊事件
+    //點擊送出新增按鈕後使用燈箱效果顯示各種輸入框
+    $('#bt-add_item').click(function () {
+        document.getElementById('add_lightbox').style.display = 'block';
+    });
+
+    // 點擊删除觸發燈箱及執行刪除
     $('#itemTable tbody').on('click', '.btn-remove', function () {
         const rowData = dataTable.row($(this).closest('tr')).data();
-        onRemoveClick(rowData.itemNo);
-    });
+        itemNo = rowData.itemNo;
 
-    // 删除操作
-    function onRemoveClick(itemNo) {
-        if (!confirm('確定刪除?')) {
-            return;
-        }
-        fetch('http://localhost:8080/PolyBrain/item/remove', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-            body: JSON.stringify({ itemNo })
-        })
-            .then(resp => resp.json())
-            .then(body => {
-                if (body.success) {
-                    location.reload();  // 成功后刷新页面
-                }
-            });
-    }
+        // 使用燈箱效果顯示確認取消對話框
+        Swal.fire({
+            title: '確認要刪除該項商品？',
+            text: "點擊確認後將刪除所有商品資料。",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '確定',
+            cancelButtonText: '取消'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // 若使用者確定取消，則發送刪除請求
+                fetch('http://localhost:8080/PolyBrain/item/remove', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+                    body: JSON.stringify({ itemNo })
+                })
+                    .then(resp => resp.json())
+                    .then(body => {
+                        location.reload();
+                    });
+            }
+        });
+    });
 
     //绑定編輯按钮的點擊事件
     $('#itemTable tbody').on('click', '.btn-edit', function () {
         const rowData = dataTable.row($(this).closest('tr')).data();
         // 将行数据填充到编辑表单中
         sessionStorage.setItem('editedRowData', JSON.stringify(rowData));
-        // 轉跳到 updateItem.html 頁面
-        window.location.href = "../item/updateItem.html";
-
-
-        // 打开编辑模态框或弹出式窗口
-        // 例如：$('#editModal').modal('show');
+        window.location.href = 'updateItem.html';
+        // document.getElementById('update_lightbox').style.display = 'block';
     });
-
-    //     // 点击編輯按钮后执行的函数
-    // function addNewItem() {
-    //     // 在这里构建一个包含需要传递的数据的对象
-    //     var data = {
-    //         // 数据属性...
-    //     };
-
-    //     // 将数据保存在本地存储中
-    //     localStorage.setItem("newItemData", JSON.stringify(data));
-
-    //     // 跳转到 addItem.html 页面
-    //     window.location.href = "addItem.html";
-    // }
 
 });
 
+
+//插入圖片的效果
+$(document).ready(function () {
+	ImgUpload();
+});
+
+function ImgUpload() {
+	var imgWrap = "";
+	var imgArray = [];
+
+	$('.upload_inputfile').each(function () {
+		$(this).on('change', function (e) {
+			imgWrap = $(this).closest('.upload_box').find('.upload_img-wrap');
+			var maxLength = $(this).attr('data-max_length');
+
+			var files = e.target.files;
+			var filesArr = Array.prototype.slice.call(files);
+			var iterator = 0;
+			filesArr.forEach(function (f, index) {
+
+				if (!f.type.match('image.*')) {
+					return;
+				}
+
+				if (imgArray.length > maxLength) {
+					return false;
+				} else {
+					var len = 0;
+					for (var i = 0; i < imgArray.length; i++) {
+						if (imgArray[i] !== undefined) {
+							len++;
+						}
+					}
+					if (len > maxLength) {
+						return false;
+					} else {
+						imgArray.push(f);
+
+						var reader = new FileReader();
+						reader.onload = function (e) {
+							var html = "<div class='upload_img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload_img-close").length + "' data-file='" + f.name + "' class='img-bg add_img-bg'><div class='upload_img-close'></div></div></div>";
+							imgWrap.append(html);
+							iterator++;
+						}
+						reader.readAsDataURL(f);
+					}
+				}
+			});
+		});
+	});
+
+	$('body').on('click', ".upload_img-close", function (e) {
+		var file = $(this).parent().data("file");
+		for (var i = 0; i < imgArray.length; i++) {
+			if (imgArray[i].name === file) {
+				imgArray.splice(i, 1);
+				break;
+			}
+		}
+		$(this).parent().parent().remove();
+	});
+}

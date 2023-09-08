@@ -14,7 +14,6 @@ function getProduct(move, numberpage) {
     }
 
     // 以下為翻頁邏輯
-    let currentPage = 1; // 初始化當前頁碼
 
     scrollTo({
         top: 0,
@@ -28,15 +27,16 @@ function getProduct(move, numberpage) {
             break;
         case "prev":
             // 處理點擊上一頁的邏輯
-            currentPage -= 1;
+            currentPage--;
             if (currentPage < 1) {
                 currentPage = 1;
             }
             break;
         case "next":
             // 處理點擊下一頁的邏輯
-            currentPage += 1;
+            currentPage++;
             break;
+
     }
 
     // 發送請求獲取商品數據
@@ -108,11 +108,11 @@ function getPage(totalPages, currentPage) {
     if (currentPage > 1) {
         const prevItem = document.createElement('li');
         prevItem.innerHTML = `<a href="javascript:getProduct('prev');"><</a>`;
-        pageList.appendChild(prevItem);
+        pageList.appendChild(prevItem, pageList.firstChild);
     }
 
     // 生成頁碼按鈕
-    for (let i = 1; i <= totalPages; i++) {
+    for (let i = 1; i < totalPages; i++) {
         const listItem = document.createElement('li');
         if (i === currentPage) {
             listItem.classList.add('active');
@@ -131,8 +131,7 @@ function getPage(totalPages, currentPage) {
 
 // 頁面加載完成後執行獲取第一頁商品
 window.addEventListener('DOMContentLoaded', event => {
-    getProduct("page", 1);
-
+        getProduct("page", 1);
 });
 
 

@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const itemQty = document.querySelector('#itemQty');
 	const itemState = document.querySelector('#itemState');
 	const inputs = document.querySelectorAll('input');
-	const itemClassNoSelect = document.getElementById('itemClassNo');
+	// const itemClassNoSelect = document.getElementById('itemClassNo');
 	var file_el = document.getElementById("p_file");
 
 	// 通過 fetch 取得遊戲類別列表
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				const option = document.createElement('option');
 				option.value = category.itemClassNo;
 				option.textContent = category.itemClassName;
-				itemClassNoSelect.appendChild(option);
+				document.getElementById('itemClassNo').appendChild(option);
 			}
 		})
 		.catch(error => {
@@ -160,76 +160,73 @@ document.addEventListener("DOMContentLoaded", () => {
 			cancelButtonText: '取消'
 		}).then((result) => {
 			if (result.isConfirmed) {
-				// 若使用者確定取消，則轉跳回商品後台列表
-				window.location.href = "../item/itemConsole.html";
+				// 若使用者確定取消，則關閉燈箱
+				document.getElementById('add_lightbox').style.display = 'none';
 			}
 		});
 	});
 
-	//點擊後關閉燈箱
-	lightboxClose.addEventListener('click', () => {
-		lightbox.style.display = 'none';
-	});
 });
 
-//插入圖片的效果
-$(document).ready(function () {
-	ImgUpload();
-});
+// //插入圖片的效果
+// $(document).ready(function () {
+// 	ImgUpload();
+// });
 
-function ImgUpload() {
-	var imgWrap = "";
-	var imgArray = [];
+// function ImgUpload() {
+// 	var imgWrap = "";
+// 	var imgArray = [];
 
-	$('.upload_inputfile').each(function () {
-		$(this).on('change', function (e) {
-			imgWrap = $(this).closest('.upload_box').find('.upload_img-wrap');
-			var maxLength = $(this).attr('data-max_length');
+// 	$('.upload_inputfile').each(function () {
+// 		$(this).on('change', function (e) {
+// 			imgWrap = $(this).closest('.upload_box').find('.upload_img-wrap');
+// 			var maxLength = $(this).attr('data-max_length');
 
-			var files = e.target.files;
-			var filesArr = Array.prototype.slice.call(files);
-			var iterator = 0;
-			filesArr.forEach(function (f, index) {
+// 			var files = e.target.files;
+// 			var filesArr = Array.prototype.slice.call(files);
+// 			var iterator = 0;
+// 			filesArr.forEach(function (f, index) {
 
-				if (!f.type.match('image.*')) {
-					return;
-				}
+// 				if (!f.type.match('image.*')) {
+// 					return;
+// 				}
 
-				if (imgArray.length > maxLength) {
-					return false;
-				} else {
-					var len = 0;
-					for (var i = 0; i < imgArray.length; i++) {
-						if (imgArray[i] !== undefined) {
-							len++;
-						}
-					}
-					if (len > maxLength) {
-						return false;
-					} else {
-						imgArray.push(f);
+// 				if (imgArray.length > maxLength) {
+// 					return false;
+// 				} else {
+// 					var len = 0;
+// 					for (var i = 0; i < imgArray.length; i++) {
+// 						if (imgArray[i] !== undefined) {
+// 							len++;
+// 						}
+// 					}
+// 					if (len > maxLength) {
+// 						return false;
+// 					} else {
+// 						imgArray.push(f);
 
-						var reader = new FileReader();
-						reader.onload = function (e) {
-							var html = "<div class='upload_img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload_img-close").length + "' data-file='" + f.name + "' class='img-bg add_img-bg'><div class='upload_img-close'></div></div></div>";
-							imgWrap.append(html);
-							iterator++;
-						}
-						reader.readAsDataURL(f);
-					}
-				}
-			});
-		});
-	});
+// 						var reader = new FileReader();
+// 						reader.onload = function (e) {
+// 							var html = "<div class='upload_img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload_img-close").length + "' data-file='" + f.name + "' class='img-bg add_img-bg'><div class='upload_img-close'></div></div></div>";
+// 							imgWrap.append(html);
+// 							iterator++;
+// 						}
+// 						reader.readAsDataURL(f);
+// 					}
+// 				}
+// 			});
+// 		});
+// 	});
 
-	$('body').on('click', ".upload_img-close", function (e) {
-		var file = $(this).parent().data("file");
-		for (var i = 0; i < imgArray.length; i++) {
-			if (imgArray[i].name === file) {
-				imgArray.splice(i, 1);
-				break;
-			}
-		}
-		$(this).parent().parent().remove();
-	});
-}
+// 	$('body').on('click', ".upload_img-close", function (e) {
+// 		var file = $(this).parent().data("file");
+// 		for (var i = 0; i < imgArray.length; i++) {
+// 			if (imgArray[i].name === file) {
+// 				imgArray.splice(i, 1);
+// 				break;
+// 			}
+// 		}
+// 		$(this).parent().parent().remove();
+// 	});
+// }
+

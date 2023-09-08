@@ -54,8 +54,8 @@ public class ItemServlet extends HttpServlet {
                 String name = request.getParameter("name");
                 commonUtil.writePojo2Json(response, service.getAllItems());
                 break;
-            case "selectClass":  //若請求是搜尋以商品搜尋
-                System.out.println("開始隨機抓取商品數量");
+            case "selectClass":  //若請求是以商品類別搜尋
+                System.out.println("開始抓取該商品類別所有商品");
                 Integer classNO = Integer.valueOf(request.getParameter("ItemClass"));
                 commonUtil.writePojo2Json(response, service.FindByItemClass(classNO));
                 break;
