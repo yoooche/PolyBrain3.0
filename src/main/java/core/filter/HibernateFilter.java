@@ -12,16 +12,20 @@ import org.hibernate.Transaction;
 
 import core.util.HibernateUtil;
 
+import java.io.IOException;
+
 @WebFilter("/*")
 public class HibernateFilter extends HttpFilter {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) {
+	protected void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException {
+		String clientPath = req.getRequestURI();
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+
 		try {
 			Transaction transaction = session.beginTransaction();
-			chain.doFilter(req, res);
+			chain.doFilter(req, resp);
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();

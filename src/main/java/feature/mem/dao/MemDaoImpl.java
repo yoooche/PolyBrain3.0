@@ -250,6 +250,16 @@ public class MemDaoImpl implements MemDao {
         return exists;
     }
 
+    @Override
+    public MemVo selectByMemEmailAndPwd(String memEmail, String memPwd) {
+        final String hql = "FROM MemVo WHERE memEmail = :memEmail AND memPwd = :memPwd ORDER BY memNo";
+        return session
+                .createQuery(hql, MemVo.class)
+                .setParameter("memEmail", memEmail)
+                .setParameter("memPwd", memPwd)
+                .uniqueResult();
+    }
+
 
     public void closeSession() {
         if (session != null && session.isOpen()) {

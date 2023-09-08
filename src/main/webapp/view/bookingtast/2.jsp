@@ -178,7 +178,7 @@
 				<div></div>
 				<input  type="hidden" name="action" value="updatetab">
 				<button type="submit" id="submit" class="btn btn-primary "> 修改 </button>
-				<a href="<%=request.getContextPath()%>/view/bookingtast/1.jsp" class="btn btn-secondary btn-space">返回</a>
+				<a href="<%=request.getContextPath()%>/view/bookingtast/Modifytimeperiod.jsp" class="btn btn-secondary btn-space">返回</a>
 				<div></div>
 			</div>
 		</form>
