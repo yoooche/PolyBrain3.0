@@ -1,7 +1,6 @@
 package feature.booking.controller;
 
 
-
 import feature.booking.vo.TableBookingVo;
 
 import javax.servlet.annotation.WebServlet;
@@ -14,12 +13,9 @@ import static core.util.CommonUtil.writePojo2Json;
 import static feature.booking.util.BookConstants.SERVICETable;
 
 
-@WebServlet("/booking/state")
-public class BookStateServlet extends HttpServlet {
-
+@WebServlet("/booking/cancelstate")
+public class BookCelStateServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         String stateParam = request.getParameter("periodtime");
@@ -33,7 +29,7 @@ public class BookStateServlet extends HttpServlet {
         Integer tableNo = Integer.parseInt(String.valueOf(tableNoParam));
         System.out.println(stateNo);
         Integer newState = 0;
-        TableBookingVo change = SERVICETable.selectByState(stateNo, bookDate, tableNo);
+        TableBookingVo change = SERVICETable.selectCancelState(stateNo, bookDate, tableNo);
         System.out.println("回傳:" +change);
         //response.setContentType(JSON_MIME_TYPE);
         writePojo2Json(response, change);
