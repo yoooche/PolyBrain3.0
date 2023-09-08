@@ -12,6 +12,10 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Shop Item - Start Bootstrap Template</title>
+        <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/carousel/">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <link href="./css/styles-item-detail.css" rel="stylesheet" />
         <link rel="stylesheet" href="./css/bidding.css">
@@ -19,31 +23,36 @@
     </head>
     <body onload="connect();" onunload="disconnect();">
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-dark" style="position:fixed; width: 100%; z-index: 999;">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">Start Bootstrap</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" style="color: #ffffff;" aria-current="page" href="#!">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" style="color: #ffffff;" href="#!">About</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" style="color: #ffffff;" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">PolyBrain</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="http://localhost:8080/PolyBrain/view/bid/BidOnHomePage.html">首頁</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled">Disabled</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                    <span id="memName" style="margin-left:12px;"></span>
+                    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                        <li id="navMenu" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             </ul>
                         </li>
                     </ul>
-                    <form class="d-flex" style="color: #ffffff;">
-                        <button class="btn btn-outline-dark" style="color: #ffffff;" type="submit">
-                            <i class="bi-cart-fill me-1" style="color: #ffffff;"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                        </button>
-                    </form>
                 </div>
             </div>
         </nav>
@@ -240,13 +249,46 @@
 
         <!-- ------------------------------------------------------------footer------------------------------------------------------------ -->
         <footer class="bg-dark">
-            <div class="container panel inputArea form-check form-switch">
-                    <input type="text" id="bidder" class="textField" style="height: 38px;" placeholder="bidder">
+            <div id="biddingFooter" class="container panel inputArea form-check form-switch">
+                    <!-- <input type="text" id="bidder" class="textField" style="height: 38px;" placeholder="bidder"> -->
                     <input type="range" id="biddingRange" style="width:40%; height: 14px; margin-left: 20px;" min="" max="" value="" step="50" oninput="updateBiddingValue();">
-                    <button type="submit" id="bidding" class="btn_bidding btn btn-primary" style="float: right; width:160px;" onclick="bidding();">出價＄--</button>
-            </div>
+                    <button type="submit" id="bidding" class="btn_bidding btn btn-primary" style="float: right; width:160px; border: none;" onclick="bidding();">出價＄--</button>
+                </div>
         </footer>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+            $(document).ready(function(){
+                validateMemStatus();
+            });
+                async function validateMemStatus(){
+                const response = await fetch('/PolyBrain/view/validateMemStatus',{
+                    method: 'POST',
+                    headers: {'content-type': 'application/json; charset:utf-8'},
+            })
+            .then(resp => resp.json())
+            .then(data => {
+            console.log(data);
+            const {memNo, memName, loginStatus} = data;
+            $('ul.dropdown-menu').append(`
+                        <li><a class="dropdown-item" href="#!">會員專區</a></li>
+                        <li><a class="dropdown-item" href="#!">購物車</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+            `);
+            if(loginStatus){
+                $('span#memName').text(memName);
+                $('ul.dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/logout.html">登出</a></li>');
+                $(`<span id="bidder" style="height: 38px;"><i class="fas fa-user fa-fw"></i>` + memName + '</span>').insertBefore('input#biddingRange');
+                $('button#bidding').prop('disabled', false);
+                let memDetail = [memNo, memName];
+                return memDetail;
+            }else{
+                $('button#bidding').prop('disabled', true);
+                $('button#bidding').css('background-color', 'gray');
+                $('ul.dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/logout.html">登出</a></li>');
+            }
+    });
+    return response;
+}
+        </script>
         <script src="./js/bidding.js"/>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="js/scripts.js"/>

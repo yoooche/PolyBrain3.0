@@ -1,5 +1,6 @@
 package feature.mem.service;
 
+import feature.mem.dao.MemDao;
 import feature.mem.dao.MemDaoImpl;
 import feature.mem.vo.MemVo;
 
@@ -7,16 +8,15 @@ import javax.servlet.ServletException;
 
 public class RegistService {
 
-    private MemDaoImpl MemDao;
+    private MemDao memDao;
 
     public RegistService() {
-        // 在构造函数中初始化MemDAO
-        MemDao = new MemDaoImpl();
+        memDao = new MemDaoImpl();
     }
 
     public String checkDuplicate(String pid, String email, String phone) {
         // 检查是否有重复的信箱、身份证或电话号码
-        if (MemDao.isEmailExists(email) || MemDao.isPidExists(pid) || MemDao.isPhoneExists(phone)) {
+        if (memDao.isEmailExists(email) || memDao.isPidExists(pid) || memDao.isPhoneExists(phone)) {
             return "duplicate"; // 存在重复数据
         } else {
             return "success"; // 没有重复数据
@@ -30,8 +30,6 @@ public class RegistService {
         if ("duplicate".equals(duplicateCheckResult)) {
             return "duplicate"; // 返回错误标识
         }
-
-        // 创建一个新的 MemberVO 对象
         MemVo member = new MemVo();
         member.setMemName(name);
         member.setMemPid(pid);
@@ -45,7 +43,7 @@ public class RegistService {
 
         // 调用DAO的createMember方法将会员数据存入数据库
         try {
-            MemDao.createMember(member);
+            memDao.createMember(member);
             return "success"; // 注册成功
         } catch (Exception e) {
             e.printStackTrace();

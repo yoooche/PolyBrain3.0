@@ -39,14 +39,13 @@
                         updateStatus("Websocket Disconnected");
                     }
                 }
-                let bidder = document.querySelector("#bidder");
-                bidder.focus();
+                // let bidder = document.querySelector("#bidder");
+                // bidder.focus();
 
                 function bidding() {
-                    let bidderName = bidder.value.trim();
-                    if (bidderName === "") {
-                        alert("請輸入姓名");
-                        bidder.focus();
+                    let bidderName = $('span#bidder').text();
+                    if (bidderName == "") {
+                        alert("請先登入");
                         return;
                     }
                     let biddingRange = document.querySelector("#biddingRange");
