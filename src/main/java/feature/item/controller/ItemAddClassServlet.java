@@ -28,13 +28,13 @@ public class ItemAddClassServlet extends HttpServlet{
                 CommonUtil.writePojo2Json(response, item);
                 return;
             }
-            //如果商品代碼未產生 代表商品還不存在 進入新增方法
+            //如果該類別未產生 代表類別還不存在 進入新增方法
             if (item.getItemClassNo() == null) {
                 System.out.println("新增類別");
                 item = service.AddClass(item);
                 CommonUtil.writePojo2Json(response, item);
             }
-            //如果商品代碼已產生 代表商品已存在 進入修改方法
+            //如果該類別未產生 代表類別還不存在 進入修改方法
             if (item.getItemClassNo() != null) {
                 System.out.println("修改類別");
                 CommonUtil.writePojo2Json(response, service.editClass(item));

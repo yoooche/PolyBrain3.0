@@ -4,6 +4,7 @@ import core.coreService.CoreService;
 import feature.item.vo.Item;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface ItemService extends CoreService {
@@ -16,8 +17,13 @@ public interface ItemService extends CoreService {
     //取得全部商品資訊
     List<Item> getAllItems();
 
+    //取得number代表的數字數量的商品資訊
+    Map<String, Object> getItempage(Integer page);
+    //以ID取得商品資訊
+    Item FindByItemId(Integer itemid);
+    //以類別取得該類別全部商品資訊
+    List<Item> FindByItemClass(Integer classNo);
 
-    Item FindByItemId(Item itemid);
 //    Integer updateItem(Item item);
 //    boolean updateItemByItemName(Item newItem);
 

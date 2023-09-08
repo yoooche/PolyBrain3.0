@@ -38,10 +38,12 @@ public class ItemAddServlet extends HttpServlet {
         //如果商品代碼未產生 代表商品還不存在 進入新增方法
         if (item.getItemNo() == null) {
             System.out.println("新增商品");
-            item = service.AddItem(item);
-            Integer itemNo = item.getItemNo();
-            service2.AddItemImg(itemImageList, itemNo);
-            CommonUtil.writePojo2Json(response, item);
+            Item newItem = service.AddItem(item);
+            Integer newItemNo = newItem.getItemNo();
+            System.out.println("新商品 = " + newItem);
+            System.out.println("商品序號 = " + newItemNo);
+            service2.AddItemImg(itemImageList, newItemNo);
+            CommonUtil.writePojo2Json(response, newItem);
             return;
         }
         //如果商品代碼已產生 代表商品已存在 進入修改方法
