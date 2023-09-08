@@ -4,6 +4,7 @@ import core.coreService.CoreService;
 import feature.bid.vo.BidEventVo;
 import feature.bid.vo.BidItemPicVo;
 import feature.bid.vo.BidItemVo;
+import feature.bid.vo.BidOrderVo;
 
 import java.util.List;
 import java.util.Map;
@@ -26,5 +27,6 @@ public interface BiddingService extends CoreService {
     public void removeEventById(Integer bidEventNo);
     // ========== about bidding order ==========
     public void createOneOrder(Integer bidEventNo);
+    public BidOrderVo orderWithoutBid(Integer bidEventNo, Integer memNo);
     public List<byte[]> getItemPicsByEveNo(Integer bidEventNo);
 }

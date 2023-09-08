@@ -15,7 +15,7 @@ import java.io.IOException;
 import static core.util.CommonUtil.json2Pojo;
 import static core.util.CommonUtil.writePojo2Json;
 
-@WebServlet("/view/member/login")
+@WebServlet("/general/login")
 public class LoginController extends HttpServlet {
     private LoginService loginService;
     @Override

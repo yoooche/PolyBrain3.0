@@ -20,7 +20,7 @@ import java.util.*;
 
 import static core.util.CommonUtil.json2Pojo;
 
-@WebServlet("/test")
+@WebServlet("/general/bidding")
 public class BiddingController extends HttpServlet {
     private BiddingService biddingService;
     private ItemClassService itemClassService;

@@ -15,7 +15,7 @@ import java.io.IOException;
 
 import static core.util.CommonUtil.writePojo2Json;
 
-@WebServlet("/view/validateMemStatus")
+@WebServlet("/general/validateMemStatus")
 public class ValidateMemStatus extends HttpServlet {
     private LoginService loginService;
     @Override

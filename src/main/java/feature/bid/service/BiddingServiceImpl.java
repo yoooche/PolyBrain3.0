@@ -121,6 +121,23 @@ public class BiddingServiceImpl implements BiddingService{
 //            jedis.select(1);
 //            jedis.set("bidOrder" + bidEventNo, message);
     }
+
+    @Override
+    public BidOrderVo orderWithoutBid(Integer bidEventNo, Integer memNo) {
+        BidOrderVo bidOrderVoWithoutBid = new BidOrderVo();
+        BidEventVo bidEventVo = bidEventDao.selectById(bidEventNo);
+
+        bidOrderVoWithoutBid.setBidEventNo(bidEventNo);
+        bidOrderVoWithoutBid.setBidItemNo(bidEventVo.getBidItemNo());
+        bidOrderVoWithoutBid.setFinalPrice(bidEventVo.getDirectivePrice());
+        bidOrderVoWithoutBid.setMemNo(memNo);
+
+        bidOrderDao.insert(bidOrderVoWithoutBid);
+
+        return bidOrderVoWithoutBid;
+    }
+
+
     @Override
     public List<byte[]> getItemPicsByEveNo(Integer bidEventNo) {
         Integer bidItemNo = bidEventDao.selectItemNoByEveNo(bidEventNo);

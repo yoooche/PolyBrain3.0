@@ -111,7 +111,7 @@ $(document).on("click", "button.loginSubmit", function(e){
 		$("span#passwordMsg").css("visibility", "hidden");
         console.log('123');
 
-        fetch('/PolyBrain/view/member/login', {
+        fetch('/PolyBrain/general/login', {
             method: 'POST',
             headers: {'content-type': 'application/json; charset: utf-8'},
             body: JSON.stringify({
@@ -124,9 +124,12 @@ $(document).on("click", "button.loginSubmit", function(e){
             const {success} = body;
             if(success){
                 $("p#checkMsg1").css('visibility', 'hidden');
-                const currentUrl = window.location.href;
-                window.location.href = currentUrl;
-                // window.location.href = '/PolyBrain/view/bid/BidOnHomePage.html';
+                const currentPage = sessionStorage.getItem('currentPage');
+                if(currentPage){
+                    window.location.href = currentPage;
+                }else{
+                    window.location.href = '/PolyBrain/view/bid/BidOnHomePage.html';
+                }
             }else{
                 $('p#checkMsg1').css('visibility', 'visible');
             }

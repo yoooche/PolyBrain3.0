@@ -87,7 +87,7 @@ public class MemDaoImpl implements MemDao {
     }
 
     public MemVo selectByMemName(String memName) {
-        final String hql = "FROM member WHERE memName = :memName";
+        final String hql = "FROM MemVo WHERE memName = :memName";
         return session.createQuery(hql, MemVo.class)
                 .setParameter("memName", memName)
                 .uniqueResult();

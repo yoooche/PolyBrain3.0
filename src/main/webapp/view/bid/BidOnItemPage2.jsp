@@ -23,39 +23,56 @@
     </head>
     <body onload="connect();" onunload="disconnect();">
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">PolyBrain</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="http://localhost:8080/PolyBrain/view/bid/BidOnHomePage.html">首頁</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled">Disabled</a>
-                        </li>
-                    </ul>
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
-                    <span id="memName" style="margin-left:12px;"></span>
-                    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-                        <li id="navMenu" class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            </ul>
-                        </li>
-                    </ul>
+        <header>
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#"><img src="../logo/PolyBrain_Logo.png" style="width: 110px; height: auto; margin-bottom: 5px;"></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="buyitem" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">商城</a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                    <li><a class="dropdown-item" href="blog-home.html">商品資訊</a></li>
+                                    <li><a class="dropdown-item" href="blog-post.html">商城訂單查詢</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" id="buybid" href="#" role="button"
+                                     aria-expanded="false">競標</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="mybooking" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">預約場地</a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                    <li><a class="dropdown-item" href="blog-home.html">現在預約</a></li>
+                                    <li><a class="dropdown-item" href="blog-post.html">預約場地查詢</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="discuss" href="#" role="button">討論區</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="faq.html">常見問題</a></li>
+                        </ul>
+                        <form class="d-flex">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i></button>
+                        </form>
+                        <span id="memName" style="margin-left:12px;"></span>
+                        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                                <ul id="dropdown-menu" class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </header>
 
         <!-- Product section-->
         <section class="py-5">
@@ -108,8 +125,8 @@
                     
                     <!-- card right -->
                     <div class="product-content">
-                        <h2 class="product-title">ACQIRE</h2>
-                        <h3>by Renegade Game Studios</h3>
+                        <h2 class="product-title"></h2>
+                        <h3></h3>
                         <!-- <div class="product-price">
                             <p class="last-price">Old Price: <span>$257.00</span></p>
                             <p class="new-price">New Price: <span>$249.00</span></p>
@@ -129,8 +146,8 @@
                             </div>
 
                         <div class="purchase-info" style="margin-top: 3px;">
-                            <button id="btn_directivePrice" type="button" class="btn">
-                                Add to Cart <i class="fas fa-shopping-cart"></i>
+                            <button id="btn_directivePrice" type="button" class="btn" onclick="buyWithoutBidding()">
+                                <i class="fas fa-shopping-cart"></i>
                             </button>
                             <button id="btn_class" type="button" class="btn"></button>
                         </div>
@@ -260,7 +277,7 @@
                 validateMemStatus();
             });
                 async function validateMemStatus(){
-                const response = await fetch('/PolyBrain/view/validateMemStatus',{
+                const response = await fetch('/PolyBrain/general/validateMemStatus',{
                     method: 'POST',
                     headers: {'content-type': 'application/json; charset:utf-8'},
             })

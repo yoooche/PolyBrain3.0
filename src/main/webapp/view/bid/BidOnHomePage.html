@@ -236,7 +236,7 @@
         validateMemStatus();
     });
     async function validateMemStatus(){
-    const response = await fetch('/PolyBrain/view/validateMemStatus',{
+    const response = await fetch('/PolyBrain/general/validateMemStatus',{
         method: 'POST',
         headers: {'content-type': 'application/json; charset:utf-8'},
     })
@@ -245,9 +245,9 @@
         console.log(data);
         const {memNo, memName, loginStatus} = data;
         $('ul#dropdown-menu').append(`
-                        <li><a class="dropdown-item" href="#!">會員專區</a></li>
-                        <li><a class="dropdown-item" href="#!">購物車</a></li>
-                        <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item" href="#!">會員專區</a></li>
+                <li><a class="dropdown-item" href="#!">購物車</a></li>
+                <li><hr class="dropdown-divider" /></li>
             `);
         if(loginStatus){
             $('span#memName').text(memName);
