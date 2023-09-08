@@ -1,11 +1,10 @@
 package feature.cart.vo;
 
+import feature.item.vo.Item;
+import feature.mem.vo.MemVo;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -18,4 +17,5 @@ public class CartTraceVO {
     private Integer itemNo;
     @Column(name="quantity")
     private Integer quantity;
+
 }

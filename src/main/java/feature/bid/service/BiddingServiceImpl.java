@@ -108,10 +108,6 @@ public class BiddingServiceImpl implements BiddingService{
         tupleStream.forEach(tuple -> {
             String member = tuple.getElement();
             int score = (int)tuple.getScore();
-//            System.out.println("Member: " + member + ", Score: " + score); // 測試用
-//            String message = "Hi" + member + "! 您好，您以" +  score + "元的高價得標，請到訂單確認頁面完成後續的出貨流程。";
-//            jedis.select(1);
-//            jedis.set("bidOrder" + bidEventNo, message);
 
             MemVo memVo = memDao.selectByMemName(member);
             bidOrderVo.setBidEventNo(bidEventNo); // 競標活動編號
@@ -120,7 +116,15 @@ public class BiddingServiceImpl implements BiddingService{
             bidOrderVo.setBidItemNo(bidEventDao.selectItemNoByEveNo(bidEventNo)); // 競標商品編號
             bidOrderDao.insert(bidOrderVo);
         });
-
+//            System.out.println("Member: " + member + ", Score: " + score); // 測試用
+//            String message = "Hi" + member + "! 您好，您以" +  score + "元的高價得標，請到訂單確認頁面完成後續的出貨流程。";
+//            jedis.select(1);
+//            jedis.set("bidOrder" + bidEventNo, message);
+    }
+    @Override
+    public List<byte[]> getItemPicsByEveNo(Integer bidEventNo) {
+        Integer bidItemNo = bidEventDao.selectItemNoByEveNo(bidEventNo);
+        return bidItemPicDao.selectPicsById(bidItemNo);
     }
 
 }
