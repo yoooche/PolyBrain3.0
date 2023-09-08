@@ -13,6 +13,81 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/itemclinent.css" rel="stylesheet" />
+    <style>
+        /* 调整图片容器的position属性，以便其子元素（包括Sale标签）可以使用z-index */
+        .image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%;
+            overflow: hidden;
+        }
+
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            /* 图像宽度占满容器 */
+            height: 100%;
+            /* 高度占满容器 */
+            object-fit: contain;
+            /* 保持原始比例并填充容器 */
+        }
+
+        /* 为Sale标签添加样式 */
+        .badge.bg-dark.text-white.position-absolute {
+            top: 0.5rem;
+            right: 0.5rem;
+            z-index: 1;
+            /* 将z-index设置为较高的值，使其显示在图片上层 */
+        }
+
+        .badge {
+            --bs-badge-font-size: 0.85em;
+        }
+
+        /* 禁止加入購物車的樣式 */
+        .disabled-button {
+            color: #ccc;
+            /* 禁用时的文本颜色 */
+            background-color: #f2f2f2;
+            /* 禁用时的背景颜色 */
+            cursor: not-allowed;
+            /* 鼠标样式为禁止符号 */
+        }
+
+        /* 以下是頁碼的CSS */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5em;
+        }
+
+        .pagination li {
+            list-style: none;
+            margin: 0 5px;
+        }
+
+        .pagination a {
+            text-decoration: none;
+            color: #333;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .pagination a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .pagination .active a {
+            background-color: #2875ed;
+            color: white;
+        }
+
+        /* 以上是頁碼的CSS */
+    </style>
 </head>
 
 <body>
@@ -60,356 +135,25 @@
     <!-- Section-->
     <section class="py-5">
         <div class="container px-4 px-lg-5 mt-5">
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            ================
-
-                <div class="shop-item re-shop-item">
-                    <!--********************** 商品列表單品項模板 **********************-->
-                    <!-- ********** 商品圖片 ********** -->
-                    <div class="thumbnail">
-                  
-                      <!--如果商品圖片寬高修正在方形範圍內 -->
-                        <div class="thumbnail_container_fix">
-                        <div class="thumbnail_fix">
-                          <!-- /如果商品圖片寬高修正在方形範圍內 -->
-                          <a href="https://www.gokids.com.tw/product/detail1773">
-                            <!-- 如果是最新商品(lazyload寫法與輪播的不一樣) -->
-                              <img class="p-hover-img img-fluid owl-lazy" src="../img/1.jpg" 
-                              data-src="../img/1.jpg" 
-                              alt="大搜查！遊戲冒險 中文版 Unlock Game Adventures" style="opacity: 1;">
-                                    </a>
-                  
-                      <!--如果商品圖片寬高修正在方形範圍內 -->
-                            </div>
-                      </div>
-                          <!-- /如果商品圖片寬高修正在方形範圍內 -->
-                  
-                      <!-- 加入追蹤 -->
-                      <div class="shop-option-over">
-                      <!-- replace data-item-id width the real item ID - used by js/view/demo.shop.js -->
-                        <a class="gid1773 btn btn-default add-wishlist" href="javascript:void(0);" onclick="clickHeart(1773);" data-item-id="1" data-toggle="tooltip" data-original-title="" title="">
-                          <i class="fa fa-heart nopadding"></i>
-                        </a>
-                      </div>
-                      <!-- /加入追蹤  -->
-                  
-                      <!-- 特惠標示 -->
-                      <div class="shop-item-info  text-left">
-                              <!-- 如果是商品列表的熱賣商品或推薦商品 -->
-                          <span class="label label-danger">HOT</span>
-                        
-                  
-                      </div>
-                      <!-- 特惠標示 -->
-                      <!-- 瀏覽限制標示 -->
-                          <!-- / 瀏覽限制標示 -->
-                  
-                    </div>
-                    <!-- ********** / 商品圖片 ********** -->
-                  
-                    <!-- ********** 商品資訊 ********** -->
-                    <div class="shop-item-summary">
-                  
-                      <!-- 商品名稱 -->
-                      <div class="shop-item-title mb-2">
-                        <h2>
-                          <a href="https://www.gokids.com.tw/product/detail1773">
-                          三國殺-標準版
-                          </a>
-                        </h2>
-                      </div>
-                      <!-- / 商品名稱 -->
-                  
-                      <!-- 如果有廣告標語 -->
-                          <div class="shop-item-advtitle color-theme mb-2">
-                        Unlock Game Adventures
-                      </div>
-                          <!-- / 如果有廣告標語 -->
-                  
-                      <!-- 庫存已不多，欲購從速 -->
-                          <!-- / 庫存已不多，欲購從速 -->
-                  
-                      <!-- 商品價格 -->
-                      <div id="shop-item-priceihot1773" class="shop-item-price mb-2 " style="color:#000 !important">
-                        <!-- 如果有建議市價 -->
-                              <span class="line-through mr-1">NT$<!--NT. -->1,350</span>
-                              <!-- /如果有建議市價 -->
-                  
-                        <!-- 網購價(開促銷澤為促銷價)-->
-                        <span>NT$<!--NT. -->1,350</span>
-                        <!-- /網購價(開促銷澤為促銷價) -->
-                      </div>
-                      <!-- /商品價格 -->
-                  
-                      <!-- ********** 商品資訊按鈕及選項 ********** -->
-                      <div class="shop-item-bottom">
-                      <!-- 如果有詳細規格 -->
-                          <!-- / 如果有詳細規格 -->
-                  
-                      <!-- 如果有顏色 -->
-                          <!-- / 如果有顏色 -->
-                  
-                      <!-- 如果有尺寸 -->
-                          <!-- / 如果有尺寸 -->
-                  
-                      <!-- 此頁面的商品類別有設定滿額免運 (首頁商品列表用不到) -->
-                          <!-- / 此頁面的商品類別有設定滿額免運 (首頁商品列表用不到) -->
-                        <!-- 此頁面不是贈品頁 -->
-                                <div class="row form-group mb-0 align-items-center">
-                                  <div class="col-12 col-sm-6  shop-list-options mb-2 mb-sm-0 pr-sm-1">
-                                <select name="countihot1773" id="countihot1773">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                </select>
-                                  </div>
-                                  <!-- 加入購物車 -->
-                                  <div class="showbuyihot1773 col-12 col-sm-6  pl-sm-1" style="display: block;">
-                                    <a id="nobtihot1773" class="add-cart-btn" href="javascript:void(0);" onclick="buyProducttype(1773,'','',$('#countihot1773').val(),0);">
-                                      <div id="showbuyihot1773" style="display: block;">
-                                        加入購物車
-                                      </div>
-                                    </a>
-                                  </div>
-                                  <!--/ 加入購物車 -->
-                  
-                                  <!-- 庫存訊息 -->
-                                  <div id="showstorageihot1773" class="col-12 col-sm-6  pl-sm-1"></div>
-                                  <!-- / 庫存訊息 -->
-                                            </div>
-                                </div>
-                  
-                    </div>
-                    <!-- ********** / 商品資訊 ********** -->
-                      <script language="javascript">
-                      checkStoragetype('ihot',1773,0,0,1,0,50,"first");
-                    </script>
-                      <!--**********************/ 商品列表單品項模板 **********************-->
-                  </div>
-                  ==========================
-
-
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" src="../img/1.jpg" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">三國殺-標準版</h5>
-                                <!-- Product price-->
-                                $450<br>剩餘數量：100
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center">
-                                <select class="saleitemnum" name="countihot1874" id="countihot1874">
-                                    <option value="0">0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="4">5</option>
-                                </div>
-                                </select>
-                                <a class="btn btn-outline-dark mt-auto" href="#">加入購物車</a>
-                                <!-- <a class="btn btn-outline-dark mt-auto" href="#">收藏</a> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Sale badge-->
-                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">缺貨中
-                        </div>
-                        <a class="gid1773 btn btn-default add-wishlist" href="javascript:void(0);" onclick="clickHeart(1773);" data-item-id="1" data-toggle="tooltip" data-original-title="" title="">
-                            <i class="fa fa-heart nopadding"></i>
-                          </a>
-                        <!-- Product image-->
-                        <img class="card-img-top" src="../img/2.jpg" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">現代藝術</h5>
-                                <!-- 自己打的-->
-                                <div class="d-flex justify-content-center small text-warning mb-2">
-                    
-                                </div>
-                                <!-- Product price-->
-                                <span class="text-muted text-decoration-line-through">$1450</span>
-                                $1150
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center">
-                                <a class="btn btn-outline-dark mt-auto" href="#">收藏</a>
-                                <a class="btn btn-outline-dark mt-auto" href="#">加入購物車</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Sale badge-->
-                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">缺貨中
-                        </div>
-                        <!-- Product image-->
-                        <img class="card-img-top" src="../img/3.jpg" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">驚爆倫敦</h5>
-                                <!-- Product price-->
-                                <span class="text-muted text-decoration-line-through">$850</span>
-                                $650
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center">
-                                <a class="btn btn-outline-dark mt-auto" href="#">收藏</a>
-                                <a class="btn btn-outline-dark mt-auto" href="#">加入購物車</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" src="../img/4.jpg" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">傳情畫意</h5>
-                                <!-- Product price-->
-                                $1150
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center">
-                                <a class="btn btn-outline-dark mt-auto" href="#">收藏</a>
-                                <a class="btn btn-outline-dark mt-auto" href="#">加入購物車</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Sale badge-->
-                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">缺貨中
-                        </div>
-                        <!-- Product image-->
-                        <img class="card-img-top" src="../img/5.jpg" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">諾亞方舟</h5>
-                                <!-- Product price-->
-                                $1350
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center">
-                                <a class="btn btn-outline-dark mt-auto" href="#">收藏</a>
-                                <a class="btn btn-outline-dark mt-auto" href="#">加入購物車</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" src="../img/6.jpg" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">阿瓦隆</h5>
-                                <!-- Product price-->
-                                $850
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center">
-                                <a class="btn btn-outline-dark mt-auto" href="#">收藏</a>
-                                <a class="btn btn-outline-dark mt-auto" href="#">加入購物車</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Sale badge-->
-                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">缺貨中
-                        </div>
-                        <!-- Product image-->
-                        <img class="card-img-top" src="../img/7.jpg" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">狼人殺</h5>
-                       
-                                <!-- Product price-->
-                                <span class="text-muted text-decoration-line-through"></span>
-                                $790
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center">
-                                <a class="btn btn-outline-dark mt-auto" href="#">收藏</a>
-                                <a class="btn btn-outline-dark mt-auto" href="#">加入購物車</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" src="../img/8.jpg" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">璀璨寶石</h5>
-                                $1150
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center">
-                                <a class="btn btn-outline-dark mt-auto" href="#">收藏</a>
-                                <a class="btn btn-outline-dark mt-auto" href="#">加入購物車</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" id="itemList">
             </div>
+        </div>
         </div>
     </section>
     <!-- Footer-->
+    <div class="py-3 text-center ">
+        <ul class="pagination" id="pageList">
+            <!-- 生成頁碼插入其中 -->
+        </ul>
+    </div>
     <footer class="py-5 bg-dark">
         <div class="container">
             <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
         </div>
     </footer>
-    <!-- Bootstrap core JS-->
+    <script src="./js/itemClinent.js"></script>
+    <script src="./js/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
-    <script src="js/scripts.js"></script>
 </body>
 
 </html>
