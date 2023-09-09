@@ -239,9 +239,13 @@
             <div class="form-group">
                 <div class="col-md-2 col-sm-2 col-xs-4 tr b" style="padding-left: 110px;padding-top: 15px;">建議售價：</div>
                 <div class="col-md-10 col-sm-10 col-xs-10 my-2">
-                    <a href="javascript:;" class="btn btn-default active">全部</a>
-                    <a href="category-1-b0-min1-max300-attr0.0.0.0-%E6%A1%8C%E9%81%8A.html"
-                        class="btn btn-default">1-300</a>
+                    <a onclick="PriceClick(0,0)" class="btn btn-default active">全部</a>
+                    <a onclick="PriceClick(1, 300)"  class="btn btn-default">1-300</a>
+                    <a onclick="PriceClick(301, 500)"  class="btn btn-default">301-500</a>
+                    <a onclick="PriceClick(501, 1000)" class="btn btn-default">501-1000</a>
+                    <a onclick="PriceClick(1001, 2000)" class="btn btn-default">1001-2000</a>
+                    <a onclick="PriceClick(2001, 3000)" class="btn btn-default">2001-3000</a>
+                    <a onclick="PriceClick(3001,99999)" class="btn btn-default">3000以上</a>
                     <!-- 其他售價范围按钮 -->
                 </div>
             </div>
@@ -249,9 +253,13 @@
             <div class="form-group">
                 <div class="col-md-2 col-sm-2 col-xs-4 tr b" style="padding-left: 110px;padding-top: 15px;">遊戲類型：</div>
                 <div class="col-md-10 col-sm-10 col-xs-10 my-2">
-                    <a href="javascript:;" class="btn btn-default active">全部</a>
-                    <a href="category-1-b0-min1001-max1500-attr42271.0.0.0-%E6%A1%8C%E9%81%8A.html"
-                        class="btn btn-default">中策略遊戲(家庭遊戲進階)</a>
+                    <a onclick="TypeClick(0)" class="btn btn-default active">全部</a>
+                    <a onclick="TypeClick(1)" class="btn btn-default">策略遊戲</a>
+                    <a onclick="TypeClick(2)" class="btn btn-default">紙牌遊戲</a>
+                    <a onclick="TypeClick(3)" class="btn btn-default">兒童遊戲</a>
+                    <a onclick="TypeClick(4)" class="btn btn-default">家庭遊戲</a>
+                    <a onclick="TypeClick(5)" class="btn btn-default">陣營遊戲</a>
+                    <a onclick="TypeClick(6)" class="btn btn-default">派對遊戲</a>
                     <!-- 其他遊戲類型按钮 -->
                 </div>
             </div>
@@ -259,9 +267,18 @@
             <div class="form-group">
                 <div class="col-md-2 col-sm-2 col-xs-4 tr b" style="padding-left: 110px;padding-top: 15px;">玩家人數：</div>
                 <div class="col-md-10 col-sm-10 col-xs-10 my-2">
-                    <a href="javascript:;" class="btn btn-default active">全部</a>
-                    <a href="category-1-b0-min1001-max1500-attr0.445.0.0-%E6%A1%8C%E9%81%8A.html"
-                        class="btn btn-default">1人</a>
+                    <a onclick="PlayerClick(0)"  class="btn btn-default active">全部</a>
+                    <a onclick="PlayerClick(1)"  class="btn btn-default">1人</a>
+                    <a onclick="PlayerClick(2)"  class="btn btn-default">2人</a>
+                    <a onclick="PlayerClick(3)"  class="btn btn-default">3人</a>
+                    <a onclick="PlayerClick(4)"  class="btn btn-default">4人</a>
+                    <a onclick="PlayerClick(5)"  class="btn btn-default">5人</a>
+                    <a onclick="PlayerClick(6)"  class="btn btn-default">6人</a>
+                    <a onclick="PlayerClick(7)"  class="btn btn-default">7人</a>
+                    <a onclick="PlayerClick(8)"  class="btn btn-default">8人</a>
+                    <a onclick="PlayerClick(9)"  class="btn btn-default">9人</a>
+                    <a onclick="PlayerClick(10)"  class="btn btn-default">10人</a>
+                    <a onclick="PlayerClick(11)"  class="btn btn-default">10人以上</a>
                     <!-- 其他玩家人數按钮 -->
                 </div>
             </div>
@@ -269,21 +286,14 @@
             <div class="form-group">
                 <div class="col-md-2 col-sm-2 col-xs-4 tr b" style="padding-left: 110px;padding-top: 15px;">所需時間：</div>
                 <div class="col-md-10 col-sm-10 col-xs-10 my-2">
-                    <a href="javascript:;" class="btn btn-default active">全部</a>
-                    <a href="category-1-b0-min1001-max1500-attr0.0.0.108501-%E6%A1%8C%E9%81%8A.html"
-                        class="btn btn-default">10分鐘內</a>
-                    <a href="category-1-b0-min1001-max1500-attr0.0.0.108501-%E6%A1%8C%E9%81%8A.html"
-                        class="btn btn-default">30分鐘</a>
-                    <a href="category-1-b0-min1001-max1500-attr0.0.0.108501-%E6%A1%8C%E9%81%8A.html"
-                        class="btn btn-default">45分鐘</a>
-                    <a href="category-1-b0-min1001-max1500-attr0.0.0.108501-%E6%A1%8C%E9%81%8A.html"
-                        class="btn btn-default">60分鐘</a>
-                    <a href="category-1-b0-min1001-max1500-attr0.0.0.108501-%E6%A1%8C%E9%81%8A.html"
-                        class="btn btn-default">90分鐘</a>
-                    <a href="category-1-b0-min1001-max1500-attr0.0.0.108501-%E6%A1%8C%E9%81%8A.html"
-                        class="btn btn-default">120分鐘</a>
-                    <a href="category-1-b0-min1001-max1500-attr0.0.0.108501-%E6%A1%8C%E9%81%8A.html"
-                        class="btn btn-default">120分鐘以上</a>
+                    <a onclick="TimeClick(0)"   class="btn btn-default active">全部</a>
+                    <a onclick="TimeClick(10)"  class="btn btn-default">10分鐘內</a>
+                    <a onclick="TimeClick(30)"  class="btn btn-default">30分鐘</a>
+                    <a onclick="TimeClick(45)"  class="btn btn-default">45分鐘</a>
+                    <a onclick="TimeClick(60)"  class="btn btn-default">60分鐘</a>
+                    <a onclick="TimeClick(90)"  class="btn btn-default">90分鐘</a>
+                    <a onclick="TimeClick(120)"  class="btn btn-default">120分鐘</a>
+                    <a onclick="TimeClick(121)"  class="btn btn-default">121分鐘以上</a>
                     <!-- 其他所需時間按钮 -->
                 </div>
                 <div class="h10"></div>
@@ -308,6 +318,7 @@
     <div class="py-3 text-center ">
         <ul class="pagination" id="pageList">
             <!-- 生成頁碼插入其中 -->
+
         </ul>
     </div>
     <footer class="py-5 bg-dark">
@@ -315,7 +326,7 @@
             <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
         </div>
     </footer>
-    <script src="./js/itemClinent.js"></script>
+    <script src="./js/search.js"></script>
     <script src="./js/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

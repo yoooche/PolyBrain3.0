@@ -43,7 +43,8 @@ public class ItemServlet extends HttpServlet {
             case "selectpage":  //若請求是搜尋頁面
                 System.out.println("開始頁面配置");
                 Integer page = Integer.valueOf(request.getParameter("page"));
-                commonUtil.writePojo2Json(response, service.getItempage(page));
+                String set = request.getParameter("set");//丟入前端串接的HQL指令
+                commonUtil.writePojo2Json(response, service.getItempage(page,set));
                 break;
             case "selectID":    //若請求是搜尋單個商品
                 System.out.println("開始搜尋單項商品");

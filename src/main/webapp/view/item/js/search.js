@@ -1,6 +1,5 @@
-// 修改您的 itemClinent.js 文件
 
-function getProduct(move, numberpage) {
+function getProduct(move, numberpage, set) {
     // 清除原有商品列表
     const itemList = document.getElementById('itemList');
     while (itemList.firstChild) {
@@ -40,7 +39,7 @@ function getProduct(move, numberpage) {
     }
 
     // 發送請求獲取商品數據
-    fetch("http://localhost:8080/PolyBrain/selectServlet?value=selectpage&page=" + currentPage, {
+    fetch("http://localhost:8080/PolyBrain/selectServlet?value=selectpage&page=" + currentPage + "&set=" + set, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
     })
@@ -117,7 +116,7 @@ function getPage(totalPages, currentPage) {
         if (i === currentPage) {
             listItem.classList.add('active');
         }
-        listItem.innerHTML = `<a href="javascript:getProduct('page', ${i});">${i}</a>`;
+        listItem.innerHTML = `<a href="javascript:getProduct('page', ${i},set);">${i}</a>`;
         pageList.appendChild(listItem);
     }
 
@@ -131,7 +130,106 @@ function getPage(totalPages, currentPage) {
 
 // 頁面加載完成後執行獲取第一頁商品
 window.addEventListener('DOMContentLoaded', event => {
-        getProduct("page", 1);
+    // 動態生成各個按鈕
+    set = "";   //將set初始化清空
+    getProduct("page", 1, set);
 });
 
 
+// 串接指令區
+
+queryParams = {};
+
+//價格條件設定
+function PriceClick(minPrice, maxPrice) {
+    // 如果minPrice和maxPrice已經存在，將數值移除
+    if (minPrice === 0 && queryParams.hasOwnProperty('minPrice')) {
+        delete queryParams.minPrice;
+    }
+    if (maxPrice === 0 && queryParams.hasOwnProperty('maxPrice')) {
+        delete queryParams.maxPrice;
+    }
+
+    // 设置minPrice和maxPrice属性为新的值
+    if (maxPrice != 0 || minPrice != 0) {
+        queryParams.minPrice = minPrice;
+        queryParams.maxPrice = maxPrice;
+    }
+    
+    searchItem(queryParams);
+}
+
+//遊戲類型條件設定
+function TypeClick(ItemClassNo) {
+    // 如果類型已經存在，將數值移除
+    if (queryParams.hasOwnProperty('ItemClassNo')) {
+        delete queryParams.ItemClassNo;
+    }
+    // 將ItemClassNo設置進去
+    if (ItemClassNo != 0) {
+        queryParams.ItemClassNo = ItemClassNo;
+    }
+
+    searchItem(queryParams);
+}
+
+//遊戲人數條件設定
+function PlayerClick(playerCount) {
+    // 如果類型已經存在，將數值移除
+    if (queryParams.hasOwnProperty('playerCount')) {
+        delete queryParams.playerCount;
+    }
+    // 將ItemClassNo設置進去
+    if (playerCount != 0) {
+        queryParams.playerCount = playerCount;
+    }
+
+    searchItem(queryParams);
+}
+
+function TimeClick(gameTime){
+    if (queryParams.hasOwnProperty('gameTime')) {
+        delete queryParams.gameTime;
+    }
+    // 將ItemClassNo設置進去
+    if (gameTime != 0) {
+        queryParams.gameTime = gameTime;
+    }
+    searchItem(queryParams);
+
+}
+
+
+//文字串接區
+function searchItem(queryParams) {
+    let set = '';
+
+    // 构建售价范围条件
+    if (queryParams.minPrice !== undefined && queryParams.maxPrice !== undefined) {
+        set += ` AND itemPrice BETWEEN ${queryParams.minPrice} AND ${queryParams.maxPrice} `;
+    }
+
+    // 构建游戏类型条件
+    if (queryParams.ItemClassNo !== undefined) {
+        set += ` AND itemClassNo = ${queryParams.ItemClassNo} `;
+    }
+
+    // 构建玩家人数条件
+    if (queryParams.playerCount !== undefined) {
+        set += ` AND minPlayer <= ${queryParams.playerCount} AND maxPlayer >= ${queryParams.playerCount} `;
+    }
+
+    // 构建所需时间条件
+    if (queryParams.gameTime !== undefined) {
+        set += ` AND gameTime = ${queryParams.gameTime} `;
+    }
+
+    if (queryParams.gameName !== undefined) {
+        set += ` AND itemName LIKE = %${queryParams.gameTime}% `;
+    }
+
+    console.log(set);
+    // return set;
+    //啟動條件搜尋 並到第一頁
+    getProduct("page", 1, set);
+}
