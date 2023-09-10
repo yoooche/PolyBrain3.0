@@ -1,3 +1,12 @@
+// 綁定所有價格按钮
+var PriceButtons = document.querySelectorAll(".form-Price .btn-default");
+// 綁定所有遊戲類型按钮
+var typeButtons = document.querySelectorAll(".form-type .btn-default");
+// 綁定所有玩家人数按钮
+var playerButtons = document.querySelectorAll(".form-player .btn-default");
+// 綁定所有時間按钮
+var timeButtons = document.querySelectorAll(".form-time .btn-default");
+
 
 function getProduct(move, numberpage, set) {
     // 清除原有商品列表
@@ -106,7 +115,7 @@ function getPage(totalPages, currentPage) {
     // 上一頁按鈕
     if (currentPage > 1) {
         const prevItem = document.createElement('li');
-        prevItem.innerHTML = `<a href="javascript:getProduct('prev');"><</a>`;
+        prevItem.innerHTML = `<a href="javascript:TurnPage('prev');"><</a>`;
         pageList.appendChild(prevItem, pageList.firstChild);
     }
 
@@ -123,15 +132,18 @@ function getPage(totalPages, currentPage) {
     // 下一頁按鈕
     if (currentPage < totalPages) {
         const nextItem = document.createElement('li');
-        nextItem.innerHTML = `<a href="javascript:getProduct('next');">></a>`;
+        nextItem.innerHTML = `<a href="javascript:TurnPage('next');">></a>`;
         pageList.appendChild(nextItem);
     }
+}
+
+function TurnPage(move, numberpage){
+    getProduct(move, numberpage, set)
 }
 
 // 頁面加載完成後執行獲取第一頁商品
 window.addEventListener('DOMContentLoaded', event => {
     // 動態生成各個按鈕
-    set = "";   //將set初始化清空
     getProduct("page", 1, set);
 });
 
@@ -140,6 +152,17 @@ window.addEventListener('DOMContentLoaded', event => {
 
 queryParams = {};
 
+//調整價格按鈕CSS
+function PriceActive(value) {
+    // 遍历所有按钮，移除 active 类
+    PriceButtons.forEach(function (button) {
+        button.classList.remove("active");
+    });
+
+    // 为被点击的按钮添加 active 类
+    PriceButtons[value].classList.add("active");
+
+}
 //價格條件設定
 function PriceClick(minPrice, maxPrice) {
     // 如果minPrice和maxPrice已經存在，將數值移除
@@ -155,12 +178,20 @@ function PriceClick(minPrice, maxPrice) {
         queryParams.minPrice = minPrice;
         queryParams.maxPrice = maxPrice;
     }
-    
+
     searchItem(queryParams);
 }
 
 //遊戲類型條件設定
 function TypeClick(ItemClassNo) {
+    // 遍历所有按钮，移除 active 类
+    typeButtons.forEach(function (button) {
+        button.classList.remove("active");
+    });
+
+    // 为被点击的按钮添加 active 类
+    typeButtons[ItemClassNo].classList.add("active");
+
     // 如果類型已經存在，將數值移除
     if (queryParams.hasOwnProperty('ItemClassNo')) {
         delete queryParams.ItemClassNo;
@@ -175,6 +206,14 @@ function TypeClick(ItemClassNo) {
 
 //遊戲人數條件設定
 function PlayerClick(playerCount) {
+    // 遍历所有按钮，移除 active 类
+    playerButtons.forEach(function (button) {
+        button.classList.remove("active");
+    });
+
+    // 为被点击的按钮添加 active 类
+    playerButtons[playerCount].classList.add("active");
+
     // 如果類型已經存在，將數值移除
     if (queryParams.hasOwnProperty('playerCount')) {
         delete queryParams.playerCount;
@@ -187,7 +226,20 @@ function PlayerClick(playerCount) {
     searchItem(queryParams);
 }
 
-function TimeClick(gameTime){
+//調整時間按鈕CSS
+function TimeActive(value) {
+    console.log();
+    // 遍历所有按钮，移除 active 类
+    timeButtons.forEach(function (button) {
+        button.classList.remove("active");
+    });
+
+    // 为被点击的按钮添加 active 类
+    timeButtons[value].classList.add("active");
+
+}
+//遊戲時間條件設定
+function TimeClick(gameTime) {
     if (queryParams.hasOwnProperty('gameTime')) {
         delete queryParams.gameTime;
     }
@@ -199,37 +251,52 @@ function TimeClick(gameTime){
 
 }
 
+//文字輸入條件設定
+function NameCilck(gameName) {
+    if (queryParams.hasOwnProperty('gameName')) {
+        delete queryParams.gameName;
+    }
+    // 設置gameName並送出 避免在空白時也送出搜尋
+    const trimmedGameName = gameName.trim();
+    if (trimmedGameName.length > 0) {
+        queryParams.gameName = trimmedGameName;
+    }
+    searchItem(queryParams);
+}
 
+let set = '';   //放在外面讓她成為實體變數 以便翻頁使用
 //文字串接區
 function searchItem(queryParams) {
-    let set = '';
-
-    // 构建售价范围条件
+    set = '';   //新設的搜尋條件進來初始化
+    // 串接價格範圍
     if (queryParams.minPrice !== undefined && queryParams.maxPrice !== undefined) {
         set += ` AND itemPrice BETWEEN ${queryParams.minPrice} AND ${queryParams.maxPrice} `;
     }
 
-    // 构建游戏类型条件
+    // 串接遊戲類別
     if (queryParams.ItemClassNo !== undefined) {
         set += ` AND itemClassNo = ${queryParams.ItemClassNo} `;
     }
 
-    // 构建玩家人数条件
+    // 串接遊戲人數
     if (queryParams.playerCount !== undefined) {
         set += ` AND minPlayer <= ${queryParams.playerCount} AND maxPlayer >= ${queryParams.playerCount} `;
     }
 
-    // 构建所需时间条件
+    // 串接遊戲時間
     if (queryParams.gameTime !== undefined) {
         set += ` AND gameTime = ${queryParams.gameTime} `;
     }
 
+    // 串接遊戲名稱
     if (queryParams.gameName !== undefined) {
-        set += ` AND itemName LIKE = %${queryParams.gameTime}% `;
+        set += ` AND itemName LIKE ='%${queryParams.gameName}%' `;
     }
 
     console.log(set);
     // return set;
+        var enset = encodeURIComponent(encodeURIComponent(set));
+        console.log(enset);
     //啟動條件搜尋 並到第一頁
-    getProduct("page", 1, set);
+    getProduct("page", 1, enset);
 }

@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 @WebServlet("/selectServlet")
 public class ItemServlet extends HttpServlet {
@@ -44,7 +47,13 @@ public class ItemServlet extends HttpServlet {
                 System.out.println("開始頁面配置");
                 Integer page = Integer.valueOf(request.getParameter("page"));
                 String set = request.getParameter("set");//丟入前端串接的HQL指令
-                commonUtil.writePojo2Json(response, service.getItempage(page,set));
+                try {
+                    String decodedString = URLDecoder.decode(set, StandardCharsets.UTF_8.toString());
+                    System.out.println(decodedString);  //解碼兩次編碼的字串符
+                commonUtil.writePojo2Json(response, service.getItempage(page,decodedString));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "selectID":    //若請求是搜尋單個商品
                 System.out.println("開始搜尋單項商品");
