@@ -73,6 +73,7 @@ $(document).ready(function () {
                     }
                 },
                 { data: 'itemPrice', width: '100px' },
+                { data: 'itemSales', width: '100px' },
                 { data: 'itemQty', width: '120px' },
                 {
                     data: 'itemState', width: '150px',
@@ -107,7 +108,7 @@ $(document).ready(function () {
                     },
                 },
                 {
-                    targets: [0, 1, 2, 3, 4, 5, 6, 8],//_all才是全部欄
+                    targets: [0, 1, 2, 3, 4, 5, 6,7, 9],//_all才是全部欄
                     className: 'text-center'       //置中
                 }
             ],

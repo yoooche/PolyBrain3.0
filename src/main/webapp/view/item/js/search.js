@@ -6,6 +6,8 @@ var typeButtons = document.querySelectorAll(".form-type .btn-default");
 var playerButtons = document.querySelectorAll(".form-player .btn-default");
 // 綁定所有時間按钮
 var timeButtons = document.querySelectorAll(".form-time .btn-default");
+// 綁定所有排序按鈕
+var orderButtons = document.querySelectorAll(".form-order .btn-default");
 
 
 function getProduct(move, numberpage, set) {
@@ -137,7 +139,7 @@ function getPage(totalPages, currentPage) {
     }
 }
 
-function TurnPage(move, numberpage){
+function TurnPage(move, numberpage) {
     getProduct(move, numberpage, set)
 }
 
@@ -251,6 +253,12 @@ function TimeClick(gameTime) {
 
 }
 
+// 綁定輸入框
+const inputElement = document.getElementById('myInput');
+inputElement.addEventListener('click', function () {
+    // 清空輸入框的值
+    inputElement.value = '';
+});
 //文字輸入條件設定
 function NameCilck(gameName) {
     if (queryParams.hasOwnProperty('gameName')) {
@@ -261,6 +269,36 @@ function NameCilck(gameName) {
     if (trimmedGameName.length > 0) {
         queryParams.gameName = trimmedGameName;
     }
+    searchItem(queryParams);
+}
+
+//排序方式條件設定
+function OrderBy(orderBy) {
+    // 遍历所有按钮，移除 active 类
+    orderButtons.forEach(function (button) {
+        button.classList.remove("active");
+    });
+
+    // 为被点击的按钮添加 active 类
+    orderButtons[orderBy].classList.add("active");
+
+    // 如果類型已經存在，將數值移除
+    if (queryParams.hasOwnProperty('orderBy')) {
+        delete queryParams.orderBy;
+    }
+    // 將排序指令設置進去
+    switch (orderBy) {
+        case 0:
+            queryParams.orderBy = "itemNo ASC";
+            break;
+        case 1:
+            queryParams.orderBy = "itemNo DESC";
+            break;
+        case 2:
+            queryParams.orderBy = "itemSales ASC";
+            break;
+    }
+
     searchItem(queryParams);
 }
 
@@ -290,13 +328,42 @@ function searchItem(queryParams) {
 
     // 串接遊戲名稱
     if (queryParams.gameName !== undefined) {
-        set += ` AND itemName LIKE ='%${queryParams.gameName}%' `;
+        set += ` AND itemName LIKE '%${queryParams.gameName}%' `;
+    }
+
+    if (queryParams.orderBy !== undefined) {
+        set += ` ORDER BY ${queryParams.orderBy} `;
     }
 
     console.log(set);
     // return set;
-        var enset = encodeURIComponent(encodeURIComponent(set));
-        console.log(enset);
+    var enset = encodeURIComponent(encodeURIComponent(set));
+    console.log(enset);
     //啟動條件搜尋 並到第一頁
     getProduct("page", 1, enset);
 }
+
+// 在點擊加入購物車按鈕時觸發的事件處理程序
+$('.my-cart-btn').on('click', function () {
+    // 獲取當前購物車數量
+    var currentItemCount = parseInt($('#cartItemCount').text(), 10);
+
+    // 將購物車數量增加 1
+    currentItemCount++;
+
+    // 更新購物車數字
+    $('#cartItemCount').text(currentItemCount);
+
+    // 執行商品圖片的飛入動畫
+    var $addTocartBtn = $(this);
+    var $cartIcon = $(".my-cart-icon");
+    var $image = $('<img width="30px" height="30px" src="' + $addTocartBtn.data("image") + '"/>').css({ "position": "fixed", "z-index": "999" });
+    $addTocartBtn.prepend($image);
+    var position = $cartIcon.position();
+    $image.animate({
+        top: position.top,
+        left: position.left
+    }, 500, "linear", function () {
+        $image.remove();
+    });
+});

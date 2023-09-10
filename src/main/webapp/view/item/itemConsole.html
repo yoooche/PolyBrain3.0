@@ -88,7 +88,6 @@
             background-color: #00a0e9;
             border-color: #00a0e9;
             border-radius: 10px;
-            margin-left: 100px;
         }
 
         .upload_btn:hover {
@@ -135,6 +134,10 @@
             background-size: cover;
             position: relative;
             padding-bottom: 100%;
+        }
+
+        .upload_img-close {
+            font-family: initial;
         }
 
         /* 以上是漂亮的圖片CSS */
@@ -286,6 +289,7 @@
                                         <th data-priority="5">類別</th>
                                         <th data-priority="1">商品名稱</th>
                                         <th data-priority="2">售價</th>
+                                        <th data-priority="6">銷售量</th>
                                         <th data-priority="6">庫存量</th>
                                         <th data-priority="7">上架狀態</th>
                                         <th data-priority="8">敘述</th>
@@ -408,7 +412,7 @@
             </div>
             <div class="div_addOption">
                 <div class="upload_box">
-                    <div class="upload_btn-box">
+                    <div class="upload_btn-box" style="margin: 7.5px;">
                         <label class="upload_btn">
                             <input type="file" name="opaProdPic" class="upload_inputfile" id="p_file"
                                 accept="image/jpeg, image/png, image/jpg, image/gif" multiple>
@@ -425,7 +429,7 @@
         </div>
     </div>
 
-   
+
     <script src="./js/jquery-3.7.0.min.js"></script>
     <script src="./js/addItem.js"></script>
     <script src="./js/itemConsole.js"></script>
