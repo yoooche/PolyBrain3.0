@@ -1,6 +1,7 @@
 package feature.bid.service;
 
 import feature.bid.dao.*;
+import feature.bid.dto.BidItemListDto;
 import feature.bid.vo.BidEventVo;
 import feature.bid.vo.BidItemPicVo;
 import feature.bid.vo.BidItemVo;
@@ -17,7 +18,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public class BiddingServiceImpl implements BiddingService{
-    private final BidItemDao dao;
+    private final BidItemDao bidItemDao;
     private final BidEventDao bidEventDao;
     private final MemDao memDao;
     private final BidOrderDao bidOrderDao;
@@ -25,7 +26,7 @@ public class BiddingServiceImpl implements BiddingService{
     private final BidItemPicDao bidItemPicDao;
     Jedis jedis = new Jedis("localhost", 6379);
     public BiddingServiceImpl(){
-        dao = new BidItemDaoImpl();
+        bidItemDao = new BidItemDaoImpl();
         bidEventDao = new BidEventDaoImpl();
         memDao = new MemDaoImpl();
         bidOrderDao = new BidOrderDaoImpl();
@@ -34,26 +35,26 @@ public class BiddingServiceImpl implements BiddingService{
     }
     @Override
     public List<BidItemVo> viewAll() {
-        return dao.selectAll();
+        return bidItemDao.selectAll();
     }
     @Override
     public void addAnItem(BidItemVo bidItemVo) {
-        dao.insert(bidItemVo);
+        bidItemDao.insert(bidItemVo);
     }
 
     @Override
     public BidItemVo getOneItem(Integer bidItemNo) {
-        return dao.selectById(bidItemNo);
+        return bidItemDao.selectById(bidItemNo);
     }
 
     @Override
     public void removeOneItem(Integer bidItemNo) {
-        dao.deleteById(bidItemNo);
+        bidItemDao.deleteById(bidItemNo);
     }
 
     @Override
     public List<String> viewAllName() {
-        List<BidItemVo> all = dao.selectAll();
+        List<BidItemVo> all = bidItemDao.selectAll();
         List<String> allName = new ArrayList<>();
         for(BidItemVo bidItemVo : all){
             allName.add(bidItemVo.getBidItemName());
@@ -64,6 +65,46 @@ public class BiddingServiceImpl implements BiddingService{
     @Override
     public void addPics(BidItemPicVo bidItemPicVo) {
         bidItemPicDao.insert(bidItemPicVo);
+    }
+
+    @Override
+    public List<BidItemListDto> getHomePageList() {
+        List<BidItemListDto> bidItemListDtoList = new ArrayList<>();
+        List<BidEventVo> bidEventVoList = bidEventDao.selectAll();
+        List<BidItemVo> bidItemVoList = bidItemDao.selectAll();
+        List<BidItemPicVo> bidItemPicVoList = bidItemPicDao.selectAllPics();
+
+        for (BidEventVo bidEventVo : bidEventVoList) {
+            BidItemListDto dto = new BidItemListDto();
+            dto.setBidEventNo(bidEventVo.getBidEventNo());
+            dto.setFloorPrice(bidEventVo.getFloorPrice());
+            dto.setDirectivePrice(bidEventVo.getDirectivePrice());
+            dto.setStartTime(bidEventVo.getStartTime());
+            dto.setCloseTime(bidEventVo.getCloseTime());
+
+            for (BidItemVo bidItemVo : bidItemVoList) {
+                if (bidItemVo.getBidItemNo().intValue() == bidEventVo.getBidItemNo().intValue()) {
+                    dto.setBidItemVo(bidItemVo);
+
+                    for (BidItemPicVo bidItemPicVo : bidItemPicVoList) {
+                        if (bidItemVo.getBidItemNo().intValue() == bidItemPicVo.getBidItemNo().intValue()) {
+                            List<byte[]> str =  bidItemPicDao.selectPicsById(bidItemVo.getBidItemNo());
+                            for(byte[] str1 : str){
+                                List<String> base64 = new ArrayList<>();
+                                String base64Img = Base64.getEncoder().encodeToString(str1);
+                                base64.add(base64Img);
+                                dto.setBidItemPic(base64);
+                            }
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            bidItemListDtoList.add(dto);
+        }
+
+        return bidItemListDtoList;
     }
 
     @Override

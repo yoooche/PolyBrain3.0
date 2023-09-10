@@ -1,6 +1,7 @@
 package feature.bid.service;
 
 import core.coreService.CoreService;
+import feature.bid.dto.BidItemListDto;
 import feature.bid.vo.BidEventVo;
 import feature.bid.vo.BidItemPicVo;
 import feature.bid.vo.BidItemVo;
@@ -18,6 +19,7 @@ public interface BiddingService extends CoreService {
     public void removeOneItem(Integer bidItemNo);
     List<String> viewAllName();
     public void addPics(BidItemPicVo bidItemPicVo);
+    List<BidItemListDto> getHomePageList();
 
     // ========== about bidding event ==========
     List<BidEventVo> viewAllEvent();

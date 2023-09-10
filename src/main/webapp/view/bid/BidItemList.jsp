@@ -397,7 +397,7 @@ pageContext.setAttribute("list", list);
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="<%=request.getContextPath()%>/bid/BidItemList" method="post" enctype="multipart/form-data">
+                                            <form action="<%=request.getContextPath()%>/general/BidItemList" method="post" enctype="multipart/form-data">
                                                 <div style="margin-bottom: 10px; display: inline-block;">
                                                         <label for="bidItemName">競標品名稱:</label>
                                                         <input type="text" id="bidItemName" name="bidItemName">
@@ -525,7 +525,7 @@ pageContext.setAttribute("list", list);
         }
 
         function selectClass(){
-            fetch('http://localhost:8080/PolyBrain/test',{
+            fetch('/PolyBrain/general/bidding',{
                 method: 'POST',
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded'

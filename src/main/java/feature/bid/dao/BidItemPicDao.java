@@ -7,4 +7,5 @@ import java.util.List;
 public interface BidItemPicDao {
     public void insert(BidItemPicVo bidItemPicVo);
     public List<byte[]> selectPicsById(Integer bidItemNo);
+    public List<BidItemPicVo> selectAllPics();
 }

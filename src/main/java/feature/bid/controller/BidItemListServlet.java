@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collection;
 
-@WebServlet("/bid/BidItemList")
+@WebServlet("/general/BidItemList")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class BidItemListServlet extends HttpServlet {
     public BiddingService biddingService;

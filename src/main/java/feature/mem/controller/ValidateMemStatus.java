@@ -26,8 +26,7 @@ public class ValidateMemStatus extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("UTF-8");
-        HttpSession session =req.getSession();
-        System.out.println("test");
+        HttpSession session = req.getSession();
 
         LoginStatusDto loginStatusDto = new LoginStatusDto();
         if(session.getAttribute("sessionId") != null){
