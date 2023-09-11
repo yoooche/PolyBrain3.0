@@ -1,6 +1,7 @@
 package feature.bid.service;
 
 import feature.bid.dao.*;
+import feature.bid.dto.BidItemDto;
 import feature.bid.dto.BidItemListDto;
 import feature.bid.vo.BidEventVo;
 import feature.bid.vo.BidItemPicVo;
@@ -105,6 +106,43 @@ public class BiddingServiceImpl implements BiddingService{
         }
 
         return bidItemListDtoList;
+    }
+
+    @Override
+    public List<BidItemDto> getTableData() {
+        List<BidItemDto> itemDto = new ArrayList<>();
+        List<BidItemVo> bidItemVoList = bidItemDao.selectAll();
+        List<BidItemPicVo> bidItemPicVoList = bidItemPicDao.selectAllPics();
+        for(BidItemVo bidItemVo : bidItemVoList) {
+            BidItemDto dto = new BidItemDto();
+            dto.setBidItemVo(bidItemVo);
+            for (BidItemPicVo bidItemPicVo : bidItemPicVoList) {
+                if (bidItemVo.getBidItemNo().intValue() == bidItemPicVo.getBidItemNo().intValue()) {
+                    List<byte[]> str = bidItemPicDao.selectPicsById(bidItemVo.getBidItemNo());
+                    for (byte[] str1 : str) {
+                        List<String> base64 = new ArrayList<>();
+                        String base64Img = Base64.getEncoder().encodeToString(str1);
+                        base64.add(base64Img);
+                        dto.setBidItemPic(base64);
+                    }
+                    break;
+                }
+            }
+            itemDto.add(dto);
+        }
+        return itemDto;
+    }
+
+    @Override
+    public List<String> selectAllPicsB64() {
+       List<BidItemPicVo> bidItemPics =  bidItemPicDao.selectAllPics();
+        List<String> imgB64 = new ArrayList<>();
+        bidItemPics.forEach(bidItemPicVo -> {
+          byte[] imgs =  bidItemPicVo.getBidItemPic();
+          String img64 = Base64.getEncoder().encodeToString(imgs);
+          imgB64.add(img64);
+       });
+       return imgB64;
     }
 
     @Override

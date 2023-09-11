@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "BID_ITEM")
@@ -36,7 +37,9 @@ public class BidItemVo implements Serializable {
     private String gamePublisher;
 
     @ManyToOne
-    @JoinColumn(name ="ITEM_CLASS_NO", insertable = false, updatable = false)
+    @JoinColumn(name = "ITEM_CLASS_NO", insertable = false, updatable = false)
     private ItemClass itemClass;
+
+
 
 }

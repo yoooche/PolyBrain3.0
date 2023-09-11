@@ -9,4 +9,4 @@ public interface BidItemDao {
     public List<BidItemVo> selectAll();
     public void deleteById(Integer bidItemNo);
     public BidItemVo selectById(Integer bidItemNo);
-}
+    }
