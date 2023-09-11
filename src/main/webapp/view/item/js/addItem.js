@@ -1,14 +1,15 @@
+
 document.addEventListener("DOMContentLoaded", () => {
-	const lightbox = document.querySelector('#lightbox');
 	const btnCancel = document.querySelector('#cancel');
-	const lightboxClose = document.querySelector('#lightbox-close');
 	const itemPrice = document.querySelector('#itemPrice');
 	const itemName = document.querySelector('#itemName');
 	const itemQty = document.querySelector('#itemQty');
 	const itemState = document.querySelector('#itemState');
+	const maxPlayers = document.querySelector('#maxPlayers');
+	const minPlayers = document.querySelector('#minPlayers');
+	const gameTime = document.querySelector('#gameTime');
 	const inputs = document.querySelectorAll('input');
 	// const itemClassNoSelect = document.getElementById('itemClassNo');
-	var file_el = document.getElementById("p_file");
 
 	// 通過 fetch 取得遊戲類別列表
 	fetch('http://localhost:8080/PolyBrain/item/ItemClass', {
@@ -36,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 
 	//點擊送出按鈕後使用燈箱效果顯示確認取消對話框
-	addsubmit.addEventListener('click', async () => {
+	addsubmit.addEventListener('click', () => {
 		let errorMsg = '';
 
 		if (itemClassNo.value == 0) {
@@ -54,9 +55,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (minPlayers.value == 0 || maxPlayers.value == 0) {
 			errorMsg += '<li>請選擇遊戲人數';
 		}
-		// if (minPlayers.value > maxPlayers.value) {
-		// 	errorMsg += '<li>遊戲人數設定有誤';
-		// }
+		if (minPlayers.value > maxPlayers.value) {
+			errorMsg += '<li>遊戲人數設定有誤';
+		}
 		if (gameTime.value == 0) {
 			errorMsg += '<li>請選擇遊戲時間';
 		}
@@ -73,30 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			});
 			return;
 		}
-		const itemImageList = [];
-
-		// 將上傳的檔案轉換成 base64 字串並存放在陣列中
-		if (file_el.files.length > 0) {
-			// 遍历每个选择的文件
-			for (let i = 0; i < file_el.files.length; i++) {
-				const reader = new FileReader();
-
-				// 使用 Promise 包装 FileReader 的加载操作
-				const imageLoadingPromise = new Promise((resolve) => {
-					reader.onload = function (event) {
-						const imageData = event.target.result;
-						itemImageList.push(imageData);
-						resolve(); // 解决 Promise 表示图片加载完成
-					};
-				});
-
-				reader.readAsDataURL(file_el.files[i]);
-
-				// 等待该图片加载完成
-				await imageLoadingPromise;
-			}
-		}
-
+		
 		console.log("itemImageList:", itemImageList);
 
 		let Data = {
@@ -160,6 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			cancelButtonText: '取消'
 		}).then((result) => {
 			if (result.isConfirmed) {
+				console.log("ttt");
 				// 若使用者確定取消，則關閉燈箱
 				document.getElementById('add_lightbox').style.display = 'none';
 			}
@@ -168,10 +147,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-// //插入圖片的效果
+// // //插入圖片的效果
 // $(document).ready(function () {
 // 	ImgUpload();
 // });
+
+// const itemImageList = [];
 
 // function ImgUpload() {
 // 	var imgWrap = "";
@@ -185,6 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // 			var files = e.target.files;
 // 			var filesArr = Array.prototype.slice.call(files);
 // 			var iterator = 0;
+
 // 			filesArr.forEach(function (f, index) {
 
 // 				if (!f.type.match('image.*')) {
@@ -207,6 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // 						var reader = new FileReader();
 // 						reader.onload = function (e) {
+// 							itemImageList.push(e.target.result); // 把圖片的Base64字串存到陣列
 // 							var html = "<div class='upload_img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload_img-close").length + "' data-file='" + f.name + "' class='img-bg add_img-bg'><div class='upload_img-close'></div></div></div>";
 // 							imgWrap.append(html);
 // 							iterator++;
@@ -215,6 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // 					}
 // 				}
 // 			});
+// 			console.log(itemImageList);
 // 		});
 // 	});
 
@@ -223,10 +207,12 @@ document.addEventListener("DOMContentLoaded", () => {
 // 		for (var i = 0; i < imgArray.length; i++) {
 // 			if (imgArray[i].name === file) {
 // 				imgArray.splice(i, 1);
+// 				itemImageList.splice(i, 1); // 移除圖片Base64陣列的內容
 // 				break;
 // 			}
 // 		}
 // 		$(this).parent().parent().remove();
+// 		console.log(itemImageList);
 // 	});
 // }
 

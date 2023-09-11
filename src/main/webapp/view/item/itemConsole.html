@@ -102,6 +102,11 @@
             margin: 0 -10px;
         }
 
+        .upload_img-wrap2 {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
         .upload_img-box {
             width: 180px;
             padding: 0 10px;
@@ -138,6 +143,31 @@
 
         .upload_img-close {
             font-family: initial;
+        }
+
+
+        .upload_img-close2 {
+            font-family: initial;
+        }
+
+        .upload_img-close2 {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            text-align: center;
+            line-height: 24px;
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        .upload_img-close2:after {
+            content: '\2716';
+            font-size: 14px;
+            color: white;
         }
 
         /* 以上是漂亮的圖片CSS */
@@ -339,7 +369,7 @@
 
             <div>
                 <label for="itemPrice">商品售價:</label>
-                <input id="itemPrice" name="itemPrice" type="text" value="">
+                <input type="number" min="0" id="itemPrice" name="itemPrice" type="text" value="">
                 <span id="itemPrice.errors" class="error"></span>
             </div>
 
@@ -353,7 +383,7 @@
 
             <div>
                 <label for="itemQty">庫存量:</label>
-                <input id="itemQty" name="itemQty" type="text" value="">
+                <input type="number" min="0" id="itemQty" name="itemQty" type="text" value="">
                 <span id="itemQty.errors" class="error"></span>
             </div>
             <div>
@@ -428,11 +458,91 @@
             </div>
         </div>
     </div>
+    <div id="update_lightbox" class="lightbox">
+        <!-- 這邊是updateItem.html的內容 -->
+        <div class="lightbox-content">
+            <form id="empForm" enctype="multipart/form-data">
+                <div>
+                    <label for="editItemNo">商品編號:</label>
+                    <input id="editItemNo" name="editItemNo" type="text" style="border:0px; font-weight: bold;"
+                        readonly />
+                </div>
 
+                <div>
+                    <label for="editItemclassno">遊戲類別:</label>
+                    <input id="editItemclassno" name="editItemclassno" type="text"
+                        style="border:0px; font-weight: bold;" readonly />
+                </div>
+
+                <div>
+                    <label for="editItemName">商品名稱:</label>
+                    <input id="editItemName" name="editItemName" type="text" style="border:0px; font-weight: bold;"
+                        readonly />
+                </div>
+
+                <div>
+                    <label for="editState">上架狀態:</label>
+                    <select id="editState" name="editState">
+                        <option value="0">下架</option>
+                        <option value="1">上架</option>
+                        <option value="2">售罄</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="editQty">庫存量:</label>
+                    <input id="editQty" name="editQty" type="text" />
+                </div>
+
+                <div>
+                    <label for="editPrice">售價:</label>
+                    <input id="editPrice" name="editPrice" type="text" />
+                </div>
+
+                <div>
+                    <label for="minPlayers">最小遊玩人數:</label>
+                    <input id="minPlayers" name="minPlayers" type="text" style="border:0px; font-weight: bold;"
+                        readonly />
+                </div>
+
+                <div>
+                    <label for="maxPlayers">最大遊玩人數:</label>
+                    <input id="maxPlayers" name="maxPlayers" type="text" style="border:0px; font-weight: bold;"
+                        readonly />
+                </div>
+
+                <div>
+                    <label for="gameTime">遊玩時間:</label>
+                    <input id="gameTime" name="gameTime" type="text" style="border:0px; font-weight: bold;" readonly />
+                </div>
+
+                <div>
+                    <label for="editProdDescription">商品敘述:</label>
+                    <textarea id="editProdDescription" name="editProdDescription" rows="4" cols="50"></textarea>
+                </div>
+                <div class="div_addOption">
+                    <div class="upload_box">
+                        <div class="upload_btn-box" style="margin: 7.5px;">
+                            <label class="upload_btn">
+                                <p style="margin: 0;">上傳商品圖片</p>
+                                <input type="file" name="opaProdPic" class="upload_inputfile" id="editFiles"
+                                    accept="image/jpeg, image/png, image/jpg, image/gif" multiple>
+                            </label>
+                        </div>
+                        <div class="upload_img-wrap2"></div>
+                    </div>
+                </div>
+                <input type="hidden" name="action" value="insert">
+                <button type="submit" id="updatesubmit" class="btn btn-primary"> 送出更新 </button>
+                <button type="button" id="updatecancel" class="btn btn-secondary">取消更新</button>
+            </form>
+        </div>
+    </div>
 
     <script src="./js/jquery-3.7.0.min.js"></script>
-    <script src="./js/addItem.js"></script>
+    <!-- <script src="./js/addItem.js"></script> -->
     <script src="./js/itemConsole.js"></script>
+    <!-- <script src="./js/updateItem.js"></script> -->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
