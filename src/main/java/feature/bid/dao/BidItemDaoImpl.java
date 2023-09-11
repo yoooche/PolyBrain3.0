@@ -3,9 +3,10 @@ package feature.bid.dao;
 import core.util.HibernateUtil;
 import feature.bid.vo.BidItemVo;
 import org.hibernate.Session;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+@Transactional
 public class BidItemDaoImpl implements BidItemDao {
     Session session = HibernateUtil.getSessionFactory().getCurrentSession();
     @Override

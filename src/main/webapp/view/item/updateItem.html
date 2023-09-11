@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="./js/jquery-3.7.0.min.js"></script>
+    <title>商品資料修改</title>
+    <style type="text/css">
+        button {
+            padding: 5px;
+        }
+
+        form {
+            display: table;
+        }
+
+        form div {
+            display: table-row;
+        }
+
+        label,
+        input,
+        span,
+        select {
+            display: table-cell;
+            text-align: left;
+        }
+
+        input[type=text],
+        input[type=password],
+        select,
+        textarea {
+            width: 200px;
+            margin: 5px;
+        }
+
+        form div div {
+            display: table-cell;
+        }
+
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        img.preview {
+            width: 200px;
+            height: 150px;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        ul>li {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        /* 以下是圖片的CSS
+        .upload_inputfile {
+            width: .1px;
+            height: .1px;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            z-index: -1;
+        }
+
+        .upload_btn {
+            display: inline-block;
+            font-weight: 600;
+            color: #fff;
+            text-align: center;
+            min-width: 116px;
+            transition: all .3s ease;
+            cursor: pointer;
+            border: 2px solid;
+            background-color: #00a0e9;
+            border-color: #00a0e9;
+            border-radius: 10px;
+            margin-left: 100px;
+        }
+
+        .upload_btn:hover {
+            background-color: unset;
+            color: #00a0e9;
+            transition: all .3s ease;
+        }
+
+        .upload_img-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .upload_img-box {
+            width: 200px;
+            padding: 0 10px;
+            margin-bottom: 12px;
+        }
+
+        .upload_img-close {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            text-align: center;
+            line-height: 24px;
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        .upload_img-close:after {
+            content: '\2716';
+            font-size: 14px;
+            color: white;
+        }
+
+        .img-bg {
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            position: relative;
+            padding-bottom: 100%;
+        } */
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+        <div align="center">
+            <h2>商品資料修改</h2>
+            <h3><a class="navbar-brand" href="itemConsole.html">返回商品列表</a></h3>
+        </div>
+    </nav>
+
+    <div align="center">
+        <h3><b>請確認要更新的資料</b></h3>
+        <form id="empForm" enctype="multipart/form-data">
+            <div>
+                <label for="editItemNo">商品編號:</label>
+                <input id="editItemNo" name="editItemNo" type="text" style="border:0px; font-weight: bold;" readonly />
+            </div>
+
+            <div>
+                <label for="editItemclassno">遊戲類別:</label>
+                <input id="editItemclassno" name="editItemclassno" type="text" style="border:0px; font-weight: bold;"
+                    readonly />
+            </div>
+
+            <div>
+                <label for="editItemName">商品名稱:</label>
+                <input id="editItemName" name="editItemName" type="text" style="border:0px; font-weight: bold;"
+                    readonly />
+            </div>
+
+            <div>
+                <label for="editState">上架狀態:</label>
+                <select id="editState" name="editState">
+                    <option value="0">下架</option>
+                    <option value="1">上架</option>
+                    <option value="2">售罄</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="editQty">庫存量:</label>
+                <input id="editQty" name="editQty" type="text" />
+            </div>
+
+            <div>
+                <label for="editPrice">售價:</label>
+                <input id="editPrice" name="editPrice" type="text" />
+            </div>
+
+            <div>
+                <label for="minPlayers">最小遊玩人數:</label>
+                <input id="minPlayers" name="minPlayers" type="text" style="border:0px; font-weight: bold;" readonly />
+            </div>
+
+            <div>
+                <label for="maxPlayers">最大遊玩人數:</label>
+                <input id="maxPlayers" name="maxPlayers" type="text" style="border:0px; font-weight: bold;" readonly />
+            </div>
+
+            <div>
+                <label for="gameTime">遊玩時間:</label>
+                <input id="gameTime" name="gameTime" type="text" style="border:0px; font-weight: bold;" readonly />
+            </div>
+
+            <div>
+                <label for="editProdDescription">商品敘述:</label>
+                <textarea id="editProdDescription" name="editProdDescription" rows="4" cols="50"></textarea>
+            </div>
+
+            <div>
+                <label for="editFiles">商品圖片:</label>
+                <input id="editFiles" name="editFiles" type="file" multiple="multiple" />
+                <ul class="picture_list"></ul>
+                <br>
+            </div>
+
+            <div>
+                <div></div>
+                <button type="button" id="updt_submit"> 送出修改 </button>
+                <div></div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // 獲取 sessionStorage 中存儲的數據
+        const editedRowData = JSON.parse(sessionStorage.getItem('editedRowData'));
+        var picture_list = document.getElementsByClassName("picture_list")[0];
+        const itemImageList = [];
+        // 將數據填充到編輯表單中
+        $('#editItemNo').val(editedRowData.itemNo);
+        $('#editItemclassno').val(editedRowData.itemClass.itemClassName);
+        $('#editItemName').val(editedRowData.itemName);
+        $('#editPrice').val(editedRowData.itemPrice);
+        $('#editState').val(editedRowData.itemState);
+        $('#editQty').val(editedRowData.itemQty);
+        $('#minPlayers').val(editedRowData.minPlayer);
+        $('#maxPlayers').val(editedRowData.maxPlayer);
+        $('#gameTime').val(editedRowData.gameTime);
+        $('#editProdDescription').val(editedRowData.itemProdDescription);
+        if (editedRowData.itemImg.length > 0) {
+            var imagesHTML = '';
+            for (i = 0; i < editedRowData.itemImg.length; i++) {
+                let li_html = `<li><img src="${editedRowData.itemImg[i].itemImg}" class="preview"></li>`;
+                picture_list.insertAdjacentHTML("beforeend", li_html);
+            }
+        }
+
+        console.log(editedRowData);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var file_el = document.getElementById("editFiles");
+            file_el.addEventListener("change", function (e) {
+                picture_list.innerHTML = ""; // 清空
+
+                // 跑每個使用者選的檔案，留意 i 的部份
+                for (let i = 0; i < this.files.length; i++) {
+                    let reader = new FileReader(); // 用來讀取檔案
+                    reader.readAsDataURL(this.files[i]); // 讀取檔案
+                    reader.addEventListener("load", function () {
+                        let li_html = `<li><img src="${reader.result}" class="preview"></li>`;
+                        picture_list.insertAdjacentHTML("beforeend", li_html); // 加進節點
+                    });
+                }
+            });
+
+            updt_submit.addEventListener('click', async () => {
+                let errorMsg = '';
+
+                if (editPrice.value <= 99) {
+                    errorMsg += '<li>售價有誤請再確認';
+                }
+                if (editQty.value < 1 && editState.value == 2) {
+                    errorMsg += '<li>庫存量為0，不得上架';
+                }
+                if (errorMsg !== '') {
+                    const errorList = errorMsg.split('<li>').filter(item => item !== '').map((item, index) => {
+                        return `<li><span style="margin-right: 10px;">${index + 1}.</span>${item}</li>`;
+                    }).join('');
+
+                    // 使用 SweetAlert2 顯示錯誤視窗
+                    Swal.fire({
+                        icon: 'error',
+                        title: '修改商品失敗...',
+                        html: `<ul style="text-align: left; padding-left: 120px; list-style-position: inside;">${errorList}</ul>`,
+                    });
+                    return;
+                }
+
+                // 將上傳的檔案轉換成 base64 字串並存放在陣列中
+                if (file_el.files.length > 0) {
+                    // 遍历每个选择的文件
+                    for (let i = 0; i < file_el.files.length; i++) {
+                        const reader = new FileReader();
+
+                        // 使用 Promise 包装 FileReader 的加载操作
+                        const imageLoadingPromise = new Promise((resolve) => {
+                            reader.onload = function (event) {
+                                const imageData = event.target.result;
+                                itemImageList.push(imageData);
+                                resolve(); // 解决 Promise 表示图片加载完成
+                            };
+                        });
+
+                        reader.readAsDataURL(file_el.files[i]);
+
+                        // 等待该图片加载完成
+                        await imageLoadingPromise;
+                    }
+                }
+
+
+                let Data = {
+                    item: {
+                        itemNo: editItemNo.value,
+                        itemPrice: editPrice.value,
+                        itemState: editState.value,
+                        itemQty: editQty.value,
+                        itemProdDescription: editProdDescription.value,
+                    }
+                }
+
+                if (itemImageList) {
+                    Data.itemImageList = itemImageList;
+                }
+
+
+                const inputs = document.querySelectorAll('input');
+                fetch('/PolyBrain/item/addItem', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=UTF-8',
+                    },
+                    body: JSON.stringify(Data),
+                })
+                    .then(resp => resp.json())
+                    .then(body => {
+                        // console.log("Item Name Value:", itemName.value);
+                        const { success } = body;
+                        if (success) {
+                            for (let input of inputs) {
+                                input.disabled = true;
+                            }
+                            updt_submit.disabled = true;
+                            Swal.fire('修改成功').then(() => {
+                                window.location.href = "../item/itemConsole.html";
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: '修改失敗..',
+                                text: '有些地方發生錯誤，請聯繫系統管理員除錯!',
+                            })
+                        }
+                    });
+            });
+        });
+
+        //插入圖片的效果
+        $(document).ready(function () {
+            ImgUpload();
+        });
+
+        function ImgUpload() {
+            var imgWrap = "";
+            var imgArray = [];
+
+            $('.upload_inputfile').each(function () {
+                $(this).on('change', function (e) {
+                    imgWrap = $(this).closest('.upload_box').find('.upload_img-wrap');
+                    var maxLength = $(this).attr('data-max_length');
+
+                    var files = e.target.files;
+                    var filesArr = Array.prototype.slice.call(files);
+                    var iterator = 0;
+                    filesArr.forEach(function (f, index) {
+
+                        if (!f.type.match('image.*')) {
+                            return;
+                        }
+
+                        if (imgArray.length > maxLength) {
+                            return false;
+                        } else {
+                            var len = 0;
+                            for (var i = 0; i < imgArray.length; i++) {
+                                if (imgArray[i] !== undefined) {
+                                    len++;
+                                }
+                            }
+                            if (len > maxLength) {
+                                return false;
+                            } else {
+                                imgArray.push(f);
+
+                                var reader = new FileReader();
+                                reader.onload = function (e) {
+                                    var html = "<div class='upload_img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload_img-close").length + "' data-file='" + f.name + "' class='img-bg add_img-bg'><div class='upload_img-close'></div></div></div>";
+                                    imgWrap.append(html);
+                                    iterator++;
+                                }
+                                reader.readAsDataURL(f);
+                            }
+                        }
+                    });
+                });
+            });
+
+            $('body').on('click', ".upload_img-close", function (e) {
+                var file = $(this).parent().data("file");
+                for (var i = 0; i < imgArray.length; i++) {
+                    if (imgArray[i].name === file) {
+                        imgArray.splice(i, 1);
+                        break;
+                    }
+                }
+                $(this).parent().parent().remove();
+            });
+        }
+
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+</body>
+
+</html>

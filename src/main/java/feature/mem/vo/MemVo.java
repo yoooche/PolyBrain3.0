@@ -1,31 +1,34 @@
 package feature.mem.vo;
 
-import lombok.*;
+import core.coreVO.Core;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.Arrays;
 
-
-@Entity(name = "member")
-@Getter
-@Setter
+@EqualsAndHashCode(callSuper = true)
+@Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemVo implements Serializable {
+@Table(name = "MEMBER")
+public class MemVo extends Core implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MEM_NO", insertable = false, updatable = false)
     private Integer memNo;
-    @Column(name = "MEM_NAME", updatable = false)
+    @Column(name = "MEM_NAME")
     private String memName;
-    @Column(name = "MEM_PID", updatable = false)
+    @Column(name = "MEM_PID")
     private String memPid;
-    @Column(name = "MEM_GENDER", updatable = false)
+    @Column(name = "MEM_GENDER")
     private Byte memGender;
     @Column(name = "MEM_PIC", insertable = false)
     private Byte[] memPic;
@@ -37,28 +40,11 @@ public class MemVo implements Serializable {
     private String memPh;
     @Column(name = "MEM_ADDRS")
     private String memAddress;
-    @Column(name = "MEM_BIRTH", updatable = false)
+    @Column(name = "MEM_BIRTH")
     private Date memBirth;
     @Column(name = "MEM_AUTH")
     private Byte memAuth;
     @Column(name = "MEM_VIO")
     private Byte memVio;
 
-    @Override
-    public String toString() {
-        return "MemVo{" +
-                "memNo=" + memNo +
-                ", memName='" + memName + '\'' +
-                ", memPid='" + memPid + '\'' +
-                ", memGender=" + memGender +
-                ", memPic=" + Arrays.toString(memPic) +
-                ", memEmail='" + memEmail + '\'' +
-                ", memPwd='" + memPwd + '\'' +
-                ", memPh='" + memPh + '\'' +
-                ", memAddress='" + memAddress + '\'' +
-                ", memBirth=" + memBirth +
-                ", memAuth=" + memAuth +
-                ", memVio=" + memVio +
-                '}';
-    }
 }
