@@ -1,5 +1,6 @@
 package web.forum.controller;
 
+import web.emp.service.EmpService;
 import web.forum.service.ArtService;
 import web.forum.vo.ArtVo;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -30,23 +32,25 @@ public class ArtServlet extends HttpServlet {
             Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
             req.setAttribute("errorMsgs",errorMsgs);
 
-            Integer artNo = Integer.valueOf(req.getParameter("artNo"));
+           Integer artNo = Integer.valueOf(req.getParameter("artNo"));
 
-            ArtService ArtSvc =new ArtService();
-            ArtVo artVo =ArtSvc.getOneArt(artNo);
+           ArtService ArtSvc =new ArtService();
+           ArtVo artVo =ArtSvc.getOneArt(artNo);
 
 
 
-//           String param = "?artNo=" + artVo.getArtNo()+
-//                          "&memNo="+artVo.getMemNo()+
-//                          "&artTitle="+artVo.getArtTitle()+
-//                          "&artCon="+artVo.getArtCon()+
-//                          "&artTime="+artVo.getArtTime()+
-//                          "&artState="+artVo.getArtState()+
-//                          "&artGame="+artVo.getArtGame();
-            req.setAttribute("artVo", artVo);
-            String url ="/forum/mainpage/Update_Art_input.jsp";
-            RequestDispatcher successView = req.getRequestDispatcher(url);
+           String param = "?artNo=" + artVo.getArtNo()+
+                          "&memNo="+artVo.getMemNo()+
+                          "&artTitle="+artVo.getArtTitle()+
+                          "&artCon="+artVo.getArtCon()+
+                          "&artTime="+artVo.getArtTime()+
+                          "&artState="+artVo.getArtState()+
+                          "&itemNo="+artVo.getItemNo()+
+                          "&upFiles="+artVo.getUpFiles();
+
+//           req.setAttribute("artVo", artVo);
+           String url ="/forum/mainpage/Update_Art_input.jsp"+param;
+           RequestDispatcher successView = req.getRequestDispatcher(url);
             successView.forward(req, res);
         }
         if("update".equals(action)){
@@ -55,8 +59,19 @@ public class ArtServlet extends HttpServlet {
 
             System.out.println("----------------------------");
 
-            Integer artNo = Integer.valueOf(req.getParameter("artNo"));
-            Integer memNo = Integer.valueOf(req.getParameter("memNo"));
+            Integer artNo =null;
+            try {
+                artNo = Integer.valueOf(req.getParameter("artNo").trim());
+            }catch (NumberFormatException e){
+                errorMsgs.put("artNo","貼文編號請勿空白");
+            }
+
+            Integer memNo =null;
+            try {
+                memNo =Integer.valueOf(req.getParameter("memNo").trim());
+            }catch (NumberFormatException e){
+                errorMsgs.put("memNo","請輸入會員編號");
+            }
 
 
             String artTitle =req.getParameter("artTitle");
@@ -69,6 +84,37 @@ public class ArtServlet extends HttpServlet {
                 errorMsgs.put(artCon,"貼文內容請勿空白");
             }
 
+            java.sql.Date artTime = new java.sql.Date(System.currentTimeMillis());
+
+            Byte artState =null;
+            try {
+                artState =Byte.valueOf(req.getParameter("artState").trim());
+            }catch (NumberFormatException e){
+                errorMsgs.put("artState","貼文狀態請勿空白");
+            }
+            Integer itemNo =null;
+            try {
+                itemNo =Integer.valueOf(req.getParameter("itemNo").trim());
+            }catch (NumberFormatException e){
+                errorMsgs.put("itemNo","遊戲類別請勿空白");
+            }
+
+            InputStream in = req.getPart("upFiles").getInputStream(); //從javax.servlet.http.Part物件取得上傳檔案的InputStream
+            byte[] upFiles = null;
+            if(in.available()!=0){
+                upFiles = new byte[in.available()];
+                in.read(upFiles);
+                in.close();
+            }  else {
+                ArtService artSvc = new ArtService();
+                upFiles = artSvc.getOneArt(artNo).getUpFiles();
+            }
+
+
+
+
+
+
             if (!errorMsgs.isEmpty()){
                 errorMsgs.put("Exception","修改資料失敗:-------");
                 RequestDispatcher failureView =req
@@ -77,16 +123,13 @@ public class ArtServlet extends HttpServlet {
                 return;
             }
 
-            Date artTime = java.sql.Date.valueOf(req.getParameter("artTime"));
-            Byte artState = Byte.valueOf(req.getParameter("artState"));
-            Integer artGame = Integer.valueOf(req.getParameter("artGame"));
 
             ArtService artSvc =new ArtService();
-            ArtVo artVo =artSvc.updateArt(artNo,memNo,artTitle,artCon,artTime,artState,artGame);
+            ArtVo artVo =artSvc.updateArt(artNo,memNo,artTitle,artCon,artTime,artState,itemNo,upFiles);
 
             req.setAttribute("success","- (修改成功)");
             req.setAttribute("ArtVo",artVo);
-            String url ="/forum/mainpage/Update_Art_input.jsp";
+            String url ="/forum/mainpage/Listallart.jsp";
             RequestDispatcher successView = req.getRequestDispatcher(url);
             successView.forward(req,res);
 
@@ -98,36 +141,59 @@ public class ArtServlet extends HttpServlet {
             Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
             req.setAttribute("errorMsgs",errorMsgs);
 
+            Integer memNo =Integer.valueOf(req.getParameter("memNo"));
 
+            Integer itemNo =Integer.valueOf(req.getParameter("itemNo"));
 
-            String artTitle =req.getParameter("artTitle");
-            if(artTitle == null || artTitle.trim().length() == 0){
-                errorMsgs.put(artTitle,"貼文主題請勿空白");
+                String artTitle =req.getParameter("artTitle");
+                if(artTitle == null || artTitle.trim().length() == 0){
+                    errorMsgs.put(artTitle,"貼文主題請勿空白");
+                }
+
+                String artCon =req.getParameter("artCon");
+                if(artCon == null || artCon.trim().length() == 0){
+                    errorMsgs.put(artCon,"貼文內容請勿空白");
+                }
+
+                if (!errorMsgs.isEmpty()) {
+                RequestDispatcher failureView = req
+                        .getRequestDispatcher("/forum/addnewpage.jsp");
+                failureView.forward(req, res);
+                return;
             }
-
-            String artCon =req.getParameter("artCon");
-            if(artCon == null || artCon.trim().length() == 0){
-                errorMsgs.put(artCon,"貼文內容請勿空白");
+            InputStream in = req.getPart("upFiles").getInputStream(); //從javax.servlet.http.Part物件取得上傳檔案的InputStream
+            byte[] upFiles = null;
+            if(in.available()!=0){
+                upFiles = new byte[in.available()];
+                in.read(upFiles);
+                in.close();
             }
 
             ArtService artSvc =new ArtService();
-            artSvc.addArt(2,artTitle,artCon,null,Byte.valueOf("1"),0);
+            artSvc.addArt(memNo,artTitle,artCon,itemNo,upFiles);
 
             req.setAttribute("success","-(新增成功)");
-            String url ="/forum/mainpage/Testpage.jap";
+
+            String url ="/forum/mainpage/Listallart.jsp";
             RequestDispatcher successView =req.getRequestDispatcher(url);
             successView.forward(req,res);
 
         }
 
+        if("delete".equals(action)){
+            Map<String,String> errorMsgs =new LinkedHashMap<String,String>();
+            req.setAttribute("errorMsgs",errorMsgs);
 
+            Integer artNo =Integer.valueOf(req.getParameter("artNo"));
 
+            ArtService artSvc =new ArtService();
+            artSvc.deleteArt(artNo);
 
-
-
-
-
-
+            req.setAttribute("success","-(刪除成功)");
+            String url = "/forum/mainpage/Listallart.jsp";
+            RequestDispatcher successView = req.getRequestDispatcher(url);
+            successView.forward(req,res);
+        }
     }
 
 }

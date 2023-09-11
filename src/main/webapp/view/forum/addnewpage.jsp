@@ -13,7 +13,7 @@
             background-color: #f0f5f9;
         }
         .container {
-            background-color: #b0c9db;
+
             width: 80%;
             height: 80vh;
             margin: 0 auto;
@@ -107,18 +107,18 @@
         <h1 class="title">新增貼文</h1>
     </div>
 
-    <form action="<%=request.getContextPath()%>/Art/Art.do" method="post" enc-type="multipart/form-data">
+    <form action="<%=request.getContextPath()%>/Art/Art.do" method="post" enctype="multipart/form-data">
 
     <div class="content">
         <div class="text-box">
-        <label>遊戲類別:</label>
-           <select id="ARTICAL_GAME" name="ARTICLE_NAME">
-            <option value="三國殺">三國殺</option>
-            <option value="阿瓦隆">阿瓦隆</option>
-            <option value="狼人殺">狼人殺</option>
-            <option value="驚爆倫敦">驚爆倫敦</option>
-            <option value="璀璨寶石">璀璨寶石</option>
-           </select>
+            <label for="itemNo">遊戲類別：</label>
+            <select id="itemNo" name="itemNo">
+                <option value="1" ${param.itemNo == 1 ? 'selected' : ''}>策略</option>
+                <option value="2" ${param.itemNo == 2 ? 'selected' : ''}>派對</option>
+                <option value="3" ${param.itemNo == 3 ? 'selected' : ''}>親子</option>
+                <option value="4" ${param.itemNo == 4 ? 'selected' : ''}>合作</option>
+                <option value="5" ${param.itemNo == 5 ? 'selected' : ''}>陣營</option>
+            </select>
         </div>
 
         <div class="text-box">
@@ -131,18 +131,26 @@
             <textarea id="post-content"  name="artCon" rows="10" placeholder="請輸入貼文內容" value="${param.artCon}"></textarea>
             <span id="artTitle.artCon" class="error">${errorMsgs.artCon}<br/></span>
         </div>
+        <div class="text-box">
+        	<label for="upFiles">照片:</label>
+        	<input id ="upFiles" name="upFiles" type="file" onclick="previewImage()" multiple="multiple" />
+            <span  id ="upFiles.errors" class="error">${errorMsgs.upFiles}</span>
+        	<div id="blob_holder"><img src="<%=request.getContextPath()%>/Art/DBGifReader?artNo=${param.artNo}" width="100px"></div>
+        	</div>
     </div>
-    <button class="btn-upload" onclick="openFileUploader()">上傳檔案</button>
-    <input  type="hidden" name="action" value="insert">
-    <button class="btn-submit" onclick="submitPost()">送出</button>
-    <input type="file" id="file-upload" class="file-upload" accept="image/*">
-    </form>
-</div>
+
+
+<input  type="hidden" name="memNo" value="2">
+
+
+                    <button  id="btn-submit" type="button"> 送出 </button>
+                    <input type="file" id="file-upload" class="file-upload" accept="image/*">
+                    <input  type="hidden" name="action" value="insert">
+                    </form>
+                    </div>
 <script>
-    const submitButton = document.querySelector(".btn-submit");
+    const submitButton = document.querySelector("#btn-submit");
     submitButton.addEventListener("click", function() {
-
-
         Swal.fire({
             title: '確定送出??',
             text: "確認內容編輯後即可送出!",
@@ -153,14 +161,64 @@
             confirmButtonText: 'OK'
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire(
-                    '張貼成功!',
-                    '您的貼文已經送出',
-                    '成功'
-                );
+                // 手動觸發表單的提交
+                document.querySelector("form").submit();
             }
         });
     });
+
+
 </script>
+<script type="text/javascript">
+//清除提示信息
+function hideContent(d) {
+     document.getElementById(d).style.display = "none";
+}
+
+//照片上傳-預覽用
+var filereader_support = typeof FileReader != 'undefined';
+if (!filereader_support) {
+	alert("No FileReader support");
+}
+acceptedTypes = {
+		'image/png' : true,
+		'image/jpeg' : true,
+		'image/gif' : true
+};
+function previewImage() {
+	var upfile1 = document.getElementById("upFiles");
+	upfile1.addEventListener("change", function(event) {
+		var files = event.target.files || event.dataTransfer.files;
+		for (var i = 0; i < files.length; i++) {
+			previewfile(files[i])
+		}
+	}, false);
+}
+function previewfile(file) {
+	if (filereader_support === true && acceptedTypes[file.type] === true) {
+		var reader = new FileReader();
+		reader.onload = function(event) {
+			var image = new Image();
+			image.src = event.target.result;
+			image.width = 100;
+			image.height = 75;
+			image.border = 2;
+			if (blob_holder.hasChildNodes()) {
+				blob_holder.removeChild(blob_holder.childNodes[0]);
+			}
+			blob_holder.appendChild(image);
+		};
+		reader.readAsDataURL(file);
+		document.getElementById('submit').disabled = false;
+	} else {
+		blob_holder.innerHTML = "<div  style='text-align: left;'>" + "● filename: " + file.name
+				+ "<br>" + "● ContentTyp: " + file.type
+				+ "<br>" + "● size: " + file.size + "bytes"
+				+ "<br>" + "● 上傳ContentType限制: <b> <font color=red>image/png、image/jpeg、image/gif </font></b></div>";
+		document.getElementById('submit').disabled = true;
+	}
+}
+</script>
+
 </body>
 </html>

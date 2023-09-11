@@ -42,6 +42,9 @@
         margin-left: auto;
         margin-right: auto;
     }
+    .error {
+        color: red;
+    }
 </style>
 </head>
 <body>
@@ -51,17 +54,51 @@
 	<div align="center">
 
 		<form action="<%=request.getContextPath()%>/Art/Art.do" method="post"  enctype="multipart/form-data">
-
                 <div class="text-box">
-			     <label for="post-title">貼文主題:</label>
-                        <input type="text" id="post-title" name="artTitle" placeholder="請輸入貼文主題" value="${artVo.artTitle}">
+			            <label for="post-title">文章編號:</label>
+                        <input type="text" id="post-title" name="artNo" placeholder="請輸入文章編號" value="${param.artNo}" readonly>
+                        <span id="artNo.errors" class="error">${errorMsgs.artNo}<br/></span>
+                    </div>
+                <div class="text-box">
+			            <label for="post-title">會員編號:</label>
+                        <input type="text" id="post-title" name="memNo" placeholder="請輸入會員編號" value="${param.memNo}" readonly>
+                        <span id="memNo.errors" class="error">${errorMsgs.memNo}<br/></span>
+                    </div>
+                <div class="text-box">
+			            <label for="post-title">貼文主題:</label>
+                        <input type="text" id="post-title" name="artTitle" placeholder="請輸入貼文主題" value="${param.artTitle}">
                         <span id="artTitle.errors" class="error">${errorMsgs.artTitle}<br/></span>
                     </div>
-                    <div class="text-box">
+                <div class="text-box">
                         <label for="post-content">貼文內容:</label>
-                        <textarea id="post-content"  name="artCon" rows="10" placeholder="請輸入貼文內容" >${artVo.artCon}</textarea>
+                        <textarea id="post-content"  name="artCon" rows="10" placeholder="請輸入貼文內容" >${param.artCon}</textarea>
                         <span id="artTitle.artCon" class="error">${errorMsgs.artCon}<br/></span>
                     </div>
+                 <div class="text-box">
+                     <label for="artTime">貼文時間:</label>
+                     <input type="text" id="artTime" name="artTime" placeholder="請輸入貼文時間" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date()) %>" readonly>
+                     <span id="artTime.errors" class="error">${errorMsgs.artTime}<br/></span>
+                 </div>
+               <div class="text-box">
+                   <label for="artState">貼文狀態:</label>
+                   <select id="artState" name="artState">
+                       <option value="0" ${param.artState == '0' ? 'selected' : ''}>未上架</option>
+                       <option value="1" ${param.artState == '1' ? 'selected' : ''}>已上架</option>
+                   </select>
+                   <span id="artState.errors" class="error">${errorMsgs.artState}<br/></span>
+               </div>
+                <div class="text-box">
+			            <label for="post-title">遊戲類別:</label>
+                        <input type="text" id="post-title" name="artGame" placeholder="請輸入遊戲類別" value="${param.itemNo}">
+                        <span id="artGame.errors" class="error">${errorMsgs.itemNo}<br/></span>
+                    </div>
+                <div class="text-box">
+                    	<label for="upFiles">照片:</label>
+                    	<input id ="upFiles" name="upFiles" type="file" onclick="previewImage()" multiple="multiple" />
+                        <%-- 可以不修改圖片 <span  id ="upFiles.errors" class="error">${errorMsgs.upFiles}</span> --%>
+                        <div id="blob_holder"><img src="<%=request.getContextPath()%>/Art/DBGifReader?artNo=${param.artNo}" width="100px"></div>
+                    	</div>
+
 
 
 			<div>

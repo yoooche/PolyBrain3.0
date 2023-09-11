@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serial;
+import java.util.Date;
 import java.time.LocalDateTime;
 
 @Entity(name = "REPLY")
@@ -31,7 +32,7 @@ public class RpyVo extends Core {
     @Column(name = "REPLY_CONTENT")
     private String rpyCon;
     @Column(name = "REPLY_TIME")
-    private LocalDateTime rpyTime;
+    private Date rpyTime;
     @Column(name = "REPLY_STATE")
     private Byte rpyState;
 }

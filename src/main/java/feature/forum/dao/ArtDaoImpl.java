@@ -11,5 +11,6 @@ public interface ArtDaoImpl {
     public void delete(Integer artNo);
     public  ArtVo findByPrimaryKey(Integer artNo);
     public List<ArtVo> getAll();
+    public List<ArtVo> findByItemNo(Integer itemNo);
 
 }

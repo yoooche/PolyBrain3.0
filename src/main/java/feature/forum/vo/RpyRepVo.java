@@ -36,5 +36,5 @@ public class RpyRepVo extends Core {
     @Column(name = "REP_DONETIME")
     private LocalDateTime repdoneTime;
 
-}
+    }
 

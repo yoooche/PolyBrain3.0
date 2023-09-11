@@ -1,18 +1,20 @@
 package web.forum.dao;
 
 import web.forum.vo.ArtVo;
+import web.forum.vo.RpyVo;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import java.sql.*;
-import java.sql.Date;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-
-public class ArtDao implements ArtDaoImpl{
-
+public class RpyDao implements RpyDaoImpl{
     private  static DataSource ds =null;
     static {
         try {
@@ -23,22 +25,21 @@ public class ArtDao implements ArtDaoImpl{
             e.printStackTrace();
         }
     }
-
     private static final String INSERT_STMT =
-            "INSERT INTO article (MEM_NO,ARTICLE_TITLE,ARTICLE_CONTENT,ARTICLE_TIME,ARTICLE_STATE,ITEM_CLASS_NO,upFiles) VALUES (?, ?, ?, NOW(), 1, ?,?)";
+            "INSERT INTO reply (ARTICLE_NO,MEM_NO,REPLY_CONTENT,REPLY_STATE,REPLY_TIME) VALUES (?, ?, ?, 1, NOW())";
     private static final String GET_ALL_STMT =
-            "SELECT ARTICLE_NO,MEM_NO,ARTICLE_TITLE,ARTICLE_CONTENT,ARTICLE_TIME,ARTICLE_STATE,ITEM_CLASS_NO,upFiles FROM article order by ARTICLE_NO";
+            "SELECT REPLY_NO,MEM_NO,ARTICLE_NO,REPLY_CONTENT,REPLY_TIME,REPLY_STATE FROM reply order by REPLY_NO";
     private static final String GET_ONE_STMT =
-            "SELECT ARTICLE_NO,MEM_NO,ARTICLE_TITLE,ARTICLE_CONTENT,ARTICLE_TIME,ARTICLE_STATE,ITEM_CLASS_NO,upFiles FROM article where ARTICLE_NO = ?";
-    private static final String GET_ONE_NO =
-            "SELECT ARTICLE_NO,MEM_NO,ARTICLE_TITLE,ARTICLE_CONTENT,ARTICLE_TIME,ARTICLE_STATE,ITEM_CLASS_NO,upFiles FROM article where ITEM_CLASS_NO = ?";
+            "SELECT  REPLY_NO,MEM_NO,ARTICLE_NO,REPLY_CONTENT,REPLY_TIME,REPLY_STATE FROM reply where REPLY_NO = ?";
+    private static final String GET_ONE_ART =
+            "SELECT REPLY_NO,MEM_NO,REPLY_CONTENT,REPLY_TIME,REPLY_STATE,ARTICLE_NO FROM reply where ARTICLE_NO = ?";
     private static final String DELETE =
-            "DELETE FROM article where ARTICLE_NO = ?";
+            "DELETE FROM reply where REPLY_NO = ?";
     private static final String UPDATE =
-            "UPDATE article set MEM_NO=?, ARTICLE_TITLE=?, ARTICLE_CONTENT=?, ARTICLE_STATE=?, ITEM_CLASS_NO=? ,upFiles=? where ARTICLE_NO = ?";
+            "UPDATE reply set ARTICLE_NO=?, MEM_NO=?, REPLY_CONTENT=?, REPLY_STATE=1  where REPLY_NO = ?";
 
     @Override
-    public void insert(ArtVo artVo) {
+    public void insert(RpyVo rpyvo) {
         Connection con =null;
         PreparedStatement pstmt =null;
 
@@ -46,11 +47,10 @@ public class ArtDao implements ArtDaoImpl{
             con = ds.getConnection();
             pstmt = con.prepareStatement(INSERT_STMT);
 
-            pstmt.setInt(1,artVo.getMemNo());
-            pstmt.setString(2, artVo.getArtTitle());
-            pstmt.setString(3, artVo.getArtCon());
-            pstmt.setInt(4,artVo.getItemNo());
-            pstmt.setBytes(5,artVo.getUpFiles());
+            pstmt.setInt(1, rpyvo.getArtNo());
+            pstmt.setInt(2,rpyvo.getMemNo());
+            pstmt.setString(3, rpyvo.getRpyCon());
+
 
             pstmt.executeUpdate();
 
@@ -76,8 +76,10 @@ public class ArtDao implements ArtDaoImpl{
 
     }
 
+
+
     @Override
-    public void update(ArtVo artvo) {
+    public void update(RpyVo rpyvo) {
         Connection con =null;
         PreparedStatement pstmt =null;
 
@@ -85,13 +87,12 @@ public class ArtDao implements ArtDaoImpl{
             con = ds.getConnection();
             pstmt = con.prepareStatement(UPDATE);
 
-            pstmt.setInt(1,artvo.getMemNo());
-            pstmt.setString(2,artvo.getArtTitle());
-            pstmt.setString(3,artvo.getArtCon());
-            pstmt.setByte(4,artvo.getArtState());
-            pstmt.setInt(5,artvo.getItemNo());
-            pstmt.setBytes(6,artvo.getUpFiles());
-            pstmt.setInt(7,artvo.getArtNo());
+            pstmt.setInt(1,rpyvo.getArtNo());
+            pstmt.setInt(2,rpyvo.getMemNo());
+            pstmt.setString(3,rpyvo.getRpyCon());
+            pstmt.setInt(4,rpyvo.getRpyNo());
+
+
 
             pstmt.executeUpdate();
 
@@ -117,8 +118,9 @@ public class ArtDao implements ArtDaoImpl{
         }
     }
 
+
     @Override
-    public void delete(Integer artNo) {
+    public void delete(Integer rpyNo) {
         Connection con =null;
         PreparedStatement pstmt =null;
 
@@ -127,7 +129,7 @@ public class ArtDao implements ArtDaoImpl{
             con = ds.getConnection();
             pstmt =con.prepareStatement(DELETE);
 
-            pstmt.setInt(1,artNo);
+            pstmt.setInt(1,rpyNo);
 
             pstmt.executeUpdate();
 
@@ -150,13 +152,11 @@ public class ArtDao implements ArtDaoImpl{
                 }
             }
         }
-
-
     }
 
     @Override
-    public ArtVo findByPrimaryKey(Integer artNo) {
-        ArtVo artVo =null;
+    public RpyVo findByPrimaryKey(Integer rpyNo) {
+        RpyVo rpyVo =null;
         Connection con =null;
         PreparedStatement pstmt =null;
         ResultSet rs =null;
@@ -165,20 +165,18 @@ public class ArtDao implements ArtDaoImpl{
             con =ds.getConnection();
             pstmt =con.prepareStatement(GET_ONE_STMT);
 
-            pstmt.setInt(1,artNo);
+            pstmt.setInt(1,rpyNo);
 
             rs =pstmt.executeQuery();
 
             while (rs.next()) {
-                artVo = new ArtVo();
-                artVo.setArtNo(rs.getInt("ARTICLE_NO"));
-                artVo.setMemNo(rs.getInt("MEM_NO"));
-                artVo.setArtTitle(rs.getString("ARTICLE_TITLE"));
-                artVo.setArtCon(rs.getString("ARTICLE_CONTENT"));
-                artVo.setArtTime(rs.getDate("ARTICLE_TIME"));
-                artVo.setArtState(rs.getByte("ARTICLE_STATE"));
-                artVo.setItemNo(rs.getInt("ITEM_CLASS_NO"));
-                artVo.setUpFiles(rs.getBytes("upFiles"));
+                rpyVo = new RpyVo();
+                rpyVo.setRpyNo(rs.getInt("REPLY_NO"));
+                rpyVo.setMemNo(rs.getInt("MEM_NO"));
+                rpyVo.setArtNo(rs.getInt("ARTICLE_NO"));
+                rpyVo.setRpyCon(rs.getString("REPLY_CONTENT"));
+                rpyVo.setRpyTime(rs.getDate("REPLY_TIME"));
+                rpyVo.setRpyState(rs.getByte("REPLY_STATE"));
             }
         } catch (SQLException e) {
             throw new RuntimeException("A database error occurred. "
@@ -206,13 +204,14 @@ public class ArtDao implements ArtDaoImpl{
                 }
             }
         }
-        return artVo;
+        return rpyVo;
     }
 
+
     @Override
-    public List<ArtVo> findByItemNo(Integer itemNo) {
-        List<ArtVo> list =new ArrayList<ArtVo>();
-        ArtVo artVo = null ;
+    public List<RpyVo> getAll() {
+        List<RpyVo> list =new ArrayList<RpyVo>();
+        RpyVo rpyVo = null ;
 
         Connection con =null;
         PreparedStatement pstmt =null;
@@ -220,25 +219,79 @@ public class ArtDao implements ArtDaoImpl{
 
         try {
             con =ds.getConnection();
-            pstmt =con.prepareStatement(GET_ONE_NO);
-            pstmt.setInt(1,itemNo );
+            pstmt =con.prepareStatement(GET_ALL_STMT);
             rs =pstmt.executeQuery();
 
             while (rs.next()) {
-                artVo = new ArtVo();
-                artVo.setArtNo(rs.getInt("ARTICLE_NO"));
-                artVo.setMemNo(rs.getInt("MEM_NO"));
-                artVo.setArtTitle(rs.getString("ARTICLE_TITLE"));
-                artVo.setArtCon(rs.getString("ARTICLE_CONTENT"));
-                artVo.setArtTime(rs.getDate("ARTICLE_TIME"));
-                artVo.setArtState(rs.getByte("ARTICLE_STATE"));
-                artVo.setItemNo(rs.getInt("ITEM_CLASS_NO"));
-                list.add(artVo);
+                rpyVo = new RpyVo();
+                rpyVo.setRpyNo(rs.getInt("REPLY_NO"));
+                rpyVo.setMemNo(rs.getInt("MEM_NO"));
+                rpyVo.setArtNo(rs.getInt("ARTICLE_NO"));
+                rpyVo.setRpyCon(rs.getString("REPLY_CONTENT"));
+                rpyVo.setRpyTime(rs.getDate("REPLY_TIME"));
+                rpyVo.setRpyState(rs.getByte("REPLY_STATE"));
+                list.add(rpyVo);
             }
         } catch (SQLException e) {
             throw new RuntimeException("A database error occurred. "
                     + e.getMessage());
         }finally {
+            if(rs !=null){
+                try {
+                    rs.close();
+                }catch (SQLException e){
+                    e.printStackTrace(System.err);
+                }
+            }
+            if (pstmt !=null){
+                try {
+                    pstmt.close();
+                }catch (SQLException e){
+                    e.printStackTrace(System.err);
+                }
+            }
+            if (con !=null){
+                try {
+                    con.close();
+                }catch (Exception e){
+                    e.printStackTrace(System.err);
+                }
+            }
+        }
+        return list;
+    }
+
+
+    @Override
+    public List<RpyVo> findByArt(Integer artNo) {
+        List<RpyVo> list = new ArrayList<RpyVo>();
+        RpyVo rpyVo = null;
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = ds.getConnection();
+            pstmt = con.prepareStatement(GET_ONE_ART);
+
+            pstmt.setInt(1, artNo);
+
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                rpyVo = new RpyVo();
+                rpyVo.setRpyNo(rs.getInt("REPLY_NO"));
+                rpyVo.setMemNo(rs.getInt("MEM_NO"));
+                rpyVo.setArtNo(rs.getInt("ARTICLE_NO"));
+                rpyVo.setRpyCon(rs.getString("REPLY_CONTENT"));
+                rpyVo.setRpyTime(rs.getDate("REPLY_TIME"));
+                rpyVo.setRpyState(rs.getByte("REPLY_STATE"));
+                list.add(rpyVo);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("A database error occurred. " + e.getMessage());
+        } finally {
             if (rs != null) {
                 try {
                     rs.close();
@@ -257,61 +310,6 @@ public class ArtDao implements ArtDaoImpl{
                 try {
                     con.close();
                 } catch (Exception e) {
-                    e.printStackTrace(System.err);
-                }
-            }
-        }
-
-        return list;
-    }
-
-    @Override
-    public List<ArtVo> getAll() {
-        List<ArtVo> list =new ArrayList<ArtVo>();
-        ArtVo artVo = null ;
-
-        Connection con =null;
-        PreparedStatement pstmt =null;
-        ResultSet rs =null;
-
-        try {
-            con =ds.getConnection();
-            pstmt =con.prepareStatement(GET_ALL_STMT);
-            rs =pstmt.executeQuery();
-
-            while (rs.next()) {
-                artVo = new ArtVo();
-                artVo.setArtNo(rs.getInt("ARTICLE_NO"));
-                artVo.setMemNo(rs.getInt("MEM_NO"));
-                artVo.setArtTitle(rs.getString("ARTICLE_TITLE"));
-                artVo.setArtCon(rs.getString("ARTICLE_CONTENT"));
-                artVo.setArtTime(rs.getDate("ARTICLE_TIME"));
-                artVo.setArtState(rs.getByte("ARTICLE_STATE"));
-                artVo.setItemNo(rs.getInt("ITEM_CLASS_NO"));
-                list.add(artVo);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("A database error occurred. "
-                    + e.getMessage());
-        }finally {
-            if(rs !=null){
-                try {
-                    rs.close();
-                }catch (SQLException e){
-                    e.printStackTrace(System.err);
-                }
-            }
-            if (pstmt !=null){
-                try {
-                    pstmt.close();
-                }catch (SQLException e){
-                    e.printStackTrace(System.err);
-                }
-            }
-            if (con !=null){
-                try {
-                    con.close();
-                }catch (Exception e){
                     e.printStackTrace(System.err);
                 }
             }

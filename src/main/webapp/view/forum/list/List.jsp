@@ -6,7 +6,7 @@
 
 <%
     ArtService artSvc = new ArtService();
-    List<ArtVo> list = artSvc.getAll();
+    List<ArtVo> list = artSvc.findByItemNo(Integer.valueOf(request.getParameter("itemNo")));
     if(request.getAttribute("ArtListData")==null) pageContext.setAttribute("ArtListData",list);
 %>
 <!DOCTYPE html>
@@ -14,6 +14,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>討論區內頁</title>
@@ -74,7 +75,7 @@
             <script>
             	$(document).ready(function() {
             		$('#example').DataTable({
-            			"lengthMenu": [3 , 5],
+            			"lengthMenu": [3,5,10,20],
             			"searching": true,  //搜尋功能, 預設是開啟
             		    "paging": true,     //分頁功能, 預設是開啟
             		    "ordering": true,   //排序功能, 預設是開啟
@@ -125,6 +126,7 @@
         </div>
     </div>
 </nav>
+    <a class="btn btn-primary" href="../addnewpage.jsp">新增貼文</a>
 
 <table id="example" class="display" style="width: 100%">
   <thead >
@@ -133,8 +135,8 @@
 		<th>文章編號</th>
 		<th>會員編號</th>
 		<th>貼文主題</th>
-		<th>貼文內容</th>
 		<th>發布時間</th>
+		<th>圖片</th>
 	</tr>
   </thead>
 
@@ -144,15 +146,16 @@
             <td>${s.count}</td>
 			<td>${ArtVo.artNo}</td>
 			<td>${ArtVo.memNo}</td>
-			<td>${ArtVo.artTitle}</td>
-			<td>${ArtVo.artCon}</td>
-			<td>${ArtVo.artTime}</td>
+			<td><a href="../innerpage/detail.jsp?artNo=${ArtVo.artNo}">${ArtVo.artTitle}</a></td>
+			<td>
+                <fmt:formatDate value="${ArtVo.artTime}" pattern="yyyy-MM-dd HH:mm:ss" />
+            </td>
 
+			<td><img src="<%=request.getContextPath()%>/Art/DBGifReader?artNo=${ArtVo.artNo}" width="100px"></td>
 		</tr>
 	</c:forEach>
   </tbody>
 </table>
-
 <!-- Footer-->
 <footer class="py-5 bg-dark">
     <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>

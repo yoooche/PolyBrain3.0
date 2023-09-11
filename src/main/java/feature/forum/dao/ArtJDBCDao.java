@@ -12,22 +12,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ArtJDBCDao implements web.forum.dao.ArtDaoImpl {
+public class ArtJDBCDao implements ArtDaoImpl{
 
     String driver = "com.mysql.cj.jdbc.Driver";
     String url = "jdbc:mysql://localhost:3306/polybrain?serverTimezone=Asia/Taipei";
     String userid = "root";
     String passwd = "general0419";
     private static final String INSERT_STMT =
-            "INSERT INTO article (MEM_NO,ARTICLE_TITLE,ARTICLE_CONTENT,ARTICLE_TIME,ARTICLE_STATE,ARTICLE_GAME) VALUES (?, ?, ?, ?, ?, ?)";
+            "INSERT INTO article (MEM_NO,ARTICLE_TITLE,ARTICLE_CONTENT,ARTICLE_TIME,ARTICLE_STATE,ITEM_CLASS_NO) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String GET_ALL_STMT =
-            "SELECT ARTICLE_NO,MEM_NO,ARTICLE_TITLE,ARTICLE_CONTENT,ARTICLE_TIME,ARTICLE_STATE,ARTICLE_GAME FROM article order by ARTICLE_NO";
+            "SELECT ARTICLE_NO,MEM_NO,ARTICLE_TITLE,ARTICLE_CONTENT,ARTICLE_TIME,ARTICLE_STATE,ITEM_CLASS_NO FROM article order by ARTICLE_NO";
     private static final String GET_ONE_STMT =
-            "SELECT ARTICLE_NO,MEM_NO,ARTICLE_TITLE,ARTICLE_CONTENT,ARTICLE_TIME,ARTICLE_STATE,ARTICLE_GAME FROM article where ARTICLE_NO = ?";
+            "SELECT ARTICLE_NO,MEM_NO,ARTICLE_TITLE,ARTICLE_CONTENT,ARTICLE_TIME,ARTICLE_STATE,ITEM_CLASS_NO FROM article where ARTICLE_NO = ?";
     private static final String DELETE =
             "DELETE FROM article where ARTICLE_NO = ?";
     private static final String UPDATE =
-            "UPDATE article set MEM_NO=?, ARTICLE_TITLE=?, ARTICLE_CONTENT=?, ARTICLE_TIME=?, ARTICLE_STATE=?, ARTICLE_GAME=? where ARTICLE_NO = ?";
+            "UPDATE article set MEM_NO=?, ARTICLE_TITLE=?, ARTICLE_CONTENT=?, ARTICLE_TIME=?, ARTICLE_STATE=?, ITEM_CLASS_NO=? where ARTICLE_NO = ?";
 
     @Override
     public void insert(ArtVo artvo) {
@@ -45,7 +45,7 @@ public class ArtJDBCDao implements web.forum.dao.ArtDaoImpl {
             pstmt.setString(3, artvo.getArtCon());
             pstmt.setDate(4, (Date) artvo.getArtTime());
             pstmt.setByte(5,artvo.getArtState());
-            pstmt.setInt(6,artvo.getArtGame());
+            pstmt.setInt(6,artvo.getItemNo());
 
             pstmt.executeUpdate();
 
@@ -89,7 +89,7 @@ public class ArtJDBCDao implements web.forum.dao.ArtDaoImpl {
             pstmt.setString(3,artvo.getArtCon());
             pstmt.setDate(4, (Date) artvo.getArtTime());
             pstmt.setByte(5,artvo.getArtState());
-            pstmt.setInt(6,artvo.getArtGame());
+            pstmt.setInt(6,artvo.getItemNo());
             pstmt.setInt(7,artvo.getArtNo());
 
             pstmt.executeUpdate();
@@ -97,7 +97,7 @@ public class ArtJDBCDao implements web.forum.dao.ArtDaoImpl {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("Couldn't load database driver. "
                     + e.getMessage());
-        } catch (SQLException e) {
+    } catch (SQLException e) {
             throw new RuntimeException("A database error occurred. "
                     + e.getMessage());
         }finally {
@@ -184,7 +184,7 @@ public class ArtJDBCDao implements web.forum.dao.ArtDaoImpl {
                 artVo.setArtCon(rs.getString("ARTICLE_CONTENT"));
                 artVo.setArtTime(rs.getDate("ARTICLE_TIME"));
                 artVo.setArtState(rs.getByte("ARTICLE_STATE"));
-                artVo.setArtGame(rs.getInt("ARTICLE_GAME"));
+                artVo.setItemNo(rs.getInt("ITEM_CLASS_NO"));
             }
         } catch (SQLException e) {
             throw new RuntimeException("A database error occurred. "
@@ -241,7 +241,7 @@ public class ArtJDBCDao implements web.forum.dao.ArtDaoImpl {
                 artVo.setArtCon(rs.getString("ARTICLE_CONTENT"));
                 artVo.setArtTime(rs.getDate("ARTICLE_TIME"));
                 artVo.setArtState(rs.getByte("ARTICLE_STATE"));
-                artVo.setArtGame(rs.getInt("ARTICLE_GAME"));
+                artVo.setItemNo(rs.getInt("ITEM_CLASS_NO"));
                 list.add(artVo);
             }
         } catch (SQLException e) {
@@ -274,6 +274,11 @@ public class ArtJDBCDao implements web.forum.dao.ArtDaoImpl {
             }
         }
         return list;
+    }
+
+    @Override
+    public List<ArtVo> findByItemNo(Integer itemNo) {
+        return null;
     }
 
     public static void main(String[] args) {

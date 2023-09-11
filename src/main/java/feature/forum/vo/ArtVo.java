@@ -30,11 +30,19 @@ public class ArtVo extends Core {
     private String artTitle;
     @Column(name = "ARTICLE_CONTENT")
     private String artCon;
-    @Column(name = "ARTICLE_TIME",insertable = false)
+    @Column(name = "ARTICLE_TIME",insertable = true)
     private Date artTime;
     @Column(name = "ARTICLE_STATE")
     private Byte artState;
-    @Column(name = "ARTICLE_GAME")
-    private Integer artGame;
+    @Column(name = "ITEM_CLASS_NO")
+    private Integer itemNo;
+    private byte[] upFiles;
+
+    public byte[] getUpFiles() {
+        return upFiles;
+    }
+    public void setUpFiles(byte[] upFiles) {
+        this.upFiles = upFiles;
+    }
 
 }

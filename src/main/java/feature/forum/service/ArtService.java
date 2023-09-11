@@ -15,21 +15,20 @@ public class ArtService {
         dao = new ArtDao();
     }
 
-    public ArtVo addArt(Integer memNo, String artTitle, String artCon, Date artTime, Byte artState, Integer artGame){
+    public ArtVo addArt(Integer memNo, String artTitle, String artCon, Integer itemNo,byte[] upFiles){
 
         ArtVo artVo =new ArtVo();
 
         artVo.setMemNo(memNo);
         artVo.setArtTitle(artTitle);
         artVo.setArtCon(artCon);
-        artVo.setArtTime(artTime);
-        artVo.setArtState(artState);
-        artVo.setArtGame(artGame);
+        artVo.setItemNo(itemNo);
+        artVo.setUpFiles(upFiles);
         dao.insert(artVo);
 
         return artVo;
     }
-    public ArtVo updateArt(Integer artNo,Integer memNo, String artTitle, String artCon, Date artTime, Byte artState, Integer artGame){
+    public ArtVo updateArt(Integer artNo,Integer memNo, String artTitle, String artCon, Date artTime, Byte artState, Integer itemNo,byte[] upFiles){
 
         ArtVo artVo =new ArtVo();
 
@@ -39,7 +38,8 @@ public class ArtService {
         artVo.setArtCon(artCon);
         artVo.setArtTime(artTime);
         artVo.setArtState(artState);
-        artVo.setArtGame(artGame);
+        artVo.setItemNo(itemNo);
+        artVo.setUpFiles(upFiles);
         dao.update(artVo);
 
         return dao.findByPrimaryKey(artNo);
@@ -57,7 +57,12 @@ public class ArtService {
     }
 
     public List<ArtVo> getAll() {
+
         return dao.getAll();
+    }
+
+    public List<ArtVo> findByItemNo(Integer itemNo) {
+        return dao.findByItemNo(itemNo);
     }
 
 
