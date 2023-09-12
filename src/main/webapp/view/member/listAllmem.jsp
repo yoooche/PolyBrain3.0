@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.*"%>
-<%@page import="feature.emp.service.*"%>
-<%@page import="feature.emp.controller.*"%>
-<%@page import="feature.emp.dao.*"%>
-<%@page import="feature.emp.vo.*"%>
+<%@page import="feature.mem.service.*"%>
+<%@page import="feature.mem.controller.*"%>
+<%@page import="feature.mem.dao.*"%>
+<%@page import="feature.mem.vo.*"%>
 
 <%
-    allEmpListService empSvc = new allEmpListService();
-    List<EmpVo> list = empSvc.getAll();
-    pageContext.setAttribute("empList",list);
+    listallmemService memSvc = new listallmemService();
+    List<MemVo> list = memSvc.getAll();
+    pageContext.setAttribute("memList",list);
 %>
 
 <!DOCTYPE html>
@@ -18,7 +18,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>PolyBrain - 後台所有員工查詢</title>
+    <title>PolyBrain - 後台所有會員查詢</title>
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>                                    <!-- ●●js  for jquery datatables 用 -->
     <script	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>              <!-- ●●js  for jquery datatables 用 -->
@@ -64,10 +64,10 @@
 
     </head>
     <body>
-            <nav >
-        		 <div align="center"> <h2>員工資料管理</h2><a href="addNewEmp.jsp">新增</a>
-            </nav>
 
+        <nav >
+    		 <div align="center"> <h2>會員資料管理</h2>   <a href="/PolyBrain/view/member/addmem.jsp">新增</a>
+        </nav>
         <h4><span>資料查詢:</span></h4>
         <div></div><br>
 
@@ -76,45 +76,46 @@
       <table id="example" class="display" style="width: 100%">
         <thead >
       	<tr style="background-color:#CCCCFF">
-      		<th>員工編號</th>
+      		<th>會員編號</th>
       		<th>姓名</th>
-      		<th>性別</th>
+      		<th>身分證</th>
       		<th>信箱</th>
-      		<th>密碼</th>
       		<th>手機</th>
-      		<th>狀態</th>
+      		<th>地址</th>
+      		<th>生日</th>
+      		<th>權限</th>
       		<th>修改</th>
-      		<th>刪除</th>
-
+            <th>刪除</th>
       	</tr>
 
         </thead>
        <tbody>
 
-       <c:forEach var="mm" items="${empList}" >
+       <c:forEach var="mm" items="${memList}" >
       		<tr>
-      			<td>${mm.empNo}</td>
-      			<td>${mm.empName}</td>
-      			<td>${mm.empGender == '0' ? '女' : '男'}</td>
-      			<td>${mm.empEmail}</td>
-      			<td>${mm.empPwd}</td>
-      			<td>${mm.empPh}</td>
-      			<td>${mm.empState == 0 ? '離職' : mm.empState == 1 ? '在職中' : mm.empState == 2 ? '停職' : ''}</td>
-
+      			<td>${mm.memNo}</td>
+      			<td>${mm.memName}</td>
+      			<td>${mm.memPid}</td>
+      			<td>${mm.memEmail}</td>
+      			<td>${mm.memPh}</td>
+      			<td>${mm.memAddress}</td>
+      			<td>${mm.memBirth}</td>
+      			<td>${mm.memAuth}</td>
       			<td>
-                    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/allEmpListServlet/do" style="margin-bottom: 0px;">
+                    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/listAllmemServlet/do" style="margin-bottom: 0px;">
                 	<input type="submit" value="修改">
-                	<input type="hidden" name="empNo" value="${mm.empNo}">
+                	<input type="hidden" name="memNo" value="${mm.memNo}">
                 	<input type="hidden" name="action"	value="getOne_For_Update"></FORM>
                 </td>
                 <td>
-                    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/allEmpListServlet/do" style="margin-bottom: 0px;">
+                    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/listAllmemServlet/do" style="margin-bottom: 0px;">
                 	<input type="submit" value="刪除">
-                	<input type="hidden" name="empNo" value="${mm.empNo}">
+                	<input type="hidden" name="memNo" value="${mm.memNo}">
                 	<input type="hidden" name="action" value="delete"></FORM>
                 </td>
             </tr>
         </c:forEach>
+
     </tbody>
         </table>
 
