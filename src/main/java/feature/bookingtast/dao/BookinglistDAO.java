@@ -28,10 +28,7 @@ public class BookinglistDAO implements Bookinglist_interface {
 		return session.createQuery(hql, BookinglistVO.class).getResultList();
 	}
 
-	@Override
-	public List<TablebookingVO> selectAll() {
-		return null;
-	}
+
 
 	// ... 其他方法可以類似地使用Hibernate進行轉換
 

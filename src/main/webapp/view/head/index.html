@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
 
 <head>
     <meta charset="utf-8" />
@@ -17,41 +17,56 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <style>
-        .search-right {
-    margin-left: auto;
+    .btn-outline-dark {
+    color: #ffffff;
     }
+        .navbar-expand-lg .navbar-nav .nav-link {  /*拉寬標題間距*/
+            padding-right: 1.5rem!important;
 
- body {
-     font-family: Arial, Helvetica, sans-serif;
-     margin: auto;
- }
+        }
 
- .carousel-inner {
-     height: 300px; /* 設定一個你希望的高度 */
-     width: 70%;   /* 根據你的需求，可能需要定義具體的寬度 */
-     margin: auto;
- }
+                .search-right {
+            margin-left: auto;
+            }
 
- .carousel-inner img {
-     /* 如果你希望圖片不超過某個尺寸，但仍然保持原始比例 */
-    height: 300px;  /* 設定想要的高度 */
-    width: 500px;   /* 設定想要的寬度 */
+         body {
+             font-family: Arial, Helvetica, sans-serif;
+             margin: auto;
+         }
 
-     /* 如果你想直接設定一個固定的尺寸，使用以下設定（但可能會失去原始比例） */
-/*
-     width: 120px;   // 固定寬度
-     height: 80px;   // 固定高度
-*/
+         .carousel-inner {
+             height: 300px; /* 設定一個你希望的高度 */
+             width: 70%;   /* 根據你的需求，可能需要定義具體的寬度 */
+             margin: auto;
+         }
 
-     /* 讓圖片在 Carousel 中水平和垂直居中 */
-     display: block;
-     margin: auto;
- }
+         .carousel-inner img {
+             /* 如果你希望圖片不超過某個尺寸，但仍然保持原始比例 */
+            height: 300px;  /* 設定想要的高度 */
+            width: 500px;   /* 設定想要的寬度 */
 
- div-class {
-      width: 50%;
-      height: auto;
-  }
+             /* 如果你想直接設定一個固定的尺寸，使用以下設定（但可能會失去原始比例） */
+        /*
+             width: 120px;   // 固定寬度
+             height: 80px;   // 固定高度
+        */
+
+             /* 讓圖片在 Carousel 中水平和垂直居中 */
+             display: block;
+             margin: auto;
+         }
+
+        .centered-white-text { /* 輪播圖上方的字*/
+            text-align: center; /* 文字置中 */
+            color: white;       /* 字體顏色為白色 */
+        }
+
+        .card.text-center {   /* 卡片分頁 */
+    top: 5px;
+    width: 600px;
+    max-width: 600px;
+    margin: 0 auto;  /* 將卡片置於頁面中央 */
+}
     </style>
 </head>
 
@@ -60,7 +75,8 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container px-5">
-                <a class="navbar-brand" href="index.html">PolyBrain</a>
+                <a class="navbar-brand" href="index.html">
+                 <img src="../logo/PolyBrain_Logo.png" style="width: 110px; height: auto; margin-bottom: 5px;"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation"><span
@@ -98,33 +114,34 @@
                         </li>
                         <li class="nav-item ">
                             <a class="nav-link" id="memberdistrict" href="#" role="button">會員中心</a>
-
                         </li>
                         <li class="nav-item"><a class="nav-link" href="faq.html">常見問題</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact.html">登入</a></li>
+
 
                         <li>
-                            <button class="btn btn-outline-dark" type="submit">
-                                <i class="bi-cart-fill me-1"></i>
-                                <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
-                            </button>
+                            <form class="d-flex">
+                                <button class="btn btn-outline-dark" type="submit">
+                                    <i class="bi-cart-fill me-1"></i>
+                                    購物車
+                                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                                </button>
+                            </form>
                         </li>
-                        <li class="search-right">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                            <ul id="dropdown-menu" class="dropdown-menu dropdown-menu-end"
+                                aria-labelledby="navbarDropdown">
+                            </ul>
+                        </li>
 
-                                <div class="search">
-                                    <input class="search-bar" type="text" name="search" id="search" placeholder="Search">
-                                    <button class="search-btn">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
         <!-- Header-->
         <header class="bg-dark py-5">
-
+            <h2 class="centered-white-text">店家推薦</h2>
             <!-- 旋轉木馬 -->
             <div class="container">
                 <div id="blah" class="carousel slide" data-ride="carousel">
@@ -144,12 +161,13 @@
 
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <a href="http://localhost:8080/PolyBrain/view/bookingtast/1.jsp">
+
+                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=101   " >
                                 <img src="images/1.jpg" alt="crystal handle">
                             </a>
                         </div>
                         <div class="carousel-item">
-                            <a href="http://localhost:8080/PolyBrain/view/bookingtast/1.jsp">
+                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=102">
                                 <img src="images/2.jpg" alt="a group of rods by me" >
                             </a>
                             <div class="carousel-caption"> <!-- Example caption -->
@@ -158,39 +176,39 @@
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <a href="http://localhost:8080/PolyBrain/view/bookingtast/1.jsp">
+                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=103">
                                 <img src="images/3.jpg" alt="black rod" >
                             </a>
                         </div>
                         <div class="carousel-item">
-                            <a href="http://localhost:8080/PolyBrain/view/bookingtast/1.jsp">
+                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=104">
                                 <img src="images/4.jpg" alt="royal blue rod">
                             </a>
                         </div>
                         <div class="carousel-item">
-                            <a href="http://localhost:8080/PolyBrain/view/bookingtast/1.jsp">
+                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=105">
                                 <img src="images/5.jpg" alt="royal blue rod">
                             </a>
                         </div>
                         <div class="carousel-item">
-                            <a href="http://localhost:8080/PolyBrain/view/bookingtast/1.jsp">
+                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=106">
                                 <img src="images/6.jpg" alt="royal blue rod">
                             </a>
                         </div>
                         <div class="carousel-item">
-                            <a href="http://localhost:8080/PolyBrain/view/bookingtast/1.jsp">
+                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=107">
                                 <img src="images/7.jpg" alt="royal blue rod">
                             </a>
                         </div>
                         <div class="carousel-item">
-                            <a href="http://localhost:8080/PolyBrain/view/bookingtast/1.jsp">
+                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=108">
                                 <img src="images/8.jpg" alt="royal blue rod">
                             </a>
                         </div>
 
 
                     </div>
-                    <!--controls/arrows-->
+                    <!--controls/arrows控制/箭頭-->
                     <a class="carousel-control-prev" href="#blah" data-slide="prev">
                         <span class="carousel-control-prev-icon"></span>
                     </a>
@@ -202,202 +220,70 @@
             </div>
 
         </header>
-        <!-- Features section-->
-        <section class="py-5" id="bid">
-            <div class="container px-5 my-5">
-                <div class="row gx-5">
-                    <div class="col-lg-4 mb-5 mb-lg-0">
-                        <h2 class="fw-bolder mb-0">競標商品</h2>
-                    </div>
-                    <div class="col-lg-8">
-                        <div class="row gx-5 row-cols-1 row-cols-md-2">
-                            <div class="col mb-5 h-100">
-                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i
-                                        class="bi bi-collection"></i></div>
-                                <h2 class="h5">Featured title</h2>
-                                <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is
-                                    just a bit more text.</p>
-                            </div>
-                            <div class="col mb-5 h-100">
-                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i
-                                        class="bi bi-building"></i></div>
-                                <h2 class="h5">Featured title</h2>
-                                <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is
-                                    just a bit more text.</p>
-                            </div>
-                            <div class="col mb-5 mb-md-0 h-100">
-                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i
-                                        class="bi bi-toggles2"></i></div>
-                                <h2 class="h5">Featured title</h2>
-                                <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is
-                                    just a bit more text.</p>
-                            </div>
-                            <div class="col h-100">
-                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i
-                                        class="bi bi-toggles2"></i></div>
-                                <h2 class="h5">Featured title</h2>
-                                <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is
-                                    just a bit more text.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="py-5" id="hotitem">
-            <div class="container px-5 my-5">
-                <div class="row gx-5">
-                    <div class="col-lg-4 mb-5 mb-lg-0">
-                        <h2 class="fw-bolder mb-0">熱門遊戲推薦</h2>
-                    </div>
-                    <div class="col-lg-8">
-                        <div class="row gx-5 row-cols-1 row-cols-md-2">
-                            <div class="col mb-5 h-100">
-                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i
-                                        class="bi bi-collection"></i></div>
-                                <h2 class="h5">Featured title</h2>
-                                <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is
-                                    just a bit more text.</p>
-                            </div>
-                            <div class="col mb-5 h-100">
-                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i
-                                        class="bi bi-building"></i></div>
-                                <h2 class="h5">Featured title</h2>
-                                <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is
-                                    just a bit more text.</p>
-                            </div>
-                            <div class="col mb-5 mb-md-0 h-100">
-                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i
-                                        class="bi bi-toggles2"></i></div>
-                                <h2 class="h5">Featured title</h2>
-                                <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is
-                                    just a bit more text.</p>
-                            </div>
-                            <div class="col h-100">
-                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i
-                                        class="bi bi-toggles2"></i></div>
-                                <h2 class="h5">Featured title</h2>
-                                <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is
-                                    just a bit more text.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Testimonial section-->
-        <!-- <div class="py-5 bg-light">
-            <div class="container px-5 my-5">
-                <div class="row gx-5 justify-content-center">
-                    <div class="col-lg-10 col-xl-7">
-                        <div class="text-center">
-                            <div class="fs-4 mb-4 fst-italic">"熱門遊戲推薦"</div>
-                            <div class="d-flex align-items-center justify-content-center">
-                                <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d"
-                                    alt="..." />
-                                <div class="fw-bold">
-                                    Tom Ato
-                                    <span class="fw-bold text-primary mx-1">/</span>
-                                    CEO, Pomodoro
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
+
+
         <!-- Blog preview section-->
         <section class="py-5">
             <div class="container px-5 my-5">
                 <div class="row gx-5 justify-content-center">
                     <div class="col-lg-8 col-xl-6">
                         <div class="text-center">
-                            <h2 class="fw-bolder">即時討論話題</h2>
-                            <p class="lead fw-normal text-muted mb-5">文章</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row gx-5">
-                    <div class="col-lg-4 mb-5">
-                        <div class="card h-100 shadow border-0">
-                            <img class="card-img-top" src="https://dummyimage.com/600x350/ced4da/6c757d" alt="..." />
-                            <div class="card-body p-4">
-                                <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
-                                <a class="text-decoration-none link-dark stretched-link" href="#!">
-                                    <h5 class="card-title mb-3">Blog post title</h5>
-                                </a>
-                                <p class="card-text mb-0">Some quick example text to build on the card title and make up
-                                    the bulk of the card's content.</p>
-                            </div>
-                            <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
-                                <div class="d-flex align-items-end justify-content-between">
-                                    <div class="d-flex align-items-center">
-                                        <img class="rounded-circle me-3"
-                                            src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />
-                                        <div class="small">
-                                            <div class="fw-bold">Kelly Rowan</div>
-                                            <div class="text-muted">March 12, 2023 &middot; 6 min read</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 mb-5">
-                        <div class="card h-100 shadow border-0">
-                            <img class="card-img-top" src="https://dummyimage.com/600x350/adb5bd/495057" alt="..." />
-                            <div class="card-body p-4">
-                                <div class="badge bg-primary bg-gradient rounded-pill mb-2">Media</div>
-                                <a class="text-decoration-none link-dark stretched-link" href="#!">
-                                    <h5 class="card-title mb-3">Another blog post title</h5>
-                                </a>
-                                <p class="card-text mb-0">This text is a bit longer to illustrate the adaptive height of
-                                    each card. Some quick example text to build on the card title and make up the bulk
-                                    of the card's content.</p>
-                            </div>
-                            <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
-                                <div class="d-flex align-items-end justify-content-between">
-                                    <div class="d-flex align-items-center">
-                                        <img class="rounded-circle me-3"
-                                            src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />
-                                        <div class="small">
-                                            <div class="fw-bold">Josiah Barclay</div>
-                                            <div class="text-muted">March 23, 2023 &middot; 4 min read</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 mb-5">
-                        <div class="card h-100 shadow border-0">
-                            <img class="card-img-top" src="https://dummyimage.com/600x350/6c757d/343a40" alt="..." />
-                            <div class="card-body p-4">
-                                <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
-                                <a class="text-decoration-none link-dark stretched-link" href="#!">
-                                    <h5 class="card-title mb-3">The last blog post title is a little bit longer than the
-                                        others</h5>
-                                </a>
-                                <p class="card-text mb-0">Some more quick example text to build on the card title and
-                                    make up the bulk of the card's content.</p>
-                            </div>
-                            <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
-                                <div class="d-flex align-items-end justify-content-between">
-                                    <div class="d-flex align-items-center">
-                                        <img class="rounded-circle me-3"
-                                            src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />
-                                        <div class="small">
-                                            <div class="fw-bold">Evelyn Martinez</div>
-                                            <div class="text-muted">April 2, 2023 &middot; 10 min read</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Call to action-->
+                            <h2 class="fw-bolder">討論區話題</h2>
 
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Call to action-->
+                <nav>
+
+                    <div class="card text-center">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#parent">親子討論區</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#douzhi">鬥智</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link " data-toggle="tab" href="#huihe">回合</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link " data-toggle="tab" href="#puzzle">解謎</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            <div id="parent" class="tab-pane fade show active">
+                                <div class="card-body">
+                                    <h5 class="card-title">親子討論區</h5>
+                                    <p class="card-text">這裡是親子的內容。</p>
+                                </div>
+                            </div>
+                            <div id="douzhi" class="tab-pane fade">
+                                <div class="card-body">
+                                    <h5 class="card-title">鬥智討論區</h5>
+                                    <p class="card-text">這裡是鬥智的內容。</p>
+                                </div>
+                            </div>
+                            <div id="huihe" class="tab-pane fade">
+                                <div class="card-body">
+                                    <h5 class="card-title">回合討論區</h5>
+                                    <p class="card-text">這裡是回合的內容。</p>
+                                </div>
+                            </div>
+                            <div id="puzzle" class="tab-pane fade">
+                                <div class="card-body">
+                                    <h5 class="card-title">解謎討論區</h5>
+                                    <p class="card-text">這裡是解謎的內容。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
             </div>
         </section>
     </main>
@@ -409,9 +295,9 @@
                     <div class="small m-0 text-white">Copyright © 2023 PolyBrain. All rights reserved. </div>
                 </div>
                 <div class="col-auto">
-                    <a class="link-light small" href="http://localhost:63342/PolyBrain3.0/src/main/webapp/view/head/Privacy.html">隱私權協定</a>
+                    <a class="link-light small" href="Privacy.html">隱私權協定</a>
                     <span class="text-white mx-1">&middot;</span>
-                    <a class="link-light small" href="http://localhost:63342/PolyBrain3.0/src/main/webapp/view/head/forus.html">關於我們</a>
+                    <a class="link-light small" href="Forus.html">關於我們</a>
                     <span class="text-white mx-1">&middot;</span>
                     <a href="mailto:ps66391@gmail.com?subject=聯絡我們的請求&body=請在此寫下您的問題。"
                        title="用 Email 轉寄" onclick="return confirm('您確定要前往email寄信?');">
@@ -431,6 +317,47 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Core theme JS-->
     <script src="js/scripts.js"></script>
+    <script>
+        $(document).ready(function(){
+            validateMemStatus();
+        });
+    async function validateMemStatus() {
+    const response = await fetch('/PolyBrain/general/validateMemStatus', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json; charset:utf-8' },
+    })
+    .then(resp => resp.json())
+    .then(data => {
+    console.log(data);
+    const { memNo, memName, loginStatus } = data;
+    $('ul#dropdown-menu').append(`
+    <li><a class="dropdown-item" href="#!">會員專區</a></li>
+    <li><a class="dropdown-item" href="#!">購物車</a></li>
+    <li><hr class="dropdown-divider" /></li>
+    `);
+    if (loginStatus) {
+    $('span#memName').text(memName);
+    $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/logout.html">登出</a></li>');
+    let memDetail = [memNo, memName];
+    return memDetail;
+    } else {
+    $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/login.html">登入</a></li>');
+    }
+    });
+    return response;
+    }
+
+          let bidEventList = document.querySelectorAll('.bidEventList');
+        bidEventList.forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                const biddingEvent = link.getAttribute('data-event-id');
+                const bidEventURL = 'http://localhost:8080/PolyBrain/view/bid/BidOnItemPage2.jsp';
+                const url = `${bidEventURL}?bidEventId=${biddingEvent}`;
+                window.location.href = url;
+            });
+        });
+    </script>
 </body>
 
 </html>
