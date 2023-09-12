@@ -18,7 +18,7 @@ public interface ItemService extends CoreService {
     List<Item> getAllItems();
 
     //取得number代表的數字數量的商品資訊
-    Map<String, Object> getItempage(Integer page);
+    Map<String, Object> getItempage(Integer page,String set);
     //以ID取得商品資訊
     Item FindByItemId(Integer itemid);
     //以類別取得該類別全部商品資訊
