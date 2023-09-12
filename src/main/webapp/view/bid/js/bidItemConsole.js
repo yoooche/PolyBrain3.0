@@ -101,10 +101,17 @@ $(document).ready(function () {
     //點擊新增商品
     const addButton = document.getElementById('bt-add_item');
     addButton.addEventListener('click', () => {
+        let bidItemName = $('#bidItemName').val();
         fetch("http://localhost:8080/PolyBrain/BidItemList", {
             method: 'POST',
             headers: {'content-type': 'application/x-www-form-urlencoded'},
-            
+            body: new URLSearchParams({
+                action: 'insert',
+            })
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            console.log(data.message);
         })
     });
 
@@ -218,7 +225,7 @@ function ImgUpload() {
     
 }
 function selectClass(){ //下拉式選單動態生成
-    
+
     fetch('/PolyBrain/general/bidding',{
         method: 'POST',
         headers: {

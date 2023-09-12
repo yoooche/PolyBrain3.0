@@ -71,7 +71,7 @@ public class BidItemListServlet extends HttpServlet {
                 }
             }
 
-            resp.sendRedirect(req.getContextPath() + "/view/bid/BidItemList.jsp");
+//            resp.sendRedirect(req.getContextPath() + "/view/bid/BidItemList.jsp");
         }
         if("delete".equals(action)){
             Integer bidItemNo = Integer.valueOf(req.getParameter("bidItemNo"));
