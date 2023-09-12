@@ -1,8 +1,8 @@
-package web.forum.controller;
+package feature.forum.controller;
 
-import web.emp.service.EmpService;
-import web.forum.service.ArtService;
-import web.forum.vo.ArtVo;
+
+import feature.forum.service.ArtService;
+import feature.forum.vo.ArtVo;
 
 import javax.persistence.metamodel.SetAttribute;
 import javax.servlet.RequestDispatcher;
@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -49,7 +50,7 @@ public class ArtServlet extends HttpServlet {
                           "&upFiles="+artVo.getUpFiles();
 
 //           req.setAttribute("artVo", artVo);
-           String url ="/forum/mainpage/Update_Art_input.jsp"+param;
+           String url ="/view/forum/mainpage/Update_Art_input.jsp"+param;
            RequestDispatcher successView = req.getRequestDispatcher(url);
             successView.forward(req, res);
         }
@@ -84,7 +85,7 @@ public class ArtServlet extends HttpServlet {
                 errorMsgs.put(artCon,"貼文內容請勿空白");
             }
 
-            java.sql.Date artTime = new java.sql.Date(System.currentTimeMillis());
+            Timestamp artTime = new Timestamp(System.currentTimeMillis());
 
             Byte artState =null;
             try {
@@ -96,7 +97,7 @@ public class ArtServlet extends HttpServlet {
             try {
                 itemNo =Integer.valueOf(req.getParameter("itemNo").trim());
             }catch (NumberFormatException e){
-                errorMsgs.put("itemNo","遊戲類別請勿空白");
+                errorMsgs.put("itemNo","    遊戲類別請勿空白");
             }
 
             InputStream in = req.getPart("upFiles").getInputStream(); //從javax.servlet.http.Part物件取得上傳檔案的InputStream
@@ -118,7 +119,7 @@ public class ArtServlet extends HttpServlet {
             if (!errorMsgs.isEmpty()){
                 errorMsgs.put("Exception","修改資料失敗:-------");
                 RequestDispatcher failureView =req
-                        .getRequestDispatcher("/forum/mainpage/Update_Art_input.jsp");
+                        .getRequestDispatcher("/view/forum/mainpage/Update_Art_input.jsp");
                 failureView.forward(req,res);
                 return;
             }
@@ -129,7 +130,7 @@ public class ArtServlet extends HttpServlet {
 
             req.setAttribute("success","- (修改成功)");
             req.setAttribute("ArtVo",artVo);
-            String url ="/forum/mainpage/Listallart.jsp";
+            String url ="/view/forum/mainpage/Listallarti.jsp";
             RequestDispatcher successView = req.getRequestDispatcher(url);
             successView.forward(req,res);
 
@@ -157,7 +158,7 @@ public class ArtServlet extends HttpServlet {
 
                 if (!errorMsgs.isEmpty()) {
                 RequestDispatcher failureView = req
-                        .getRequestDispatcher("/forum/addnewpage.jsp");
+                        .getRequestDispatcher("/view/forum/addnewpage.jsp");
                 failureView.forward(req, res);
                 return;
             }
@@ -174,7 +175,7 @@ public class ArtServlet extends HttpServlet {
 
             req.setAttribute("success","-(新增成功)");
 
-            String url ="/forum/mainpage/Listallart.jsp";
+            String url ="/view/forum/mainpage/Listallarti.jsp";
             RequestDispatcher successView =req.getRequestDispatcher(url);
             successView.forward(req,res);
 
@@ -190,7 +191,7 @@ public class ArtServlet extends HttpServlet {
             artSvc.deleteArt(artNo);
 
             req.setAttribute("success","-(刪除成功)");
-            String url = "/forum/mainpage/Listallart.jsp";
+            String url = "/view/forum/mainpage/Listallarti.jsp";
             RequestDispatcher successView = req.getRequestDispatcher(url);
             successView.forward(req,res);
         }

@@ -1,6 +1,6 @@
-package web.forum.dao;
+package feature.forum.dao;
 
-import web.forum.vo.ArtVo;
+import feature.forum.vo.ArtVo;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -11,7 +11,7 @@ import java.sql.Date;
 import java.util.*;
 
 
-public class ArtDao implements ArtDaoImpl{
+public class ArtDao implements ArtDaoImpl {
 
     private  static DataSource ds =null;
     static {
@@ -175,7 +175,7 @@ public class ArtDao implements ArtDaoImpl{
                 artVo.setMemNo(rs.getInt("MEM_NO"));
                 artVo.setArtTitle(rs.getString("ARTICLE_TITLE"));
                 artVo.setArtCon(rs.getString("ARTICLE_CONTENT"));
-                artVo.setArtTime(rs.getDate("ARTICLE_TIME"));
+                artVo.setArtTime(rs.getTimestamp("ARTICLE_TIME"));
                 artVo.setArtState(rs.getByte("ARTICLE_STATE"));
                 artVo.setItemNo(rs.getInt("ITEM_CLASS_NO"));
                 artVo.setUpFiles(rs.getBytes("upFiles"));
@@ -230,7 +230,7 @@ public class ArtDao implements ArtDaoImpl{
                 artVo.setMemNo(rs.getInt("MEM_NO"));
                 artVo.setArtTitle(rs.getString("ARTICLE_TITLE"));
                 artVo.setArtCon(rs.getString("ARTICLE_CONTENT"));
-                artVo.setArtTime(rs.getDate("ARTICLE_TIME"));
+                artVo.setArtTime(rs.getTimestamp("ARTICLE_TIME"));
                 artVo.setArtState(rs.getByte("ARTICLE_STATE"));
                 artVo.setItemNo(rs.getInt("ITEM_CLASS_NO"));
                 list.add(artVo);
@@ -285,7 +285,7 @@ public class ArtDao implements ArtDaoImpl{
                 artVo.setMemNo(rs.getInt("MEM_NO"));
                 artVo.setArtTitle(rs.getString("ARTICLE_TITLE"));
                 artVo.setArtCon(rs.getString("ARTICLE_CONTENT"));
-                artVo.setArtTime(rs.getDate("ARTICLE_TIME"));
+                artVo.setArtTime(rs.getTimestamp("ARTICLE_TIME"));
                 artVo.setArtState(rs.getByte("ARTICLE_STATE"));
                 artVo.setItemNo(rs.getInt("ITEM_CLASS_NO"));
                 list.add(artVo);

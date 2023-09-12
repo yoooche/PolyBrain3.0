@@ -1,9 +1,9 @@
     <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <%@page import="web.forum.service.ArtService"%>
-    <%@page import="web.forum.vo.ArtVo"%>
-    <%@page import="web.forum.service.RpyService"%>
-    <%@page import="web.forum.vo.RpyVo"%>
+    <%@page import="feature.forum.service.ArtService"%>
+    <%@page import="feature.forum.vo.ArtVo"%>
+    <%@page import="feature.forum.service.RpyService"%>
+    <%@page import="feature.forum.vo.RpyVo"%>
     <%@ page import="java.util.List" %>
 
 
@@ -29,7 +29,7 @@
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="${pageContext.request.contextPath}/forum/innerpage/css/styles.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/view/forum/innerpage/css/styles.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.22/dist/sweetalert2.min.css" rel="stylesheet">
         <style>
             nav.navbar {
@@ -99,7 +99,7 @@
                                     <div class="d-flex mb-4">
                                         <!-- Parent comment-->
                                         <div class="flex-shrink-0">
-                                            <img class="rounded-circle" src="../../forum/mainpage/images/討論區網民A.jpg" alt="..." style="width: 100px; height: 100px;"/>
+
                                         </div>
                                         <div class="ms-3">
                                             <div class="fw-bold">${rpy.artNo}</div>
@@ -178,7 +178,7 @@
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
-    <script src="${pageContext.request.contextPath}/forum/innerpage/js/scripts.js"></script>
+    <script src="${pageContext.request.contextPath}/view/forum/innerpage/js/scripts.js"></script>
     <script>
         const submitButton = document.querySelector("#addCommentBtn");
         submitButton.addEventListener("click", function() {

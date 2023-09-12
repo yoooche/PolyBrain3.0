@@ -89,7 +89,7 @@
                </div>
                 <div class="text-box">
 			            <label for="post-title">遊戲類別:</label>
-                        <input type="text" id="post-title" name="artGame" placeholder="請輸入遊戲類別" value="${param.itemNo}">
+                        <input type="text" id="post-title" name="itemNo" placeholder="請輸入遊戲類別" value="${param.itemNo}">
                         <span id="artGame.errors" class="error">${errorMsgs.itemNo}<br/></span>
                     </div>
                 <div class="text-box">

@@ -1,7 +1,7 @@
-package web.forum.dao;
+package feature.forum.dao;
 
 import org.hibernate.sql.Update;
-import web.forum.vo.ArtVo;
+import feature.forum.vo.ArtVo;
 
 import java.util.*;
 

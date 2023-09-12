@@ -1,7 +1,7 @@
-package web.forum.dao;
+package feature.forum.dao;
 
-import web.forum.vo.ArtVo;
-import web.forum.vo.RpyVo;
+import feature.forum.vo.ArtVo;
+import feature.forum.vo.RpyVo;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RpyDao implements RpyDaoImpl{
+public class RpyDao implements RpyDaoImpl {
     private  static DataSource ds =null;
     static {
         try {
@@ -175,7 +175,7 @@ public class RpyDao implements RpyDaoImpl{
                 rpyVo.setMemNo(rs.getInt("MEM_NO"));
                 rpyVo.setArtNo(rs.getInt("ARTICLE_NO"));
                 rpyVo.setRpyCon(rs.getString("REPLY_CONTENT"));
-                rpyVo.setRpyTime(rs.getDate("REPLY_TIME"));
+                rpyVo.setRpyTime(rs.getTimestamp("REPLY_TIME"));
                 rpyVo.setRpyState(rs.getByte("REPLY_STATE"));
             }
         } catch (SQLException e) {
@@ -228,7 +228,7 @@ public class RpyDao implements RpyDaoImpl{
                 rpyVo.setMemNo(rs.getInt("MEM_NO"));
                 rpyVo.setArtNo(rs.getInt("ARTICLE_NO"));
                 rpyVo.setRpyCon(rs.getString("REPLY_CONTENT"));
-                rpyVo.setRpyTime(rs.getDate("REPLY_TIME"));
+                rpyVo.setRpyTime(rs.getTimestamp("REPLY_TIME"));
                 rpyVo.setRpyState(rs.getByte("REPLY_STATE"));
                 list.add(rpyVo);
             }
@@ -285,7 +285,7 @@ public class RpyDao implements RpyDaoImpl{
                 rpyVo.setMemNo(rs.getInt("MEM_NO"));
                 rpyVo.setArtNo(rs.getInt("ARTICLE_NO"));
                 rpyVo.setRpyCon(rs.getString("REPLY_CONTENT"));
-                rpyVo.setRpyTime(rs.getDate("REPLY_TIME"));
+                rpyVo.setRpyTime(rs.getTimestamp("REPLY_TIME"));
                 rpyVo.setRpyState(rs.getByte("REPLY_STATE"));
                 list.add(rpyVo);
             }

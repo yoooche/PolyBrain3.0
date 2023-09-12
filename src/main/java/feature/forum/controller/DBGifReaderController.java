@@ -1,6 +1,6 @@
-package web.forum.controller;
+package feature.forum.controller;
 
-import web.forum.service.ArtService;
+import feature.forum.service.ArtService;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.ServletException;
@@ -25,7 +25,7 @@ public class DBGifReaderController extends HttpServlet {
             ArtService artSvc = new ArtService();
             out.write(artSvc.getOneArt(artNo).getUpFiles());
         }catch (Exception e){
-            InputStream in =getServletContext().getResourceAsStream("/resources/NoData/nopic.jpg");
+            InputStream in =getServletContext().getResourceAsStream("/view/NoData/nopic.jpg");
             byte[] buf = new byte[in.available()];
             in.read(buf);
             out.write(buf);

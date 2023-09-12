@@ -1,9 +1,10 @@
-package web.forum.service;
+package feature.forum.service;
 
-import web.forum.dao.ArtDao;
-import web.forum.dao.ArtDaoImpl;
-import web.forum.vo.ArtVo;
+import feature.forum.dao.ArtDao;
+import feature.forum.dao.ArtDaoImpl;
+import feature.forum.vo.ArtVo;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class ArtService {
 
         return artVo;
     }
-    public ArtVo updateArt(Integer artNo,Integer memNo, String artTitle, String artCon, Date artTime, Byte artState, Integer itemNo,byte[] upFiles){
+    public ArtVo updateArt(Integer artNo, Integer memNo, String artTitle, String artCon, Timestamp artTime, Byte artState, Integer itemNo, byte[] upFiles){
 
         ArtVo artVo =new ArtVo();
 

@@ -1,4 +1,4 @@
-package web.forum.vo;
+package feature.forum.vo;
 
 import core.coreVO.Core;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serial;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Entity(name = "ARTICLE")
 @Getter
@@ -31,7 +31,7 @@ public class ArtVo extends Core {
     @Column(name = "ARTICLE_CONTENT")
     private String artCon;
     @Column(name = "ARTICLE_TIME",insertable = true)
-    private Date artTime;
+    private Timestamp artTime;
     @Column(name = "ARTICLE_STATE")
     private Byte artState;
     @Column(name = "ITEM_CLASS_NO")

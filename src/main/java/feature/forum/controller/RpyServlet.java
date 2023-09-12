@@ -1,7 +1,7 @@
-package web.forum.controller;
+package feature.forum.controller;
 
-import web.forum.service.ArtService;
-import web.forum.service.RpyService;
+import feature.forum.service.ArtService;
+import feature.forum.service.RpyService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -45,7 +45,7 @@ public class RpyServlet extends HttpServlet {
 
             if (!errorMsgs.isEmpty()) {
                 RequestDispatcher failureView = req
-                        .getRequestDispatcher("/forum/innerpage/detail.jsp?artNo=" + artNoParam);
+                        .getRequestDispatcher("/view/forum/innerpage/detail.jsp?artNo=" + artNoParam);
                 failureView.forward(req, res);
                 return;
             }
@@ -62,7 +62,7 @@ public class RpyServlet extends HttpServlet {
 
             req.setAttribute("success", "-(新增成功)");
 
-            String url = "/forum/innerpage/detail.jsp?artNo=" + artNoParam;
+            String url = "/view/forum/innerpage/detail.jsp?artNo=" + artNoParam;
             RequestDispatcher successView = req.getRequestDispatcher(url);
             successView.forward(req, res);
 
@@ -80,7 +80,7 @@ public class RpyServlet extends HttpServlet {
             req.setAttribute("success","-(刪除成功)");
 
             String artNoParam = req.getParameter("artNo");
-            String url = "/forum/innerpage/detail.jsp?artNo=" + artNoParam;
+            String url = "/view/forum/innerpage/detail.jsp?artNo=" + artNoParam;
             RequestDispatcher successView = req.getRequestDispatcher(url);
             successView.forward(req,res);
         }

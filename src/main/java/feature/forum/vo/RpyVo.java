@@ -1,4 +1,4 @@
-package web.forum.vo;
+package feature.forum.vo;
 
 import core.coreVO.Core;
 import lombok.AllArgsConstructor;
@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serial;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.time.LocalDateTime;
 
@@ -32,7 +33,7 @@ public class RpyVo extends Core {
     @Column(name = "REPLY_CONTENT")
     private String rpyCon;
     @Column(name = "REPLY_TIME")
-    private Date rpyTime;
+    private Timestamp rpyTime;
     @Column(name = "REPLY_STATE")
     private Byte rpyState;
 }

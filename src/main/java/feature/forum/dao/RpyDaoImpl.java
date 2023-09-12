@@ -1,7 +1,7 @@
-package web.forum.dao;
+package feature.forum.dao;
 
-import web.forum.vo.ArtVo;
-import web.forum.vo.RpyVo;
+import feature.forum.vo.ArtVo;
+import feature.forum.vo.RpyVo;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package web.forum.vo;
+package feature.forum.vo;
 
 import core.coreVO.Core;
 import lombok.AllArgsConstructor;

@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.*"%>
-<%@page import="web.forum.service.ArtService"%>
-<%@page import="web.forum.vo.ArtVo"%>
+<%@page import="feature.forum.service.ArtService"%>
+<%@page import="feature.forum.vo.ArtVo"%>
 
 <%
     ArtService artSvc = new ArtService();
