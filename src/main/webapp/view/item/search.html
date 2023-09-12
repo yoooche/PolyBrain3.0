@@ -13,8 +13,67 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/itemclinent.css" rel="stylesheet" />
+    <!--輪撥套件用-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <script src="./js/jquery-3.7.0.min.js"></script>
     <style>
+        /* 輪撥圖用*/
+        .owl-theme .owl-nav.disabled+.owl-dots {
+            margin-top: 0px;
+        }
+
+        .owl-carousel {
+            display: flex;
+            justify-content: center;
+            /* 水平居中 */
+            align-items: center;
+            /* 垂直居中 */
+            overflow: hidden;
+            /* 隐藏溢出部分 */
+        }
+
+        .owl-nav {
+            position: absolute;
+            top: 50%;
+            /* 垂直居中 */
+            transform: translateY(-50%);
+            width: 100%;
+            text-align: center;
+        }
+
+        .owl-prev,
+        .owl-next {
+            background-color: #333;
+            color: #fff;
+            padding: 200px 0px;
+            border: none;
+            cursor: pointer;
+            font-size: 100px;
+        }
+
+        .owl-prev {
+            float: left;
+        }
+
+        .owl-next {
+            float: right;
+        }
+
+        /* 以下是可选的自定义样式，根据需要进行调整 */
+        .owl-carousel .owl-stage {
+            display: flex;
+            align-items: center;
+            /* 垂直居中 Carousel 内部的内容 */
+        }
+
+        .owl-carousel .owl-item {
+            text-align: center;
+            /* 使 Carousel 内部内容水平居中 */
+            /* 可能需要其他样式 */
+        }
+
         /* 调整图片容器的position属性，以便其子元素（包括Sale标签）可以使用z-index */
         .image-container {
             position: relative;
@@ -244,6 +303,11 @@
             transition: height 0.35s ease-in-out;
         }
 
+        #productSearch div.col-md-12 {
+            display: none;
+            /* 初始状态折叠 */
+        }
+
         /* 以上設摺疊搜尋框的CSS */
     </style>
 </head>
@@ -282,17 +346,22 @@
         </div>
     </nav>
     <!-- Header-->
-    <header class="bg-dark py-5">
-        <div class="container px-4 px-lg-5 my-5">
-            <div class="text-center text-white">
-                <h1 class="display-4 fw-bolder">超大圖片</h1>
-                <p class="lead fw-normal text-white-50 mb-0">會跑的廣告</p>
-            </div>
+    <header class="bg-dark">
+        <div class="owl-carousel owl-theme">
+            <div><img src="img/1.png"></div>
+            <div><img src="img/2.png"></div>
+            <div><img src="img/3.png"></div>
+            <div><img src="img/4.png"></div>
+            <div><img src="img/10.png"></div>
+            <div><img src="img/11.png"></div>
+            <div><img src="img/12.png"></div>
+        </div>
+        <div id="customDots"></div>
         </div>
     </header>
     <!-- Section-->
     <Section>
-        <details>
+        <details id="productSearch">
             <summary><span style="margin: 0px 10px 0;font-size: 24px;color: gray;font-family: arial;">≡</span>展開商品搜尋
             </summary>
             <i id="icon-filter" class="fa fa-angle-down attr_icon"
@@ -407,6 +476,7 @@
         </div>
     </footer>
     <script src="./js/search.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

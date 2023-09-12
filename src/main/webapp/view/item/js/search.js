@@ -343,7 +343,7 @@ function searchItem(queryParams) {
     getProduct("page", 1, enset);
 }
 
-// 在點擊加入購物車按鈕時觸發的事件處理程序
+// 在點擊加入購物車按鈕時觸發的事件處理程序(尚未處理完成)
 $('.my-cart-btn').on('click', function () {
     // 獲取當前購物車數量
     var currentItemCount = parseInt($('#cartItemCount').text(), 10);
@@ -366,4 +366,35 @@ $('.my-cart-btn').on('click', function () {
     }, 500, "linear", function () {
         $image.remove();
     });
+});
+
+
+$(document).ready(function () {
+    //以下為輪撥
+    $(".owl-carousel").owlCarousel({
+        center: true,
+        loop: true, // 循環播放
+        autoplay: true,
+        autoplayTimeout: 2500,
+        autoplayHoverPause: true,
+        smartSpeed: 500,
+        margin: 10, // 外距 10px
+        nav: true,
+        dots: true,
+        responsive: {
+            0: {
+                items: 1 // 螢幕大小為 0~600 顯示 1 個項目
+            },
+            600: {
+                items: 1 // 螢幕大小為 600~1000 顯示 3 個項目
+            },
+            1000: {
+                items: 1 // 螢幕大小為 1000 以上 顯示 5 個項目
+            }
+        }
+    });
+    $("#productSearch summary").click(function () {
+        $("#productSearch div.col-md-12").slideToggle(600);
+      });
+
 });
