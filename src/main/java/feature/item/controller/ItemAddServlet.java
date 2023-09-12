@@ -51,6 +51,7 @@ public class ItemAddServlet extends HttpServlet {
             System.out.println("修改商品");
             item = service.edit(item);
             if(!itemImageList.isEmpty()) {          //檢查是否有新上傳圖片 沒有則不進入修改
+                System.out.println("有修改圖片");
                 Integer itemNo = item.getItemNo();
                 service2.editImg(itemImageList, itemNo);
             }
