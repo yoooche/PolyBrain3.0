@@ -47,6 +47,5 @@ public class EmpListController extends HttpServlet {
             successView.forward(req, resp);
         }
 
-
     }
 }
