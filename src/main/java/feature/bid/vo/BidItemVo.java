@@ -1,5 +1,6 @@
 package feature.bid.vo;
 
+import core.coreVO.Core;
 import feature.item.vo.ItemClass;
 import lombok.*;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BidItemVo implements Serializable {
+public class BidItemVo extends Core implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 

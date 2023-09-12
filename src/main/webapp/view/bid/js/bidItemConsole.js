@@ -102,12 +102,27 @@ $(document).ready(function () {
     const addButton = document.getElementById('bt-add_item');
     addButton.addEventListener('click', () => {
         let bidItemName = $('#bidItemName').val();
-        fetch("http://localhost:8080/PolyBrain/BidItemList", {
+        let bidItemDescribe = $('#bidItemDescribe').val();
+        let gamePublisher = $('#gamePublisher').val();
+        let itemClassNo = $('#itemClassNo').val();
+
+        let data = {
+            bidItemVo: {
+                bidItemName: bidItemName,
+                bidItemDescribe: bidItemDescribe,
+                gamePublisher: gamePublisher,
+                itemClassNo: itemClassNo
+
+            },
+            bidItemPic: bidItemPic
+        }
+
+        console.log(data);
+        console.log(bidItemPic);
+        fetch("http://localhost:8080/PolyBrain/BidItemAdd", {
             method: 'POST',
-            headers: {'content-type': 'application/x-www-form-urlencoded'},
-            body: new URLSearchParams({
-                action: 'insert',
-            })
+            headers: {'content-type': 'application/json;charset=UTF-8'},
+            body: JSON.stringify(data)
         })
         .then(resp => resp.json())
         .then(data => {

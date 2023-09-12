@@ -93,7 +93,8 @@
 <br>
 <input type="hidden" name="test1" value="update">
 <input type="hidden" name="orderNo" value="<%=itemordervo.getOrderNo()%>">
-<input type="submit" value="送出修改"></FORM>
+<input type="submit" value="送出修改">
+</FORM>
 </body>
 
 

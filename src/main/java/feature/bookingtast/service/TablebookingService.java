@@ -6,11 +6,18 @@ import feature.bookingtast.dao.TablebookingDAO;
 import feature.bookingtast.dao.Tablebooking_interface;
 import feature.bookingtast.vo.TablebookingVO;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class TablebookingService  {
 	private Tablebooking_interface dao;
 
 	public TablebookingService() {
 		dao = new TablebookingDAO();
+	}
+
+	public static Integer parseIntegerParameter(HttpServletRequest req, String paramName) {
+		String paramValue = req.getParameter(paramName);
+		return (paramValue != null) ? Integer.valueOf(paramValue.trim()) : null;
 	}
 
 	public TablebookingVO addtablebooking(java.sql.Date TABLE_DATE, Integer TABLE_NO, Integer TABLE_MOR,
