@@ -75,7 +75,7 @@ function buildTable() {
                 data: "orderNo",
             },
             {
-                data: "memberVO.memName",
+                data: "memVo.memName",
             },
             {
                 data: "tranTime",

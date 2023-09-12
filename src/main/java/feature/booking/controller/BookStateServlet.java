@@ -32,7 +32,7 @@ public class BookStateServlet extends HttpServlet {
         Date bookDate = Date.valueOf(bookDateParam);
         Integer tableNo = Integer.parseInt(String.valueOf(tableNoParam));
         System.out.println(stateNo);
-        Integer newState = 1;
+        Integer newState = 0;
         TableBookingVo change = SERVICETable.selectByState(stateNo, bookDate, tableNo);
         System.out.println("回傳:" +change);
         //response.setContentType(JSON_MIME_TYPE);

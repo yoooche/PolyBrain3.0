@@ -1,17 +1,17 @@
 package feature.bid.vo;
 
 import feature.item.vo.ItemClass;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "BID_ITEM")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class BidItemVo implements Serializable {
@@ -35,10 +35,12 @@ public class BidItemVo implements Serializable {
     @Column(name = "GAME_PUBLISHER")
     private String gamePublisher;
 
-    @Column(name = "BID_ITEM_PIC")
-    private byte[] bidItemPic;
-
     @ManyToOne
-    @JoinColumn(name ="ITEM_CLASS_NO", insertable = false, updatable = false)
+    @JoinColumn(name = "ITEM_CLASS_NO", insertable = false, updatable = false)
     private ItemClass itemClass;
+
+    @OneToMany
+    @JoinColumn(name = "BID_ITEM_NO", insertable = false, updatable = false)
+    private List<BidItemPicVo> bidItemPic;
+
 }

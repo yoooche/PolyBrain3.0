@@ -16,14 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static core.util.CommonUtil.json2Pojo;
 
-@WebServlet("/test")
+@WebServlet("/general/bidding")
 public class BiddingController extends HttpServlet {
     private BiddingService biddingService;
     private ItemClassService itemClassService;
@@ -34,7 +31,9 @@ public class BiddingController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String message = req.getParameter("message");
-        String bidEventId = req.getParameter("bidEventId");
+        String bidEventId = req.getParameter("bidEventId"); // url的QueryString
+        String bidEventNo_table = req.getParameter("bidEventNo");
+
         biddingService = new BiddingServiceImpl();
         itemClassService = new ItemClassServiceImpl();
 
@@ -47,9 +46,11 @@ public class BiddingController extends HttpServlet {
             BidEventVo bidEventVo =  biddingService.getEventByNo(bidEventNo);
             Integer floorPrice =  bidEventVo.getFloorPrice();
             Integer directivePrice =  bidEventVo.getDirectivePrice();
+            Integer leastOffers = bidEventVo.getLeastOffers();
             Map<String, Integer> priceRange = new HashMap<>();
             priceRange.put("floorPrice", floorPrice);
             priceRange.put("directivePrice", directivePrice);
+            priceRange.put("leastOffers", leastOffers);
             resp.setContentType("application/json");
             Gson gson = new Gson();
             String jsonPrice = gson.toJson(priceRange);
@@ -71,7 +72,7 @@ public class BiddingController extends HttpServlet {
             List<BidItemVo> allItem = biddingService.viewAll();
             Gson gson = new Gson();
             String jsonItem = gson.toJson(allItem);
-            resp.setContentType("application/json");
+            resp.setContentType("text/html; charset=utf-8");
             PrintWriter out = resp.getWriter();
             out.print(jsonItem);
             out.flush();
@@ -94,10 +95,80 @@ public class BiddingController extends HttpServlet {
             out.print(jsonEvent);
             out.flush();
         }
+        if("bidEventEditByPk".equals(message)){
+            Integer bidEventNo_edit = Integer.valueOf(bidEventNo_table);
+            BidEventVo bidEventVo = biddingService.getEventByNo(bidEventNo_edit);
+            Gson gson = new Gson();
+            String jsonEvent = gson.toJson(bidEventVo);
+            resp.setContentType("application/json");
+            PrintWriter out = resp.getWriter();
+            out.print(jsonEvent);
+            out.flush();
+        }
+        if("deleteEvent".equals(message)){
+            Integer bidEventNo_delete = Integer.valueOf(bidEventNo_table);
+            biddingService.removeEventById(bidEventNo_delete);
+            Map<String, Integer> success = new HashMap<>();
+            success.put("remove", 1);
+            Gson gson = new Gson();
+            String jsonSuccess = gson.toJson(success);
+            resp.setContentType("application/json");
+            PrintWriter out = resp.getWriter();
+            out.print(jsonSuccess);
+            out.flush();
+        }
+        if("getBiddingItemPics".equals(message)){
+            Integer bidEventNo = Integer.valueOf(bidEventId);
+            List<byte[]> bidItemPics = biddingService.getItemPicsByEveNo(bidEventNo);
+            resp.setContentType("application/json");
+            Set<String> bidMap = new HashSet<>();
+
+            PrintWriter out = resp.getWriter();
+            for(byte[] bidItemPic : bidItemPics){
+                String base64Img = Base64.getEncoder().encodeToString(bidItemPic);
+                bidMap.add(base64Img);
+            }
+            Gson gson = new Gson();
+            String jsonPic = gson.toJson(bidMap);
+            out.write(jsonPic);
+            out.close();
+        }
+        if("getBiddingItemInfo".equals(message)){ //商品詳情頁面的資訊
+            Integer bidEventNo = Integer.valueOf(bidEventId);
+            BidEventVo bidEventVo = biddingService.getEventByNo(bidEventNo);
+            String jsonItemInfo = getString(bidEventVo);
+            resp.setContentType("text/html; charset=utf-8");
+            PrintWriter out = resp.getWriter();
+            out.print(jsonItemInfo);
+            out.flush();
+        }
+
         BidEventVo bidEventVo = json2Pojo(req, BidEventVo.class);
-        System.out.println(bidEventVo);
-        System.out.println("xxx");
         biddingService.addAnEvent(bidEventVo);
+    }
+
+    private static String getString(BidEventVo bidEventVo) {
+        BidItemVo bidItemVo = bidEventVo.getBidItemVo();
+        ItemClass itemClass = bidItemVo.getItemClass();
+
+        String bidItemName = bidItemVo.getBidItemName();
+        String gamePublisher = bidItemVo.getGamePublisher();
+        String bidItemDescribe = bidItemVo.getBidItemDescribe();
+        String itemClassName = itemClass.getItemClassName();
+        Integer floorPrice = bidEventVo.getFloorPrice();
+        Integer directivePrice = bidEventVo.getDirectivePrice();
+
+        Map<String, Object> bidItemInfo = new HashMap();
+        bidItemInfo.put("bidItemName", bidItemName);
+        bidItemInfo.put("gamePublisher", gamePublisher);
+        bidItemInfo.put("bidItemDescribe", bidItemDescribe);
+        bidItemInfo.put("itemClassName", itemClassName);
+        bidItemInfo.put("floorPrice", floorPrice);
+        bidItemInfo.put("directivePrice", directivePrice);
+
+        Gson gson = new Gson();
+        String jsonItemInfo = gson.toJson(bidItemInfo);
+        return jsonItemInfo;
     }
 
 

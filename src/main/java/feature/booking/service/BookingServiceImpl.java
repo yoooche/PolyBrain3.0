@@ -17,8 +17,8 @@ public class BookingServiceImpl implements BookingService {
     }
     //用預約狀態以及日期條件查詢
     @Override
-    public List<BookingVo> selectdate(int state, Date startDate, Date endDate){
-        List<BookingVo> result = Dao.selectByDate(state, startDate, endDate);
+    public List<BookingVo> selectdate(int state, Date startDate, Date endDate, Integer bookingNo){
+        List<BookingVo> result = Dao.selectByDate(state, startDate, endDate, bookingNo);
         return result;
     }
     @Override
@@ -29,23 +29,31 @@ public class BookingServiceImpl implements BookingService {
     //已預約狀態查詢(暫不用)
     @Override
     public List<BookingVo> selectone(Integer state) {
-        if(state == 1){
-            return  Dao.selectById(1);
-        } else if (state == 0) {
-            return  Dao.selectById(0);
-        }else if (state == 2) {
-            return Dao.selectAll();
-        }
+//        if(state == 1){
+//            return  Dao.selectById(1);
+//        } else if (state == 0) {
+//            return  Dao.selectById(0);
+//        }else if (state == 2) {
+//            return Dao.selectAll();
+//        }
         return null;
     }
 
     @Override
     public BookingVo cancelBooking(Integer bookno, Integer newState){
-        return Dao.cancel(bookno, newState);
+//        beginTransaction();
+        BookingVo result = Dao.cancel(bookno, newState);
+//        commit();
+        return result;
+        //return Dao.cancel(bookno, newState);
     }
     @Override
     public BookingVo checkBookState(Integer bookno, Integer newState){
-        return Dao.checkState(bookno, newState);
+//        beginTransaction();
+        BookingVo result = Dao.checkState(bookno, newState);
+//        commit();
+        return result;
+        //return Dao.checkState(bookno, newState);
     }
 
     @Override
@@ -59,40 +67,23 @@ public class BookingServiceImpl implements BookingService {
     }
     //新的
     public BookingVo insert (BookingVo bookingVo){
-        //beginTransaction();
-        if (bookingVo.getTableno() == null){
-            bookingVo.setMessage("tableno can't be empty");
-            bookingVo.setSuccess(false);
-            //rollback();
-            System.out.println("wrongTable");
-            return bookingVo;
-        }
-        if (bookingVo.getPeriodtime() == null){
-            bookingVo.setMessage("period can't be empty");
-            bookingVo.setSuccess(false);
-            //rollback();
-            System.out.println("wrongPeriod");
-            return bookingVo;
-        }
-        if(bookingVo.getTabledate() == null){
-            System.out.println("No date");
-            return bookingVo;
-        }
 
-        final int result = Dao.insert(bookingVo);
-        if (result < 1) {
-            bookingVo.setMessage("fail");
-            bookingVo.setSuccess(false);
-            //
-            System.out.println("wrong");
-        }
+        final BookingVo result = Dao.insert(bookingVo);
+        final Integer result1 = Dao.selectByIdMem(bookingVo.getBookingno());
+
         bookingVo.setMessage("ok");
         bookingVo.setSuccess(true);
-
         System.out.println("Service:" + bookingVo);
         System.out.println("Service:" + result);
-        //commit();
+
+        Integer result2 = bookingVo.getBookingno();
+        System.out.println("會員編號" + result1);
         return bookingVo;
+    }
+
+    @Override
+    public BookingVo selectById(Integer memno) {
+        return null;
     }
 }
 

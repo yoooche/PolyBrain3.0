@@ -1,22 +1,18 @@
 package feature.mem.service;
 
+import feature.mem.dao.MemDao;
 import feature.mem.dao.MemDaoImpl;
 import feature.mem.vo.MemVo;
 
 import javax.servlet.ServletException;
 
 public class RegistService {
+    private MemDao memDao;
 
-    private MemDaoImpl MemDao;
-
-    public RegistService() {
-        // 在构造函数中初始化MemDAO
-        MemDao = new MemDaoImpl();
-    }
-
+    public RegistService() {memDao = new MemDaoImpl();}
     public String checkDuplicate(String pid, String email, String phone) {
         // 检查是否有重复的信箱、身份证或电话号码
-        if (MemDao.isEmailExists(email) || MemDao.isPidExists(pid) || MemDao.isPhoneExists(phone)) {
+        if (memDao.isEmailExists(email) || memDao.isPidExists(pid) || memDao.isPhoneExists(phone)) {
             return "duplicate"; // 存在重复数据
         } else {
             return "success"; // 没有重复数据
@@ -31,21 +27,19 @@ public class RegistService {
             return "duplicate"; // 返回错误标识
         }
 
-        // 创建一个新的 MemberVO 对象
-        MemVo member = new MemVo();
-        member.setMemName(name);
-        member.setMemPid(pid);
-        member.setMemGender((byte) gender);
-        member.setMemEmail(email);
-        member.setMemPwd(password);
-        member.setMemPh(phone);
-        member.setMemAddress(address);
-        // 注意：memAuth和memVio在数据库中默认为0，不需要手动设置
-        member.setMemBirth(java.sql.Date.valueOf(birth)); // 将生日字符串转换为日期
+        MemVo mem = new MemVo();
+        mem.setMemName(name);
+        mem.setMemPid(pid);
+        mem.setMemGender((byte) gender);
+        mem.setMemEmail(email);
+        mem.setMemPwd(password);
+        mem.setMemPh(phone);
+        mem.setMemAddress(address);
+        mem.setMemBirth(java.sql.Date.valueOf(birth)); // 将生日字符串转换为日期
 
         // 调用DAO的createMember方法将会员数据存入数据库
         try {
-            MemDao.createMember(member);
+            memDao.createMember(mem);
             return "success"; // 注册成功
         } catch (Exception e) {
             e.printStackTrace();

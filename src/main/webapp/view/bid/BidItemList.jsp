@@ -4,10 +4,11 @@
 <%@ page import="feature.bid.vo.*" %>
 <%@ page import="feature.bid.service.*" %>
 <%@ page import="feature.bid.dao.*" %>
+<%@ page import="feature.bid.dto.*" %>
 
 <% 
-BiddingService biddingService=new BiddingServiceImpl(); 
-List<BidItemVo> list = biddingService.viewAll();
+BiddingService biddingService = new BiddingServiceImpl(); 
+List<BidItemDto> list = biddingService.getTableData();
 pageContext.setAttribute("list", list);
 %>
 
@@ -25,6 +26,77 @@ pageContext.setAttribute("list", list);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <style>
+        .upload_inputfile {
+            width: .1px;
+            height: .1px;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            z-index: -1;
+        }
+
+        .upload_btn {
+            display: inline-block;
+            font-weight: 600;
+            color: #fff;
+            text-align: center;
+            min-width: 116px;
+            transition: all .3s ease;
+            cursor: pointer;
+            border: 2px solid;
+            background-color: #00a0e9;
+            border-color: #00a0e9;
+            border-radius: 10px;
+            margin-left: 100px;
+        }
+
+        .upload_btn:hover {
+            background-color: unset;
+            color: #00a0e9;
+            transition: all .3s ease;
+        }
+
+        .upload_img-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .upload_img-box {
+            width: 200px;
+            padding: 0 10px;
+            margin-bottom: 12px;
+        }
+
+        .upload_img-close {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            text-align: center;
+            line-height: 24px;
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        .upload_img-close:after {
+            content: '\2716';
+            font-size: 14px;
+            color: white;
+        }
+
+        .img-bg {
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            position: relative;
+            padding-bottom: 100%;
+        }
+    </style>
 </head>
 
 <body class="sb-nav-fixed">
@@ -184,21 +256,21 @@ pageContext.setAttribute("list", list);
                                 </thead>
 
                                 <tbody>
-                                    <% List<BidItemVo> listAll = (List<BidItemVo>)pageContext.getAttribute("list"); %>
+                                    <% List<BidItemDto> listAll = (List<BidItemDto>)pageContext.getAttribute("list"); %>
                                             <% if(listAll !=null) { %>
-                                                <% for(BidItemVo bidItemVo : listAll) {%>
+                                                <% for(BidItemDto bidItemDto : listAll) {%>
                                                     <tr>
-                                                        <td><%= bidItemVo.getBidItemNo() %></td>
-                                                        <td><img src="<%=request.getContextPath()%>/bid/BidItemPic?bidItemNo=<%=bidItemVo.getBidItemNo()%>" width="100px" height="100px"></td>
-                                                        <td><%= bidItemVo.getBidItemName() %></td>
+                                                        <td><%= bidItemDto.getBidItemVo().getBidItemNo() %></td>
+                                                        <td class="bidItemPics"><img src="data:image/jpeg;base64,<%= bidItemDto.getBidItemPic() %>" width="100px" height="100px"/></td>
+                                                        <td><%= bidItemDto.getBidItemVo().getBidItemName() %></td>
                                                         <td>
                                                             <!-- Button trigger modal -->
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bid_item_describe_<%= bidItemVo.getBidItemNo()%>">
+                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bid_item_describe_<%= bidItemDto.getBidItemVo().getBidItemNo() %>">
                                                                 商品說明
                                                             </button>
                                                             
                                                             <!-- Modal -->
-                                                             <div class="modal fade" id="bid_item_describe_<%= bidItemVo.getBidItemNo() %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                             <div class="modal fade" id="bid_item_describe_<%= bidItemDto.getBidItemVo().getBidItemNo() %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content"> 
                                                                         <div class="modal-header">
@@ -206,26 +278,25 @@ pageContext.setAttribute("list", list);
                                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                         </div>
                                                                         <div class="modal-body">
-                                                                            <%= bidItemVo.getBidItemDescribe() %>
+                                                                            <%= bidItemDto.getBidItemVo().getBidItemDescribe() %>
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                            <button type="button" class="btn btn-primary">Save changes</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             
                                                         </td>
-                                                        <td><%= bidItemVo.getItemClass().getItemClassName() %></td>
-                                                        <td><%= bidItemVo.getGamePublisher() %></td>
+                                                        <td><%= bidItemDto.getBidItemVo().getItemClass().getItemClassName() %></td>
+                                                        <td><%= bidItemDto.getBidItemVo().getGamePublisher() %></td>
                                                         <td>
                                                             <!-- 新增一筆競標商品資料 -->
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bid_item_edit_<%= bidItemVo.getBidItemNo() %>"style="float: right; margin-bottom: 1px;">
+                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bid_item_edit_<%= bidItemDto.getBidItemVo().getBidItemNo() %>"style="float: right; margin-bottom: 1px;">
                                                                 編輯
                                                             </button>
                                                             <!-- Modal -->
-                                                            <div class="modal fade" id="bid_item_edit_<%= bidItemVo.getBidItemNo() %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal fade" id="bid_item_edit_<%= bidItemDto.getBidItemVo().getBidItemNo() %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
@@ -237,32 +308,27 @@ pageContext.setAttribute("list", list);
                                                                                 <div style="margin-bottom: 10px; display: inline-block;">
 
                                                                                     <label for="bidItemName_edit">競標品名稱:</label>
-                                                                                    <input type="text" id="bidItemName_edit" name="bidItemName" value="<%=bidItemVo.getBidItemName()%>">
+                                                                                    <input type="text" id="bidItemName_edit" name="bidItemName" value="<%= bidItemDto.getBidItemVo().getBidItemName() %>">
 
                                                                                     <select id="itemClassNo_edit" name="itemClassNo">
                                                                                         <option disabled selected>--類別--</option>
-                                                                                        <option value="1">策略</option>
-                                                                                        <option value="2">派對</option>
-                                                                                        <option value="3">親子</option>
-                                                                                        <option value="4">合作</option>
-                                                                                        <option value="5">陣營</option>
-                                                                                        <option value="6">派對</option>
                                                                                     </select>
                                                                                 </div>
                                                                                 <div>
                                                                                     <label for="gamePublisher_edit">遊戲發行商:</label>
-                                                                                    <input type="text" id="gamePublisher_edit" name="gamePublisher" value="<%=bidItemVo.getGamePublisher()%>">
+                                                                                    <input type="text" id="gamePublisher_edit" name="gamePublisher" value="<%= bidItemDto.getBidItemVo().getGamePublisher()%>">
                                                                                 </div>
                                                                                 <div style="border: 1px solid white; margin: 10px 0;"></div>
                                                                                 <div>
                                                                                     <label for="bidItemPic_edit">商品圖片:</label>
                                                                                     <input type="file" id="bidItemPic_edit" name="bidItemPic" onclick="previewEdit()" multiple="multiple">
-                                                                                    <div id="blob_holder_edit"><img src="<%=request.getContextPath()%>/bid/BidItemPic?bidItemNo=<%=bidItemVo.getBidItemNo()%>" width="100px" height="100px"></div>
+                                                                                    <div id="blob_holder_edit"><img src="data:image/jpeg;base64,<%=bidItemDto.getBidItemPic()%>" width="100px" height="100px"/></div>
                                                                                 </div>
                                                                                 <div>
                                                                                     <label for="bidItemDescribe_edit">商品描述:</label><br>
                                                                                     <textarea id="bidItemDescribe_edit" name="bidItemDescribe" cols="30" rows="10"
-                                                                                        style="width: 100%; height: 150px; resize: none;"><%= bidItemVo.getBidItemDescribe() %></textarea>
+                                                                                        style="width: 100%; height: 150px; resize: none;" value="<%= bidItemDto.getBidItemVo().getBidItemDescribe() %>" ></textarea>
+                                                                                        <input type="text" style="width: 100%; height: 200px; white-space: pre;" value=" <%= bidItemDto.getBidItemVo().getBidItemDescribe() %>"> 
                                                                                 </div>
                                                                                 <div class="modal-footer">
                                                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
@@ -277,12 +343,12 @@ pageContext.setAttribute("list", list);
                                                         </td>
                                                         <td>
                                                         <!-- Button trigger modal -->
-                                                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#bid_item_delete_<%= bidItemVo.getBidItemNo() %>">
+                                                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#bid_item_delete_<%= bidItemDto.getBidItemVo().getBidItemNo() %>">
                                                             刪除
                                                         </button>
                                                         
                                                         <!-- Modal -->
-                                                        <div class="modal fade" id="bid_item_delete_<%= bidItemVo.getBidItemNo() %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal fade" id="bid_item_delete_<%= bidItemDto.getBidItemVo().getBidItemNo() %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
@@ -296,7 +362,7 @@ pageContext.setAttribute("list", list);
                                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
                                                                         <form action="<%=request.getContextPath()%>/bid/BidItemList" method="get">
                                                                         <button type="submit" class="btn btn-primary">確認刪除</button>
-                                                                        <input type="hidden" name="bidItemNo" value="<%= bidItemVo.getBidItemNo() %>">
+                                                                        <input type="hidden" name="bidItemNo" value="<%= bidItemDto.getBidItemVo().getBidItemNo() %>">
                                                                         <input type="hidden" name="action" value="delete">
                                                                         </form>
                                                                     </div>
@@ -326,7 +392,7 @@ pageContext.setAttribute("list", list);
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="<%=request.getContextPath()%>/bid/BidItemList" method="post" enctype="multipart/form-data">
+                                            <form action="<%=request.getContextPath()%>/general/BidItemList" method="post" enctype="multipart/form-data">
                                                 <div style="margin-bottom: 10px; display: inline-block;">
                                                         <label for="bidItemName">競標品名稱:</label>
                                                         <input type="text" id="bidItemName" name="bidItemName">
@@ -339,10 +405,22 @@ pageContext.setAttribute("list", list);
                                                     <input type="text" id="gamePublisher" name="gamePublisher">
                                                 </div>
                                                 <div style="border: 1px solid white; margin: 10px 0;"></div>
-                                                <div>
+                                                <!-- <div>
                                                     <label for="bidItemPic">商品圖片:</label>
                                                     <input type="file" id="bidItemPic" name="bidItemPic" onclick="preview()" multiple="multiple">
                                                     <div id="blob_holder"></div>
+                                                </div> -->
+                                                <div class="div_addOption">
+                                                    <div class="upload_box">
+                                                        <div class="upload_btn-box">
+                                                            <label class="upload_btn">
+                                                                <p style="margin: 0;">上傳商品圖片</p>
+                                                                <input type="file" id="bidItemPic" name="bidItemPic" class="upload_inputfile"
+                                                                    accept="image/jpeg, image/png, image/jpg, image/gif" multiple>
+                                                            </label>
+                                                        </div>
+                                                        <div class="upload_img-wrap"></div>
+                                                    </div>
                                                 </div>
                                                 <div>
                                                     <label for="bidItemDescribe">商品描述:</label><br>
@@ -381,10 +459,94 @@ pageContext.setAttribute("list", list);
 
         $(document).ready(function(){
             selectClass();
+            ImgUpload();
+            // viewAll();
         });
 
+        function viewAll(){
+            fetch('/PolyBrain/general/BidItemList', {
+                method: 'POST',
+                headers: {'content-type': 'application/x-www-form-urlencoded'},
+                body: new URLSearchParams({
+                    action: 'selectAllPics'
+                })
+            })
+                .then(resp => resp.json())
+                .then(data => {
+                    console.log(data);
+                    for(let i = 1; i < data.length; i++){
+                        let img = `<img src="data:image/jpeg;base64,${data[i].bidItemPic}">`;
+                        console.log(data[i].bidItemPic);
+                        let tr = document.querySelector(`tr[data-index="${i}"]`);
+                        let td = tr.querySelector('td:nth-child(2)');
+                        console.log(tr);
+                        console.log(td);
+                        $(td).html(img);
+                    }
+                    
+                })
+            }
+        
+
+        function ImgUpload() {
+            var imgWrap = "";
+            var imgArray = [];
+
+            $('.upload_inputfile').each(function () {
+                $(this).on('change', function (e) {
+                    imgWrap = $(this).closest('.upload_box').find('.upload_img-wrap');
+                    var maxLength = $(this).attr('data-max_length');
+
+                    var files = e.target.files;
+                    var filesArr = Array.prototype.slice.call(files);
+                    var iterator = 0;
+                    filesArr.forEach(function (f, index) {
+
+                        if (!f.type.match('image.*')) {
+                            return;
+                        }
+
+                        if (imgArray.length > maxLength) {
+                            return false;
+                        } else {
+                            var len = 0;
+                            for (var i = 0; i < imgArray.length; i++) {
+                                if (imgArray[i] !== undefined) {
+                                    len++;
+                                }
+                            }
+                            if (len > maxLength) {
+                                return false;
+                            } else {
+                                imgArray.push(f);
+
+                                var reader = new FileReader();
+                                reader.onload = function (e) {
+                                    var html = "<div class='upload_img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload_img-close").length + "' data-file='" + f.name + "' class='img-bg add_img-bg'><div class='upload_img-close'></div></div></div>";
+                                    imgWrap.append(html);
+                                    iterator++;
+                                }
+                                reader.readAsDataURL(f);
+                            }
+                        }
+                    });
+                });
+            });
+
+            $('body').on('click', ".upload_img-close", function (e) {
+                var file = $(this).parent().data("file");
+                for (var i = 0; i < imgArray.length; i++) {
+                    if (imgArray[i].name === file) {
+                        imgArray.splice(i, 1);
+                        break;
+                    }
+                }
+                $(this).parent().parent().remove();
+            });
+        }
+
         function selectClass(){
-            fetch('http://localhost:8080/PolyBrain/test',{
+            fetch('/PolyBrain/general/bidding',{
                 method: 'POST',
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded'
