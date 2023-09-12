@@ -17,18 +17,26 @@ public class BookingChooSerImpl implements BookingChooseService{
     }
     @Override
     public List<TableBookingVo> selectByDate(int tableno){
-        //beginTransaction();
+//        beginTransaction();
         List<TableBookingVo> result = Dao.SelectByChoose(tableno);
-        //commit();
+//        commit();
         return result;
     }
     //改變狀態
     public TableBookingVo selectByState(Integer stateNo,Date tabledate,Integer tableNo){
-        return Dao.updateByState(stateNo, tabledate, tableNo);
+//        beginTransaction();
+        TableBookingVo result = Dao.updateByState(stateNo, tabledate, tableNo);
+//        commit();
+        return result;
+        //return Dao.updateByState(stateNo, tabledate, tableNo);
     }
     //取消狀態，返還時段
     public TableBookingVo selectCancelState(Integer stateNo,Date bookDate,Integer tableNo){
-        return Dao.cancelByState(stateNo,bookDate,tableNo);
+//        beginTransaction();
+        TableBookingVo result = Dao.cancelByState(stateNo,bookDate,tableNo);
+//        commit();
+        return result;
+        //return Dao.cancelByState(stateNo,bookDate,tableNo);
     }
 
 }

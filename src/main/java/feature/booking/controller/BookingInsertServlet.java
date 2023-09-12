@@ -9,7 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import feature.booking.service.BookMailServ;
 import static core.util.CommonUtil.*;
 import static core.util.Constants.JSON_MIME_TYPE;
 
@@ -25,14 +25,16 @@ public class BookingInsertServlet extends HttpServlet {
 
         System.out.println(request.getRequestURI());
         System.out.println("bookingVo:" + bookingVo);
-//        if(bookingVo == null){
-//            bookingVo = new BookingVo();
-            //bookingListVo.setMessage("wrong");
-            //bookingListVo.setSuccessful(false);
-//            return;
-//        }
+
         //insert
         commonUtil.writePojo2Json(response, service.insert(bookingVo));
+        Integer number = bookingVo.getBookingno();
+        Integer mem = bookingVo.getMemno();
+//        System.out.println("number" + number);
+//        System.out.println("mem" + mem);
+        BookingVo memno = service.selectById(mem);
+        BookMailServ bookMailServ = new BookMailServ();
+        bookMailServ.sendMail(number);
 
     }
 }

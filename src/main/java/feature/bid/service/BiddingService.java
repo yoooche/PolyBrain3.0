@@ -1,9 +1,12 @@
 package feature.bid.service;
 
 import core.coreService.CoreService;
+import feature.bid.dto.BidItemListDto;
+import feature.bid.dto.BidItemDto;
 import feature.bid.vo.BidEventVo;
 import feature.bid.vo.BidItemPicVo;
 import feature.bid.vo.BidItemVo;
+import feature.bid.vo.BidOrderVo;
 
 import java.util.List;
 import java.util.Map;
@@ -17,6 +20,9 @@ public interface BiddingService extends CoreService {
     public void removeOneItem(Integer bidItemNo);
     List<String> viewAllName();
     public void addPics(BidItemPicVo bidItemPicVo);
+    List<BidItemListDto> getHomePageList();
+    List<BidItemDto> getTableData();
+    List<String> selectAllPicsB64();
 
     // ========== about bidding event ==========
     List<BidEventVo> viewAllEvent();
@@ -26,5 +32,6 @@ public interface BiddingService extends CoreService {
     public void removeEventById(Integer bidEventNo);
     // ========== about bidding order ==========
     public void createOneOrder(Integer bidEventNo);
+    public BidOrderVo orderWithoutBid(Integer bidEventNo, Integer memNo);
     public List<byte[]> getItemPicsByEveNo(Integer bidEventNo);
 }

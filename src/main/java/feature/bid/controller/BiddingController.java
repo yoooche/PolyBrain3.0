@@ -20,7 +20,7 @@ import java.util.*;
 
 import static core.util.CommonUtil.json2Pojo;
 
-@WebServlet("/test")
+@WebServlet("/general/bidding")
 public class BiddingController extends HttpServlet {
     private BiddingService biddingService;
     private ItemClassService itemClassService;
@@ -46,9 +46,11 @@ public class BiddingController extends HttpServlet {
             BidEventVo bidEventVo =  biddingService.getEventByNo(bidEventNo);
             Integer floorPrice =  bidEventVo.getFloorPrice();
             Integer directivePrice =  bidEventVo.getDirectivePrice();
+            Integer leastOffers = bidEventVo.getLeastOffers();
             Map<String, Integer> priceRange = new HashMap<>();
             priceRange.put("floorPrice", floorPrice);
             priceRange.put("directivePrice", directivePrice);
+            priceRange.put("leastOffers", leastOffers);
             resp.setContentType("application/json");
             Gson gson = new Gson();
             String jsonPrice = gson.toJson(priceRange);

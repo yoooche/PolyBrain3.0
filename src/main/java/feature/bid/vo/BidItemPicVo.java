@@ -28,4 +28,8 @@ public class BidItemPicVo implements Serializable { // 先暫時不用，先存�
 
     @Column(name = "BID_ITEM_NO")
     private Integer bidItemNo;
+
+    @ManyToOne
+    @JoinColumn(name = "BID_ITEM_NO", insertable = false, updatable = false)
+    private BidItemVo bidItemVo;
 }

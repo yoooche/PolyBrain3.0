@@ -1,6 +1,7 @@
 package feature.booking.controller;
 
 import feature.booking.vo.BookingVo;
+import feature.mem.vo.MemVo;
 
 
 import javax.servlet.annotation.WebServlet;
@@ -23,6 +24,12 @@ public class BookListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response){
         response.setContentType(JSON_MIME_TYPE);
         List<BookingVo> booklist = SERVICE.getAllBooking();
+        for (BookingVo bookingVo : booklist){
+            MemVo memVo = bookingVo.getMemvo();
+            String memPh = memVo.getMemPh();
+            System.out.println("Phone" + memPh);
+            bookingVo.setMemPh(memPh);
+        }
         writePojo2Json(response,booklist);
     }
 }

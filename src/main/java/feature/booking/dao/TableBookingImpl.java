@@ -129,7 +129,7 @@ public class TableBookingImpl implements TableBookingDao{
         return null;
     }
 
-    public TableBookingVo cancelByState(Integer stateNo,Date bookDate,Integer tableNo){
+    public TableBookingVo cancelByState(Integer stateNo,Date bookdate,Integer tableNo){
         try {
             Session session = getSession();
             //session.beginTransaction();
@@ -152,14 +152,14 @@ public class TableBookingImpl implements TableBookingDao{
             if(!columnName.isEmpty()){
                 // 创建 HQL 更新查询
                 String hql = "UPDATE TableBookingVo SET " + columnName + " = :newValue " +
-                        "WHERE TABLE_NO = :tableNo AND TABLE_DATE = :bookDate";
+                        "WHERE TABLE_NO = :tableNo AND TABLE_DATE = :tabledate";
                 Query<?> query = session.createQuery(hql);
                 query.setParameter("newValue", 0); // 更新的新值
                 query.setParameter("tableNo", tableNo);
-                query.setParameter("bookDate", bookDate);
+                query.setParameter("tabledate", bookdate);
                 //=============================================
                 System.out.println("tableNo:" +tableNo);
-                System.out.println("bookDate" +bookDate);
+                System.out.println("bookDate" +bookdate);
                 System.out.println(hql);
                 // 执行更新操作
                 int rowsUpdated = query.executeUpdate();
@@ -171,13 +171,13 @@ public class TableBookingImpl implements TableBookingDao{
                     // 根据更新的列名设置对象的属性
                     switch (columnName) {
                         case "TABLE_MOR":
-                            updatedBooking.setTablemor(1);
+                            updatedBooking.setTablemor(0);
                             break;
                         case "TABLE_EVE":
-                            updatedBooking.setTableeve(1);
+                            updatedBooking.setTableeve(0);
                             break;
                         case "TABLE_NIGHT":
-                            updatedBooking.setTablenight(1);
+                            updatedBooking.setTablenight(0);
                             break;
                         // 可以根据需要添加其他列名和相应的设置属性
                     }

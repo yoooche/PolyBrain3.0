@@ -1,22 +1,23 @@
 package feature.mem.vo;
 
-import lombok.*;
+import core.coreVO.Core;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.Arrays;
 
-
-//@Entity(name = "member")
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "MEMBER")
-public class MemVo implements Serializable {
+public class MemVo extends Core implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,21 +47,4 @@ public class MemVo implements Serializable {
     @Column(name = "MEM_VIO")
     private Byte memVio;
 
-    @Override
-    public String toString() {
-        return "MemVo{" +
-                "memNo=" + memNo +
-                ", memName='" + memName + '\'' +
-                ", memPid='" + memPid + '\'' +
-                ", memGender=" + memGender +
-                ", memPic=" + Arrays.toString(memPic) +
-                ", memEmail='" + memEmail + '\'' +
-                ", memPwd='" + memPwd + '\'' +
-                ", memPh='" + memPh + '\'' +
-                ", memAddress='" + memAddress + '\'' +
-                ", memBirth=" + memBirth +
-                ", memAuth=" + memAuth +
-                ", memVio=" + memVio +
-                '}';
-    }
 }

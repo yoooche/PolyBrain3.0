@@ -433,7 +433,7 @@ pageContext.setAttribute("list", list);
         function selectItem(){
             // $('.bidItemNo').html('<option disabled selected>--請選擇--</option>');
             console.log("111");
-            fetch('http://localhost:8080/PolyBrain/test',{
+            fetch('/PolyBrain/general/bidding',{
                 method: 'POST',
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded'
@@ -493,7 +493,7 @@ pageContext.setAttribute("list", list);
             let bidItemVo = {
                 bidItemNo: bidItemNo.value
             };
-            fetch('http://localhost:8080/PolyBrain/test',{
+            fetch('/PolyBrain/general/bidding',{
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'

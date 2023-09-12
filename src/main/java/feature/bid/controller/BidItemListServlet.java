@@ -1,5 +1,6 @@
 package feature.bid.controller;
 
+import com.google.gson.Gson;
 import feature.bid.service.BiddingService;
 import feature.bid.service.BiddingServiceImpl;
 import feature.bid.vo.BidItemPicVo;
@@ -15,11 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collection;
 
-@WebServlet("/bid/BidItemList")
+@WebServlet("/general/BidItemList")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class BidItemListServlet extends HttpServlet {
     public BiddingService biddingService;
@@ -73,6 +75,22 @@ public class BidItemListServlet extends HttpServlet {
             biddingService.removeOneItem(bidItemNo);
 
             resp.sendRedirect(req.getContextPath() + "/view/bid/BidItemList.jsp");
+        }
+        if("selectAllPics".equals(action)){
+            biddingService = new BiddingServiceImpl();
+            resp.setContentType("text/html; charset=utf-8");
+            Gson gson = new Gson();
+            String img = gson.toJson(biddingService.getTableData());
+            System.out.println(img);
+            PrintWriter out = resp.getWriter();
+            out.print(img);
+            out.flush();
+        }
+        if("edit".equals(action)){
+            String bidItemName = req.getParameter("bidItemName");
+            Integer itemClassNo = Integer.valueOf(req.getParameter("itemClassNo"));
+            String gamePublisher = req.getParameter("gamePublisher");
+            String bidItemDescribe = req.getParameter("bidItemDescribe");
         }
     }
 }

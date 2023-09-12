@@ -87,7 +87,7 @@ public class MemDaoImpl implements MemDao {
     }
 
     public MemVo selectByMemName(String memName) {
-        final String hql = "FROM member WHERE memName = :memName";
+        final String hql = "FROM MemVo WHERE memName = :memName";
         return session.createQuery(hql, MemVo.class)
                 .setParameter("memName", memName)
                 .uniqueResult();
@@ -248,6 +248,16 @@ public class MemDaoImpl implements MemDao {
         }
 
         return exists;
+    }
+
+    @Override
+    public MemVo selectByMemEmailAndPwd(String memEmail, String memPwd) {
+        final String hql = "FROM MemVo WHERE memEmail = :memEmail AND memPwd = :memPwd ORDER BY memNo";
+        return session
+                .createQuery(hql, MemVo.class)
+                .setParameter("memEmail", memEmail)
+                .setParameter("memPwd", memPwd)
+                .uniqueResult();
     }
 
 

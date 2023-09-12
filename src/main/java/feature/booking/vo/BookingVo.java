@@ -1,12 +1,15 @@
 package feature.booking.vo;
 
 import core.coreVO.Core;
+import feature.mem.vo.MemVo;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
+
 @Entity
 @Data
 @Getter
@@ -31,7 +34,18 @@ public class BookingVo extends Core {
     private Integer bookingstate;
     @Column(name = "PERIOD_TIME")
     private Integer periodtime;
-    @Column(name = "MEM_NO")
+    @Column(name = "MEM_NO", insertable = false)
     private Integer memno;
+    @ManyToOne
+    @JoinColumn(name = "MEM_NO",referencedColumnName = "MEM_NO", insertable = false, updatable = false)
+    private MemVo memvo;
+    @Transient // 声明为临时字段，不映射到数据库
+    private String memPh;
+    public String getMemPh() {
+        if (memvo != null) {
+            return memvo.getMemPh();
+        }
+        return null;
+    }
 
 }

@@ -6,7 +6,9 @@
     color: white;
 
     }
-
+    #memName{
+        color: #ffffff;
+    }
     #timer div {
     display: inline-block;
     min-width: 30px;

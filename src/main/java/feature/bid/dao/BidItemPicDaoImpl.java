@@ -21,4 +21,11 @@ public class BidItemPicDaoImpl implements BidItemPicDao{
         query.setParameter("bidItemNo", bidItemNo);
         return query.getResultList();
     }
+
+    @Override
+    public List<BidItemPicVo> selectAllPics() {
+        final String hql = "FROM BidItemPicVo ORDER BY bidItemPicNo";
+        return session.createQuery(hql, BidItemPicVo.class).getResultList();
+    }
+
 }

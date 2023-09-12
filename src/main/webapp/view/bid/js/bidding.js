@@ -39,14 +39,10 @@
                         updateStatus("Websocket Disconnected");
                     }
                 }
-                let bidder = document.querySelector("#bidder");
-                bidder.focus();
-
                 function bidding() {
-                    let bidderName = bidder.value.trim();
-                    if (bidderName === "") {
-                        alert("請輸入姓名");
-                        bidder.focus();
+                    let bidderName = $('span#bidder').text();
+                    if (bidderName == "") {
+                        alert("請先登入");
                         return;
                     }
                     let biddingRange = document.querySelector("#biddingRange");
@@ -68,9 +64,7 @@
                     statusOutput.innerHTML = newStatus;
                 }
                 async function getBiddingItemPics(){
-                    let urlParams = new URLSearchParams(window.location.search);
-                    let bidEventId = urlParams.get('bidEventId');
-                    fetch('http://localhost:8080/PolyBrain/test', {
+                    fetch('/PolyBrain/general/bidding', {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/x-www-form-urlencoded'
@@ -83,7 +77,6 @@
                     .then(resp => resp.json())
                     .then(data => {
                         const imgArea = document.getElementById('img-showcase'); //大圖
-                        
                         
                         let j = 1;
                         for(let bidItemPic of data){ 
@@ -112,12 +105,6 @@
                     const imgBtns = [...imgs];
                     let imgId = 1;
 
-                    // for(let a of imgBtns){
-                    //     a.addEventListener('click', ()=>{
-                    //         console.log('apple');
-                    //     })
-                    // }
-
                     imgBtns.forEach((imgItem) => {
                         imgItem.addEventListener('click', (event) => {
                             console.log('xxx');
@@ -134,9 +121,7 @@
                     window.addEventListener('resize', slideImage);
                     
                 function getBiddingTimer(){
-                    let urlParams = new URLSearchParams(window.location.search);
-                    let bidEventId = urlParams.get('bidEventId');
-                    fetch('http://localhost:8080/PolyBrain/test', {
+                    fetch('/PolyBrain/general/bidding', {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/x-www-form-urlencoded'
@@ -157,9 +142,7 @@
                     });
                 }
                 async function getBiddingItemInfo(){
-                    let urlParams = new URLSearchParams(window.location.search);
-                    let bidEventId = urlParams.get('bidEventId');
-                    fetch('http://localhost:8080/PolyBrain/test', {
+                    fetch('/PolyBrain/general/bidding', {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/x-www-form-urlencoded'
@@ -190,12 +173,39 @@
                         console.log("error", error);
                     });
                 }
+                function buyWithoutBidding(){
+                    let bidEventId = new URLSearchParams(window.location.search).get('bidEventId');
+                    sessionStorage.setItem('currentPage', window.location.href);
+                    fetch('/PolyBrain/loginRequired/bidOrderCreate', {
+                        method: 'POST',
+                        headers: {'content-type': 'application/x-www-form-urlencoded'},
+                        body: new URLSearchParams({
+                            bidEventId: bidEventId
+                        })
+                    })
+                    .then(resp => {
+                        console.log(resp.status);
+                        if (resp.status == 401) {
+                            alert('帳號未登入，跳轉至登入頁面');
+                            window.location.href = 'http://localhost:8080/PolyBrain/view/member/login.html';
+                            throw new Error('錯誤訊息');
+                        } else if (resp.ok) {
+                            // 請求成功
+                            return resp.json();
+                        } 
+                    })
+                    .then(data => {
+                        console.log(data);
+                        sessionStorage.setItem("bidOrderVo", JSON.stringify(data));
+                        window.location.href = 'http://localhost:8080/PolyBrain/view/test/test.html';
+                    })
+                    .catch(error => {
+                        console.log("error", error);
+                    });
+                }
 
                 async function getRangeOfRangeBar(){
-
-                    let urlParams = new URLSearchParams(window.location.search);
-                    let bidEventId = urlParams.get('bidEventId');
-                    fetch('http://localhost:8080/PolyBrain/test', {
+                    fetch('/PolyBrain/general/bidding', {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/x-www-form-urlencoded'
@@ -226,7 +236,6 @@
                     const bidding = document.querySelector("#bidding");
                     const biddingRoomList = document.querySelector("#biddingRoom");
                     
-
                     if(biddingRoomList.childNodes.length >= 2){
                         let previousPrice =  biddingRoomList.lastChild.textContent.split(':');
                         
@@ -277,7 +286,7 @@
                 let bidEventId = urlParams.get('bidEventId');
                 console.log(bidEventId);
 
-                fetch('http://localhost:8080/PolyBrain/test', {
+                fetch('/PolyBrain/general/bidding', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
