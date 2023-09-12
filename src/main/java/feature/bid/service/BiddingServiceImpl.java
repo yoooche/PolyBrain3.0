@@ -36,6 +36,7 @@ public class BiddingServiceImpl implements BiddingService{
     }
     @Override
     public List<BidItemVo> viewAll() {
+        System.out.println("viewAll service");
         return bidItemDao.selectAll();
     }
     @Override

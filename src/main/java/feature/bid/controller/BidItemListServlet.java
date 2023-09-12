@@ -20,9 +20,12 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collection;
+import java.util.List;
 
-@WebServlet("/general/BidItemList")
-@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
+import static core.util.CommonUtil.writePojo2Json;
+
+@WebServlet("/BidItemList")
+//@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class BidItemListServlet extends HttpServlet {
     public BiddingService biddingService;
     @Override
@@ -32,6 +35,8 @@ public class BidItemListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
+        System.out.println(req);
+        String value = req.getParameter("value");
         String action = req.getParameter("action");
 
         //---------- insert an item into bid_item table ----------
@@ -76,7 +81,7 @@ public class BidItemListServlet extends HttpServlet {
 
             resp.sendRedirect(req.getContextPath() + "/view/bid/BidItemList.jsp");
         }
-        if("selectAllPics".equals(action)){
+        if("selectAllPics".equals(action)){ //沒在用
             biddingService = new BiddingServiceImpl();
             resp.setContentType("text/html; charset=utf-8");
             Gson gson = new Gson();
@@ -91,6 +96,12 @@ public class BidItemListServlet extends HttpServlet {
             Integer itemClassNo = Integer.valueOf(req.getParameter("itemClassNo"));
             String gamePublisher = req.getParameter("gamePublisher");
             String bidItemDescribe = req.getParameter("bidItemDescribe");
+        }
+        if("selectAllBidItem".equals(value)){
+            biddingService = new BiddingServiceImpl();
+            System.out.println("查詢所有競標商品");
+//                writePojo2Json(resp, biddingService.viewAll());
+            writePojo2Json(resp, biddingService.getTableData());
         }
     }
 }

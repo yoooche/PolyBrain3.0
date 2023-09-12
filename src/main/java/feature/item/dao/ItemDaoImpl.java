@@ -65,10 +65,12 @@ public class ItemDaoImpl implements ItemDao{
     }
 
     //依照分頁去搜尋
-    public Map<String, Object> selectpage(Integer page) {
+    public Map<String, Object> selectpage(Integer page,String set) {
         int number = (page - 1) * 4;    //每頁顯示第幾到第幾個項目 以8個為一頁
-        final String hql = "FROM Item WHERE itemState IN (1, 2) ORDER BY itemNo ASC";
-        final String countHql = "SELECT COUNT(*) FROM Item ";
+        final String hql = ("FROM Item WHERE itemState IN (1, 2)"+ set);
+        System.out.println("hql="+hql);
+        final String countHql = ("SELECT COUNT(*) FROM Item WHERE itemState IN (1, 2)"+ set );
+        System.out.println("countHql="+countHql);
         Query<Item> query = getSession()
                 .createQuery(hql, Item.class)
                 .setFirstResult(number) // 略過筆數
