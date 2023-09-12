@@ -1,6 +1,7 @@
 package feature.cart.dao.impl;
 
 import feature.cart.dao.CartTraceDAO;
+import feature.cart.vo.CartTraceId;
 import feature.cart.vo.CartTraceVO;
 
 import javax.naming.Context;
@@ -78,7 +79,7 @@ public class CartTraceDAOimpl implements CartTraceDAO {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        final String sql = "Select * From item_trace where mem_no = ?";
+        final String sql = "Select * From item_trace where mem_no = ? Order By item_no ";
         try {
             con = ds.getConnection();
             pstmt = con.prepareStatement(sql);
@@ -99,10 +100,70 @@ public class CartTraceDAOimpl implements CartTraceDAO {
     }
 
 
-
     @Override
     public List<CartTraceVO> selectAll() {
         return null;
+    }
+
+
+    @Override
+    public Integer updateQuantity(CartTraceVO cartTraceVO){
+        try {
+            getSession().update(cartTraceVO);
+            System.out.println("更新成功");
+            return 1;
+        }catch(Exception e){
+            System.out.println("更新失敗");
+            return -1;
+        }
+    }
+
+    @Override
+    public Integer deleteByItemNo(Integer memNo, Integer itemNo ) {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            con = ds.getConnection();
+            pstmt = con.prepareStatement("delete from item_trace where mem_no = ? AND item_no =?");
+            pstmt.setInt(1, memNo);
+            pstmt.setInt(2, itemNo);
+            pstmt.executeUpdate();
+
+            // Handle any driver errors
+        } catch (SQLException se) {
+            throw new RuntimeException("A database error occured. "
+                    + se.getMessage());
+            // Clean up JDBC resources
+        } finally {
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException se) {
+                    se.printStackTrace(System.err);
+                }
+            }
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (Exception e) {
+                    e.printStackTrace(System.err);
+                }
+            }
+        }
+        return 1;
+    }
+    public Integer insertToCart(CartTraceVO cartTraceVO){
+        try {
+            getSession().persist(cartTraceVO);
+            System.out.println("新增購物車成功");
+            return 1;
+        }catch (Exception e){
+            System.out.println("阿你是在衝三小");
+            return -1;
+        }
+
     }
 
 
