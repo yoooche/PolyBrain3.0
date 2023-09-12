@@ -38,7 +38,7 @@ public class listallmemService {
         memVo.setMemAddress(memAddress);
         memVo.setMemBirth(memBirth);
         memVo.setMemAuth(memAuth);
-        memDao.update(memVo);
+        memDao.updateJDBC(memVo);
 
         return memDao.selectById(memNo);
     }
