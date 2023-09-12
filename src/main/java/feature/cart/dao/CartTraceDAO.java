@@ -10,4 +10,9 @@ public interface CartTraceDAO extends CoreDao<CartTraceVO, Integer> {
 
     List<CartTraceVO> selectAll(Integer memNo);
 
+    Integer updateQuantity(CartTraceVO cartTraceVO);
+
+    Integer deleteByItemNo(Integer memNo ,Integer itemNo );
+    Integer insertToCart(CartTraceVO cartTraceVO);
+
 }

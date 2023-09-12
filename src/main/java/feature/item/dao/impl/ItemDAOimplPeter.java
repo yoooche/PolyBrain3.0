@@ -1,7 +1,7 @@
 package feature.item.dao.impl;
 
 import core.coreDao.CoreDao;
-import feature.item.vo.itemVOPeter;
+import feature.item.vo.Item;
 import feature.order.vo.ItemOrderVO;
 import org.hibernate.Session;
 
@@ -28,7 +28,7 @@ public class ItemDAOimplPeter implements CoreDao {
         return null;
     }
 
-    public Integer deleteByItemNo(Integer memNo ,Integer itemNo ) {
+    public Integer deleteByIteNo(Integer memNo ,Integer itemNo ) {
         Connection con = null;
         PreparedStatement pstmt = null;
 
@@ -65,30 +65,21 @@ public class ItemDAOimplPeter implements CoreDao {
         return 1;
     }
 
-    public Object update(Object o) {
-        return null;
-    }
-
-    public Object selectById(Object id) {
-        return null;
-    }
-
     @Override
-    public List<itemVOPeter> selectAll() {
-        final String hql = "FROM itemVOPeter ORDER BY ITEM_NO";
-        return getSession().createQuery(hql, itemVOPeter.class).getResultList();
+    public List<Item> selectAll() {
+        final String hql = "FROM Item ORDER BY ITEM_NO";
+        return getSession().createQuery(hql, Item.class).getResultList();
     }
-    public List<itemVOPeter> selectAll1(Integer itemNo) {
-
-        final String hql = "FROM itemVOPeter WHERE ITEM_NO ="+ itemNo ;
-        return getSession().createQuery(hql, itemVOPeter.class).getResultList();
+    public List<Item> selectAllByItemNo(Integer itemNo) {
+        final String hql = "FROM Item WHERE ITEM_NO ="+ itemNo ;
+        return getSession().createQuery(hql, Item.class).getResultList();
     }
 
 
     public static void main(String[] args) {
         ItemDAOimplPeter iopl = new ItemDAOimplPeter();
-        List<itemVOPeter> itemVOS = iopl.selectAll1(101);
-        for(itemVOPeter list :itemVOS){
+        List<Item> itemVOS = iopl.selectAllByItemNo(101);
+        for(Item list :itemVOS){
             System.out.println(list.getItemName());
         }
     }

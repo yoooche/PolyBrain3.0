@@ -17,7 +17,7 @@ public interface ItemDao extends CoreDao<Item, Integer> {
     //搜尋所有商品
     List<Item> selectAll();
     //以ID搜尋商品
-    Item SelectByItemId(Item itemid);
+    Item SelectByItemId(Integer itemid);
     //以名稱搜尋商品
     Item SelectByItemName(String itemname);
     //以類別搜尋商品

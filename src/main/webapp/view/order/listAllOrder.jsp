@@ -93,7 +93,8 @@
 			  <form method="post" action="<%=request.getContextPath()%>/view/order/order.tw" style="margin-bottom: 0px;">
 			     <input type="submit" value="修改" >
 			     <input type="hidden" name="orderNo"  value="${itemordervo.orderNo}">
-			     <input type="hidden" name="test1"	value="getOne_For_Update"></FORM>
+			     <input type="hidden" name="test1"	value="getOne_For_Update">
+			  </form>
 			</td>
 			<td>
 			  <form method="post" action="<%=request.getContextPath()%>/view/order/order.tw" style="margin-bottom: 0px;">

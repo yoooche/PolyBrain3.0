@@ -17,7 +17,7 @@ public interface ItemService extends CoreService {
     List<Item> getAllItems();
 
 
-    Item FindByItemId(Item itemid);
+    Item FindByItemId(Integer itemid);
 //    Integer updateItem(Item item);
 //    boolean updateItemByItemName(Item newItem);
 

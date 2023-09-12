@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,7 +40,7 @@ public class ItemDaoImpl implements ItemDao{
     }
 
     //單筆查詢
-    public Item SelectByItemId(Item itemid) {
+    public Item SelectByItemId(Integer itemid) {
         return getSession().get(Item.class,itemid);}
     //搜尋依照商品名稱搜尋
     public Item SelectByItemName(String itemName) {
@@ -105,5 +106,22 @@ public class ItemDaoImpl implements ItemDao{
                 .createQuery(hql, Item.class)
                 .setParameter("icn", itemclassno.getItemClassNo())
                 .getSingleResult();
+    }
+
+    public static void main(String[] args) {
+//        List<Item> list = new ItemDaoImpl().selectAll();
+//        String s1 = .toString();
+//        System.out.println(list.get(0).getItemImg().get(0).getItemImg());
+
+
+        List<Item> listAAA = new ArrayList<Item>();
+        listAAA.add(new ItemDaoImpl().SelectByItemId(195));
+        listAAA.add(new ItemDaoImpl().SelectByItemId(196));
+
+        for(Item item: listAAA){
+            System.out.println(item.getItemNo());
+            System.out.println(item.getGameTime());
+        }
+
     }
  }

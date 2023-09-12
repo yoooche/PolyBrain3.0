@@ -77,7 +77,7 @@ public class ItemServiceImpl implements ItemService{
 
     //拿取單筆
     @Override
-    public Item FindByItemId(Item itemid) {
+    public Item FindByItemId(Integer itemid) {
         System.out.println("以編號查詢遊戲");
         return Dao.SelectByItemId(itemid);
     }
