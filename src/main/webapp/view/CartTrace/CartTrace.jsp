@@ -5,9 +5,10 @@
 <%@ page import="feature.cart.vo.*"%>
 <%@ page import="feature.item.vo.*"%>
 <%@ page import="feature.cart.service.*"%>
-<%@ page import="feature.item.dao.impl.*"%>
+<%@ page import="feature.cart.vo.*"%>
 
 <!-- <%@ page isELIgnored="false"%> -->
+
 
 
 
@@ -41,7 +42,6 @@
                 <img class="d-block mb-3 logoImg " src="../logo/JennyBluePoly.png" alt="">
             </a>
 
-
         </div>
 
         <div class="container">
@@ -51,27 +51,25 @@
                         <span class="text-muted">購物車清單</span>
                     </h4>
                     <ul class="list-group mb-3">
-                        <c:forEach var="itemVOs" items="${itemVONewList}">
+                        <c:forEach var="cartItemImgDTO" items="${cartItemImgDTOList}">
                             <li class="list-group-item d-flex justify-content-between lh-condensed">
                                 <div>
-                                    <h6 class="my-0">${itemVOs.itemName}</h6>
-                                    <small class="text-muted">${itemVOs.itemProdDescription}</small>
+                                    <h6 class="my-0">${cartItemImgDTO.itemName}</h6>
+                                    <small id="cartQuantity"class="text-muted">${cartItemImgDTO.quantity}</small>
                                 </div>
-                                <span class="text-muted">
-                                    <c:forEach var="cartTraceVOs" items="${cartTraceVOList}">
-                                        <c:if test="${cartTraceVOs.itemNo eq itemVOs.itemNo}">
-                                            ${cartTraceVOs.quantity}
-                                        </c:if>
-                                    </c:forEach>
+                                <span class="cartPrice" id="cartPrice"
+                                value="${cartItemImgDTO.itemPrice * cartItemImgDTO.quantity}">
+                                   $ ${cartItemImgDTO.itemPrice * cartItemImgDTO.quantity}
                                 </span>
                             </li>
                         </c:forEach>
+                        <li class="list-group-item " style="display: none;"id="transFormPrice">
+                        </li>
+                            <li class="list-group-item d-flex justify-content-between lh-condensed" id="orderTotal">
+                            </li>
 
                     </ul>
                 </div>
-
-
-
 
                 <div class="col-md-8 order-md-1">
                     <form method="post" action="<%=request.getContextPath()%>/view/CartTrace/ConfirmOrder">
@@ -118,7 +116,7 @@
 
                             <div class="form-row">
                                 <label for="receiverMethod">寄送方式：</label>
-                                <select id="receiverMethod" name="receiverMethod" required>
+                                <select id="receiverMethod" name="receiverMethod" required >
                                     <option value="default" selected>請選擇寄送方式...</option>
                                     <option value="mail">郵寄</option>
                                     <option value="storePickup">超商取貨</option>
@@ -150,7 +148,42 @@
         selectElement.classList.add('form-select');
         var selectElementDistrict = document.querySelector('select[name="district"]');
         selectElementDistrict.classList.add('form-select');
+
+
+        var transFormPriceElement = document.querySelector('#transFormPrice');
+        var cartPriceElements = document.querySelectorAll('.cartPrice');
+        var orderTotal = document.querySelector('#orderTotal')
+        var total = 0;
+
+        for(var i = 0; i < cartPriceElements.length ;i++){
+            total += parseInt(cartPriceElements[i].textContent.match(/\d+/));
+        }
+        orderTotal.textContent="總計: "+ total;
+
+        var receiverMethodElement = document.querySelector('#receiverMethod');
+        receiverMethodElement.addEventListener('change', function(){
+            var selectedOption = receiverMethodElement.options[receiverMethodElement.selectedIndex];
+
+            if (selectedOption.value === 'default') {
+                selectedOption.disabled = true;
+            } else {
+                transFormPriceElement.style.display = 'block';
+                transFormPriceElement.textContent = selectedOption.textContent;
+
+            }
+        })
+        
+
+
+
+
+
+
+
+
+
     </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
