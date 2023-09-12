@@ -2,6 +2,7 @@ package feature.order.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.util.Objects;
 @Entity
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @IdClass(OrderDetailId.class)
 @Table(name="order_detail")
 public class ItemOrderDetailVO {
