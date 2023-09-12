@@ -40,8 +40,16 @@ public class BiddingServiceImpl implements BiddingService{
         return bidItemDao.selectAll();
     }
     @Override
-    public void addAnItem(BidItemVo bidItemVo) {
-        bidItemDao.insert(bidItemVo);
+    public BidItemVo addAnItem(BidItemVo bidItemVo) {
+        final int resultCount = bidItemDao.insert(bidItemVo);;
+        if(resultCount < 1){
+            bidItemVo.setMessage("新增失敗，請聯絡管理員!");
+            bidItemVo.setSuccess(false);
+        }else {
+            bidItemVo.setMessage("新增成功");
+            bidItemVo.setSuccess(true);
+        }
+        return bidItemVo;
     }
 
     @Override
