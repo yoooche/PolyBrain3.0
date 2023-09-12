@@ -220,9 +220,11 @@
 
                         let floorPrice = data.floorPrice;
                         let directivePrice = data.directivePrice;
+                        let leastOffers = data.leastOffers;
                         $("#biddingRange").attr("min", floorPrice);
                         $("#biddingRange").attr("max", directivePrice);
                         $("#biddingRange").attr("value", floorPrice);
+                        $("#biddingRange").attr("step", leastOffers);
                         $('#bidding').html('底價開標＄' + floorPrice);
 
                     })

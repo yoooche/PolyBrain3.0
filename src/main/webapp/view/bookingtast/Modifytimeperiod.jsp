@@ -9,7 +9,7 @@
     if(request.getAttribute("tabListData")==null) pageContext.setAttribute("tabListData",list);
 %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
 
 <head>
     <meta charset="utf-8" />
@@ -33,7 +33,6 @@
    .pagination {
        /* 例如：調整整體的寬度 */
        width: 100%;
-
    }
    .dataTables_wrapper .dataTables_paginate .paginate_button {
        padding: 0;
@@ -67,7 +66,13 @@ main {
     padding: 20px;
 }
 
+.sb-nav-fixed #layoutSidenav #layoutSidenav_content {
+    width: 100%;       /* 使元素填充其容器的全部寬度 */
+    padding-left: 88px;
 
+     padding-right: 0px;
+    top: 56px;
+}
     </style>
 
 <!--以下新增的內容-->
@@ -112,16 +117,32 @@ body {
 </head>
 
 <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
-        <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
-                class="fas fa-bars"></i></button>
-        <!-- Navbar Search-->
+  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+          <!-- Navbar Brand-->
+          <a class="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
+          <!-- Sidebar Toggle-->
+          <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                  class="fas fa-bars"></i></button>
+          <!-- Navbar Search-->
+          <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
 
-        <!-- Navbar-->
-
+              </div>
+          </form>
+          <!-- Navbar-->
+          <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                      aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="#!">登入</a></li>
+                      <li><a class="dropdown-item" href="#!">活動日誌</a></li>
+                      <li>
+                          <hr class="dropdown-divider" />
+                      </li>
+                      <li><a class="dropdown-item" href="#!">登出</a></li>
+                  </ul>
+              </li>
+          </ul>
     </nav>
 
     <div id="layoutSidenav">
@@ -209,7 +230,7 @@ body {
             <main>
 
 <!--以下新增的-->
-<table id="example" class="display" style="width: 100%"> <!--////對應上面設定表格的內容#內隨意取但是要一致 -->
+<table id="example" class="display" style="width: 115%"> <!--////對應上面設定表格的內容#內隨意取但是要一致 -->
   <thead >
 	<tr style="background-color:#0eebb7">
         <th>編號</th>
@@ -230,75 +251,80 @@ body {
 			<td>${TablebookingVO.TABLE_DATE}</td>
 			<td>${TablebookingVO.TABLE_NO}</td>
 			<td>
-                <input type="checkbox" name="${TablebookingVO.TABLE_BOOK_NO}-morning" value="${TablebookingVO.TABLE_MOR}" >
-                <c:choose>
-                    <c:when test="${TablebookingVO.TABLE_MOR == 0}">
-                        <span style="color:black;">可預約</span>
-                    </c:when>
-                    <c:when test="${TablebookingVO.TABLE_MOR == 1}">
-                       <span style="color:blue;">已預約</span>
-                    </c:when>
-                    <c:when test="${TablebookingVO.TABLE_MOR == 2}">
-                       <span style="color:red;">不開放</span>
-                    </c:when>
-                </c:choose>
-            </td>
-			<td>
-                            <input type="checkbox" name="${TablebookingVO.TABLE_BOOK_NO}-eve" value="${TablebookingVO.TABLE_EVE}" >
-                            <c:choose>
-                                <c:when test="${TablebookingVO.TABLE_EVE == 0}">
-                                    <span style="color:black;">可預約</span>
-                                </c:when>
-                                <c:when test="${TablebookingVO.TABLE_EVE == 1}">
-                                    <span style="color:blue;">已預約</span>
-                                </c:when>
-                                <c:when test="${TablebookingVO.TABLE_EVE == 2}">
-                                     <span style="color:red;">不開放</span>
-                                </c:when>
-                            </c:choose>
-            </td>
+                 <c:choose>
+                                   <c:when test="${TablebookingVO.TABLE_MOR == 0}">
+                                       <span style="color:black;">可預約</span>
+                                   </c:when>
+                                   <c:when test="${TablebookingVO.TABLE_MOR == 1}">
+                                      <span style="color:blue;">已預約</span>
+                                   </c:when>
+                                   <c:when test="${TablebookingVO.TABLE_MOR == 2}">
+                                      <span style="color:red;">不開放</span>
+                                   </c:when>
+                               </c:choose>
+                           </td>
+               			<td>
+                               <c:choose>
+                                   <c:when test="${TablebookingVO.TABLE_EVE == 0}">
+                                       <span style="color:black;">可預約</span>
+                                   </c:when>
+                                   <c:when test="${TablebookingVO.TABLE_EVE == 1}">
+                                       <span style="color:blue;">已預約</span>
+                                   </c:when>
+                                   <c:when test="${TablebookingVO.TABLE_EVE == 2}">
+                                       <span style="color:red;">不開放</span>
+                                   </c:when>
+                               </c:choose>
+                           </td>
+               			<td>
+                               <c:choose>
+                                   <c:when test="${TablebookingVO.TABLE_NIGHT == 0}">
+                                       <span style="color:black;">可預約</span>
+                                   </c:when>
+                                   <c:when test="${TablebookingVO.TABLE_NIGHT == 1}">
+                                       <span style="color:blue;">已預約</span>
+                                   </c:when>
+                                   <c:when test="${TablebookingVO.TABLE_NIGHT == 2}">
+                                       <span style="color:red;">不開放</span>
+                                   </c:when>
+                               </c:choose>
+                           </td>
+               			<td>
+               			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/bookingtast/inserservlet" style="margin-bottom:0px;">
+               			     <button type="submit" class="btn btn-primary">修改</button>
+               			     <input type="hidden" name="TABLE_NO" value="${TablebookingVO.TABLE_BOOK_NO}">
+               			     <input type="hidden" name="action"	value="getOne_For_Update">
+               			  </FORM>
+               			</td>
+               		</tr>
+               	</c:forEach>
+                 </tbody>
+               </table>
 
-				<td>
-                                        <input type="checkbox" name="${TablebookingVO.TABLE_BOOK_NO}-night" value="${TablebookingVO.TABLE_NIGHT}" >
-                                        <c:choose>
-                                            <c:when test="${TablebookingVO.TABLE_NIGHT == 0}">
-                                                <span style="color:black;">可預約</span>
-                                            </c:when>
-                                            <c:when test="${TablebookingVO.TABLE_NIGHT == 1}">
-                                               <span style="color:blue;">已預約</span>
-                                            </c:when>
-                                            <c:when test="${TablebookingVO.TABLE_NIGHT == 2}">
-                                                 <span style="color:red;">不開放</span>
-                                            </c:when>
-                                        </c:choose>
-                        </td>
-			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/bookingtast/inserservlet" style="margin-bottom: 0px;">
-			     <button type="submit" class="btn btn-primary">修改</button>
-			     <input type="hidden" name="TABLE_NO" value="${TablebookingVO.TABLE_BOOK_NO}">
-			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
-			</td>
-
-		</tr>
-	</c:forEach>
-  </tbody>
-</table>
-        <c:if test="${not empty message}">
-            <script>
-                alert('${message}');
-            </script>
-        </c:if>
+               <c:if test="${not empty message}">
+                   <script>
+                       alert('${message}');
+                   </script>
+               </c:if>
 
 <!--以上新增的-->
-
-
-
-
             </main>
 
-
+ <footer class="py-4 bg-light ">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
 
     </div>
+
     <div id="lightbox" class="lightbox">
         <div class="lightbox-content">
             <p>輸入要新增的類別</p>
@@ -311,11 +337,11 @@ body {
         </div>
     </div>
     </div>
-
+<script src="./js/jquery-3.7.0.min.js"></script>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
-
+ <script src="./js/itemClassConsole.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>

@@ -1,8 +1,6 @@
 package feature.bid.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serial;
@@ -11,7 +9,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "BID_ITEM_PIC")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class BidItemPicVo implements Serializable { // 先暫時不用，先存單張圖片
@@ -29,7 +28,6 @@ public class BidItemPicVo implements Serializable { // 先暫時不用，先存�
     @Column(name = "BID_ITEM_NO")
     private Integer bidItemNo;
 
-    @ManyToOne
-    @JoinColumn(name = "BID_ITEM_NO", insertable = false, updatable = false)
-    private BidItemVo bidItemVo;
+//    @JoinColumn(name = "BID_ITEM_NO", insertable = false, updatable = false)
+//    private BidItemVo bidItemVo;
 }

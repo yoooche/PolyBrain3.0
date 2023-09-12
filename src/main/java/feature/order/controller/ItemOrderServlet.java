@@ -99,12 +99,6 @@ public class ItemOrderServlet extends HttpServlet {
             successView.forward(req, res);
         }
 
-        if("getAllOrder".equals(action)){
-
-        }
-
-
-
         if("update".equals(action)){
 
             List<String> errorMsgs = new LinkedList<String>();
