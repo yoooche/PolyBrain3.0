@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,6 +100,22 @@ public class ItemDaoImpl implements ItemDao{
                 .getResultList();
     }
 
+    public static void main(String[] args) {
+//        List<Item> list = new ItemDaoImpl().selectAll();
+//        String s1 = .toString();
+//        System.out.println(list.get(0).getItemImg().get(0).getItemImg());
+
+
+        List<Item> listAAA = new ArrayList<Item>();
+        listAAA.add(new ItemDaoImpl().SelectByItemId(195));
+        listAAA.add(new ItemDaoImpl().SelectByItemId(196));
+
+        for(Item item: listAAA){
+            System.out.println(item.getItemNo());
+            System.out.println(item.getGameTime());
+        }
+
+    }
 
 //    public Item SelectByItemClass(@NotNull Item itemclassno) {
 //        final String hql = "FROM Item WHERE itemClassNo = :icn";

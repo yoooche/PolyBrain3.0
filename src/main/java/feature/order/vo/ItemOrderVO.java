@@ -1,6 +1,7 @@
 package feature.order.vo;
 
 import core.coreVO.Core;
+import feature.mem.vo.MemVo;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -32,4 +33,7 @@ public class ItemOrderVO extends Core {
     private String receiverPhone;
     @Column(name="RECEIVER_METHOD")
     private Integer receiverMethod;
+    @OneToOne
+    @JoinColumn(name="MEM_NO", insertable = false, updatable = false)
+    private MemVo memVo;
 }
