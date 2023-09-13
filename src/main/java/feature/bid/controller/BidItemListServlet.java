@@ -25,7 +25,7 @@ import java.util.List;
 import static core.util.CommonUtil.json2Pojo;
 import static core.util.CommonUtil.writePojo2Json;
 
-@WebServlet("/BidItemList")
+@WebServlet("/general/BidItemList")
 //@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class BidItemListServlet extends HttpServlet {
     public BiddingService biddingService;
@@ -43,12 +43,9 @@ public class BidItemListServlet extends HttpServlet {
         String value = req.getParameter("value");
         String action = req.getParameter("action");
 
+
+
         //---------- insert an item into bid_item table ----------
-
-
-
-
-
         if("insert".equals(action)){
             String bidItemName = req.getParameter("bidItemName");
             Integer itemClassNo = Integer.valueOf(req.getParameter("itemClassNo"));

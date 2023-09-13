@@ -58,8 +58,9 @@ public class BiddingServiceImpl implements BiddingService{
     }
 
     @Override
-    public void removeOneItem(Integer bidItemNo) {
-        bidItemDao.deleteById(bidItemNo);
+    public boolean removeOneItem(Integer bidItemNo) {
+        System.out.println("刪除成功 (商品)");
+        return bidItemDao.deleteById(bidItemNo) > 0;
     }
 
     @Override
@@ -128,12 +129,13 @@ public class BiddingServiceImpl implements BiddingService{
             for (BidItemPicVo bidItemPicVo : bidItemPicVoList) {
                 if (bidItemVo.getBidItemNo().intValue() == bidItemPicVo.getBidItemNo().intValue()) {
                     List<byte[]> str = bidItemPicDao.selectPicsById(bidItemVo.getBidItemNo());
+                    List<String> base64 = new ArrayList<>();
+
                     for (byte[] str1 : str) {
-                        List<String> base64 = new ArrayList<>();
                         String base64Img = Base64.getEncoder().encodeToString(str1);
                         base64.add(base64Img);
-                        dto.setBidItemPic(base64);
                     }
+                    dto.setBidItemPic(base64);
                     break;
                 }
             }
@@ -141,7 +143,6 @@ public class BiddingServiceImpl implements BiddingService{
         }
         return itemDto;
     }
-
     @Override
     public List<String> selectAllPicsB64() {
        List<BidItemPicVo> bidItemPics =  bidItemPicDao.selectAllPics();
@@ -152,6 +153,14 @@ public class BiddingServiceImpl implements BiddingService{
           imgB64.add(img64);
        });
        return imgB64;
+    }
+
+    @Override
+    public BidItemVo edit(BidItemVo bidItemVo) {
+        final int resultCount = bidItemDao.update(bidItemVo);
+        bidItemVo.setSuccess(resultCount > 0);
+        bidItemVo.setMessage(resultCount > 0 ? "修改成功" : "修改失敗");
+        return bidItemVo;
     }
 
     @Override
