@@ -10,4 +10,11 @@ public interface EmpDao extends core.coreDao.CoreDao<EmpVo, Integer> {
         EmpVo selectById(Integer empNo);
         List<EmpVo> selectAll();
         EmpVo selectForLogin(String empEmail, String empPwd);
+
+        int getEmpNoByEmail(String email);
+
+
+
+
+        public List<EmpVo> GETEmailPwd();
 }

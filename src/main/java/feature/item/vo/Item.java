@@ -31,6 +31,8 @@ public class Item extends Core {
 	private Integer itemState;
 	@Column(name = "ITEM_QTY")
 	private Integer itemQty;
+	@Column(name = "ITEM_SALES", insertable = false, updatable = false)
+	private Integer itemSales;
 	@Column(name = "MIN_PLAYER", updatable = false)
 	private Integer minPlayer;
 	@Column(name = "MAX_PLAYER", updatable = false)

@@ -48,4 +48,20 @@ public class EmpDaoImpl implements EmpDao {
                 .setParameter("empPwd", empPwd)
                 .uniqueResult();
     }
+
+
+    @Override
+    public List<EmpVo> GETEmailPwd() {
+        final String sql = "SELECT EMP_EMAIL,EMP_PWD FROM member";;
+        return session.createQuery(sql, EmpVo.class).getResultList();
+    }
+
+    @Override
+    public int getEmpNoByEmail(String email) {
+        String sql = "SELECT EMP_NO FROM employee WHERE EMP_EMAIL = :email";
+        Integer empNo = (Integer) session.createNativeQuery(sql)
+                .setParameter("email", email)
+                .uniqueResult();
+        return empNo != null ? empNo : -1; // 返回-1表示未找到员工
+    }
 }

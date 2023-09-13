@@ -15,8 +15,9 @@ import java.util.List;
 public class BidItemDaoImpl implements BidItemDao {
     Session session = HibernateUtil.getSessionFactory().getCurrentSession();
     @Override
-    public void insert(BidItemVo bidItemVo) {
+    public Integer insert(BidItemVo bidItemVo) {
         session.persist(bidItemVo);
+        return 1;
     }
     @Override
     public List<BidItemVo> selectAll() {
