@@ -13,15 +13,15 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name="item_trace")
+@Table(name="cart")
 @IdClass(CartTraceId.class)
 
 public class CartTraceVO {
     @Id
-    @Column(name="MEM_NO" ,insertable = false,updatable = false)
+    @Column(name="MEM_NO", updatable = false)
     private Integer memNo;
     @Id
-    @Column(name="ITEM_NO", insertable = false, updatable = false)
+    @Column(name="ITEM_NO", updatable = false)
     private Integer itemNo;
     @Column(name="quantity")
     private Integer quantity;

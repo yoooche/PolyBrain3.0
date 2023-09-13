@@ -67,6 +67,42 @@
         }
 
         /* 以下是漂亮的圖片CSS */
+        .upload_img-wrap,
+        .upload_img-wrap2 {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .upload_img-close,
+        .upload_img-close2 {
+            font-family: initial;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            text-align: center;
+            line-height: 24px;
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        .upload_img-close:after,
+        .upload_img-close2:after {
+            content: '\2716';
+            font-size: 14px;
+            color: white;
+        }
+
+        .upload_img-box {
+            width: 180px;
+            padding: 0 10px;
+            margin-bottom: 12px;
+        }
+
         .upload_inputfile {
             width: .1px;
             height: .1px;
@@ -96,78 +132,12 @@
             transition: all .3s ease;
         }
 
-        .upload_img-wrap {
-            display: flex;
-            flex-wrap: wrap;
-            margin: 0 -10px;
-        }
-
-        .upload_img-wrap2 {
-            display: flex;
-            flex-wrap: wrap;
-            margin: 0 -10px;
-        }
-        .upload_img-box {
-            width: 180px;
-            padding: 0 10px;
-            margin-bottom: 12px;
-        }
-
-        .upload_img-close {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background-color: rgba(0, 0, 0, 0.5);
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            text-align: center;
-            line-height: 24px;
-            z-index: 1;
-            cursor: pointer;
-        }
-
-        .upload_img-close:after {
-            content: '\2716';
-            font-size: 14px;
-            color: white;
-        }
-
         .img-bg {
             background-repeat: no-repeat;
             background-position: center;
             background-size: cover;
             position: relative;
             padding-bottom: 100%;
-        }
-
-        .upload_img-close {
-            font-family: initial;
-        }
-
-
-        .upload_img-close2 {
-            font-family: initial;
-        }
-
-        .upload_img-close2 {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background-color: rgba(0, 0, 0, 0.5);
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            text-align: center;
-            line-height: 24px;
-            z-index: 1;
-            cursor: pointer;
-        }
-
-        .upload_img-close2:after {
-            content: '\2716';
-            font-size: 14px;
-            color: white;
         }
 
         /* 以上是漂亮的圖片CSS */
@@ -498,7 +468,7 @@
                     <label for="editPrice">售價:</label>
                     <input id="editPrice" name="editPrice" type="text" />
                 </div>
-
+                <!-- 
                 <div>
                     <label for="minPlayers">最小遊玩人數:</label>
                     <input id="minPlayers" name="minPlayers" type="text" style="border:0px; font-weight: bold;"
@@ -514,7 +484,7 @@
                 <div>
                     <label for="gameTime">遊玩時間:</label>
                     <input id="gameTime" name="gameTime" type="text" style="border:0px; font-weight: bold;" readonly />
-                </div>
+                </div> -->
 
                 <div>
                     <label for="editProdDescription">商品敘述:</label>

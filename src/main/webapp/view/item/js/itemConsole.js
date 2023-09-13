@@ -35,7 +35,7 @@ $(document).ready(function () {
                 ]
             },
             ajax: {
-                url: "http://localhost:8080/PolyBrain/selectServlet",
+                url: "http://localhost:8080/PolyBrain/general/selectServlet",
                 method: "POST",
                 data: function (d) {
                     return {
@@ -60,8 +60,6 @@ $(document).ready(function () {
                         // 如果是排序或其他类型，返回原始数据
                         return data;
                     }
-
-
                 },
                 {
                     data: 'itemClass.itemClassName', width: '120px',
@@ -142,7 +140,7 @@ $(document).ready(function () {
         // const itemClassNoSelect = document.getElementById('itemClassNo');
 
         // 通過 fetch 取得遊戲類別列表
-        fetch('http://localhost:8080/PolyBrain/item/ItemClass', {
+        fetch('http://localhost:8080/PolyBrain/general/item/ItemClass', {
             method: 'GET'
         })
             .then(response => {
@@ -225,7 +223,7 @@ $(document).ready(function () {
             console.log(itemImageList);
             console.log(Data);
 
-            fetch('/PolyBrain/item/addItem', {
+            fetch('/PolyBrain/general/item/addItem', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json;charset=UTF-8',
@@ -297,7 +295,7 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 // 若使用者確定取消，則發送刪除請求
-                fetch('http://localhost:8080/PolyBrain/item/remove', {
+                fetch('http://localhost:8080/PolyBrain/general/item/remove', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json;charset=UTF-8' },
                     body: JSON.stringify({ itemNo })
@@ -322,9 +320,9 @@ $(document).ready(function () {
         $('#editPrice').val(rowData.itemPrice);
         $('#editState').val(rowData.itemState);
         $('#editQty').val(rowData.itemQty);
-        $('#minPlayers').val(rowData.minPlayer);
-        $('#maxPlayers').val(rowData.maxPlayer);
-        $('#gameTime').val(rowData.gameTime);
+        // $('#minPlayers').val(rowData.minPlayer);
+        // $('#maxPlayers').val(rowData.maxPlayer);
+        // $('#gameTime').val(rowData.gameTime);
         $('#editProdDescription').val(rowData.itemProdDescription);
         var imgWrap2 = $('.upload_img-wrap2');
 
@@ -333,8 +331,6 @@ $(document).ready(function () {
             itemImageList2.push(imgObj.itemImg);
             imgArray2.push(imgObj); // 添加到 imgArray2 中
         });
-
-
         // 清空之前的顯示，以免重複顯示
         imgWrap2.empty();
 
@@ -404,7 +400,7 @@ $(document).ready(function () {
                 console.log(itemImageList);
                 console.log(Data);
 
-                fetch('/PolyBrain/item/addItem', {
+                fetch('/PolyBrain/general/item/addItem', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json;charset=UTF-8',
@@ -419,11 +415,13 @@ $(document).ready(function () {
                             window.location.href = "../item/itemConsole.html";
                         });
 
-                    }).catch(Swal.fire({
-                        icon: 'error',
-                        title: '修改失敗...',
-                        text: '有些地方發生錯誤，請聯繫系統管理員!',
-                    }));
+                    }).catch(
+                    //     Swal.fire({
+                    //     icon: 'error',
+                    //     title: '123...',
+                    //     text: '有些地方發生錯誤，請聯繫系統管理員!',
+                    // })
+                    );
             }
         });
     });
@@ -459,6 +457,7 @@ $(document).ready(function () {
 
 itemImageList = [];
 itemImageList2 = [];
+itemIndexMap = {};
 function ImgUpload() {
     var imgWrap = "";
     var imgArray = [];
@@ -522,6 +521,7 @@ function ImgUpload() {
 }
 
 function ImgUpload2() {
+    itemImageList2 = [];
     var imgWrap2 = "";
     imgArray2 = [];
     $('.upload_inputfile').each(function () {
@@ -555,7 +555,9 @@ function ImgUpload2() {
 
                         var reader = new FileReader();
                         reader.onload = function (e) {
+                            const index = $(".upload_img-close2").length
                             itemImageList2.push(e.target.result); // 把圖片的Base64字串存到陣列
+                            itemIndexMap[index] = e.target.result
                             var html = "<div class='upload_img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload_img-close2").length + "' data-file='" + f.name + "' class='img-bg add_img-bg'><div class='upload_img-close2'></div></div></div>";
                             imgWrap2.append(html);
                             iterator++;
@@ -572,9 +574,11 @@ function ImgUpload2() {
         var index = $(this).parent().data("number");
         if (index >= 0 && index < itemImageList2.length) {
             itemImageList2.splice(index, 1); // 根据索引删除图像数据
+            delete itemIndexMap[index];
         }   
         $(this).parent().parent().remove();
         console.log(itemImageList2);
+        console.log(itemIndexMap);
     });
     
 }

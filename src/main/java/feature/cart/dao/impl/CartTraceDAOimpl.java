@@ -3,6 +3,7 @@ package feature.cart.dao.impl;
 import feature.cart.dao.CartTraceDAO;
 import feature.cart.vo.CartTraceId;
 import feature.cart.vo.CartTraceVO;
+import org.hibernate.query.Query;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -21,7 +22,7 @@ public class CartTraceDAOimpl implements CartTraceDAO {
     static {
         try {
             Context ctx = new InitialContext();
-            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/project_3");
+            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/boardgame");
         } catch (NamingException e) {
             e.printStackTrace();
         }
@@ -156,11 +157,31 @@ public class CartTraceDAOimpl implements CartTraceDAO {
     }
     public Integer insertToCart(CartTraceVO cartTraceVO){
         try {
-            getSession().persist(cartTraceVO);
-            System.out.println("新增購物車成功");
+            Integer memNo = cartTraceVO.getMemNo();
+            Integer itemNo = cartTraceVO.getItemNo();
+
+            // 先查詢購物車中是否已經存在相同的 memNo 和 itemNo
+            CartTraceVO existingCartRecord = getSession()
+                    .createQuery("FROM CartTraceVO WHERE memNo = :memNo AND itemNo = :itemNo", CartTraceVO.class)
+                    .setParameter("memNo", memNo)
+                    .setParameter("itemNo", itemNo)
+                    .uniqueResult();
+
+            if (existingCartRecord != null) {
+                // 如果存在相同的記錄，則更新數量
+                Integer newQuantity = existingCartRecord.getQuantity() + cartTraceVO.getQuantity();
+                existingCartRecord.setQuantity(newQuantity);
+                getSession().merge(existingCartRecord);
+                System.out.println("購物車修改成功");
+            } else {
+                // 如果不存在相同的記錄，則插入新的購物車記錄
+                getSession().merge(cartTraceVO);
+                System.out.println("新增購物車成功");
+            }
             return 1;
         }catch (Exception e){
-            System.out.println("阿你是在衝三小");
+            e.printStackTrace();
+            System.out.println("購物車新增失敗");
             return -1;
         }
 

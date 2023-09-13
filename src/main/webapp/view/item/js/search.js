@@ -50,7 +50,7 @@ function getProduct(move, numberpage, set) {
     }
 
     // 發送請求獲取商品數據
-    fetch("http://localhost:8080/PolyBrain/selectServlet?value=selectpage&page=" + currentPage + "&set=" + set, {
+    fetch("http://localhost:8080/PolyBrain/general/selectServlet?value=selectpage&page=" + currentPage + "&set=" + set, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
     })
@@ -82,8 +82,8 @@ function getProduct(move, numberpage, set) {
                         </div>
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                             <div class="text-center">
-                                <a class="btn btn-outline-dark mt-auto" href="#">收藏</a>
-                                <a class="btn btn-outline-dark mt-auto" href="#" >加入購物車</a>
+                                <button onclick="addTrace(${item.itemNo})" class="btn btn-outline-dark mt-auto">收藏</button>
+                                <button onclick="addCart(${item.itemNo})" class="btn btn-outline-dark mt-auto">加入購物車</button>
                             </div>
                         </div>
                     </div>
@@ -102,6 +102,86 @@ function getProduct(move, numberpage, set) {
             });
 
             getPage(totalPages, currentPage);
+        })
+        .catch(error => {
+            // 處理錯誤
+            console.error('獲取數據時出現問題:', error);
+        });
+}
+
+//加入購物車(會員認證未套)
+function addCart(itemNo) {
+    console.log("加入購物車");
+    quantity = "1";
+
+    const cartItem = {
+        itemNo: parseInt(itemNo),
+        quantity: parseInt(quantity)
+    };
+
+    sessionStorage.setItem('currentPage', window.location.href);
+    fetch("http://localhost:8080/PolyBrain/loginRequired/CartInsert", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        body: JSON.stringify(cartItem)
+    })
+        .then(resp => {
+            console.log(resp.status);
+            if (resp.status == 401) {
+                alert('帳號未登入，跳轉至登入頁面');
+                window.location.href = 'http://localhost:8080/PolyBrain/view/member/login.html';
+                throw new Error('錯誤訊息');
+            } else if (resp.ok) {
+                // 請求成功
+                return resp.json();
+            }
+        }) // 解析JSON響應
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: '成功加入購物車',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        })
+        .catch(error => {
+            // 處理錯誤
+            console.error('獲取數據時出現問題:', error);
+        });
+}
+//加入收藏(未寫)
+function addTrace(itemNo) {
+    console.log("加入購物車");
+
+    memNo = "1";
+    quantity = "1";
+
+    const cartItem = {
+        memNo: parseInt(memNo),
+        itemNo: parseInt(itemNo),
+        quantity: parseInt(quantity)
+    };
+
+
+    fetch("http://localhost:8080/PolyBrain/loginRequired/CartInsert", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        body: JSON.stringify(cartItem)
+    })
+        .then(response => response.json()) // 解析JSON響應
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: '成功加入購物車',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
         })
         .catch(error => {
             // 處理錯誤
@@ -393,8 +473,9 @@ $(document).ready(function () {
             }
         }
     });
+    //點擊搜尋列表 展開費時0.6s
     $("#productSearch summary").click(function () {
         $("#productSearch div.col-md-12").slideToggle(600);
-      });
+    });
 
 });
