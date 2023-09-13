@@ -159,6 +159,9 @@
     </nav>
 </main>
 <!---------------------------------------------以上為頂板--------------------------------------------------------->
+
+
+
 <div id="layoutSidenav">  <!--勿刪到-->
 <!---------------------------------------------以下為側邊攔--------------------------------------------------------->
         <div id="layoutSidenav_nav">
@@ -166,46 +169,49 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
 
-
+<!---------------------------會員中心--------------------------->
                         <div class="sb-sidenav-menu-heading">會員中心</div>
-                        <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"></div>
-                            會員個人資料
+
+                        <a class="nav-link" href="http://localhost:8080/PolyBrain/view/member/Member_Information.jsp"><div class="sb-nav-link-icon"></div>
+                            個人資訊
                         </a>
-                        <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"></div>
-                            變更會員資料
+                        <a class="nav-link" href="http://localhost:8080/PolyBrain/view/member/change_Member_Information.jsp"><div class="sb-nav-link-icon"></div>
+                            更改個人資訊
                         </a>
-                        <div class="sb-sidenav-menu-heading">標題</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"></div>
-                            頁面
-                            <div class="sb-sidenav-collapse-arrow"></div>
+                        <a class="nav-link" href="http://localhost:8080/PolyBrain/view/item/itemTrace.html"><div class="sb-nav-link-icon"></div>
+                            我的收藏
+                        </a>
+                        <a class="nav-link" href="#"><div class="sb-nav-link-icon"></div>
+                            我的貼文
                         </a>
 
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
-                            aria-expanded="false" aria-controls="collapsePages">
-                            <div class="sb-nav-link-icon"></div>
-                            頁面
-                            <div class="sb-sidenav-collapse-arrow"></div>
+<!---------------------------會員中心--------------------------->
+<!-----------------------------商城---------------------------->
+                        <div class="sb-sidenav-menu-heading">商城</div>
+
+                        <a class="nav-link" href="http://localhost:8080/PolyBrain/view/item/search.html"><div class="sb-nav-link-icon"></div>
+                            一般商品列表
                         </a>
 
-                        <div class="sb-sidenav-menu-heading">標題</div>
-                        <a class="nav-link" href="charts.html">
-                            <div class="sb-nav-link-icon"></div>
-                            頁面
+                        <a class="nav-link" href="http://localhost:8080/PolyBrain/view/order/memberOrder.html"><div class="sb-nav-link-icon"></div>
+                            購買清單
                         </a>
-                        <a class="nav-link" href="tables.html">
-                            <div class="sb-nav-link-icon"></div>
-                            頁面
+                        <a class="nav-link" href="http://localhost:8080/PolyBrain/view/order/bidOrderFront.html"><div class="sb-nav-link-icon"></div>
+                            競標訂單
                         </a>
 
-                        <hr style="border-color: whitesmoke; border-width: 1px; border-style: solid;">
-                        <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"></div>
-                            登出
+<!-----------------------------商城---------------------------->
+<!-----------------------------預約---------------------------->
+                        <div class="sb-sidenav-menu-heading">預約</div>
+
+                        <a class="nav-link" href="http://localhost:8080/PolyBrain/view/book/Calendar.html"><div class="sb-nav-link-icon"></div>
+                            現在預約
                         </a>
+                        <a class="nav-link" href="http://localhost:8080/PolyBrain/view/book/BookingCheck.html"><div class="sb-nav-link-icon"></div>
+                            預約場地查詢
+                        </a>
+
+<!-----------------------------預約---------------------------->
 
                     </div>
                 </div>
@@ -322,7 +328,7 @@
     `);
     if (loginStatus) {
     $('span#memName').text(memName);
-    $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/logout.html">登出</a></li>');
+    $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/logout.jsp">登出</a></li>');
     let memDetail = [memNo, memName];
     return memDetail;
     } else {
