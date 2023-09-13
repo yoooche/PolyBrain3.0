@@ -142,7 +142,7 @@ $(document).ready(function () {
         // const itemClassNoSelect = document.getElementById('itemClassNo');
 
         // 通過 fetch 取得遊戲類別列表
-        fetch('http://localhost:8080/PolyBrain/item/ItemClass', {
+        fetch('http://localhost:8080/PolyBrain/general/item/ItemClass', {
             method: 'GET'
         })
             .then(response => {
