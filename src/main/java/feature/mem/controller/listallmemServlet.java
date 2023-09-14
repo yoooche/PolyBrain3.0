@@ -56,22 +56,12 @@ public class listallmemServlet extends HttpServlet {
 
         /***************************************刪除***************************************/
         if ("delete".equals(action)) {
-
-            Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
-            req.setAttribute("errorMsgs", errorMsgs);
-
-            /***************************1.接收請求參數***************************************/
             Integer memNo = Integer.valueOf(req.getParameter("memNo"));
-
-            /***************************2.開始刪除資料***************************************/
             listallmemService memSvc = new listallmemService();
             memSvc.deleteMem(memNo);
 
-            /***************************3.刪除完成,準備轉交(Send the Success view)***********/
-            req.setAttribute("success", "- (刪除成功)");
             String url = "/view/member/listAllmem.jsp";
-            RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
-            successView.forward(req, res);
+            req.getRequestDispatcher(url).forward(req, res);
         }
 
 

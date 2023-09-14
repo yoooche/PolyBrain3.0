@@ -6,11 +6,19 @@
 <%@page import="feature.mem.dao.*"%>
 <%@page import="feature.mem.vo.*"%>
 
-<link href="./css/item.css" rel="stylesheet" />    <!--側邊欄的css-->
+<link href="<%= request.getContextPath() %>/view/member/css/item.css" rel="stylesheet" />    <!--側邊欄的css-->
 <script src="https://kit.fontawesome.com/cb31023646.js" crossorigin="anonymous"></script>
 
 <%
        Integer memNo = (Integer) session.getAttribute("memNo");
+       if (session != null) {
+                  memNo = (Integer) session.getAttribute("memNo");
+              }
+
+              if (memNo == null) {
+                  // memNo不存在于session中，执行重定向
+                        response.sendRedirect(request.getContextPath() + "/view/member/login.html");
+              }
     if (memNo != null) {
         MemDaoImpl memDao = new MemDaoImpl(); // 实例化你的 DAO 类
         MemVo memVo = memDao.getMemberByMemNo(memNo);
@@ -100,63 +108,65 @@
 <body id="page-top">
 <!---------------------------------------------以下為頂板--------------------------------------------------------->
 <main class="flex-shrink-0">
-    <!-- Navigation-->
+
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: black;">
-        <div class="container px-5">
-            <a class="navbar-brand" href="index.html">
-                <img src="../logo/PolyBrain_Logo.png" style="width: 110px; height: auto; margin-bottom: 5px;"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            <div class="container px-5">
+                <a class="navbar-brand" href="index.html">
+                 <img src="<%= request.getContextPath() %>/view/logo/PolyBrain_Logo.png" style="width: 110px; height: auto; margin-bottom: 5px;"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation"><span
-                    class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-list"> 添加 nav-list 類別 -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="buyitem" href="#" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">商城</a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                            <li><a class="dropdown-item" href="blog-home.html">商品資訊</a></li>
-                            <li><a class="dropdown-item" href="blog-post.html">商城訂單查詢</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="buybid" href="#" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">競標</a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                            <li><a class="dropdown-item" href="blog-home.html">熱門競標</a></li>
-                            <li><a class="dropdown-item" href="blog-post.html">競標訂單查詢</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="mybooking" href="#" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">預約場地</a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                            <li><a class="dropdown-item" href="blog-home.html">現在預約</a></li>
-                            <li><a class="dropdown-item" href="blog-post.html">預約場地查詢</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="discuss" href="#" role="button">討論區</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="memberdistrict" href="#" role="button">會員中心</a>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="faq.html">常見問題</a></li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                        <ul id="dropdown-menu" class="dropdown-menu dropdown-menu-end"
-                            aria-labelledby="navbarDropdown">
-                        </ul>
-                    </li>
-
-                </ul>
+                        class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-list"> 添加 nav-list 類別 -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="buyitem" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">商城</a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                <li><a class="dropdown-item" href="<%= request.getContextPath() %>/view/item/search.html">商品資訊</a></li>
+                                <li><a class="dropdown-item" href="<%= request.getContextPath() %>/view/order/memberOrder.html">商城訂單查詢</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="buybid" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">競標</a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                <li><a class="dropdown-item" href="<%= request.getContextPath() %>/view/bid/BidOnHomePage.html">熱門競標</a></li>
+                                <li><a class="dropdown-item" href="<%= request.getContextPath() %>/view/order/bidOrderFront.html">競標訂單查詢</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="mybooking" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">預約場地</a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                <li><a class="dropdown-item" href="<%= request.getContextPath() %>/view/book/Calendar.html">現在預約</a></li>
+                                <li><a class="dropdown-item" href="<%= request.getContextPath() %>/view/book/BookingCheck.html">預約場地查詢</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="discuss" href="<%= request.getContextPath() %>/view/forum/mainpage/index.jsp" role="button">討論區</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="memberdistrict" href="<%= request.getContextPath() %>/view/member/Member_Information.jsp" role="button">會員中心</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/view/head/question.html">常見問題</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="memberdistrict" href="<%= request.getContextPath() %>/view/CartTrace/Cart.jsp" role="button">購物車</a>
+                        </li>
+                        <span id="memName" style="margin-left:12px;"></span>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                            <ul id="dropdown-menu" class="dropdown-menu dropdown-menu-end"
+                                aria-labelledby="navbarDropdown">
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
 </main>
 <!---------------------------------------------以上為頂板--------------------------------------------------------->
 
@@ -169,50 +179,48 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
 
-<!---------------------------會員中心--------------------------->
+                                <!--------------會員中心------------->
                         <div class="sb-sidenav-menu-heading">會員中心</div>
 
-                        <a class="nav-link" href="http://localhost:8080/PolyBrain/view/member/Member_Information.jsp"><div class="sb-nav-link-icon"></div>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/member/Member_Information.jsp"><div class="sb-nav-link-icon"></div>
                             個人資訊
                         </a>
-                        <a class="nav-link" href="http://localhost:8080/PolyBrain/view/member/change_Member_Information.jsp"><div class="sb-nav-link-icon"></div>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/member/change_Member_Information.jsp"><div class="sb-nav-link-icon"></div>
                             更改個人資訊
                         </a>
-                        <a class="nav-link" href="http://localhost:8080/PolyBrain/view/item/itemTrace.html"><div class="sb-nav-link-icon"></div>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/item/itemTrace.html"><div class="sb-nav-link-icon"></div>
                             我的收藏
                         </a>
-                        <a class="nav-link" href="#"><div class="sb-nav-link-icon"></div>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/forum/list/Memartlist.jsp"><div class="sb-nav-link-icon"></div>
                             我的貼文
                         </a>
 
-<!---------------------------會員中心--------------------------->
-<!-----------------------------商城---------------------------->
+                                <!--------------會員中心------------->
+                                <!---------------商城--------------->
                         <div class="sb-sidenav-menu-heading">商城</div>
 
-                        <a class="nav-link" href="http://localhost:8080/PolyBrain/view/item/search.html"><div class="sb-nav-link-icon"></div>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/item/search.html"><div class="sb-nav-link-icon"></div>
                             一般商品列表
                         </a>
 
-                        <a class="nav-link" href="http://localhost:8080/PolyBrain/view/order/memberOrder.html"><div class="sb-nav-link-icon"></div>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/order/memberOrder.html"><div class="sb-nav-link-icon"></div>
                             購買清單
                         </a>
-                        <a class="nav-link" href="http://localhost:8080/PolyBrain/view/order/bidOrderFront.html"><div class="sb-nav-link-icon"></div>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/order/bidOrderFront.html"><div class="sb-nav-link-icon"></div>
                             競標訂單
                         </a>
 
-<!-----------------------------商城---------------------------->
-<!-----------------------------預約---------------------------->
+                                <!---------------商城--------------->
+                                <!---------------預約--------------->
                         <div class="sb-sidenav-menu-heading">預約</div>
 
-                        <a class="nav-link" href="http://localhost:8080/PolyBrain/view/book/Calendar.html"><div class="sb-nav-link-icon"></div>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/book/Calendar.html"><div class="sb-nav-link-icon"></div>
                             現在預約
                         </a>
-                        <a class="nav-link" href="http://localhost:8080/PolyBrain/view/book/BookingCheck.html"><div class="sb-nav-link-icon"></div>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/book/BookingCheck.html"><div class="sb-nav-link-icon"></div>
                             預約場地查詢
                         </a>
-
-<!-----------------------------預約---------------------------->
-
+                                <!---------------預約--------------->
                     </div>
                 </div>
             </nav>
@@ -222,9 +230,6 @@
 
 
 
-
-
-<!----------------------------------------------------------------------------------------------------->
         <div id="layoutSidenav_content"> <!--勿刪到-->
 <!-----------------------------以下為內容---------------------------->
             <main>
@@ -277,9 +282,9 @@
                 <div class="small m-0 text-white">Copyright © 2023 PolyBrain. All rights reserved. </div>
             </div>
             <div class="col-auto">
-                <a class="link-light small" href="http://localhost:8080/PolyBrain/view/head/Privacy.html">隱私權協定</a>
+                <a class="link-light small" href="<%= request.getContextPath() %>/view/head/Privacy.html">隱私權協定</a>
                 <span class="text-white mx-1">&middot;</span>
-                <a class="link-light small" href="http://localhost:8080/PolyBrain/view/head/Forus.html">關於我們</a>
+                <a class="link-light small" href="<%= request.getContextPath() %>/view/head/Forus.html">關於我們</a>
                 <span class="text-white mx-1">&middot;</span>
                 <a href="mailto:ps66391@gmail.com?subject=聯絡我們的請求&body=請在此寫下您的問題。"
                    title="用 Email 轉寄" onclick="return confirm('您確定要前往email寄信?');">
@@ -291,7 +296,6 @@
 </footer>
 <!-----------------------------以上為底板---------------------------->
         </div>
-<!----------------------------------------------------------------------------------------------------->
 </div>
 
 
@@ -322,17 +326,17 @@
     console.log(data);
     const { memNo, memName, loginStatus } = data;
     $('ul#dropdown-menu').append(`
-    <li><a class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/Member_Information.jsp">會員專區</a></li>
-    <li><a class="dropdown-item" href="#!">購物車</a></li>
+    <li><a class="dropdown-item" href="<%= request.getContextPath() %>/view/member/Member_Information.jsp">會員專區</a></li>
+    <li><a class="dropdown-item" href="<%= request.getContextPath() %>/view/CartTrace/Cart.jsp">購物車</a></li>
     <li><hr class="dropdown-divider" /></li>
     `);
     if (loginStatus) {
     $('span#memName').text(memName);
-    $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/logout.jsp">登出</a></li>');
+    $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="<%= request.getContextPath() %>/view/member/logout.jsp">登出</a></li>');
     let memDetail = [memNo, memName];
     return memDetail;
     } else {
-    $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/login.html">登入</a></li>');
+    $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="<%= request.getContextPath() %>/view/member/login.html">登入</a></li>');
     }
     });
     return response;
@@ -343,7 +347,7 @@
             link.addEventListener('click', function (event) {
                 event.preventDefault();
                 const biddingEvent = link.getAttribute('data-event-id');
-               const bidEventURL = 'http://localhost:8080/PolyBrain/view/bid/BidOnItemPage2.jsp';
+               const bidEventURL = '<%= request.getContextPath() %>/view/bid/BidOnItemPage2.jsp';
                 const url = `${bidEventURL}?bidEventId=${biddingEvent}`;
                 window.location.href = url;
             });
