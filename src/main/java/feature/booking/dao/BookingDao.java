@@ -24,7 +24,7 @@ public interface BookingDao extends CoreDao{
     Integer selectByIdMem(Integer bookingno);
 
     //查日期
-    public List<BookingVo> selectByDate(int state, Date startDate, Date endDate, Integer bookingNo);
+    public List<BookingVo> selectByDate(int state, Date startDate, Date endDate, Integer bookingNo,Integer memNo);
 
     //取消
 //    Integer cancel (Integer bookno);

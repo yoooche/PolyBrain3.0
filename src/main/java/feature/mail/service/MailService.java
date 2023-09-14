@@ -27,10 +27,10 @@ public class MailService {
 
 
     // 設定傳送郵件:至收信人的Email信箱,Email主旨,Email內容
-    public void sendMail(Integer orderNo ) {
+    public void sendMail(Integer orderNo) {
 
         Integer memNo = 1002;
-        Integer orderTotal = 0;
+        Integer orderTotal = null;
 
 
         if (orderNo >= 7001) {
@@ -128,7 +128,7 @@ public class MailService {
 
     public static void main(String args[]) {
         MailService mailService = new MailService();
-//        mailService.sendMail(7001);
+        mailService.sendMail(7001);
     }
 
 }

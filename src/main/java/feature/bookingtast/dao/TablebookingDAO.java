@@ -49,7 +49,6 @@ public class TablebookingDAO implements Tablebooking_interface {
 	}
 
 
-
 	@Override
 	public List<TablebookingVO> getten() {
 		final String hql = "FROM TablebookingVO WHERE TABLE_DATE BETWEEN CURRENT_DATE AND DATE_ADD(CURRENT_DATE, INTERVAL 10 DAY) ORDER BY TABLE_DATE";
@@ -86,6 +85,7 @@ public class TablebookingDAO implements Tablebooking_interface {
 			throw e;
 		}
 	}
+
 	@Override
 	public List<TablebookingVO> selectAll() {
 		return null;

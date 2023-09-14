@@ -39,7 +39,7 @@ public class RegistService {
 
         // 调用DAO的createMember方法将会员数据存入数据库
         try {
-            memDao.createMember(mem);
+            memDao.createMemberJDBC(mem);
             return "success"; // 注册成功
         } catch (Exception e) {
             e.printStackTrace();

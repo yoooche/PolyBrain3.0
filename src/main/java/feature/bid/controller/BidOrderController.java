@@ -1,9 +1,7 @@
 package feature.bid.controller;
 
-import com.google.gson.Gson;
 import feature.bid.service.BiddingService;
 import feature.bid.service.BiddingServiceImpl;
-import feature.bid.vo.BidEventVo;
 import feature.bid.vo.BidOrderVo;
 
 import javax.servlet.ServletException;
@@ -13,9 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 
-import static core.util.CommonUtil.json2Pojo;
 import static core.util.CommonUtil.writePojo2Json;
 
 @WebServlet("/loginRequired/bidOrderCreate")

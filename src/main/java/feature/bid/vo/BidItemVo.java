@@ -1,7 +1,9 @@
 package feature.bid.vo;
 
+import core.coreVO.Core;
 import feature.item.vo.ItemClass;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serial;
@@ -14,7 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BidItemVo implements Serializable {
+public class BidItemVo extends Core implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -23,16 +25,16 @@ public class BidItemVo implements Serializable {
     @Column(name = "BID_ITEM_NO", insertable = false, updatable = false)
     private Integer bidItemNo;
 
-    @Column(name = "BID_ITEM_NAME")
+    @Column(name = "BID_ITEM_NAME", updatable = false)
     private String bidItemName;
 
     @Column(name = "BID_ITEM_DESCRIBE")
     private String bidItemDescribe;
 
-    @Column(name = "ITEM_CLASS_NO")
+    @Column(name = "ITEM_CLASS_NO", updatable = false)
     private Integer itemClassNo;
 
-    @Column(name = "GAME_PUBLISHER")
+    @Column(name = "GAME_PUBLISHER", updatable = false)
     private String gamePublisher;
 
     @ManyToOne
@@ -42,5 +44,4 @@ public class BidItemVo implements Serializable {
     @OneToMany
     @JoinColumn(name = "BID_ITEM_NO", insertable = false, updatable = false)
     private List<BidItemPicVo> bidItemPic;
-
 }

@@ -38,6 +38,12 @@
        display: block;
        margin: 0 auto; /* 圖片水平置中 */
    }
+        #memName {
+    line-height: 2.3;  /* 调整为所需的值 */
+    text-shadow: 2px 2px 2px rgba(0,0,0,0.3);
+    color: white;
+    margin-left: 12px;
+}
     </style>
 </head>
 
@@ -46,7 +52,8 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container px-5">
-            <a class="navbar-brand" href="index.html">PolyBrain</a>
+            <a class="navbar-brand" href="../head/Facepage.jsp">
+                <img src="../logo/PolyBrain_Logo.png" style="width: 110px; height: auto; margin-bottom: 5px;"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation"><span
@@ -82,32 +89,29 @@
                     <li class="nav-item">
                         <a class="nav-link" id="discuss" href="#" role="button">討論區</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="memberdistrict" href="#" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">會員中心</a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                            <li><a class="dropdown-item" href="blog-home.html">個人資料</a></li>
-                            <li><a class="dropdown-item" href="blog-post.html">設定</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" id="memberdistrict" href="#" role="button">會員中心</a>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="faq.html">常見問題</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact.html">登入</a></li>
 
                     <li>
-                        <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
-                        </button>
-                    </li>
-                    <li class="search-right">
-
-                        <div class="search">
-                            <input class="search-bar" type="text" name="search" id="search" placeholder="Search">
-                            <button class="search-btn">
-                                <i class="fas fa-search"></i>
+                        <form class="d-flex">
+                            <button class="btn btn-outline-dark" type="submit">
+                                <i class="bi-cart-fill me-1"></i>
+                                購物車
+                                <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                             </button>
-                        </div>
+                        </form>
                     </li>
+                    <span id="memName" style="margin-left:12px;"></span>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                        <ul id="dropdown-menu" class="dropdown-menu dropdown-menu-end"
+                            aria-labelledby="navbarDropdown">
+                        </ul>
+                    </li>
+
                 </ul>
             </div>
         </div>
@@ -135,11 +139,19 @@
                 Polybrain（以下簡稱本店）。 <br /><br /><br />
                 <h3 >壹、主題來源
                 </h3>本店的主題是由組員蔡宗錡構思並由楊澈命名為「Polybrain」，從而奠定了我們的經營理念。 <br /><br /><br />
+
                 <h3 >貳、起緣
                 </h3>當您疫情期間的各種防疫舉措, 連帶影響實體活動的銳減 . . . <br /><br />
                 導致不少桌遊空間接連停業,玩家們對於從事桌遊活動的行為也有所轉變<br /> <br />
                 因此志在透過網路平台滿足後疫情時代下所衍生出的需求PolyBrain<br /> <br />
 
+                <h3 >叁、本店地址
+                </h3>地址：桃園市中壢區復興路46號9樓 <br /><br />
+                電話：03-4251108<br /> <br />
+                停車位：周遭有大量停車格可使用，也有付費停車場，公園區有個付費地下停車場可使用<br /> <br />
+
+                <h3 >叁、關於本店設備內容
+                </h3>但凡在本店網路商城販賣的物品來店即可暢玩，有茶水間無限暢飲咖啡、茶水。<br /> <br />
             </article>
             <!-- text_content end -->
 
@@ -166,9 +178,9 @@
 
 
 
-                <a class="link-light small" href="http://localhost:63342/PolyBrain3.0/src/main/webapp/view/head/Privacy.html">隱私權協定</a>
+                <a class="link-light small" href="http://localhost:8080/PolyBrain/view/head/Privacy.html">隱私權協定</a>
                 <span class="text-white mx-1">&middot;</span>
-                <a class="link-light small" href="http://localhost:63342/PolyBrain3.0/src/main/webapp/view/head/forus.html">關於我們</a>
+                <a class="link-light small" href="http://localhost:8080/PolyBrain/view/head/Forus.html">關於我們</a>
                 <span class="text-white mx-1">&middot;</span>
                 <a href="mailto:ps66391@gmail.com?subject=聯絡我們的請求&body=請在此寫下您的問題。"
                    title="用 Email 轉寄" onclick="return confirm('您確定要前往email寄信?');">
@@ -186,6 +198,7 @@
 <a>
 
 </a>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.min.js"
         integrity="sha512-fHY2UiQlipUq0dEabSM4s+phmn+bcxSYzXP4vAXItBvBHU7zAM/mkhCZjtBEIJexhOMzZbgFlPLuErlJF2b+0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -196,6 +209,46 @@
     function scrollToTop() {
     window.scrollTo({top: 0, behavior: 'smooth'}); // 使用平滑的滾動效果
     }
+
+           $(document).ready(function(){
+            validateMemStatus();
+        });
+    async function validateMemStatus() {
+    const response = await fetch('/PolyBrain/general/validateMemStatus', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json; charset:utf-8' },
+    })
+    .then(resp => resp.json())
+    .then(data => {
+    console.log(data);
+    const { memNo, memName, loginStatus } = data;
+    $('ul#dropdown-menu').append(`
+    <li><a class="dropdown-item" href="#!">會員專區</a></li>
+    <li><a class="dropdown-item" href="#!">購物車</a></li>
+    <li><hr class="dropdown-divider" /></li>
+    `);
+    if (loginStatus) {
+    $('span#memName').text(memName);
+    $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/logout.html">登出</a></li>');
+    let memDetail = [memNo, memName];
+    return memDetail;
+    } else {
+    $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/login.html">登入</a></li>');
+    }
+    });
+    return response;
+    }
+
+          let bidEventList = document.querySelectorAll('.bidEventList');
+        bidEventList.forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                const biddingEvent = link.getAttribute('data-event-id');
+                const bidEventURL = 'http://localhost:8080/PolyBrain/view/bid/BidOnItemPage2.jsp';
+                const url = `${bidEventURL}?bidEventId=${biddingEvent}`;
+                window.location.href = url;
+            });
+        });
 </script>
 </body>
 

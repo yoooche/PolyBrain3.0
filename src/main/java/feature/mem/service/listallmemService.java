@@ -15,11 +15,11 @@ public class listallmemService {
     }
 
     public List<MemVo> getAll() {
-        return memDao.selectAll();
+        return memDao.getAll();
     }
 
     public MemVo getOneMem(Integer memNo) {
-        return memDao.selectById(memNo);
+        return memDao.findByPrimaryKey(memNo);
     }
 
     public void deleteMem(Integer memNo) {
@@ -40,7 +40,7 @@ public class listallmemService {
         memVo.setMemAuth(memAuth);
         memDao.updateJDBC(memVo);
 
-        return memDao.selectById(memNo);
+        return memDao.findByPrimaryKey(memNo);
     }
 
 
