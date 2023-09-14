@@ -13,7 +13,7 @@ import feature.booking.service.BookMailServ;
 import static core.util.CommonUtil.*;
 import static core.util.Constants.JSON_MIME_TYPE;
 
-@WebServlet("/booking/insert")
+@WebServlet("/loginRequired/booking/insert")
 public class BookingInsertServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private BookingService service = new BookingServiceImpl();
@@ -29,10 +29,11 @@ public class BookingInsertServlet extends HttpServlet {
         //insert
         commonUtil.writePojo2Json(response, service.insert(bookingVo));
         Integer number = bookingVo.getBookingno();
+
         Integer mem = bookingVo.getMemno();
 //        System.out.println("number" + number);
 //        System.out.println("mem" + mem);
-        BookingVo memno = service.selectById(mem);
+        //BookingVo memno = service.selectById(mem);
         BookMailServ bookMailServ = new BookMailServ();
         bookMailServ.sendMail(number);
 
