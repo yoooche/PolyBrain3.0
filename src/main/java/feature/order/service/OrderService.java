@@ -3,6 +3,7 @@ package feature.order.service;
 import feature.bid.dao.BidOrderDao;
 import feature.bid.dao.BidOrderDaoImpl;
 import feature.bid.service.BiddingService;
+import feature.bid.vo.BidOrderDetailVo;
 import feature.bid.vo.BidOrderVo;
 import feature.cart.service.CartTraceService;
 import feature.cart.vo.CartItemImgDTO;
@@ -46,10 +47,7 @@ public class OrderService {
     public ItemOrderVO getOneOrder(Integer orderNo) {
         return dao.selectById(orderNo);
     }
-    public BidOrderVo getBidOneOrder(Integer orderNo) {
-        bidOrderDao = new BidOrderDaoImpl();
-        return bidOrderDao.selectById(orderNo);
-    }
+
 
     public List<ItemOrderVO> getAll() {
         System.out.println("aaa");
@@ -148,5 +146,15 @@ public class OrderService {
 
         return orderDetailDTOList;
     }
+
+    public Integer addBidOrderDetail (BidOrderDetailVo bidOrderDetailVo){
+        return dao.insertBidOrderDetail(bidOrderDetailVo);
+    }
+    public BidOrderVo getBidOneOrder(Integer orderNo) {
+        bidOrderDao = new BidOrderDaoImpl();
+        return bidOrderDao.selectById(orderNo);
+    }
+
+
 
 }

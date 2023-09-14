@@ -29,7 +29,7 @@ public class MailService {
     // 設定傳送郵件:至收信人的Email信箱,Email主旨,Email內容
     public void sendMail(Integer orderNo) {
 
-        Integer memNo = 1002;
+        Integer memNo = null;
         Integer orderTotal = null;
 
 

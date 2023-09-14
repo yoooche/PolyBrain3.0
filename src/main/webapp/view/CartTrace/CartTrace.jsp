@@ -73,7 +73,7 @@
 
                 <div class="col-md-8 order-md-1">
                     
-                    <form method="post" action="<%=request.getContextPath()%>/view/CartTrace/ConfirmOrder" id="confirmOrder">
+                    <form method="post" action="/PolyBrain/loginRequired/ConfirmOrder" id="confirmOrder">
                         <input type="hidden" id="orderTotal1" name="orderTotal" value="">
                         <div class="container">
                             <h4 class="mb-3">填寫付款資訊</h4>

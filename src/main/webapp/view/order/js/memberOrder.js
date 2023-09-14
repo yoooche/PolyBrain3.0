@@ -33,7 +33,7 @@ function fetchAndBuildTable() {
 
 
 function sendToController() {
-    fetch("http://localhost:8080/PolyBrain/findAllOrder", {
+    fetch('/PolyBrain/loginRequired/findAllOrder', {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
@@ -112,7 +112,7 @@ function buildTable() {
     });
 
     $(document).on('click', '.orderDetailBtn', function () {
-        fetch("http://localhost:8080/PolyBrain/findAllOrderDetail", {
+        fetch("/PolyBrain/loginRequired/findAllOrderDetail", {
             headers: {
                 "Content-Type": "application/json"
             }
