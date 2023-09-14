@@ -48,17 +48,21 @@
             background-color: rgba(0, 0, 0, 0.5);
         }
 
+        .lightbox-content label {
+            margin-left: 60px;
+        }
+
         .lightbox-content {
             /* 其他样式属性... */
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-35%, -50%);
+            transform: translate(-50%, -50%);
             /* 使用 transform 属性将内容水平和垂直居中 */
             background-color: #fff;
             padding: 20px;
             border-radius: 5px;
-            text-align: center;
+            text-align: left;
             max-height: 500px;
             max-width: 425px;
             /* 根據需要調整固定高度 */
@@ -348,6 +352,7 @@
                 <select id="itemState" name="itemState">
                     <option value="0">下架</option>
                     <option value="1">上架</option>
+                    <!-- <option value="2">售罄</option> -->
                 </select>
             </div>
 
@@ -371,7 +376,7 @@
                     <option value="8">8 人</option>
                     <option value="9">9 人</option>
                     <option value="10">10 人</option>
-                    <option value="10">10 人以上</option>
+                    <option value="11">10 人以上</option>
                 </select>
             </div>
 
@@ -408,22 +413,22 @@
             </div>
             <div>
                 <label for="itemProdDescription">商品敘述:</label>
-                <textarea id="itemProdDescription" name="itemProdDescription" rows="4" cols="40"></textarea>
+                <textarea id="itemProdDescription" name="itemProdDescription" rows="4" cols="45"></textarea>
             </div>
             <div class="div_addOption">
                 <div class="upload_box">
                     <div class="upload_btn-box" style="margin: 7.5px;">
-                        <label class="upload_btn">
+                        <label class="upload_btn" style=" margin-left: 120px;">
                             <input type="file" name="opaProdPic" class="upload_inputfile" id="p_file"
-                                accept="image/jpeg, image/png, image/jpg, image/gif" multiple>
-                            <label class="custom-file-label" for="p_file">上傳商品圖片</label>
+                                accept="image/jpeg, image/png, image/jpg, image/gif" multiple >
+                            <label class="custom-file-label" for="p_file" style="margin-left: 0px;">上傳商品圖片</label>
                     </div>
                     <div class="upload_img-wrap "></div>
                 </div>
             </div>
             <div>
                 <input type="hidden" name="action" value="insert">
-                <button type="submit" id="addsubmit" class="btn btn-primary"> 送出資料 </button>
+                <button type="submit" id="addsubmit" class="btn btn-primary" style="margin-left: 100px;"> 送出資料 </button>
                 <button type="button" id="cancel" class="btn btn-secondary">取消新增</button>
             </div>
         </div>
@@ -488,22 +493,22 @@
 
                 <div>
                     <label for="editProdDescription">商品敘述:</label>
-                    <textarea id="editProdDescription" name="editProdDescription" rows="4" cols="50"></textarea>
+                    <textarea id="editProdDescription" name="editProdDescription" rows="4" cols="45"></textarea>
                 </div>
                 <div class="div_addOption">
                     <div class="upload_box">
                         <div class="upload_btn-box" style="margin: 7.5px;">
-                            <label class="upload_btn">
+                            <label class="upload_btn" style=" margin-left: 120px;">
                                 <p style="margin: 0;">上傳商品圖片</p>
                                 <input type="file" name="opaProdPic" class="upload_inputfile" id="editFiles"
                                     accept="image/jpeg, image/png, image/jpg, image/gif" multiple>
                             </label>
                         </div>
-                        <div class="upload_img-wrap2"></div>
+                        <div class="upload_img-wrap2" style="text-align: center;margin-right: 0px;margin-left: 0px;"></div>
                     </div>
                 </div>
                 <input type="hidden" name="action" value="insert">
-                <button type="submit" id="updatesubmit" class="btn btn-primary"> 送出更新 </button>
+                <button type="submit" id="updatesubmit" class="btn btn-primary" style="margin-left: 100px;"> 送出更新 </button>
                 <button type="button" id="updatecancel" class="btn btn-secondary">取消更新</button>
             </form>
         </div>

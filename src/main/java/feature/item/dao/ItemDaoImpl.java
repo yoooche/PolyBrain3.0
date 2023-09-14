@@ -67,7 +67,7 @@ public class ItemDaoImpl implements ItemDao{
 
     //依照分頁去搜尋
     public Map<String, Object> selectpage(Integer page,String set) {
-        int number = (page - 1) * 4;    //每頁顯示第幾到第幾個項目 以8個為一頁
+        int number = (page - 1) * 8;    //每頁顯示第幾到第幾個項目 以8個為一頁
         final String hql = ("FROM Item WHERE itemState IN (1, 2)"+ set);
         System.out.println("hql="+hql);
         final String countHql = ("SELECT COUNT(*) FROM Item WHERE itemState IN (1, 2)"+ set );
@@ -75,14 +75,14 @@ public class ItemDaoImpl implements ItemDao{
         Query<Item> query = getSession()
                 .createQuery(hql, Item.class)
                 .setFirstResult(number) // 略過筆數
-                .setMaxResults(4);   // 顯示筆數
+                .setMaxResults(8);   // 顯示筆數
 
         List<Item> items = query.getResultList();
         Long totalCount = getSession()
                 .createQuery(countHql, Long.class)
                 .uniqueResult();
 
-        int totalPages = (int) Math.ceil((double) totalCount / 4);
+        int totalPages = (int) Math.ceil((double) totalCount / 8);
         System.out.println(totalPages);
         Map<String, Object> result = new HashMap<>();
         result.put("items", items);

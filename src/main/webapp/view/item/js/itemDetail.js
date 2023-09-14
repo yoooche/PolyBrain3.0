@@ -33,7 +33,8 @@ function getItemDetail(itemNo) {
                         <h1 class="display-5 fw-bolder">${data.itemName}</h1>
                         <div class="fs-5 mb-5">
                             <span>$${data.itemPrice}</span>
-                            <br>剩餘數量：${data.itemQty}
+                            <br>已售出：${data.itemSales} 個
+                            <br>剩餘數量：${data.itemQty} 個
                                 <br>遊戲人數：${data.minPlayer}人到${data.maxPlayer}人
                                 </div>
                                 <p class="lead">遊戲介紹：${data.itemProdDescription}</p>
@@ -43,7 +44,6 @@ function getItemDetail(itemNo) {
                                         <i class="bi-cart-fill me-1"></i>
                                         加入購物車
                                     </button>
-                                    <button onclick="addTrace(${data.itemNo})" id="addTrace" class="btn btn-outline-dark mt-auto " href="#" style="width: 100px;margin-left:16px;" margin: 30px>收藏</button>
                         </div>
                     </div >
                 </div >
@@ -276,3 +276,45 @@ function shuffleArray(array) {
         [array[i], array[j]] = [array[j], array[i]]; // 交换元素位置
     }
 }
+
+//會員列表展開用
+$(document).ready(function () {
+    validateMemStatus();
+});
+async function validateMemStatus() {
+    const response = await fetch('/PolyBrain/general/validateMemStatus', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json; charset:utf-8' },
+    })
+        .then(resp => resp.json())
+        .then(data => {
+            console.log(data);
+            const { memNo, memName, loginStatus } = data;
+            $('ul#dropdown-menu').append(`
+<li><a class="dropdown-item" href="#!">會員專區</a></li>
+<li><a class="dropdown-item" href="#!">購物車</a></li>
+<li><hr class="dropdown-divider" /></li>
+`);
+            if (loginStatus) {
+                $('span#memName').text(memName);
+                $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/logout.jsp">登出</a></li>');
+                let memDetail = [memNo, memName];
+                return memDetail;
+            } else {
+                $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/login.html">登入</a></li>');
+            }
+        });
+    return response;
+}
+
+let bidEventList = document.querySelectorAll('.bidEventList');
+bidEventList.forEach(link => {
+    link.addEventListener('click', function (event) {
+        event.preventDefault();
+        const biddingEvent = link.getAttribute('data-event-id');
+        const bidEventURL = 'http://localhost:8080/PolyBrain/view/bid/BidOnItemPage2.jsp';
+        const url = `${bidEventURL}?bidEventId=${biddingEvent}`;
+        window.location.href = url;
+    });
+});
+

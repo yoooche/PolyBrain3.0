@@ -167,7 +167,6 @@ $(document).ready(function () {
         //點擊送出按鈕後使用燈箱效果顯示確認取消對話框
         addsubmit.addEventListener('click', () => {
             let errorMsg = '';
-
             if (itemClassNo.value == 0) {
                 errorMsg += '<li>請選擇遊戲類別';
             }
@@ -177,13 +176,13 @@ $(document).ready(function () {
             if (itemPrice.value <= 99) {
                 errorMsg += '<li>售價有誤請再確認';
             }
-            if (itemQty.value < 1 && itemState.value == 2) {
+            if (itemQty.value < 1 && itemState.value == 1) {
                 errorMsg += '<li>庫存量為0，不得上架';
             }
             if (minPlayers.value == 0 || maxPlayers.value == 0) {
                 errorMsg += '<li>請選擇遊戲人數';
             }
-            if (minPlayers.value > maxPlayers.value) {
+            if (parseInt(minPlayers.value) > parseInt(maxPlayers.value)) {
                 errorMsg += '<li>遊戲人數設定有誤';
             }
             if (gameTime.value == 0) {
@@ -205,7 +204,7 @@ $(document).ready(function () {
 
             console.log("itemImageList:", itemImageList);
 
-            let Data = {
+            Data = {
                 item: {
                     itemClassNo: itemClassNo.value,
                     itemName: itemName.value,
@@ -267,10 +266,20 @@ $(document).ready(function () {
                 cancelButtonText: '取消'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    console.log("ttt");
+                    console.log("取消並且清空itemImageList2");
+                    // 清空输入框的值
+                    $('#editItemNo').val('');
+                    $('#editItemclassno').val('');
+                    $('#editItemName').val('');
+                    $('#editPrice').val('');
+                    $('#editState').val('');
+                    $('#editQty').val('');
+                    $('#editProdDescription').val('');
+                    itemImageList2 = [];
                     // 若使用者確定取消，則關閉燈箱
-                    document.getElementById('add_lightbox').style.display = 'none';
+                  
                 }
+                document.getElementById('add_lightbox').style.display = 'none';
             });
         });
 
@@ -367,8 +376,11 @@ $(document).ready(function () {
                 if (editPrice.value <= 99) {
                     errorMsg += '<li>售價有誤請再確認';
                 }
-                if (editQty.value < 1 && editState.value == 2) {
+                if (editQty.value < 1 && editState.value == 1) {
                     errorMsg += '<li>庫存量為0，不得上架';
+                }
+                if (editQty.value > 0 && editState.value == 2) {
+                    errorMsg += '<li>仍有庫存量，狀態不該為售完';
                 }
                 if (errorMsg !== '') {
                     const errorList = errorMsg.split('<li>').filter(item => item !== '').map((item, index) => {
@@ -421,7 +433,7 @@ $(document).ready(function () {
                     //     title: '123...',
                     //     text: '有些地方發生錯誤，請聯繫系統管理員!',
                     // })
-                    );
+                );
             }
         });
     });
@@ -575,10 +587,10 @@ function ImgUpload2() {
         if (index >= 0 && index < itemImageList2.length) {
             itemImageList2.splice(index, 1); // 根据索引删除图像数据
             delete itemIndexMap[index];
-        }   
+        }
         $(this).parent().parent().remove();
         console.log(itemImageList2);
         console.log(itemIndexMap);
     });
-    
+
 }
