@@ -23,9 +23,6 @@ public class CartTraceService {
     }
     public List<CartItemImgDTO> getAllCartItem(Integer memNo){
         CartTraceService cartTraceService = new CartTraceService();
-
-
-
         List<CartTraceVO> cartTraceVOList = new ArrayList<CartTraceVO>();
         List<Item> itemVONewList = new ArrayList<Item>();
         List<CartItemImgDTO> cartItemImgDTOList = new ArrayList<CartItemImgDTO>();
@@ -33,7 +30,6 @@ public class CartTraceService {
         cartTraceVOList = dao.selectAll(memNo); //用會員編號查商品編號 會員編號 數量的資訊
 
         ItemService itemService = new ItemServiceImpl();
-
 
         for (int i = 0; i < cartTraceVOList.size(); i++) { //會員編號 商品編號 數量
 
@@ -46,7 +42,7 @@ public class CartTraceService {
                 itemVONewList.add(itemService.FindByItemId(cartTraceVOList.get(i).getItemNo()));  //從迴圈拿到商品編號 套到selectAllByItemNo(Integer itemNo)的方法內
 
                 cartItemImgDTOS.setItemName(itemVONewList.get(i).getItemName());
-                cartItemImgDTOS.setItemImg(itemVONewList.get(i).getItemImg().get(0).getItemImg());
+                cartItemImgDTOS.setItemImg(itemVONewList.get(i).getItemImg().get(0).getItemImg().toString());
                 cartItemImgDTOS.setItemQty(itemVONewList.get(i).getItemQty());
                 cartItemImgDTOS.setItemPrice(itemVONewList.get(i).getItemPrice());
                 cartItemImgDTOS.setQuantityXitemPrice(cartTraceVOList.get(i).getQuantity() * itemVONewList.get(i).getItemPrice());

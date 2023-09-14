@@ -46,11 +46,6 @@ public class CartTraceServlet extends HttpServlet {
 
             session.setAttribute("cartItemImgDTOList", cartItemImgDTOList);
 
-            System.out.println(Integer.valueOf(req.getParameter("quantity")));
-
-
-
-
             if (cartItemImgDTOList.size() == 0) {
                 RequestDispatcher failureView = req.getRequestDispatcher(""); //這要記得改改改
                 failureView.forward(req, res);
@@ -63,17 +58,25 @@ public class CartTraceServlet extends HttpServlet {
         if ("orderConfirm".matches(action)) {
             HashMap<String, String> errorMsgs = new HashMap<String, String>();
 
-            String receiverName = req.getParameter("receiverName");
+            String receiverName = req.getParameter("receiverName").trim();
             if (receiverName == null || receiverName.trim().isEmpty()) {
                 errorMsgs.put("receiverName", "請填寫收件人姓名");
             }
 
-            String receiverAddress = req.getParameter("receiverAddress");
+            String county = req.getParameter("county");
+            System.out.println(county);
+            String district = req.getParameter("district");
+            System.out.println(district);
+
+
+            String receiverAddress = req.getParameter("receiverAddress").trim();
             if (receiverAddress == null || receiverAddress.trim().isEmpty()) {
                 errorMsgs.put("receiverAddress", "請填寫收件地址");
             }    //要記得地址欄不得為空 jsp input 最好還是有值
 
-            String receiverPhone = req.getParameter("receiverPhone");
+            receiverAddress = county + district + receiverAddress;
+
+            String receiverPhone = req.getParameter("receiverPhone").trim();
             String rPhoneReg = "^09[0-9]{8}$";
             if (receiverPhone == null || receiverPhone.trim().isEmpty()) {
                 errorMsgs.put("receiverPhone", "收件人電話不為空");
@@ -110,9 +113,10 @@ public class CartTraceServlet extends HttpServlet {
                 return;
             }
 
+            Integer orderTotal = Integer.valueOf(req.getParameter("orderTotal"));
+            System.out.println("orderTotal"+orderTotal);
 
             Integer memNo = 1002;//(Integer)session.getAttribute("memNo"); //memVo.getMemNo();
-            Integer orderTotal = (Integer) session.getAttribute("orderTotal");
             Integer orderState = 0;
 
             OrderService orderService = new OrderService();
@@ -121,11 +125,14 @@ public class CartTraceServlet extends HttpServlet {
 
             CartTraceService cartTraceService = new CartTraceService();
             List<CartItemImgDTO>  cartItemImgDTOList = cartTraceService.getAllCartItem(memNo);
-            orderService.addAnOrderDetail(cartItemImgDTOList, orderNo);
+
+            orderService.addAnOrderDetail(cartItemImgDTOList, orderNo, memNo);
             //前端 History把session清起來
 
 
             new MailService().sendMail(orderNo);
+
+
 
             String url = "/view/order/listAllOrder.jsp"; //到下一頁
 
