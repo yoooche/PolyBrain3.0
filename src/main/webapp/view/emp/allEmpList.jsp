@@ -6,6 +6,9 @@
 <%@page import="feature.emp.dao.*"%>
 <%@page import="feature.emp.vo.*"%>
 
+<link href="<%= request.getContextPath() %>/view/emp/css/item.css" rel="stylesheet" />    <!--側邊欄的css-->
+<script src="https://kit.fontawesome.com/cb31023646.js" crossorigin="anonymous"></script>
+
 <%
     allEmpListService empSvc = new allEmpListService();
     List<EmpVo> list = empSvc.getAll();
@@ -55,68 +58,139 @@
     		});
     	});
     </script>
-
-    <style type="text/css">
-    body {
-    	margin: 1rem 12rem 2rem 12rem;
-    }
-    </style>
-
     </head>
-    <body>
-            <nav >
-        		 <div align="center"> <h2>員工資料管理</h2><a href="addNewEmp.jsp">新增</a>
+<body id="page-top">
+<!---------------------------------------------以下為頂板--------------------------------------------------------->
+<main class="flex-shrink-0">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: black;">
+        <div class="container px-5">
+            <img src="${pageContext.request.contextPath}/view/logo/PolyBrain_Logo.png" style="width: 110px; height: auto; margin-bottom: 5px;"></a>
+        </div>
+    </nav>
+</main>
+<!---------------------------------------------以上為頂板--------------------------------------------------------->
+
+
+
+    <div id="layoutSidenav">  <!--勿刪到-->
+<!---------------------------------------------以下為側邊攔--------------------------------------------------------->
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+
+                                <!-------------會員中心-------------->
+                        <div class="sb-sidenav-menu-heading">會員</div>
+
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/member/listAllmem.jsp"><div class="sb-nav-link-icon"></div>
+                            所有會員管理
+                        </a>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/forum/Listallarti.jsp"><div class="sb-nav-link-icon"></div>
+                            討論區文章管理
+                        </a>
+                                <!-------------會員中心-------------->
+                                <!--------------商城---------------->
+                        <div class="sb-sidenav-menu-heading">商城</div>
+
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/item/itemConsole.html"><div class="sb-nav-link-icon"></div>
+                            商城管理
+                        </a>
+
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/item/itemClassConsole.html"><div class="sb-nav-link-icon"></div>
+                            商品類別管理
+                        </a>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/order/listAllOrder.jsp"><div class="sb-nav-link-icon"></div>
+                            訂單管理
+                        </a>
+                                <!-------------商城-------------->
+                                <!-------------預約-------------->
+                        <div class="sb-sidenav-menu-heading">預約</div>
+
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/book/BookTable.html"><div class="sb-nav-link-icon"></div>
+                            報到管理
+                        </a>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/bookingtast/Modifytimeperiod.jsp"><div class="sb-nav-link-icon"></div>
+                            時段管理
+                        </a>
+                                <!-------------預約-------------->
+                                <!-------------競標-------------->
+                        <div class="sb-sidenav-menu-heading">預約</div>
+
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/bid/BidEventList.jsp"><div class="sb-nav-link-icon"></div>
+                            競標活動管理
+                        </a>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/bid/BidItemTable.html"><div class="sb-nav-link-icon"></div>
+                            競標商品管理
+                        </a>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/order/bidOrderBackend.html"><div class="sb-nav-link-icon"></div>
+                            競標訂單
+                        </a>
+                                <!-------------競標-------------->
+                        <div class="sb-sidenav-menu-heading">員工</div>
+
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/emp/allEmpList.jsp"><div class="sb-nav-link-icon"></div>
+                            員工管理
+                        </a>
+                    </div>
+                </div>
             </nav>
+        </div>
+<!---------------------------------------------以上為側邊攔--------------------------------------------------------->
+
+
+
+        <div id="layoutSidenav_content"> <!--勿刪到-->
+<!-----------------------------以下為內容---------------------------->
+    <main>
+        <nav >
+            <div align="center"> <h2>員工資料管理</h2><a href="addNewEmp.jsp">新增</a>
+        </nav>
 
         <h4><span>資料查詢:</span></h4>
-        <div></div><br>
-
-        <div class="a">
-
-      <table id="example" class="display" style="width: 100%">
-        <thead >
-      	<tr style="background-color:#CCCCFF">
-      		<th>員工編號</th>
-      		<th>姓名</th>
-      		<th>性別</th>
-      		<th>信箱</th>
-      		<th>密碼</th>
-      		<th>手機</th>
-      		<th>狀態</th>
-      		<th>修改</th>
-      		<th>刪除</th>
-
-      	</tr>
-
-        </thead>
-       <tbody>
-
-       <c:forEach var="mm" items="${empList}" >
-      		<tr>
-      			<td>${mm.empNo}</td>
-      			<td>${mm.empName}</td>
-      			<td>${mm.empGender == '0' ? '女' : '男'}</td>
-      			<td>${mm.empEmail}</td>
-      			<td>${mm.empPwd}</td>
-      			<td>${mm.empPh}</td>
-      			<td>${mm.empState == 0 ? '離職' : mm.empState == 1 ? '在職中' : mm.empState == 2 ? '停職' : ''}</td>
-
-      			<td>
-                    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/allEmpListServlet/do" style="margin-bottom: 0px;">
-                	<input type="submit" value="修改">
-                	<input type="hidden" name="empNo" value="${mm.empNo}">
-                	<input type="hidden" name="action"	value="getOne_For_Update"></FORM>
-                </td>
-                <td>
-                    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/allEmpListServlet/do" style="margin-bottom: 0px;">
-                	<input type="submit" value="刪除">
-                	<input type="hidden" name="empNo" value="${mm.empNo}">
-                	<input type="hidden" name="action" value="delete"></FORM>
-                </td>
-            </tr>
-        </c:forEach>
-    </tbody>
-        </table>
-
-    </body>
+            <table id="example" class="display" style="width: 100%">
+                <thead>
+             	    <tr style="background-color:#CCCCFF">
+             		    <th>員工編號</th>
+             		    <th>姓名</th>
+             		    <th>性別</th>
+             		    <th>信箱</th>
+             		    <th>密碼</th>
+             		    <th>手機</th>
+                        <th>狀態</th>
+             		    <th>修改</th>
+             		    <th>刪除</th>
+             		</tr>
+                </thead>
+                <tbody>
+                <c:forEach var="mm" items="${empList}" >
+             		<tr>
+             		    <td>${mm.empNo}</td>
+             			<td>${mm.empName}</td>
+             			<td>${mm.empGender == '0' ? '女' : '男'}</td>
+             			<td>${mm.empEmail}</td>
+             			<td>${mm.empPwd}</td>
+             			<td>${mm.empPh}</td>
+             			<td>${mm.empState == 0 ? '離職' : mm.empState == 1 ? '在職中' : mm.empState == 2 ? '停職' : ''}</td>
+             			<td>
+                            <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/general/allEmpListServlet/do" style="margin-bottom: 0px;">
+                       	    <input type="submit" value="修改">
+                       	    <input type="hidden" name="empNo" value="${mm.empNo}">
+                       	    <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
+                        </td>
+                        <td>
+                            <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/general/allEmpListServlet/do" style="margin-bottom: 0px;">
+                       	    <input type="submit" value="刪除">
+                       	    <input type="hidden" name="empNo" value="${mm.empNo}">
+                       	    <input type="hidden" name="action" value="delete"></FORM>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+    </main>
+<!-----------------------------以上為內容---------------------------->
+        </div>
+    </div>
+</body>
 </html>

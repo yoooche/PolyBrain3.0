@@ -243,7 +243,7 @@ public class MemDaoImpl implements MemDao {
     static {
         try {
             Context ctx = new InitialContext();
-            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/polybrain_mem");
+            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/polybrain");
         } catch (NamingException e) {
             e.printStackTrace();
         }
@@ -721,51 +721,51 @@ public class MemDaoImpl implements MemDao {
     }
 
 
-//    @Override
-//    public void createMember(MemVo member) {
-//
-//        Connection con = null;
-//        PreparedStatement pstmt = null;
-//
-//        try {
-//            Class.forName(driver);
-//            con = DriverManager.getConnection(url, userid, passwd);
-//            pstmt = con.prepareStatement(REGIST);
-//
-//            pstmt.setString(1, member.getMemName());
-//            pstmt.setString(2, member.getMemPid());
-//            pstmt.setByte(3, member.getMemGender());
-//            pstmt.setString(4, member.getMemEmail());
-//            pstmt.setString(5, member.getMemPwd());
-//            pstmt.setString(6, member.getMemPh());
-//            pstmt.setString(7, member.getMemAddress());
-//            pstmt.setDate(8, member.getMemBirth());
-//
-//            pstmt.executeUpdate();
-//
-//            // Handle any driver errors
-//        } catch (SQLException | ClassNotFoundException se) {
-//            throw new RuntimeException("A database error occured. "
-//                    + se.getMessage());
-//            // Clean up JDBC resources
-//        } finally {
-//            if (pstmt != null) {
-//                try {
-//                    pstmt.close();
-//                } catch (SQLException se) {
-//                    se.printStackTrace(System.err);
-//                }
-//            }
-//            if (con != null) {
-//                try {
-//                    con.close();
-//                } catch (Exception e) {
-//                    e.printStackTrace(System.err);
-//                }
-//            }
-//        }
-//
-//    }
+    @Override
+    public void createMemberJDBC(MemVo member) {
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            Class.forName(driver);
+            con = DriverManager.getConnection(url, userid, passwd);
+            pstmt = con.prepareStatement(REGIST);
+
+            pstmt.setString(1, member.getMemName());
+            pstmt.setString(2, member.getMemPid());
+            pstmt.setByte(3, member.getMemGender());
+            pstmt.setString(4, member.getMemEmail());
+            pstmt.setString(5, member.getMemPwd());
+            pstmt.setString(6, member.getMemPh());
+            pstmt.setString(7, member.getMemAddress());
+            pstmt.setDate(8, member.getMemBirth());
+
+            pstmt.executeUpdate();
+
+            // Handle any driver errors
+        } catch (SQLException | ClassNotFoundException se) {
+            throw new RuntimeException("A database error occured. "
+                    + se.getMessage());
+            // Clean up JDBC resources
+        } finally {
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException se) {
+                    se.printStackTrace(System.err);
+                }
+            }
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (Exception e) {
+                    e.printStackTrace(System.err);
+                }
+            }
+        }
+
+    }
 
     @Override
     public void updateInformation(MemVo memVo) {
