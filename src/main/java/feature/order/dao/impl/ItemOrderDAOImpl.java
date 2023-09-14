@@ -1,5 +1,7 @@
 package feature.order.dao.impl;
 
+import feature.bid.vo.BidOrderDetailVo;
+import feature.item.vo.ItemClass;
 import feature.order.vo.ItemOrderDetailVO;
 import org.hibernate.Session;
 import feature.order.dao.ItemOrderDAO;
@@ -12,16 +14,16 @@ import javax.sql.DataSource;
 import java.util.List;
 
 public class ItemOrderDAOImpl implements ItemOrderDAO {
-    private static DataSource ds = null;
-
-    static {
-        try {
-            Context ctx = new InitialContext();
-            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB2");
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
-    }
+//    private static DataSource ds = null;
+//
+//    static {
+//        try {
+//            Context ctx = new InitialContext();
+//            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/polybrain");
+//        } catch (NamingException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public Integer insert(ItemOrderVO itemOrderVO) {
         getSession().persist(itemOrderVO);
@@ -29,6 +31,13 @@ public class ItemOrderDAOImpl implements ItemOrderDAO {
     }
 
     public Integer deleteById(Integer orderNo) {
+        Session session = getSession();
+        ItemOrderVO pojo = session.get(ItemOrderVO.class, orderNo);
+        session.remove(pojo);
+        return 1;
+    }
+
+    public Integer deleteDetailById(Integer orderNo) {
         Session session = getSession();
         ItemOrderVO pojo = session.get(ItemOrderVO.class, orderNo);
         session.remove(pojo);
@@ -57,7 +66,6 @@ public class ItemOrderDAOImpl implements ItemOrderDAO {
     }
 
     public ItemOrderVO updateAnOrder(ItemOrderVO itemordervo) {
-
         getSession().update(itemordervo);
         return itemordervo;
     }
@@ -73,11 +81,24 @@ public class ItemOrderDAOImpl implements ItemOrderDAO {
         return getSession().createQuery(hql, ItemOrderDetailVO.class).getResultList();
     }
 
-
-    public static void main(String[] args) {
-        List<ItemOrderDetailVO> list = new ItemOrderDAOImpl().getDetailByOrderNumber(123);
-        System.out.println(list);
+    public BidOrderDetailVo selectByBidId(Integer bidOrderNo) {
+        final String hql = "FROM BidOrderDetailVo WHERE BID_ORDER_NO =" + bidOrderNo;
+        return getSession().createQuery(hql, BidOrderDetailVo.class).uniqueResult();
+    }
+    public Integer insertBidOrderDetail(BidOrderDetailVo bidOrderDetailVo) {
+        getSession().persist(bidOrderDetailVo);
+        return 1 ;
     }
 
 
+    public static void main(String[] args) {
+        BidOrderDetailVo bidOrderDetailVo = new BidOrderDetailVo();
+        bidOrderDetailVo.setBidOrderNo(7002);
+        bidOrderDetailVo.setReceiverPhone("0960888888");
+        bidOrderDetailVo.setReceiverMethod(0);
+        bidOrderDetailVo.setReceiverAddress("你要改喔");
+        bidOrderDetailVo.setReceiverName("這麼狠喔");
+
+        new ItemOrderDAOImpl().insertBidOrderDetail(bidOrderDetailVo);
+    }
 }

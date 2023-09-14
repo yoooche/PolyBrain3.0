@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,9 +24,20 @@ public class ItemOrderServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException{
+        HttpSession session  = req.getSession();
         req.setCharacterEncoding("UTF-8");
         System.out.println("helloMoto");
+
         String action = req.getParameter("test1");
+        System.out.println("action"+action);
+        if("getAllOrder".equals(action)){
+            List<ItemOrderVO> orderVOList = new OrderService().getAll();
+            session.setAttribute("orderVOList", orderVOList);
+            System.out.println("你走後你別在笑我");
+            String url = "/view/order/listAllOrder.jsp";
+            RequestDispatcher red =req.getRequestDispatcher(url);
+            red.forward(req, res);
+        }
 
         if("getOne_For_Display".equals(action)){
             List<String> errorMsgs = new LinkedList<String>();
@@ -166,11 +178,12 @@ public class ItemOrderServlet extends HttpServlet {
 
         if("delete".equals(action)){
             Integer orderNo = Integer.valueOf(req.getParameter("orderNo"));
+            System.out.println("有來這嗎"+orderNo);
             OrderService odsvc = new OrderService();
             odsvc.deleteById(orderNo);
             String url = "/view/order/listAllOrder.jsp";
-            RequestDispatcher red =req.getRequestDispatcher(url);
-            red.forward(req, res);
+            RequestDispatcher requestDispatcher =req.getRequestDispatcher(url);
+            requestDispatcher.forward(req, res);
         }
     }
 }

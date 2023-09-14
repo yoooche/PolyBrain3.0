@@ -19,7 +19,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
 
 public class MailService {
     private ItemOrderDAOImpl itemOrderDao;
@@ -29,17 +28,15 @@ public class MailService {
 
     // 設定傳送郵件:至收信人的Email信箱,Email主旨,Email內容
     public void sendMail(Integer orderNo) {
-        Integer memNo = null;
+
+        Integer memNo = 1002;
         Integer orderTotal = null;
 
 
         if (orderNo >= 7001) {
-            System.out.println("這是一筆競標訂單");
             bidOrderDao = new BidOrderDaoImpl();
             BidOrderVo bidOrderVo = bidOrderDao.selectById(orderNo);
             memNo = bidOrderVo.getMemNo();
-            System.out.println(memNo);
-            System.out.println(orderNo);
             orderTotal = bidOrderVo.getFinalPrice();
         }
 
