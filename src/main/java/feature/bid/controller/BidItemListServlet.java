@@ -11,6 +11,7 @@ import feature.bid.vo.BidItemPicVo;
 import feature.bid.vo.BidItemVo;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,8 +26,8 @@ import java.util.List;
 import static core.util.CommonUtil.json2Pojo;
 import static core.util.CommonUtil.writePojo2Json;
 
-@WebServlet("/BidItemList")
-//@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
+@WebServlet("/general/BidItemList")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class BidItemListServlet extends HttpServlet {
     public BiddingService biddingService;
     public BidItemPicService bidItemPicService;
@@ -43,12 +44,9 @@ public class BidItemListServlet extends HttpServlet {
         String value = req.getParameter("value");
         String action = req.getParameter("action");
 
+
+
         //---------- insert an item into bid_item table ----------
-
-
-
-
-
         if("insert".equals(action)){
             String bidItemName = req.getParameter("bidItemName");
             Integer itemClassNo = Integer.valueOf(req.getParameter("itemClassNo"));

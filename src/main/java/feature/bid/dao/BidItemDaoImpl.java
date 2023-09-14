@@ -3,6 +3,7 @@ package feature.bid.dao;
 import core.util.HibernateUtil;
 import feature.bid.vo.BidItemPicVo;
 import feature.bid.vo.BidItemVo;
+import feature.item.vo.Item;
 import net.bytebuddy.asm.MemberSubstitution;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -27,12 +28,28 @@ public class BidItemDaoImpl implements BidItemDao {
                 .getResultList();
     }
     @Override
-    public void deleteById(Integer bidItemNo) {
-        BidItemVo bidItemVo = session.load(BidItemVo.class, bidItemNo);
-        session.remove(bidItemVo);
+    public Integer deleteById(Integer bidItemNo) {
+        BidItemVo bidItemVo = session.get(BidItemVo.class, bidItemNo);
+        if (bidItemVo != null) {
+            session.remove(bidItemVo);
+            return 1;
+        } else {
+            return -1;
+        }
     }
     @Override
     public BidItemVo selectById(Integer bidItemNo) {
         return session.get(BidItemVo.class, bidItemNo);
+    }
+
+    @Override
+    public Integer update(BidItemVo bidItemVo) {
+        try{
+            session.merge(bidItemVo);
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+            return -1;
+        }
     }
 }

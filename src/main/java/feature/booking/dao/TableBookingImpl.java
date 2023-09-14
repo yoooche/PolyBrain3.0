@@ -154,7 +154,7 @@ public class TableBookingImpl implements TableBookingDao{
                 String hql = "UPDATE TableBookingVo SET " + columnName + " = :newValue " +
                         "WHERE TABLE_NO = :tableNo AND TABLE_DATE = :tabledate";
                 Query<?> query = session.createQuery(hql);
-                query.setParameter("newValue", 0); // 更新的新值
+                query.setParameter("newValue", 1); // 更新的新值
                 query.setParameter("tableNo", tableNo);
                 query.setParameter("tabledate", bookdate);
                 //=============================================

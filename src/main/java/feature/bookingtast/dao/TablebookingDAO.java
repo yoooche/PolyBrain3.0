@@ -86,4 +86,8 @@ public class TablebookingDAO implements Tablebooking_interface {
 		}
 	}
 
+	@Override
+	public List<TablebookingVO> selectAll() {
+		return null;
+	}
 }

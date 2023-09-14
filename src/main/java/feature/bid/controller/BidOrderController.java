@@ -1,9 +1,7 @@
 package feature.bid.controller;
 
-import com.google.gson.Gson;
 import feature.bid.service.BiddingService;
 import feature.bid.service.BiddingServiceImpl;
-import feature.bid.vo.BidEventVo;
 import feature.bid.vo.BidOrderVo;
 
 import javax.servlet.ServletException;
@@ -13,9 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 
-import static core.util.CommonUtil.json2Pojo;
 import static core.util.CommonUtil.writePojo2Json;
 
 @WebServlet("/loginRequired/bidOrderCreate")
@@ -28,6 +24,7 @@ public class BidOrderController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String bidEventNo = req.getParameter("bidEventId");
+        String message = req.getParameter("closed");
         Integer bidEventParam = Integer.valueOf(bidEventNo);
         HttpSession session = req.getSession();
         Integer memNo = (Integer) session.getAttribute("memNo");
@@ -36,5 +33,9 @@ public class BidOrderController extends HttpServlet {
         BidOrderVo bidOrderVo =  biddingService.orderWithoutBid(bidEventParam, memNo);
         System.out.println(bidOrderVo);
         writePojo2Json(resp, bidOrderVo);
+
+//        if("closed".equals(message)){
+//
+//        }
     }
 }

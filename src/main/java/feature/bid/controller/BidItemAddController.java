@@ -1,5 +1,6 @@
 package feature.bid.controller;
 
+import core.coreVO.Core;
 import core.util.CommonUtil;
 import feature.bid.dto.BidItemDto;
 import feature.bid.service.BidItemPicService;
@@ -18,7 +19,7 @@ import java.util.List;
 
 import static core.util.CommonUtil.json2Pojo;
 
-@WebServlet("/BidItemAdd")
+@WebServlet("/general/BidItemAdd")
 public class BidItemAddController extends HttpServlet {
     private BidItemPicService bidItemPicService;
     private BiddingService biddingService;
@@ -32,7 +33,6 @@ public class BidItemAddController extends HttpServlet {
         bidItemPicService = new BidItemPicServiceImpl();
         biddingService = new BiddingServiceImpl();
         System.out.println(req);
-        System.out.println("競標新增商品");
 
         BidItemDto bidItemDto = json2Pojo(req, BidItemDto.class);
         System.out.println(bidItemDto);
@@ -41,7 +41,6 @@ public class BidItemAddController extends HttpServlet {
         List<String> bidItemPic = bidItemDto.getBidItemPic();
         System.out.println(bidItemPic);
 
-//        如果進來的東西是空的 代表新增失敗
         if (bidItem == null) {
             bidItem = new BidItemVo();
             bidItem.setMessage("無商品資訊");
@@ -58,6 +57,14 @@ public class BidItemAddController extends HttpServlet {
             bidItemPicService.addBidItemPic(bidItemPic, bidItemVoAddNo);
             CommonUtil.writePojo2Json(resp, bidItemVoAdd);
             return;
+        }
+        if(bidItem.getBidItemNo() != null){
+            System.out.println("修改商品");
+            bidItem = biddingService.edit(bidItem);
+            if(!bidItemPic.isEmpty()){
+                System.out.println("有圖片需要修改");
+                Integer bidItemNo = bidItem.getBidItemNo();
+            }
         }
     }
 }
