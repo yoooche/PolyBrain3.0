@@ -14,7 +14,7 @@ import core.util.HibernateUtil;
 
 import java.io.IOException;
 
-@WebFilter("/*")
+@WebFilter("/general/*")
 public class HibernateFilter extends HttpFilter {
 	private static final long serialVersionUID = 1L;
 

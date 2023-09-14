@@ -16,7 +16,7 @@ import static core.util.Constants.JSON_MIME_TYPE;
 import static feature.booking.util.BookConstants.SERVICE;
 
 
-@WebServlet("/booking/list")
+@WebServlet("/loginRequired/booking/list")
 public class BookListServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

@@ -330,7 +330,7 @@ pageContext.setAttribute("list", list);
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">取消</button>
-                                                    <button type="button" onclick="insert()" class="btn btn-primary">儲存</button>
+                                                    <button type="submit" onclick="insert()" class="btn btn-primary">儲存</button>
                                                 </div>
                                         </div>
                                     </div>
@@ -381,7 +381,7 @@ pageContext.setAttribute("list", list);
             console.log(bidEventNo);
             console.log(parent_ele);
             
-            fetch('http://localhost:8080/PolyBrain/test',{
+            fetch('http://localhost:8080/PolyBrain/general/test',{
                 method: 'POST',
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded'
@@ -406,7 +406,7 @@ pageContext.setAttribute("list", list);
             let parent_ele = button.closest('tr');
             let bidEventNo = parent_ele.querySelector('td:first-child').textContent;
 
-            fetch('http://localhost:8080/PolyBrain/test',{
+            fetch('http://localhost:8080/PolyBrain/general/test',{
                 method: 'POST',
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded'
@@ -460,7 +460,7 @@ pageContext.setAttribute("list", list);
             });
         }
         // function selectAllEvent(){
-        //     fetch('http://localhost:8080/PolyBrain/test',{
+        //     fetch('http://localhost:8080/PolyBrain/general/test',{
         //         method: 'POST',
         //         headers: {
         //             'content-type': 'application/x-www-form-urlencoded'
@@ -493,6 +493,9 @@ pageContext.setAttribute("list", list);
             let bidItemVo = {
                 bidItemNo: bidItemNo.value
             };
+            console.log(startTime);
+            console.log(closeTime);
+            
             fetch('/PolyBrain/general/bidding',{
                 method: 'POST',
                 headers: {

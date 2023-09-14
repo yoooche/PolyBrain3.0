@@ -9,8 +9,9 @@ import java.util.List;
 public class BidOrderDaoImpl implements BidOrderDao{
     Session session = HibernateUtil.getSessionFactory().getCurrentSession();
     @Override
-    public void insert(BidOrderVo bidOrderVo) {
+    public BidOrderVo insert(BidOrderVo bidOrderVo) {
         session.persist(bidOrderVo);
+        return bidOrderVo;
     }
     public BidOrderVo selectById(Integer bidOrderNo){
         return session.get(BidOrderVo.class, bidOrderNo);

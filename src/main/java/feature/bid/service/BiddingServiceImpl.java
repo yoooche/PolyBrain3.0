@@ -7,6 +7,7 @@ import feature.bid.vo.BidEventVo;
 import feature.bid.vo.BidItemPicVo;
 import feature.bid.vo.BidItemVo;
 import feature.bid.vo.BidOrderVo;
+import feature.mail.service.MailService;
 import feature.mem.dao.MemDao;
 import feature.mem.dao.MemDaoImpl;
 import feature.mem.vo.MemVo;
@@ -25,6 +26,7 @@ public class BiddingServiceImpl implements BiddingService{
     private final BidOrderDao bidOrderDao;
     private final BidOrderVo bidOrderVo;
     private final BidItemPicDao bidItemPicDao;
+    private final MailService mailService;
     Jedis jedis = new Jedis("localhost", 6379);
     public BiddingServiceImpl(){
         bidItemDao = new BidItemDaoImpl();
@@ -33,6 +35,7 @@ public class BiddingServiceImpl implements BiddingService{
         bidOrderDao = new BidOrderDaoImpl();
         bidOrderVo = new BidOrderVo();
         bidItemPicDao = new BidItemPicDaoImpl();
+        mailService = new MailService();
     }
     @Override
     public List<BidItemVo> viewAll() {
@@ -58,8 +61,9 @@ public class BiddingServiceImpl implements BiddingService{
     }
 
     @Override
-    public void removeOneItem(Integer bidItemNo) {
-        bidItemDao.deleteById(bidItemNo);
+    public boolean removeOneItem(Integer bidItemNo) {
+        System.out.println("刪除成功 (商品)");
+        return bidItemDao.deleteById(bidItemNo) > 0;
     }
 
     @Override
@@ -128,12 +132,13 @@ public class BiddingServiceImpl implements BiddingService{
             for (BidItemPicVo bidItemPicVo : bidItemPicVoList) {
                 if (bidItemVo.getBidItemNo().intValue() == bidItemPicVo.getBidItemNo().intValue()) {
                     List<byte[]> str = bidItemPicDao.selectPicsById(bidItemVo.getBidItemNo());
+                    List<String> base64 = new ArrayList<>();
+
                     for (byte[] str1 : str) {
-                        List<String> base64 = new ArrayList<>();
                         String base64Img = Base64.getEncoder().encodeToString(str1);
                         base64.add(base64Img);
-                        dto.setBidItemPic(base64);
                     }
+                    dto.setBidItemPic(base64);
                     break;
                 }
             }
@@ -141,7 +146,6 @@ public class BiddingServiceImpl implements BiddingService{
         }
         return itemDto;
     }
-
     @Override
     public List<String> selectAllPicsB64() {
        List<BidItemPicVo> bidItemPics =  bidItemPicDao.selectAllPics();
@@ -152,6 +156,14 @@ public class BiddingServiceImpl implements BiddingService{
           imgB64.add(img64);
        });
        return imgB64;
+    }
+
+    @Override
+    public BidItemVo edit(BidItemVo bidItemVo) {
+        final int resultCount = bidItemDao.update(bidItemVo);
+        bidItemVo.setSuccess(resultCount > 0);
+        bidItemVo.setMessage(resultCount > 0 ? "修改成功" : "修改失敗");
+        return bidItemVo;
     }
 
     @Override
@@ -202,8 +214,14 @@ public class BiddingServiceImpl implements BiddingService{
             bidOrderVo.setMemNo(memVo.getMemNo()); // 競標參與者會員編號
             bidOrderVo.setFinalPrice(score); // 結標價
             bidOrderVo.setBidItemNo(bidEventDao.selectItemNoByEveNo(bidEventNo)); // 競標商品編號
-            bidOrderDao.insert(bidOrderVo);
+
+            BidOrderVo b = bidOrderDao.insert(bidOrderVo);
+            System.out.println(b);
+            System.out.println(b.getBidOrderNo());
+            mailService.sendMail(b.getBidOrderNo());
+
         });
+
 //            System.out.println("Member: " + member + ", Score: " + score); // 測試用
 //            String message = "Hi" + member + "! 您好，您以" +  score + "元的高價得標，請到訂單確認頁面完成後續的出貨流程。";
 //            jedis.select(1);
@@ -212,17 +230,21 @@ public class BiddingServiceImpl implements BiddingService{
 
     @Override
     public BidOrderVo orderWithoutBid(Integer bidEventNo, Integer memNo) {
-        BidOrderVo bidOrderVoWithoutBid = new BidOrderVo();
         BidEventVo bidEventVo = bidEventDao.selectById(bidEventNo);
 
-        bidOrderVoWithoutBid.setBidEventNo(bidEventNo);
-        bidOrderVoWithoutBid.setBidItemNo(bidEventVo.getBidItemNo());
-        bidOrderVoWithoutBid.setFinalPrice(bidEventVo.getDirectivePrice());
-        bidOrderVoWithoutBid.setMemNo(memNo);
+        bidOrderVo.setBidEventNo(bidEventNo);
+        bidOrderVo.setBidItemNo(bidEventVo.getBidItemNo());
+        bidOrderVo.setFinalPrice(bidEventVo.getDirectivePrice());
+        bidOrderVo.setMemNo(memNo);
 
-        bidOrderDao.insert(bidOrderVoWithoutBid);
+        BidOrderVo b = bidOrderDao.insert(bidOrderVo);
+        System.out.println("訂單成立");
 
-        return bidOrderVoWithoutBid;
+        System.out.println(b);
+        System.out.println(b.getBidOrderNo());
+        mailService.sendMail(b.getBidOrderNo());
+        System.out.println("郵件發出");
+        return bidOrderVo;
     }
 
 
