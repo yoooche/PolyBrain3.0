@@ -24,6 +24,7 @@ public class BidOrderController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String bidEventNo = req.getParameter("bidEventId");
+        String message = req.getParameter("closed");
         Integer bidEventParam = Integer.valueOf(bidEventNo);
         HttpSession session = req.getSession();
         Integer memNo = (Integer) session.getAttribute("memNo");
@@ -32,5 +33,9 @@ public class BidOrderController extends HttpServlet {
         BidOrderVo bidOrderVo =  biddingService.orderWithoutBid(bidEventParam, memNo);
         System.out.println(bidOrderVo);
         writePojo2Json(resp, bidOrderVo);
+
+//        if("closed".equals(message)){
+//
+//        }
     }
 }
