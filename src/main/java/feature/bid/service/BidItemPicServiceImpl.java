@@ -44,7 +44,6 @@ public class BidItemPicServiceImpl implements BidItemPicService {
         System.out.println("編輯圖片");
         bidItemPicDao.deleteByBidItemNo(bidItemNo);
         for(String base64String : bidItemPic) {
-            System.out.println(base64String);
             base64String = base64String.substring(base64String.indexOf(",") + 1);
             System.out.println(base64String);
             BidItemPicVo bidItemPicVo = new BidItemPicVo();

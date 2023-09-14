@@ -44,8 +44,6 @@ public class BidItemListServlet extends HttpServlet {
         String value = req.getParameter("value");
         String action = req.getParameter("action");
 
-
-
         //---------- insert an item into bid_item table ----------
         if("insert".equals(action)){
             String bidItemName = req.getParameter("bidItemName");
@@ -75,8 +73,6 @@ public class BidItemListServlet extends HttpServlet {
                     inputStream.close();
                 }
             }
-
-//            resp.sendRedirect(req.getContextPath() + "/view/bid/BidItemList.jsp");
         }
         if("delete".equals(action)){
             Integer bidItemNo = Integer.valueOf(req.getParameter("bidItemNo"));
@@ -94,12 +90,6 @@ public class BidItemListServlet extends HttpServlet {
             out.print(img);
             out.flush();
         }
-//        if("edit".equals(action)){
-//            String bidItemName = req.getParameter("bidItemName");
-//            Integer itemClassNo = Integer.valueOf(req.getParameter("itemClassNo"));
-//            String gamePublisher = req.getParameter("gamePublisher");
-//            String bidItemDescribe = req.getParameter("bidItemDescribe");
-//        }
         if("selectAllBidItem".equals(value)){
             System.out.println("查詢所有競標商品");
 //                writePojo2Json(resp, biddingService.viewAll());

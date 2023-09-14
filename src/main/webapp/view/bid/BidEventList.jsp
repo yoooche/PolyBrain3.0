@@ -493,8 +493,8 @@ pageContext.setAttribute("list", list);
             let bidItemVo = {
                 bidItemNo: bidItemNo.value
             };
-            console.log(startTime);
-            console.log(closeTime);
+            console.log(startTime.value);
+            console.log(closeTime.value);
             
             fetch('/PolyBrain/general/bidding',{
                 method: 'POST',
@@ -502,6 +502,8 @@ pageContext.setAttribute("list", list);
                     'content-type': 'application/json'
                 },
                 body: JSON.stringify({
+                        // message: 'addAnEvent',
+                        // bidItemNo: bidItemNo.value,
                         bidItemVo: bidItemVo,
                         startTime: new Date(startTime.value),
                         closeTime: new Date(closeTime.value),

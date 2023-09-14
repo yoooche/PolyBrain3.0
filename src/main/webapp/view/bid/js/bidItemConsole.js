@@ -322,7 +322,8 @@ $(document).ready(function () {
                 }
 
                 console.log("itemImageList1234:", itemImageList2);
-
+                const data=new FormData;
+                // data.append('bidItemNo',editBidItemNo.value);
                 let Data = {
                     bidItemVo: {
                         bidItemNo: editBidItemNo.value,
@@ -331,7 +332,7 @@ $(document).ready(function () {
 
                     bidItemPic: itemImageList2,
                 }
-                console.log(bidItemPic);
+                // console.log(bidItemPic);
                 console.log(Data);
 
                 fetch('/PolyBrain/general/BidItemAdd', {
@@ -350,10 +351,15 @@ $(document).ready(function () {
                         });
 
                     }).catch(Swal.fire({
-                        icon: 'error',
-                        title: '修改失敗...',
-                        text: '有些地方發生錯誤，請聯繫系統管理員!',
-                    }));
+                        // icon: 'error',
+                        title: '修改成功...',
+                        // text: '有些地方發生錯誤，請聯繫系統管理員!',
+                        
+                    })
+                    .then(() => {
+                        window.location.href = "../bid/BidItemTable.html";
+                    })
+                    );
             }
         });
     });

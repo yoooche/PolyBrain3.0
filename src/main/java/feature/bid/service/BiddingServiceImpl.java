@@ -172,6 +172,7 @@ public class BiddingServiceImpl implements BiddingService{
     }
     @Override
     public void addAnEvent(BidEventVo bidEventVo) {
+        System.out.println("有到addAnEvent");
         bidEventDao.insert(bidEventVo);
     }
 
@@ -221,11 +222,6 @@ public class BiddingServiceImpl implements BiddingService{
             mailService.sendMail(b.getBidOrderNo());
 
         });
-
-//            System.out.println("Member: " + member + ", Score: " + score); // 測試用
-//            String message = "Hi" + member + "! 您好，您以" +  score + "元的高價得標，請到訂單確認頁面完成後續的出貨流程。";
-//            jedis.select(1);
-//            jedis.set("bidOrder" + bidEventNo, message);
     }
 
     @Override

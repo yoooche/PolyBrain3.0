@@ -1,6 +1,7 @@
 package feature.bid.controller;
 
 import com.google.gson.Gson;
+import com.mysql.cj.xdevapi.TableImpl;
 import feature.bid.service.BiddingService;
 import feature.bid.service.BiddingServiceImpl;
 import feature.bid.vo.BidEventVo;
@@ -16,9 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.*;
 
 import static core.util.CommonUtil.json2Pojo;
+import static core.util.CommonUtil.json2PojoForDatetime;
 
 @WebServlet("/general/bidding")
 public class BiddingController extends HttpServlet {
@@ -37,15 +40,15 @@ public class BiddingController extends HttpServlet {
         biddingService = new BiddingServiceImpl();
         itemClassService = new ItemClassServiceImpl();
 
-        if("closed".equals(message)){ //結標時間到，發請求到後端自動生成訂單
+        if ("closed".equals(message)) { //結標時間到，發請求到後端自動生成訂單
             Integer bidEventNo = Integer.valueOf(bidEventId);
             biddingService.createOneOrder(bidEventNo);
         }
-        if("rangeBarSetting".equals((message))){ //讓 Range Bar自動根據競標活動的編號設置對應的底價、直購價等
+        if ("rangeBarSetting".equals((message))) { //讓 Range Bar自動根據競標活動的編號設置對應的底價、直購價等
             Integer bidEventNo = Integer.valueOf(bidEventId);
-            BidEventVo bidEventVo =  biddingService.getEventByNo(bidEventNo);
-            Integer floorPrice =  bidEventVo.getFloorPrice();
-            Integer directivePrice =  bidEventVo.getDirectivePrice();
+            BidEventVo bidEventVo = biddingService.getEventByNo(bidEventNo);
+            Integer floorPrice = bidEventVo.getFloorPrice();
+            Integer directivePrice = bidEventVo.getDirectivePrice();
             Integer leastOffers = bidEventVo.getLeastOffers();
             Map<String, Integer> priceRange = new HashMap<>();
             priceRange.put("floorPrice", floorPrice);
@@ -58,7 +61,7 @@ public class BiddingController extends HttpServlet {
             out.print(jsonPrice);
             out.flush();
         }
-        if("getBiddingTimer".equals(message)){ //根據活動編號自動帶入競標時間
+        if ("getBiddingTimer".equals(message)) { //根據活動編號自動帶入競標時間
             Integer bidEventNo = Integer.valueOf(bidEventId);
             Map<String, String> timer = biddingService.getStartTimeByNo(bidEventNo);
             Gson gson = new Gson();
@@ -68,7 +71,7 @@ public class BiddingController extends HttpServlet {
             out.print(jsonTimer);
             out.flush();
         }
-        if("selectItem".equals(message)){ //在新增競標活動時，選競標商品用的下拉式選單可以自動生成內容
+        if ("selectItem".equals(message)) { //在新增競標活動時，選競標商品用的下拉式選單可以自動生成內容
             List<BidItemVo> allItem = biddingService.viewAll();
             Gson gson = new Gson();
             String jsonItem = gson.toJson(allItem);
@@ -77,7 +80,7 @@ public class BiddingController extends HttpServlet {
             out.print(jsonItem);
             out.flush();
         }
-        if("selectClass".equals(message)){ //在新增競標商品時，選競標類別用的下拉式選單可以自動生成內容
+        if ("selectClass".equals(message)) { //在新增競標商品時，選競標類別用的下拉式選單可以自動生成內容
             List<ItemClass> itemClass = itemClassService.getAllClasses();
             Gson gson = new Gson();
             String jsonItemClass = gson.toJson(itemClass);
@@ -86,7 +89,7 @@ public class BiddingController extends HttpServlet {
             out.print(jsonItemClass);
             out.flush();
         }
-        if("selectAllEvent".equals(message)){
+        if ("selectAllEvent".equals(message)) {
             List<BidEventVo> allEvent = biddingService.viewAllEvent();
             Gson gson = new Gson();
             String jsonEvent = gson.toJson(allEvent);
@@ -95,7 +98,7 @@ public class BiddingController extends HttpServlet {
             out.print(jsonEvent);
             out.flush();
         }
-        if("bidEventEditByPk".equals(message)){
+        if ("bidEventEditByPk".equals(message)) {
             Integer bidEventNo_edit = Integer.valueOf(bidEventNo_table);
             BidEventVo bidEventVo = biddingService.getEventByNo(bidEventNo_edit);
             Gson gson = new Gson();
@@ -105,7 +108,7 @@ public class BiddingController extends HttpServlet {
             out.print(jsonEvent);
             out.flush();
         }
-        if("deleteEvent".equals(message)){
+        if ("deleteEvent".equals(message)) {
             Integer bidEventNo_delete = Integer.valueOf(bidEventNo_table);
             biddingService.removeEventById(bidEventNo_delete);
             Map<String, Integer> success = new HashMap<>();
@@ -117,14 +120,14 @@ public class BiddingController extends HttpServlet {
             out.print(jsonSuccess);
             out.flush();
         }
-        if("getBiddingItemPics".equals(message)){
+        if ("getBiddingItemPics".equals(message)) {
             Integer bidEventNo = Integer.valueOf(bidEventId);
             List<byte[]> bidItemPics = biddingService.getItemPicsByEveNo(bidEventNo);
             resp.setContentType("application/json");
             Set<String> bidMap = new HashSet<>();
 
             PrintWriter out = resp.getWriter();
-            for(byte[] bidItemPic : bidItemPics){
+            for (byte[] bidItemPic : bidItemPics) {
                 String base64Img = Base64.getEncoder().encodeToString(bidItemPic);
                 bidMap.add(base64Img);
             }
@@ -133,7 +136,7 @@ public class BiddingController extends HttpServlet {
             out.write(jsonPic);
             out.close();
         }
-        if("getBiddingItemInfo".equals(message)){ //商品詳情頁面的資訊
+        if ("getBiddingItemInfo".equals(message)) { //商品詳情頁面的資訊
             Integer bidEventNo = Integer.valueOf(bidEventId);
             BidEventVo bidEventVo = biddingService.getEventByNo(bidEventNo);
             String jsonItemInfo = getString(bidEventVo);
@@ -142,10 +145,32 @@ public class BiddingController extends HttpServlet {
             out.print(jsonItemInfo);
             out.flush();
         }
+        if ("addAnEvent".equals(message)) {
+            System.out.println("有進到這邊");
+            Integer bidItemNo = Integer.valueOf(req.getParameter("bidItemNo"));
+            Timestamp startTime = Timestamp.valueOf(req.getParameter("startTime"));
+            Timestamp closeTime = Timestamp.valueOf(req.getParameter("closeTime"));
+            Integer floorPrice = Integer.valueOf(req.getParameter("floorPrice"));
+            Integer leastOffers = Integer.valueOf(req.getParameter("leastOffers"));
+            Integer directivePrice = Integer.valueOf(req.getParameter("directivePrice"));
 
-        BidEventVo bidEventVo = json2Pojo(req, BidEventVo.class);
+            BidEventVo bidEventVo = new BidEventVo();
+            bidEventVo.setBidItemNo(bidItemNo);
+            bidEventVo.setStartTime(startTime);
+            bidEventVo.setCloseTime(closeTime);
+            bidEventVo.setFloorPrice(floorPrice);
+            bidEventVo.setLeastOffers(leastOffers);
+            bidEventVo.setDirectivePrice(directivePrice);
+            System.out.println("快到了");
+            biddingService.addAnEvent(bidEventVo);
+
+        }
+
+
+        BidEventVo bidEventVo = json2PojoForDatetime(req, BidEventVo.class);
         biddingService.addAnEvent(bidEventVo);
     }
+
 
     private static String getString(BidEventVo bidEventVo) {
         BidItemVo bidItemVo = bidEventVo.getBidItemVo();
