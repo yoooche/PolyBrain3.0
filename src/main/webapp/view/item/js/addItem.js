@@ -1,14 +1,15 @@
+
 document.addEventListener("DOMContentLoaded", () => {
-	const lightbox = document.querySelector('#lightbox');
 	const btnCancel = document.querySelector('#cancel');
-	const lightboxClose = document.querySelector('#lightbox-close');
 	const itemPrice = document.querySelector('#itemPrice');
 	const itemName = document.querySelector('#itemName');
 	const itemQty = document.querySelector('#itemQty');
 	const itemState = document.querySelector('#itemState');
+	const maxPlayers = document.querySelector('#maxPlayers');
+	const minPlayers = document.querySelector('#minPlayers');
+	const gameTime = document.querySelector('#gameTime');
 	const inputs = document.querySelectorAll('input');
-	const itemClassNoSelect = document.getElementById('itemClassNo');
-	var file_el = document.getElementById("p_file");
+	// const itemClassNoSelect = document.getElementById('itemClassNo');
 
 	// 通過 fetch 取得遊戲類別列表
 	fetch('http://localhost:8080/PolyBrain/item/ItemClass', {
@@ -28,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				const option = document.createElement('option');
 				option.value = category.itemClassNo;
 				option.textContent = category.itemClassName;
-				itemClassNoSelect.appendChild(option);
+				document.getElementById('itemClassNo').appendChild(option);
 			}
 		})
 		.catch(error => {
@@ -36,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 
 	//點擊送出按鈕後使用燈箱效果顯示確認取消對話框
-	addsubmit.addEventListener('click', async () => {
+	addsubmit.addEventListener('click', () => {
 		let errorMsg = '';
 
 		if (itemClassNo.value == 0) {
@@ -54,9 +55,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (minPlayers.value == 0 || maxPlayers.value == 0) {
 			errorMsg += '<li>請選擇遊戲人數';
 		}
-		// if (minPlayers.value > maxPlayers.value) {
-		// 	errorMsg += '<li>遊戲人數設定有誤';
-		// }
+		if (minPlayers.value > maxPlayers.value) {
+			errorMsg += '<li>遊戲人數設定有誤';
+		}
 		if (gameTime.value == 0) {
 			errorMsg += '<li>請選擇遊戲時間';
 		}
@@ -73,30 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			});
 			return;
 		}
-		const itemImageList = [];
-
-		// 將上傳的檔案轉換成 base64 字串並存放在陣列中
-		if (file_el.files.length > 0) {
-			// 遍历每个选择的文件
-			for (let i = 0; i < file_el.files.length; i++) {
-				const reader = new FileReader();
-
-				// 使用 Promise 包装 FileReader 的加载操作
-				const imageLoadingPromise = new Promise((resolve) => {
-					reader.onload = function (event) {
-						const imageData = event.target.result;
-						itemImageList.push(imageData);
-						resolve(); // 解决 Promise 表示图片加载完成
-					};
-				});
-
-				reader.readAsDataURL(file_el.files[i]);
-
-				// 等待该图片加载完成
-				await imageLoadingPromise;
-			}
-		}
-
+		
 		console.log("itemImageList:", itemImageList);
 
 		let Data = {
@@ -160,76 +138,81 @@ document.addEventListener("DOMContentLoaded", () => {
 			cancelButtonText: '取消'
 		}).then((result) => {
 			if (result.isConfirmed) {
-				// 若使用者確定取消，則轉跳回商品後台列表
-				window.location.href = "../item/itemConsole.html";
+				console.log("ttt");
+				// 若使用者確定取消，則關閉燈箱
+				document.getElementById('add_lightbox').style.display = 'none';
 			}
 		});
 	});
 
-	//點擊後關閉燈箱
-	lightboxClose.addEventListener('click', () => {
-		lightbox.style.display = 'none';
-	});
 });
 
-//插入圖片的效果
-$(document).ready(function () {
-	ImgUpload();
-});
+// // //插入圖片的效果
+// $(document).ready(function () {
+// 	ImgUpload();
+// });
 
-function ImgUpload() {
-	var imgWrap = "";
-	var imgArray = [];
+// const itemImageList = [];
 
-	$('.upload_inputfile').each(function () {
-		$(this).on('change', function (e) {
-			imgWrap = $(this).closest('.upload_box').find('.upload_img-wrap');
-			var maxLength = $(this).attr('data-max_length');
+// function ImgUpload() {
+// 	var imgWrap = "";
+// 	var imgArray = [];
 
-			var files = e.target.files;
-			var filesArr = Array.prototype.slice.call(files);
-			var iterator = 0;
-			filesArr.forEach(function (f, index) {
+// 	$('.upload_inputfile').each(function () {
+// 		$(this).on('change', function (e) {
+// 			imgWrap = $(this).closest('.upload_box').find('.upload_img-wrap');
+// 			var maxLength = $(this).attr('data-max_length');
 
-				if (!f.type.match('image.*')) {
-					return;
-				}
+// 			var files = e.target.files;
+// 			var filesArr = Array.prototype.slice.call(files);
+// 			var iterator = 0;
 
-				if (imgArray.length > maxLength) {
-					return false;
-				} else {
-					var len = 0;
-					for (var i = 0; i < imgArray.length; i++) {
-						if (imgArray[i] !== undefined) {
-							len++;
-						}
-					}
-					if (len > maxLength) {
-						return false;
-					} else {
-						imgArray.push(f);
+// 			filesArr.forEach(function (f, index) {
 
-						var reader = new FileReader();
-						reader.onload = function (e) {
-							var html = "<div class='upload_img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload_img-close").length + "' data-file='" + f.name + "' class='img-bg add_img-bg'><div class='upload_img-close'></div></div></div>";
-							imgWrap.append(html);
-							iterator++;
-						}
-						reader.readAsDataURL(f);
-					}
-				}
-			});
-		});
-	});
+// 				if (!f.type.match('image.*')) {
+// 					return;
+// 				}
 
-	$('body').on('click', ".upload_img-close", function (e) {
-		var file = $(this).parent().data("file");
-		for (var i = 0; i < imgArray.length; i++) {
-			if (imgArray[i].name === file) {
-				imgArray.splice(i, 1);
-				break;
-			}
-		}
-		$(this).parent().parent().remove();
-	});
-}
+// 				if (imgArray.length > maxLength) {
+// 					return false;
+// 				} else {
+// 					var len = 0;
+// 					for (var i = 0; i < imgArray.length; i++) {
+// 						if (imgArray[i] !== undefined) {
+// 							len++;
+// 						}
+// 					}
+// 					if (len > maxLength) {
+// 						return false;
+// 					} else {
+// 						imgArray.push(f);
+
+// 						var reader = new FileReader();
+// 						reader.onload = function (e) {
+// 							itemImageList.push(e.target.result); // 把圖片的Base64字串存到陣列
+// 							var html = "<div class='upload_img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload_img-close").length + "' data-file='" + f.name + "' class='img-bg add_img-bg'><div class='upload_img-close'></div></div></div>";
+// 							imgWrap.append(html);
+// 							iterator++;
+// 						}
+// 						reader.readAsDataURL(f);
+// 					}
+// 				}
+// 			});
+// 			console.log(itemImageList);
+// 		});
+// 	});
+
+// 	$('body').on('click', ".upload_img-close", function (e) {
+// 		var file = $(this).parent().data("file");
+// 		for (var i = 0; i < imgArray.length; i++) {
+// 			if (imgArray[i].name === file) {
+// 				imgArray.splice(i, 1);
+// 				itemImageList.splice(i, 1); // 移除圖片Base64陣列的內容
+// 				break;
+// 			}
+// 		}
+// 		$(this).parent().parent().remove();
+// 		console.log(itemImageList);
+// 	});
+// }
+

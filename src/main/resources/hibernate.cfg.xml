@@ -19,6 +19,7 @@
 		<mapping class="feature.emp.vo.EmpVo" />
 		<mapping class="feature.mem.vo.MemVo" />
 		<mapping class="feature.bid.vo.BidItemVo" />
+		<mapping class="feature.bid.vo.BidItemPicVo" />
 		<mapping class="feature.bid.vo.BidEventVo" />
 		<mapping class="feature.bid.vo.BidOrderVo" />
 		<mapping class="feature.item.vo.Item" />

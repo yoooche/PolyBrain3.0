@@ -12,17 +12,12 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/carousel/">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
     <!-- Bootstrap core CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet">
 
@@ -356,6 +351,15 @@
                 font-size: 3.5rem;
             }
         }
+        .carousel-fade .carousel-item {
+            opacity: 0;
+            transition-duration: .6s;
+            transition-property: opacity;
+        }
+
+        .carousel-fade .carousel-item.active {
+            opacity: 1;
+        }
     </style>
 
 
@@ -422,8 +426,57 @@
     </header>
 
     <main>
+        <div id="myCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" style="margin-bottom:0;">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+        
+                <div class="container">
+                  <div class="carousel-caption text-start">
+                    <h1>Example headline.</h1>
+                    <p>Some representative placeholder content for the first slide of the carousel.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+        
+                <div class="container">
+                  <div class="carousel-caption">
+                    <h1>Another example headline.</h1>
+                    <p>Some representative placeholder content for the second slide of the carousel.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+        
+                <div class="container">
+                  <div class="carousel-caption text-end">
+                    <h1>One more for good measure.</h1>
+                    <p>Some representative placeholder content for the third slide of this carousel.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
 
-        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" style="margin-bottom:0;">
+        <!-- <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" style="margin-bottom:0;">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"
                     aria-current="true" aria-label="Slide 1"></button>
@@ -432,9 +485,10 @@
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
+                    <img class="bd-placeholder-img" src="./images/封面二.png" alt="Your Image" width="100%" height="100%">
                     <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
                         aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <rect width="100%" height="100%" fill="#777" />
+                        <rect width="100%" height="auto" fill="#777"/>
                     </svg>
 
                     <div class="container">
@@ -483,7 +537,7 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
-        </div>
+        </div> -->
         <section class="game-section" style="background-color: #343434; margin-bottom: 150px;">
             <h2 class="line-title" style=" color: #fff;">Bidding Item List</h2>
             <div class="owl-carousel custom-carousel owl-theme">
@@ -637,13 +691,13 @@
             // owl();
 
         });
-
         $(".custom-carousel").owlCarousel({
             autoWidth: true,
             loop: true,
-            nav: true,
+            // nav: true,
             dots: true
         });
+
 
         function getBidItemList() {
             fetch('/PolyBrain/general/bidHomePageList', {
@@ -655,6 +709,23 @@
             })
                 .then(resp => resp.json())
                 .then(data => {
+
+                    // for(let i = 0; i < data.length; i++){
+                    //     let div = document.createElement('div');
+                    //     let divItem = div.classList('item');
+                        
+                        
+                    //     let str = `
+                    //         <h3>${data[i].bidItemVo.bidItemName}</h3>
+                    //         <p>${data[i].bidItemVo.bidItemDescribe}</p>
+                    //         <span>底價 $ ${data[i].floorPrice} | 直購價 $ ${data[i].directivePrice}</span><br>
+                    //         <p><a href="http://localhost:8080/PolyBrain/view/bid/BidOnItemPage2.jsp?bidEventId=${data[i].bidEventNo}" style=" color: rgb(144, 144, 234); font-weight: bold; text-decoration: underline;">More Detail >></a></p>
+                    //         <span id="timer"></span>
+                    //     `;
+
+                    //     let d = divItem.append(str);
+                    //     document.getElementsByClassName('owl-carousel')[i].innerHTML += d;
+                    // }
 
                     for (let i = 0; i < data.length; i++) {
                         if (Array.isArray(data[i].bidItemPic) && data[i].bidItemPic.length > 0) {
@@ -683,11 +754,14 @@
                             console.log("Not defined yet");
                         }
                     }
+                    
                     $('.item').eq(0).addClass('active');
                     $('.owl-dots').removeClass('disabled');
                     $('.owl-dot').eq(0).addClass('active');
                     // $('.owl-nav').removeClass('disabled');
                     $('.owl-item').removeClass('active');
+
+                    
                 })
         }
 
@@ -704,12 +778,13 @@
             $(".custom-carousel .item").not($(ele)).removeClass("active");
             $(ele).toggleClass("active");
         }
-        function owlDots(ele){
-            console.log("ppp");
-            $(ele).toggleClass("active");
-            $('.owl-item').eq(3).addClass('active');
+        // function owlDots(ele){
+        //     console.log("ppp");
+        //     $(ele).toggleClass("active");
+        //     $('.owl-item').eq(3).addClass('active');
 
-        }
+        // }
+        
 
         async function validateMemStatus() {
             const response = await fetch('/PolyBrain/general/validateMemStatus', {

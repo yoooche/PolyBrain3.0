@@ -29,7 +29,7 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                    <h1>您已成功登出。</h1>
-                                       <p>如果您想要重新登入，請點擊<a href="login.jsp">這裡</a>。</p>
+                                       <p>如果您想要重新登入，請點擊<a href="login.html">這裡</a>。</p>
                                 </div>
                             </div>
                         </div>

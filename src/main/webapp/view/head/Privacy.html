@@ -27,16 +27,13 @@
     margin: 0 auto; /* 這會使文章內容在頁面中居中 */
     margin-top: 40px;  /* 依您的需求調整這個值 */
 }
-        .backto {
-    position: fixed; /* 可以使按鈕在滾動時保持固定位置 */
-    bottom: 10%; /* 可以根據需要調整到頁面的具體位置 */
-    left: 50%; /* 將按鈕移到視窗的一半 */
-    transform: translateX(-50%); /* 水平置中 */
+.backto {
 
-    position: fixed;  /* 固定位置 */
-    bottom: 0px;     /* footer的高度 */
-    right: 10px;      /* 可以根據需要調整，例如讓它貼近右邊 */
-
+    position: absolute;  /* 使用絕對定位 */
+    bottom: -95%;  /* 假設按鈕高度為40px，我們放置在文章底部的下方10px處 */
+    left: 50%;  /* 設定按鈕的左邊距離為容器的50% */
+    transform: translateX(-50%);  /* 使用 transform 讓按鈕水平居中 */
+    z-index: 1000;  /* 確保按鈕在其他內容上方 */
 }
 
 #gotop img {
@@ -51,7 +48,8 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container px-5">
-            <a class="navbar-brand" href="index.html">PolyBrain</a>
+            <a class="navbar-brand" href="index.html">
+                <img src="../logo/PolyBrain_Logo.png" style="width: 110px; height: auto; margin-bottom: 5px;"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation"><span
@@ -87,31 +85,25 @@
                     <li class="nav-item">
                         <a class="nav-link" id="discuss" href="#" role="button">討論區</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="memberdistrict" href="#" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">會員中心</a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                            <li><a class="dropdown-item" href="blog-home.html">個人資料</a></li>
-                            <li><a class="dropdown-item" href="blog-post.html">設定</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" id="memberdistrict" href="#" role="button">會員中心</a>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="faq.html">常見問題</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact.html">登入</a></li>
-
                     <li>
-                        <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
-                        </button>
-                    </li>
-                    <li class="search-right">
-
-                        <div class="search">
-                            <input class="search-bar" type="text" name="search" id="search" placeholder="Search">
-                            <button class="search-btn">
-                                <i class="fas fa-search"></i>
+                        <form class="d-flex">
+                            <button class="btn btn-outline-dark" type="submit">
+                                <i class="bi-cart-fill me-1"></i>
+                                購物車
+                                <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                             </button>
-                        </div>
+                        </form>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                        <ul id="dropdown-menu" class="dropdown-menu dropdown-menu-end"
+                            aria-labelledby="navbarDropdown">
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -152,7 +144,11 @@
                 <h3 class="CommonH3">肆、cookie之運用 </h3>一、基於網站內部管理之需要及提供最佳個人化服務，本店網站將在您的瀏覽器中寫入cookies並讀取記錄瀏覽者的 IP 位址、上網時間，以及在各項資訊查閱之次數，進行網站流量和網路行為調查之總量分析，本店不會利用此伺服器紀錄對「個別」瀏覽者進行分析。<br /> <br />
                 二、若您不願接受 cookie 的寫入，您可將使用中之瀏覽器設定為拒絕 cookie 的寫入，但也因此會使網站某些功能無法正常執行。 <br /><br /><br />
                 <h3 class="CommonH3">伍、伺服器紀錄</h3> 當您透過瀏覽器、應用程式或其他用戶端使用本店網站時，我們的伺服器會自動記錄特定的技術性資訊。這些伺服器紀錄可能包含您的網頁要求、網際網路通訊協定位址、瀏覽器類型、瀏覽器語言、送出要求的日期和時間等資訊。此伺服器紀錄僅作為伺服器管理的參考，本店不會利用此伺服器紀錄對「個別」瀏覽者進行分析。 <br /><br /><br />
-
+                <div class="backto">
+                    <div class="toptool">
+                        <div id="gotop" onclick="scrollToTop()"><img src="images/top.png"></div>
+                    </div>
+                </div>
             </article>
             <!-- text_content end -->
 
@@ -161,11 +157,7 @@
             <!--main conetnt end-->
 
 
-            <div class="backto">
-                <div class="toptool">
-                    <div id="gotop" onclick="scrollToTop()"><img src="images/top.png"></div>
-                </div>
-            </div>
+
         </div>
     </div>
 </div>
@@ -181,12 +173,9 @@
                 <div class="small m-0 text-white">Copyright © 2023 PolyBrain. All rights reserved. </div>
             </div>
             <div class="col-auto">
-
-
-
-                <a class="link-light small" href="http://localhost:63342/PolyBrain3.0/src/main/webapp/view/head/Privacy.html">隱私權協定</a>
+                <a class="link-light small" href="http://localhost:8080/PolyBrain/view/head/Privacy.html">隱私權協定</a>
                 <span class="text-white mx-1">&middot;</span>
-                <a class="link-light small" href="http://localhost:63342/PolyBrain3.0/src/main/webapp/view/head/forus.html">關於我們</a>
+                <a class="link-light small" href="http://localhost:8080/PolyBrain/view/head/Forus.html">關於我們</a>
                 <span class="text-white mx-1">&middot;</span>
                 <a href="mailto:ps66391@gmail.com?subject=聯絡我們的請求&body=請在此寫下您的問題。"
                    title="寄信給我們" onclick="return confirm('您確定要前往email寄信?');">
@@ -204,6 +193,7 @@
 <a>
 
 </a>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> /*會員下拉式功能的JS*/
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.min.js"
         integrity="sha512-fHY2UiQlipUq0dEabSM4s+phmn+bcxSYzXP4vAXItBvBHU7zAM/mkhCZjtBEIJexhOMzZbgFlPLuErlJF2b+0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -211,9 +201,50 @@
 <!-- Core theme JS-->
 <script src="js/scripts.js"></script>
 <script>
-function scrollToTop() {
-window.scrollTo({top: 0, behavior: 'smooth'}); // 使用平滑的滾動效果
+     function scrollToTop() {
+     window.scrollTo({top: 0, behavior: 'smooth'}); // 使用平滑的滾動效果
+     }
+</script>
+<script>
+    $(document).ready(function(){
+        validateMemStatus();
+    });
+async function validateMemStatus() {
+const response = await fetch('/PolyBrain/general/validateMemStatus', {
+method: 'POST',
+headers: { 'content-type': 'application/json; charset:utf-8' },
+})
+.then(resp => resp.json())
+.then(data => {
+console.log(data);
+const { memNo, memName, loginStatus } = data;
+$('ul#dropdown-menu').append(`
+<li><a class="dropdown-item" href="#!">會員專區</a></li>
+<li><a class="dropdown-item" href="#!">購物車</a></li>
+<li><hr class="dropdown-divider" /></li>
+`);
+if (loginStatus) {
+$('span#memName').text(memName);
+$('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/logout.html">登出</a></li>');
+let memDetail = [memNo, memName];
+return memDetail;
+} else {
+$('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/login.html">登入</a></li>');
 }
+});
+return response;
+}
+
+      let bidEventList = document.querySelectorAll('.bidEventList');
+    bidEventList.forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            const biddingEvent = link.getAttribute('data-event-id');
+            const bidEventURL = 'http://localhost:8080/PolyBrain/view/bid/BidOnItemPage2.jsp';
+            const url = `${bidEventURL}?bidEventId=${biddingEvent}`;
+            window.location.href = url;
+        });
+    });
 </script>
 </body>
 

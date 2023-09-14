@@ -2,6 +2,7 @@ package feature.bid.service;
 
 import core.coreService.CoreService;
 import feature.bid.dto.BidItemListDto;
+import feature.bid.dto.BidItemDto;
 import feature.bid.vo.BidEventVo;
 import feature.bid.vo.BidItemPicVo;
 import feature.bid.vo.BidItemVo;
@@ -14,12 +15,15 @@ public interface BiddingService extends CoreService {
 
     // ========== about bidding item ==========
     List<BidItemVo> viewAll();
-    public void addAnItem(BidItemVo bidItemVo);
+    public BidItemVo addAnItem(BidItemVo bidItemVo);
     public BidItemVo getOneItem(Integer bidItemNo);
-    public void removeOneItem(Integer bidItemNo);
+    public boolean removeOneItem(Integer bidItemNo);
     List<String> viewAllName();
     public void addPics(BidItemPicVo bidItemPicVo);
     List<BidItemListDto> getHomePageList();
+    List<BidItemDto> getTableData();
+    List<String> selectAllPicsB64();
+    BidItemVo edit(BidItemVo bidItemVo);
 
     // ========== about bidding event ==========
     List<BidEventVo> viewAllEvent();

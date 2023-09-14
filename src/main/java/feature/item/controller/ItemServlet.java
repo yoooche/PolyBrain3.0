@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 @WebServlet("/selectServlet")
 public class ItemServlet extends HttpServlet {
@@ -43,7 +46,14 @@ public class ItemServlet extends HttpServlet {
             case "selectpage":  //若請求是搜尋頁面
                 System.out.println("開始頁面配置");
                 Integer page = Integer.valueOf(request.getParameter("page"));
-                commonUtil.writePojo2Json(response, service.getItempage(page));
+                String set = request.getParameter("set");//丟入前端串接的HQL指令
+                try {
+                    String decodedString = URLDecoder.decode(set, StandardCharsets.UTF_8.toString());
+                    System.out.println(decodedString);  //解碼兩次編碼的字串符
+                commonUtil.writePojo2Json(response, service.getItempage(page,decodedString));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "selectID":    //若請求是搜尋單個商品
                 System.out.println("開始搜尋單項商品");
@@ -54,8 +64,8 @@ public class ItemServlet extends HttpServlet {
                 String name = request.getParameter("name");
                 commonUtil.writePojo2Json(response, service.getAllItems());
                 break;
-            case "selectClass":  //若請求是搜尋以商品搜尋
-                System.out.println("開始隨機抓取商品數量");
+            case "selectClass":  //若請求是以商品類別搜尋
+                System.out.println("開始抓取該商品類別所有商品");
                 Integer classNO = Integer.valueOf(request.getParameter("ItemClass"));
                 commonUtil.writePojo2Json(response, service.FindByItemClass(classNO));
                 break;

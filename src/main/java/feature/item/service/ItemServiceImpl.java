@@ -44,9 +44,9 @@ public class ItemServiceImpl implements ItemService{
     }
 
     //照分頁搜尋商品
-    public Map<String, Object> getItempage(Integer page){
+    public Map<String, Object> getItempage(Integer page,String set){
         System.out.println("依照分頁列出遊戲");
-        return Dao.selectpage(page);
+        return Dao.selectpage(page,set);
     }
 
     //搜尋全部遊戲

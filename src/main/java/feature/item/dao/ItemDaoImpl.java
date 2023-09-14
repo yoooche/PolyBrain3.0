@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,10 +66,12 @@ public class ItemDaoImpl implements ItemDao{
     }
 
     //依照分頁去搜尋
-    public Map<String, Object> selectpage(Integer page) {
+    public Map<String, Object> selectpage(Integer page,String set) {
         int number = (page - 1) * 4;    //每頁顯示第幾到第幾個項目 以8個為一頁
-        final String hql = "FROM Item WHERE itemState IN (1, 2) ORDER BY itemNo ASC";
-        final String countHql = "SELECT COUNT(*) FROM Item ";
+        final String hql = ("FROM Item WHERE itemState IN (1, 2)"+ set);
+        System.out.println("hql="+hql);
+        final String countHql = ("SELECT COUNT(*) FROM Item WHERE itemState IN (1, 2)"+ set );
+        System.out.println("countHql="+countHql);
         Query<Item> query = getSession()
                 .createQuery(hql, Item.class)
                 .setFirstResult(number) // 略過筆數
@@ -97,6 +100,22 @@ public class ItemDaoImpl implements ItemDao{
                 .getResultList();
     }
 
+    public static void main(String[] args) {
+//        List<Item> list = new ItemDaoImpl().selectAll();
+//        String s1 = .toString();
+//        System.out.println(list.get(0).getItemImg().get(0).getItemImg());
+
+
+        List<Item> listAAA = new ArrayList<Item>();
+        listAAA.add(new ItemDaoImpl().SelectByItemId(195));
+        listAAA.add(new ItemDaoImpl().SelectByItemId(196));
+
+        for(Item item: listAAA){
+            System.out.println(item.getItemNo());
+            System.out.println(item.getGameTime());
+        }
+
+    }
 
 //    public Item SelectByItemClass(@NotNull Item itemclassno) {
 //        final String hql = "FROM Item WHERE itemClassNo = :icn";

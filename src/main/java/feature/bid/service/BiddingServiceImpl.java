@@ -1,6 +1,7 @@
 package feature.bid.service;
 
 import feature.bid.dao.*;
+import feature.bid.dto.BidItemDto;
 import feature.bid.dto.BidItemListDto;
 import feature.bid.vo.BidEventVo;
 import feature.bid.vo.BidItemPicVo;
@@ -35,11 +36,20 @@ public class BiddingServiceImpl implements BiddingService{
     }
     @Override
     public List<BidItemVo> viewAll() {
+        System.out.println("viewAll service");
         return bidItemDao.selectAll();
     }
     @Override
-    public void addAnItem(BidItemVo bidItemVo) {
-        bidItemDao.insert(bidItemVo);
+    public BidItemVo addAnItem(BidItemVo bidItemVo) {
+        final int resultCount = bidItemDao.insert(bidItemVo);;
+        if(resultCount < 1){
+            bidItemVo.setMessage("新增失敗，請聯絡管理員!");
+            bidItemVo.setSuccess(false);
+        }else {
+            bidItemVo.setMessage("新增成功");
+            bidItemVo.setSuccess(true);
+        }
+        return bidItemVo;
     }
 
     @Override
@@ -48,8 +58,9 @@ public class BiddingServiceImpl implements BiddingService{
     }
 
     @Override
-    public void removeOneItem(Integer bidItemNo) {
-        bidItemDao.deleteById(bidItemNo);
+    public boolean removeOneItem(Integer bidItemNo) {
+        System.out.println("刪除成功 (商品)");
+        return bidItemDao.deleteById(bidItemNo) > 0;
     }
 
     @Override
@@ -105,6 +116,51 @@ public class BiddingServiceImpl implements BiddingService{
         }
 
         return bidItemListDtoList;
+    }
+
+    @Override
+    public List<BidItemDto> getTableData() {
+        List<BidItemDto> itemDto = new ArrayList<>();
+        List<BidItemVo> bidItemVoList = bidItemDao.selectAll();
+        List<BidItemPicVo> bidItemPicVoList = bidItemPicDao.selectAllPics();
+        for(BidItemVo bidItemVo : bidItemVoList) {
+            BidItemDto dto = new BidItemDto();
+            dto.setBidItemVo(bidItemVo);
+            for (BidItemPicVo bidItemPicVo : bidItemPicVoList) {
+                if (bidItemVo.getBidItemNo().intValue() == bidItemPicVo.getBidItemNo().intValue()) {
+                    List<byte[]> str = bidItemPicDao.selectPicsById(bidItemVo.getBidItemNo());
+                    List<String> base64 = new ArrayList<>();
+
+                    for (byte[] str1 : str) {
+                        String base64Img = Base64.getEncoder().encodeToString(str1);
+                        base64.add(base64Img);
+                    }
+                    dto.setBidItemPic(base64);
+                    break;
+                }
+            }
+            itemDto.add(dto);
+        }
+        return itemDto;
+    }
+    @Override
+    public List<String> selectAllPicsB64() {
+       List<BidItemPicVo> bidItemPics =  bidItemPicDao.selectAllPics();
+        List<String> imgB64 = new ArrayList<>();
+        bidItemPics.forEach(bidItemPicVo -> {
+          byte[] imgs =  bidItemPicVo.getBidItemPic();
+          String img64 = Base64.getEncoder().encodeToString(imgs);
+          imgB64.add(img64);
+       });
+       return imgB64;
+    }
+
+    @Override
+    public BidItemVo edit(BidItemVo bidItemVo) {
+        final int resultCount = bidItemDao.update(bidItemVo);
+        bidItemVo.setSuccess(resultCount > 0);
+        bidItemVo.setMessage(resultCount > 0 ? "修改成功" : "修改失敗");
+        return bidItemVo;
     }
 
     @Override
