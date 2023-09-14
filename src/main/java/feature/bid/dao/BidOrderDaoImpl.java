@@ -15,4 +15,8 @@ public class BidOrderDaoImpl implements BidOrderDao{
     public BidOrderVo selectById(Integer bidOrderNo){
         return session.get(BidOrderVo.class, bidOrderNo);
     }
+
+    public static void main(String[] args) {
+        System.out.println("很棒吧: " + new BidOrderDaoImpl().selectById(7001));
+    }
 }

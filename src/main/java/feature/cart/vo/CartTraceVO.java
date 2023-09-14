@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name="item_trace")
+@Table(name="cart")
 @IdClass(CartTraceId.class)
 
 public class CartTraceVO {
