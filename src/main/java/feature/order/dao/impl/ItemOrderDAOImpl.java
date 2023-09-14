@@ -1,6 +1,7 @@
 package feature.order.dao.impl;
 
 import feature.bid.vo.BidOrderDetailVo;
+import feature.bid.vo.BidOrderVo;
 import feature.item.vo.ItemClass;
 import feature.order.vo.ItemOrderDetailVO;
 import org.hibernate.Session;
@@ -85,9 +86,14 @@ public class ItemOrderDAOImpl implements ItemOrderDAO {
         final String hql = "FROM BidOrderDetailVo WHERE BID_ORDER_NO =" + bidOrderNo;
         return getSession().createQuery(hql, BidOrderDetailVo.class).uniqueResult();
     }
+
     public Integer insertBidOrderDetail(BidOrderDetailVo bidOrderDetailVo) {
         getSession().persist(bidOrderDetailVo);
         return 1 ;
+    }
+    public BidOrderVo selectBidOrder(Integer memNo) {
+        final String hql = "FROM BidOrderDetailVo WHERE MEM_NO =" + memNo ;
+        return getSession().createQuery(hql, BidOrderVo.class).uniqueResult();
     }
 
 

@@ -306,7 +306,7 @@
 
         function submitUpdateForm() {
             return new Promise((resolve, reject) => {
-                fetch('http://localhost:8080/PolyBrain/view/CartTrace/CartServlet', {
+                fetch('/PolyBrain/loginRequired/CartServlet', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/x-www-form-urlencoded'
@@ -336,7 +336,7 @@
 
             submitUpdateForm()
                 .then(() => {
-                    fetch('http://localhost:8080/PolyBrain/view/CartTrace/ConfirmOrder', {
+                    fetch('/PolyBrain/loginRequired/ConfirmOrder', {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/x-www-form-urlencoded' //
@@ -349,7 +349,6 @@
                     })
                         .then(() => {
                             window.location.href = "http://localhost:8080/PolyBrain/view/CartTrace/CartTrace.jsp";
-
                         })
 
                 })

@@ -28,7 +28,7 @@ import java.util.Map;
 
 import static core.util.CommonUtil.writePojo2Json;
 
-@WebServlet("/view/CartTrace/CartServlet")
+@WebServlet("/loginRequired/CartServlet")
 public class CartServlet extends HttpServlet {
     CartTraceService cartTraceService = new CartTraceService();
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -43,19 +43,11 @@ public class CartServlet extends HttpServlet {
         List<CartItemImgDTO> cartItemImgDTOList =  new ArrayList<CartItemImgDTO>();
         String action = req.getParameter("action");
         System.out.println(action);
+        Integer memNo = (Integer)session.getAttribute("memNo");
 
 
         if ("getAll".equals(action)) {
-            MemVo memVo = (MemVo) session.getAttribute("memVo"); //要有人set
-
-//            if(memVo==null){
-//                String loginURL ="??????";
-//				RequestDispatcher failLogin = req.getRequestDispatcher(loginURL);
-//                failLogin.forward(req, res);
-//            }
-            Integer memNo = 1002; //memVo.getMemNo();
-
-
+            System.out.println("算甚麼男人:" + memNo);
 
             cartItemImgDTOList = cartTraceService.getAllCartItem(memNo); //用會員編號查商品編號 會員編號 數量的資訊
             session.setAttribute("cartItemImgDTOList", cartItemImgDTOList);
@@ -74,7 +66,6 @@ public class CartServlet extends HttpServlet {
             System.out.println("購物車商品數量:" + quantity);
             Integer deleteARow = Integer.valueOf(req.getParameter("deleteARow"));
             System.out.println("刪除列"+deleteARow);
-            Integer memNo = 1002;
 
             if (quantity == 0 || deleteARow == 0 ) {
                 quantity = 0 ;

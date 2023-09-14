@@ -3,6 +3,7 @@ package feature.order.controller;
 import core.util.CommonUtil;
 import feature.bid.vo.BidOrderDetailVo;
 import feature.item.dto.AddItemDTO;
+import feature.order.service.OrderService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/findMemBidOrder")
+@WebServlet("/loginRequired/findMemBidOrder")
 public class MemberBidOrder extends HttpServlet {
     private static final long serialVersionUID = 1L;
     CommonUtil commonUtil = new CommonUtil();
@@ -26,9 +27,20 @@ public class MemberBidOrder extends HttpServlet {
         String district = req.getParameter("district");
         String receiverAddress = req.getParameter("receiverAddress");
         String receiverPhone = req.getParameter("receiverPhone");
+        String receiverName = req.getParameter("receiverName");
+        Integer orderNo = Integer.valueOf(req.getParameter("orderNo"));
         Integer receiverMethod = Integer.valueOf(req.getParameter("receiverMethod"));
 
-        System.out.println(county+district+receiverAddress+receiverPhone+receiverMethod);
+        receiverAddress = county + district + receiverAddress;
+
+        BidOrderDetailVo bidOrderDetailVo = new BidOrderDetailVo();
+        bidOrderDetailVo.setBidOrderNo(orderNo);
+        bidOrderDetailVo.setReceiverName(receiverName);
+        bidOrderDetailVo.setReceiverMethod(receiverMethod);
+        bidOrderDetailVo.setReceiverAddress(receiverAddress);
+        bidOrderDetailVo.setReceiverPhone(receiverPhone);
+
+        new OrderService().addBidOrderDetail(bidOrderDetailVo);
 
 
     }
