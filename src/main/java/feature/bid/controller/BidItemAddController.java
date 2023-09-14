@@ -64,6 +64,7 @@ public class BidItemAddController extends HttpServlet {
             if(!bidItemPic.isEmpty()){
                 System.out.println("有圖片需要修改");
                 Integer bidItemNo = bidItem.getBidItemNo();
+                bidItemPicService.editBidItemPics(bidItemPic, bidItemNo);
             }
         }
     }

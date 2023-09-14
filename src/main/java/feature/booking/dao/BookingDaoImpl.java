@@ -19,6 +19,7 @@ public class BookingDaoImpl implements BookingDao {
         Session session = getSession();
         try{
             session.persist(bookingvo);
+            System.out.println(bookingvo);
             return bookingvo;
         }catch (Exception e){
             e.printStackTrace();
@@ -63,9 +64,9 @@ public class BookingDaoImpl implements BookingDao {
     }
     //查詢含(查全部、條件)
     @Override
-    public List<BookingVo> selectByDate(int state, Date startDate, Date endDate, Integer bookingNo){
+    public List<BookingVo> selectByDate(int state, Date startDate, Date endDate, Integer bookingNo,Integer memNo){
         List<Integer> statesToQuery = new ArrayList<>();
-
+        String hql = "SELECT b FROM BookingVo b WHERE b.memno = :memNo";
         // 如果状态是2，将其转换为状态1和状态0
         if (state == 2) {
             statesToQuery.add(1);
@@ -73,11 +74,11 @@ public class BookingDaoImpl implements BookingDao {
         } else {
             statesToQuery.add(state);
         }
-        String hql = "FROM BookingVo WHERE 1 = 1";
         if(!statesToQuery.isEmpty()) {
             hql += " AND bookingstate IN :state";
         }
         if (startDate != null && endDate != null) {
+
             hql += " AND tabledate BETWEEN :startDate AND :endDate";
         }
         if(bookingNo != null){
@@ -87,6 +88,7 @@ public class BookingDaoImpl implements BookingDao {
         Query query = session.createQuery(hql, BookingVo.class);
         if (!statesToQuery.isEmpty()){
             query.setParameter("state",statesToQuery);
+            query.setParameter("memNo", memNo);
         }
         if(state == 2){
             query.setParameter("state",1);

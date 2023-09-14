@@ -14,7 +14,7 @@ import static core.util.CommonUtil.writePojo2Json;
 import static feature.booking.util.BookConstants.SERVICETable;
 
 
-@WebServlet("/booking/state")
+@WebServlet("/loginRequired/booking/state")
 public class BookStateServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
