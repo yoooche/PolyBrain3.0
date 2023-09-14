@@ -13,63 +13,76 @@
         <meta name="author" content="" />
         <title>Shop Item - Start Bootstrap Template</title>
         <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/carousel/">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <link rel="stylesheet" href="./css/bootstrap.min.css">
         <link href="./css/styles-item-detail.css" rel="stylesheet" />
         <link rel="stylesheet" href="./css/bidding.css">
         <link rel="stylesheet" href="./css/slider.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     </head>
     <body onload="connect();" onunload="disconnect();">
         <!-- Navigation-->
         <header>
-            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#"><img src="../logo/PolyBrain_Logo.png" style="width: 110px; height: auto; margin-bottom: 5px;"></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link" id="buybid" href="#" role="button"
-                                     aria-expanded="false">首頁</a>
-                            </li>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container px-5">
+                    <a class="navbar-brand" href="../head/Facepage.jsp">
+                        <img src="../logo/PolyBrain_Logo.png" style="width: 110px; height: auto; margin-bottom: 5px;"></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation"><span
+                            class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-list"> 添加 nav-list 類別 -->
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" id="buyitem" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">商城</a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                                    <li><a class="dropdown-item" href="blog-home.html">商品資訊</a></li>
-                                    <li><a class="dropdown-item" href="blog-post.html">商城訂單查詢</a></li>
+                                    <li><a class="dropdown-item" href="../item/search.html">商品資訊</a></li>
+                                    <li><a class="dropdown-item" href="../order/memberOrder.html">商城訂單查詢</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link" id="buybid" href="#" role="button"
-                                     aria-expanded="false">競標</a>
+                                <a class="nav-link dropdown-toggle" id="buybid" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">競標</a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                    <li><a class="dropdown-item" href="../bid/BidOnHomePage.html">熱門競標</a></li>
+                                    <li><a class="dropdown-item" href="../order/bidOrderFront.html">競標訂單查詢</a></li>
+                                </ul>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" id="mybooking" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">預約場地</a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                                    <li><a class="dropdown-item" href="blog-home.html">現在預約</a></li>
-                                    <li><a class="dropdown-item" href="blog-post.html">預約場地查詢</a></li>
+                                    <li><a class="dropdown-item" href="../book/Calendar.html">現在預約</a></li>
+                                    <li><a class="dropdown-item" href="../book/BookingCheck.html">預約場地查詢</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="discuss" href="#" role="button">討論區</a>
+                                <a class="nav-link" id="discuss" href="../forum/mainpage/index.jsp" role="button">討論區</a>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="faq.html">常見問題</a></li>
-                        </ul>
-                        <form class="d-flex">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i></button>
-                        </form>
-                        <span id="memName" style="margin-left:12px;"></span>
-                        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                            <li class="nav-item">
+                                <a class="nav-link" id="memberdistrict" href="../member/Member_Information.jsp"
+                                    role="button">會員中心</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="../head/question.html">常見問題</a></li>
+                            <li>
+                                <a href="../CartTrace/Cart.jsp" id="submitLink"
+                                    class="btn btn-outline-dark" style="color: #ffffff">
+                                    <i class="bi-cart-fill me-1" style="color: #ffffff"></i>
+                                    購物車
+                                </a>
+                            </li>
+                            <span id="memName" style="margin-left:12px;"></span>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="true"><i class="fas fa-user fa-fw"></i></a>
-                                <ul id="dropdown-menu" class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                                <ul id="dropdown-menu" class="dropdown-menu dropdown-menu-end"
+                                    aria-labelledby="navbarDropdown">
                                 </ul>
                             </li>
                         </ul>
@@ -170,6 +183,7 @@
                     <button type="submit" id="bidding" class="btn_bidding btn btn-primary" style="float: right; width:160px; border: none;" onclick="bidding();">出價＄--</button>
                 </div>
         </footer>
+        
         <script>
             $(document).ready(function(){
                 validateMemStatus();
@@ -205,9 +219,9 @@
 }
         </script>
         <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
-        <script src="./js/bidding.js"/>
+        <script src="./js/bidding.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="js/scripts.js"/>
+        <script src="./js/scripts.js"></script>
 
     </body>
 </html>
