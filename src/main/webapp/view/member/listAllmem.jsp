@@ -6,6 +6,9 @@
 <%@page import="feature.mem.dao.*"%>
 <%@page import="feature.mem.vo.*"%>
 
+<link href="<%= request.getContextPath() %>/view/member/css/item.css" rel="stylesheet" />    <!--側邊欄的css-->
+<script src="https://kit.fontawesome.com/cb31023646.js" crossorigin="anonymous"></script>
+
 <%
     listallmemService memSvc = new listallmemService();
     List<MemVo> list = memSvc.getAll();
@@ -55,69 +58,142 @@
     		});
     	});
     </script>
-
-    <style type="text/css">
-    body {
-    	margin: 1rem 12rem 2rem 12rem;
-    }
-    </style>
-
     </head>
-    <body>
+<body id="page-top">
+<!---------------------------------------------以下為頂板--------------------------------------------------------->
+<main class="flex-shrink-0">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: black;">
+        <div class="container px-5">
+            <img src="${pageContext.request.contextPath}/view/logo/PolyBrain_Logo.png" style="width: 110px; height: auto; margin-bottom: 5px;"></a>
+        </div>
+    </nav>
+</main>
+<!---------------------------------------------以上為頂板--------------------------------------------------------->
 
-        <nav >
-    		 <div align="center"> <h2>會員資料管理</h2>   <a href="/PolyBrain/view/member/addmem.jsp">新增</a>
-        </nav>
-        <h4><span>資料查詢:</span></h4>
-        <div></div><br>
 
-        <div class="a">
 
-      <table id="example" class="display" style="width: 100%">
-        <thead >
-      	<tr style="background-color:#CCCCFF">
-      		<th>會員編號</th>
-      		<th>姓名</th>
-      		<th>身分證</th>
-      		<th>信箱</th>
-      		<th>手機</th>
-      		<th>地址</th>
-      		<th>生日</th>
-      		<th>權限</th>
-      		<th>修改</th>
-            <th>刪除</th>
-      	</tr>
+    <div id="layoutSidenav">  <!--勿刪到-->
+<!---------------------------------------------以下為側邊攔--------------------------------------------------------->
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
 
-        </thead>
-       <tbody>
+                                <!-------------會員中心-------------->
+                        <div class="sb-sidenav-menu-heading">會員</div>
 
-       <c:forEach var="mm" items="${memList}" >
-      		<tr>
-      			<td>${mm.memNo}</td>
-      			<td>${mm.memName}</td>
-      			<td>${mm.memPid}</td>
-      			<td>${mm.memEmail}</td>
-      			<td>${mm.memPh}</td>
-      			<td>${mm.memAddress}</td>
-      			<td>${mm.memBirth}</td>
-      			<td>${mm.memAuth}</td>
-      			<td>
-                    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/listAllmemServlet/do" style="margin-bottom: 0px;">
-                	<input type="submit" value="修改">
-                	<input type="hidden" name="memNo" value="${mm.memNo}">
-                	<input type="hidden" name="action"	value="getOne_For_Update"></FORM>
-                </td>
-                <td>
-                    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/listAllmemServlet/do" style="margin-bottom: 0px;">
-                	<input type="submit" value="刪除">
-                	<input type="hidden" name="memNo" value="${mm.memNo}">
-                	<input type="hidden" name="action" value="delete"></FORM>
-                </td>
-            </tr>
-        </c:forEach>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/member/listAllmem.jsp"><div class="sb-nav-link-icon"></div>
+                            所有會員管理
+                        </a>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/forum/Listallarti.jsp"><div class="sb-nav-link-icon"></div>
+                            討論區文章管理
+                        </a>
+                                <!-------------會員中心-------------->
+                                <!--------------商城---------------->
+                        <div class="sb-sidenav-menu-heading">商城</div>
 
-    </tbody>
-        </table>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/item/itemConsole.html"><div class="sb-nav-link-icon"></div>
+                            商城管理
+                        </a>
 
-    </body>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/item/itemClassConsole.html"><div class="sb-nav-link-icon"></div>
+                            商品類別管理
+                        </a>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/order/listAllOrder.jsp"><div class="sb-nav-link-icon"></div>
+                            訂單管理
+                        </a>
+                                <!-------------商城-------------->
+                                <!-------------預約-------------->
+                        <div class="sb-sidenav-menu-heading">預約</div>
+
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/book/BookTable.html"><div class="sb-nav-link-icon"></div>
+                            報到管理
+                        </a>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/bookingtast/Modifytimeperiod.jsp"><div class="sb-nav-link-icon"></div>
+                            時段管理
+                        </a>
+                                <!-------------預約-------------->
+                                <!-------------競標-------------->
+                        <div class="sb-sidenav-menu-heading">預約</div>
+
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/bid/BidEventList.jsp"><div class="sb-nav-link-icon"></div>
+                            競標活動管理
+                        </a>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/bid/BidItemTable.html"><div class="sb-nav-link-icon"></div>
+                            競標商品管理
+                        </a>
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/order/bidOrderBackend.html"><div class="sb-nav-link-icon"></div>
+                            競標訂單
+                        </a>
+                                <!-------------競標-------------->
+                        <div class="sb-sidenav-menu-heading">員工</div>
+
+                        <a class="nav-link" href="<%= request.getContextPath() %>/view/emp/allEmpList.jsp"><div class="sb-nav-link-icon"></div>
+                            員工管理
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+<!---------------------------------------------以上為側邊攔--------------------------------------------------------->
+
+
+
+         <div id="layoutSidenav_content"> <!--勿刪到-->
+<!-----------------------------以下為內容---------------------------->
+            <main>
+                <nav>
+                    <div align="center"> <h2>會員資料管理</h2>   <a href="/PolyBrain/view/member/addmem.jsp">新增</a>
+                </nav>
+                <h4><span>資料查詢:</span></h4>
+                <table id="example" class="display" style="width: 100%">
+                    <thead >
+                        <tr style="background-color:#CCCCFF">
+                            <th>會員編號</th>
+                          	<th>姓名</th>
+                          	<th>身分證</th>
+                          	<th>信箱</th>
+                          	<th>手機</th>
+                          	<th>地址</th>
+                          	<th>生日</th>
+                          	<th>權限</th>
+                          	<th>修改</th>
+                            <th>刪除</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <c:forEach var="mm" items="${memList}" >
+                            <tr>
+                          	    <td>${mm.memNo}</td>
+                          	    <td>${mm.memName}</td>
+                          		<td>${mm.memPid}</td>
+                          		<td>${mm.memEmail}</td>
+                          		<td>${mm.memPh}</td>
+                          		<td>${mm.memAddress}</td>
+                          		<td>${mm.memBirth}</td>
+                          		<td>${mm.memAuth}</td>
+                          		<td>
+                                    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/general/listAllmemServlet/do" style="margin-bottom: 0px;">
+                                    <input type="submit" value="修改">
+                                    <input type="hidden" name="memNo" value="${mm.memNo}">
+                                    <input type="hidden" name="action"value="getOne_For_Update"></FORM>
+                                </td>
+                                <td>
+                                    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/general/listAllmemServlet/do" style="margin-bottom: 0px;">
+                                    <input type="submit" value="刪除">
+                                    <input type="hidden" name="memNo" value="${mm.memNo}">
+                                    <input type="hidden" name="action" value="delete"></FORM>
+                                </td>
+                                </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+
+            </main>
+<!-----------------------------以上為內容---------------------------->
+        </div>
+    </div>
+</body>
 </html>

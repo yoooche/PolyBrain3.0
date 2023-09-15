@@ -11,7 +11,7 @@ public interface BookingService extends CoreService {
     List<BookingVo> getAllBooking();
 
     List<BookingVo> selectone(Integer bookingState);
-    List<BookingVo> selectdate(int state, Date startDate, Date endDate, Integer bookingNo);
+    List<BookingVo> selectdate(int state, Date startDate, Date endDate, Integer bookingNo, Integer memNo);
 
     BookingVo cancelBooking(Integer bookno, Integer newState);
     BookingVo checkBookState(Integer bookno, Integer newState);

@@ -63,9 +63,19 @@
 
         .card.text-center {   /* 卡片分頁 */
     top: 5px;
-    width: 600px;
-    max-width: 600px;
+    width: 800px;
+    max-width: 800px;
     margin: 0 auto;  /* 將卡片置於頁面中央 */
+}
+        .fw-bolder {
+    text-align: center;
+}
+
+  #memName {
+    line-height: 2.3;  /* 调整为所需的值 */
+    text-shadow: 2px 2px 2px rgba(0,0,0,0.3);
+    color: white;
+    margin-left: 12px;
 }
     </style>
 </head>
@@ -89,7 +99,7 @@
                             <a class="nav-link dropdown-toggle" id="buyitem" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">商城</a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                                <li><a class="dropdown-item" href="blog-home.html">商品資訊</a></li>
+                                <li><a class="dropdown-item" href="../item/search.html">商品資訊</a></li>
                                 <li><a class="dropdown-item" href="blog-post.html">商城訂單查詢</a></li>
                             </ul>
                         </li>
@@ -105,19 +115,17 @@
                             <a class="nav-link dropdown-toggle" id="mybooking" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">預約場地</a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                                <li><a class="dropdown-item" href="blog-home.html">現在預約</a></li>
-                                <li><a class="dropdown-item" href="blog-post.html">預約場地查詢</a></li>
+                                <li><a class="dropdown-item" href="../book/Calendar.html">現在預約</a></li>
+                                <li><a class="dropdown-item" href="../book/BookingCheck.html">預約場地查詢</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="discuss" href="#" role="button">討論區</a>
+                            <a class="nav-link" id="discuss" href="../forum/mainpage/index.jsp" role="button">討論區</a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link" id="memberdistrict" href="#" role="button">會員中心</a>
+                            <a class="nav-link" id="memberdistrict" href="../member/Member_Information.jsp" role="button">會員中心</a>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="faq.html">常見問題</a></li>
-
-
                         <li>
                             <form class="d-flex">
                                 <button class="btn btn-outline-dark" type="submit">
@@ -127,6 +135,7 @@
                                 </button>
                             </form>
                         </li>
+                        <span id="memName" style="margin-left:12px;"></span>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
@@ -134,7 +143,6 @@
                                 aria-labelledby="navbarDropdown">
                             </ul>
                         </li>
-
                     </ul>
                 </div>
             </div>
@@ -142,7 +150,7 @@
         <!-- Header-->
         <header class="bg-dark py-5">
             <h2 class="centered-white-text">店家推薦</h2>
-            <!-- 旋轉木馬 -->
+            <!-- 旋轉木馬區 -->
             <div class="container">
                 <div id="blah" class="carousel slide" data-ride="carousel">
                     <!--indicators-->
@@ -155,19 +163,16 @@
                         <li data-target="#blah" data-slide-to="5"></li>
                         <li data-target="#blah" data-slide-to="6"></li>
                         <li data-target="#blah" data-slide-to="7"></li>
-
-
                     </ul>
 
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-
-                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=101   " >
+                            <a href="../item/itemDetail.html?itemNo=101   " >
                                 <img src="images/1.jpg" alt="crystal handle">
                             </a>
                         </div>
                         <div class="carousel-item">
-                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=102">
+                            <a href="../item/itemDetail.html?itemNo=102">
                                 <img src="images/2.jpg" alt="a group of rods by me" >
                             </a>
                             <div class="carousel-caption"> <!-- Example caption -->
@@ -176,37 +181,35 @@
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=103">
+                            <a href="../item/itemDetail.html?itemNo=103">
                                 <img src="images/3.jpg" alt="black rod" >
                             </a>
                         </div>
                         <div class="carousel-item">
-                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=104">
-                                <img src="images/4.jpg" alt="royal blue rod">
+                            <a href="../item/itemDetail.html?itemNo=104">
+                                <img src="images/17.jpg" alt="royal blue rod">
                             </a>
                         </div>
                         <div class="carousel-item">
-                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=105">
-                                <img src="images/5.jpg" alt="royal blue rod">
+                            <a href="../item/itemDetail.html?itemNo=105">
+                                <img src="images/20-1.jpg" alt="royal blue rod">
                             </a>
                         </div>
                         <div class="carousel-item">
-                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=106">
-                                <img src="images/6.jpg" alt="royal blue rod">
+                            <a href="../item/itemDetail.html?itemNo=106">
+                                <img src="images/23-1.jpg" alt="royal blue rod">
                             </a>
                         </div>
                         <div class="carousel-item">
-                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=107">
-                                <img src="images/7.jpg" alt="royal blue rod">
+                            <a href="../item/itemDetail.html?itemNo=107">
+                                <img src="images/24-1.jpg" alt="royal blue rod">
                             </a>
                         </div>
                         <div class="carousel-item">
-                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=108">
+                            <a href="../item/itemDetail.html?itemNo=108">
                                 <img src="images/8.jpg" alt="royal blue rod">
                             </a>
                         </div>
-
-
                     </div>
                     <!--controls/arrows控制/箭頭-->
                     <a class="carousel-control-prev" href="#blah" data-slide="prev">
@@ -215,75 +218,84 @@
                     <a class="carousel-control-next" href="#blah" data-slide="next">
                         <span class="carousel-control-next-icon"></span>
                     </a>
-
                 </div>
             </div>
 
         </header>
-
-
-        <!-- Blog preview section-->
+        <!-- 討論區快捷區-->
         <section class="py-5">
-            <div class="container px-5 my-5">
-                <div class="row gx-5 justify-content-center">
-                    <div class="col-lg-8 col-xl-6">
-                        <div class="text-center">
-                            <h2 class="fw-bolder">討論區話題</h2>
-
+            <h2 class="fw-bolder">討論區話題</h2>
+                <!-- Call to action-->
+            <nav>
+                <div class="card text-center">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#strategic">策略型討論區</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#party">派對型討論區</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " data-toggle="tab" href="#parent">親子型討論區</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " data-toggle="tab" href="#camp">陣營型討論區</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " data-toggle="tab" href="#other">合作型討論區</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div id="strategic" class="tab-pane fade show active">
+                            <div class="card-body">
+                                <h5 class="card-title">策略型討論區</h5>
+                                <p class="card-text">策略型桌遊是一種棋盤遊戲，玩家需要制定深思熟慮的策略，以達成特定目標或擊敗對手。這些遊戲強調戰術規劃、資源管理和預測對手的行動。玩家必須權衡不同選擇，並運用智慧和計謀來贏得遊戲，這種遊戲常常引發精彩的頭腦對決。</p>
+                                <div class="text-center mt-3">
+                                    <a href="../forum/list/List.jsp?itemNo=1" class="btn btn-primary">查看更多</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="party" class="tab-pane fade">
+                            <div class="card-body">
+                                <h5 class="card-title">派對型討論區</h5>
+                                <p class="card-text">派對型桌遊是設計用於大型社交聚會的遊戲，強調歡笑和互動。這些遊戲通常簡單易懂，不需要太多規則解釋，能夠讓參與者快速參與。它們提供了輕鬆的娛樂，常包括有趣的挑戰、角色扮演或派對主題，是營造歡樂氛圍和促進社交互動的理想選擇。</p>
+                                <div class="text-center mt-3">
+                                    <a href="../forum/list/List.jsp?itemNo=2" class="btn btn-primary">查看更多</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="parent" class="tab-pane fade">
+                            <div class="card-body">
+                                <h5 class="card-title">親子型討論區</h5>
+                                <p class="card-text">親子型桌遊是專為家庭設計的遊戲，旨在促進親子之間的互動和學習。這些遊戲通常具有教育性質，可以培養孩子的認知和社交技能，同時提供親子共度時光的樂趣。它們往往包括簡單的規則和有趣的主題，適合不同年齡層的兒童參與，是家庭娛樂和教育的完美結合。</p>
+                                <div class="text-center mt-3">
+                                    <a href="../forum/list/List.jsp?itemNo=3" class="btn btn-primary">查看更多</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="camp" class="tab-pane fade">
+                            <div class="card-body">
+                                <h5 class="card-title">陣營型討論區</h5>
+                                <p class="card-text">陣營型桌遊是一種遊戲，將玩家們分成不同的陣營或隊伍，並要求他們在遊戲中合作或競爭以實現特定目標。每個陣營通常都有獨特的角色或特殊能力，玩家必須巧妙運用這些特點來達成勝利條件。這種遊戲模式鼓勵策略、團隊合作和互動，使玩家深陷於遊戲的陣營競爭中。</p>
+                                <div class="text-center mt-3">
+                                    <a href="../forum/list/List.jsp?itemNo=4" class="btn btn-primary">查看更多</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="other" class="tab-pane fade">
+                            <div class="card-body">
+                                <h5 class="card-title">合作型討論區</h5>
+                                <p class="card-text">合作型桌遊是一種強調團隊合作的遊戲，玩家們共同努力達到共同目標，而不是互相競爭。這種遊戲鼓勵玩家們溝通、協作和策略規劃，以克服遊戲中的挑戰。合作型桌遊通常有引人入勝的故事情節和多樣的角色，讓玩家們深入投入遊戲世界，是團隊建設和互動的絕佳方式。</p>
+                                <div class="text-center mt-3">
+                                    <a href="../forum/list/List.jsp?itemNo=5" class="btn btn-primary">查看更多</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-
-
-                <!-- Call to action-->
-                <nav>
-
-                    <div class="card text-center">
-                        <div class="card-header">
-                            <ul class="nav nav-tabs card-header-tabs">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#parent">親子討論區</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#douzhi">鬥智</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link " data-toggle="tab" href="#huihe">回合</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link " data-toggle="tab" href="#puzzle">解謎</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="tab-content">
-                            <div id="parent" class="tab-pane fade show active">
-                                <div class="card-body">
-                                    <h5 class="card-title">親子討論區</h5>
-                                    <p class="card-text">這裡是親子的內容。</p>
-                                </div>
-                            </div>
-                            <div id="douzhi" class="tab-pane fade">
-                                <div class="card-body">
-                                    <h5 class="card-title">鬥智討論區</h5>
-                                    <p class="card-text">這裡是鬥智的內容。</p>
-                                </div>
-                            </div>
-                            <div id="huihe" class="tab-pane fade">
-                                <div class="card-body">
-                                    <h5 class="card-title">回合討論區</h5>
-                                    <p class="card-text">這裡是回合的內容。</p>
-                                </div>
-                            </div>
-                            <div id="puzzle" class="tab-pane fade">
-                                <div class="card-body">
-                                    <h5 class="card-title">解謎討論區</h5>
-                                    <p class="card-text">這裡是解謎的內容。</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
+            </nav>
             </div>
         </section>
     </main>
@@ -337,7 +349,7 @@
     `);
     if (loginStatus) {
     $('span#memName').text(memName);
-    $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/logout.html">登出</a></li>');
+    $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/logout.jsp">登出</a></li>');
     let memDetail = [memNo, memName];
     return memDetail;
     } else {

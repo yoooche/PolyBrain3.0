@@ -65,4 +65,8 @@ public class GametableDAO implements Gametable_interface {
 	}
 
 
+	@Override
+	public List<GametableVO> selectAll() {
+		return null;
+	}
 }

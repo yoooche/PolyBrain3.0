@@ -14,13 +14,12 @@ import core.util.HibernateUtil;
 
 import java.io.IOException;
 
-@WebFilter("/*")
+@WebFilter(filterName="customFilter",urlPatterns={"/general/*","*.jsp"})
 public class HibernateFilter extends HttpFilter {
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException {
-		String clientPath = req.getRequestURI();
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
 		try {

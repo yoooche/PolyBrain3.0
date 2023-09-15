@@ -17,8 +17,8 @@ public class BookingServiceImpl implements BookingService {
     }
     //用預約狀態以及日期條件查詢
     @Override
-    public List<BookingVo> selectdate(int state, Date startDate, Date endDate, Integer bookingNo){
-        List<BookingVo> result = Dao.selectByDate(state, startDate, endDate, bookingNo);
+    public List<BookingVo> selectdate(int state, Date startDate, Date endDate, Integer bookingNo, Integer memNo){
+        List<BookingVo> result = Dao.selectByDate(state, startDate, endDate, bookingNo, memNo);
         return result;
     }
     @Override
@@ -77,7 +77,7 @@ public class BookingServiceImpl implements BookingService {
         System.out.println("Service:" + result);
 
         Integer result2 = bookingVo.getBookingno();
-        System.out.println("會員編號" + result1);
+        //System.out.println("會員編號" + result1);
         return bookingVo;
     }
 

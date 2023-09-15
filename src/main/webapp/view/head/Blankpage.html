@@ -14,6 +14,39 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/cb31023646.js" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable({
+                "lengthMenu": [3,5,10,20],
+                "searching": true,  //搜尋功能, 預設是開啟
+                "paging": true,     //分頁功能, 預設是開啟
+                "ordering": true,   //排序功能, 預設是開啟
+                "language": {
+                    "processing": "處理中...",
+                    "loadingRecords": "載入中...",
+                    "lengthMenu": "顯示 _MENU_ 筆結果",
+                    "zeroRecords": "沒有符合的結果",
+                    "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
+                    "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
+                    "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
+                    "infoPostFix": "",
+                    "search": "搜尋:",
+                    "paginate": {
+                        "first": "第一頁",
+                        "previous": "上一頁",
+                        "next": "下一頁",
+                        "last": "最後一頁"
+                    },
+                    "aria": {
+                        "sortAscending":  ": 升冪排列",
+                        "sortDescending": ": 降冪排列"
+                    }
+                }
+            });
+        });
+    </script>
+
     <style>
 
         .flex-container {
@@ -93,7 +126,6 @@
                             <button class="btn btn-outline-dark" type="submit">
                                 <i class="bi-cart-fill me-1"></i>
                                 購物車
-                                <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                             </button>
                         </form>
                     </li>
@@ -109,13 +141,46 @@
             </div>
         </div>
     </nav>
+
+    <nav class="flex-container">
+        <a class="btn btn-primary" href="../addnewpage.jsp">新增貼文</a>
+
+        <table id="example" class="display" style="width: 100%">
+            <thead >
+            <tr style="background-color:#CCCCFF">
+                <th>計數</th>
+                <th>文章編號</th>
+                <th>會員編號</th>
+                <th>貼文主題</th>
+                <th>發布時間</th>
+                <th>圖片</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <c:forEach var="ArtVo" items="${ArtListData}" varStatus="s">
+                <tr>
+                    <td>${s.count}</td>
+                    <td>${ArtVo.artNo}</td>
+                    <td>${ArtVo.memNo}</td>
+                    <td><a href="../innerpage/detail.jsp?artNo=${ArtVo.artNo}">${ArtVo.artTitle}</a></td>
+                    <td>
+                        <fmt:formatDate value="${ArtVo.artTime}" pattern="yyyy-MM-dd HH:mm:ss" />
+                    </td>
+
+                    <td><img src="<%=request.getContextPath()%>/Art/DBGifReader?artNo=${ArtVo.artNo}" width="100px"></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+
+
+    </nav>
+
+
 </main>
 
-<div class="flex-container">
 
-
-
-</div>
 
 
 
@@ -128,9 +193,6 @@
                 <div class="small m-0 text-white">Copyright © 2023 PolyBrain. All rights reserved. </div>
             </div>
             <div class="col-auto">
-
-
-
                 <a class="link-light small" href="http://localhost:8080/PolyBrain/view/head/Privacy.html">隱私權協定</a>
                 <span class="text-white mx-1">&middot;</span>
                 <a class="link-light small" href="http://localhost:8080/PolyBrain/view/head/Forus.html">關於我們</a>
@@ -139,10 +201,6 @@
                    title="用 Email 轉寄" onclick="return confirm('您確定要前往email寄信?');">
                     <img src="images/信封.jpg" >
                 </a>
-
-
-
-
             </div>
         </div>
     </div>
@@ -203,6 +261,12 @@
             });
         });
 </script>
+
+</style><!-- ●● jquery datatables 設定 -->
+
+
+
+</style>
 </body>
 
 </html>

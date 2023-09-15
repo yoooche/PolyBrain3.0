@@ -10,6 +10,7 @@ public interface MemDao {
     public List<MemVo> selectAll();
     MemVo selectByMemName(String memName);
     void createMember(MemVo member);
+    void createMemberJDBC(MemVo member);
     MemVo getMemberById(Integer memNo);
     void updateMember(MemVo member);
     void deleteMember(Integer memNo);

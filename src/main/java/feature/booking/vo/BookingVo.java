@@ -34,12 +34,12 @@ public class BookingVo extends Core {
     private Integer bookingstate;
     @Column(name = "PERIOD_TIME")
     private Integer periodtime;
-    @Column(name = "MEM_NO", insertable = false)
+    @Column(name = "MEM_NO")
     private Integer memno;
     @ManyToOne
     @JoinColumn(name = "MEM_NO",referencedColumnName = "MEM_NO", insertable = false, updatable = false)
     private MemVo memvo;
-    @Transient // 声明为临时字段，不映射到数据库
+    @Transient // 不應射到資料庫
     private String memPh;
     public String getMemPh() {
         if (memvo != null) {

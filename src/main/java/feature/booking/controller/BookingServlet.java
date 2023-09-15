@@ -15,15 +15,17 @@ import static core.util.CommonUtil.writePojo2Json;
 import static core.util.Constants.JSON_MIME_TYPE;
 import static feature.booking.util.BookConstants.SERVICE;
 
-@WebServlet("/booking/one")
+@WebServlet("/loginRequired/booking/one")
 public class BookingServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         response.setContentType(JSON_MIME_TYPE);
-
+        //獲得會員
+        String memNoParam = request.getParameter("memNo");
+        Integer memNo = Integer.parseInt(memNoParam);
+        System.out.println(memNo);
         //獲取日期參數
         String stateParam = request.getParameter("state");
         int state = Integer.parseInt(stateParam);
@@ -50,7 +52,7 @@ public class BookingServlet extends HttpServlet {
             bookingNo = Integer.parseInt(bookingNoParam);
         }
         System.out.println("bookingNoParam:" + bookingNoParam);
-        List<BookingVo> bookings = SERVICE.selectdate(state, startDateParam, endDateParam, bookingNo);
+        List<BookingVo> bookings = SERVICE.selectdate(state, startDateParam, endDateParam, bookingNo, memNo);
         writePojo2Json(response, bookings);
 
     }
