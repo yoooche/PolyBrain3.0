@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	// const itemClassNoSelect = document.getElementById('itemClassNo');
 
 	// 通過 fetch 取得遊戲類別列表
-	fetch('http://localhost:8080/PolyBrain/item/ItemClass', {
+	fetch('http://localhost:8080/PolyBrain/general/item/ItemClass', {
 		method: 'GET'
 	})
 		.then(response => {
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		console.log(itemImageList);
 		console.log(Data);
 
-		fetch('/PolyBrain/item/addItem', {
+		fetch('/PolyBrain/general/item/addItem', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json;charset=UTF-8',

@@ -5,6 +5,7 @@
 <%@ page import="feature.bid.service.*" %>
 <%@ page import="feature.bid.dao.*" %>
 <!DOCTYPE html>
+
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -22,13 +23,22 @@
         <link rel="stylesheet" href="./css/bidding.css">
         <link rel="stylesheet" href="./css/slider.css">
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <style>
+            /* 會員名稱調整 */
+      #memName {
+        line-height: 2.3;  /* 调整为所需的值 */
+        text-shadow: 2px 2px 2px rgba(0,0,0,0.3);
+        color: white;
+        margin-left: 12px;
+    }
+        </style>
     </head>
     <body onload="connect();" onunload="disconnect();">
         <!-- Navigation-->
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container px-5">
-                    <a class="navbar-brand" href="../head/Facepage.jsp">
+                    <a class="navbar-brand" href="http://localhost:8080/PolyBrain/view/bid/BidOnHomePage.jsp" style="margin-left: -50px;">
                         <img src="../logo/PolyBrain_Logo.png" style="width: 110px; height: auto; margin-bottom: 5px;"></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -153,7 +163,7 @@
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eveniet veniam tempora fuga tenetur
                                 placeat sapiente architecto illum soluta consequuntur, aspernatur quidem at sequi ipsa!</p>
                         </div> -->
-
+                            <hr>
                             <div class="fs-5" style="text-align: left; margin-bottom:15px;">
                                 <span>距離結標時間還有:</span>
                                 <div id="timer"></div>
@@ -161,13 +171,13 @@
                                     <li id="statusOutput" class="list-group-item list-group-item-action" ></li>
                                 </ul>
                             </div>
-
-                        <div class="purchase-info" style="margin-top: 3px;">
-                            <button id="btn_directivePrice" type="button" class="btn" onclick="buyWithoutBidding()">
-                                <i class="fas fa-shopping-cart"></i>
-                            </button>
-                            <button id="btn_class" type="button" class="btn"></button>
-                        </div>
+                            
+                            <div class="purchase-info" style="margin-top: 3px;">
+                                <button id="btn_directivePrice" type="button" class="btn" onclick="buyWithoutBidding()">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                                <button id="btn_class" type="button" class="btn"></button>
+                            </div>
                     </div>
                     
                 </div>

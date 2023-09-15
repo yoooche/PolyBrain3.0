@@ -35,7 +35,7 @@ $(document).ready(function () {
                 ]
             },
             ajax: {
-                url: "http://localhost:8080/PolyBrain/selectServlet",
+                url: "http://localhost:8080/PolyBrain/general/selectServlet",
                 method: "POST",
                 data: function (d) {
                     return {
@@ -60,8 +60,6 @@ $(document).ready(function () {
                         // 如果是排序或其他类型，返回原始数据
                         return data;
                     }
-
-
                 },
                 {
                     data: 'itemClass.itemClassName', width: '120px',
@@ -169,7 +167,13 @@ $(document).ready(function () {
         //點擊送出按鈕後使用燈箱效果顯示確認取消對話框
         addsubmit.addEventListener('click', () => {
             let errorMsg = '';
+            // 获取DataTable的数据
+            const data = dataTable.rows().data().toArray();
 
+            // 检查是否存在具有相同名称的商品
+            if (isDuplicateName = data.some(row => row.itemName === itemName.value)){
+                errorMsg += '<li>已有同名遊戲存在';
+            }
             if (itemClassNo.value == 0) {
                 errorMsg += '<li>請選擇遊戲類別';
             }
@@ -179,18 +183,19 @@ $(document).ready(function () {
             if (itemPrice.value <= 99) {
                 errorMsg += '<li>售價有誤請再確認';
             }
-            if (itemQty.value < 1 && itemState.value == 2) {
+            if (itemQty.value < 1 && itemState.value == 1) {
                 errorMsg += '<li>庫存量為0，不得上架';
             }
             if (minPlayers.value == 0 || maxPlayers.value == 0) {
                 errorMsg += '<li>請選擇遊戲人數';
             }
-            if (minPlayers.value > maxPlayers.value) {
+            if (parseInt(minPlayers.value) > parseInt(maxPlayers.value)) {
                 errorMsg += '<li>遊戲人數設定有誤';
             }
             if (gameTime.value == 0) {
                 errorMsg += '<li>請選擇遊戲時間';
             }
+
             if (errorMsg !== '') {
                 const errorList = errorMsg.split('<li>').filter(item => item !== '').map((item, index) => {
                     return `<li><span style="margin-right: 10px;">${index + 1}.</span>${item}</li>`;
@@ -202,58 +207,61 @@ $(document).ready(function () {
                     title: '新增商品失敗...',
                     html: `<ul style="text-align: left; padding-left: 120px; list-style-position: inside;">${errorList}</ul>`,
                 });
-                return;
-            }
+            } else {
+                // 如果没有错误消息，将默认图片路径添加到请求中
+                if (itemImageList.length === 0) {
+                    itemImageList.push('img/nopic.jpg');
+                }
 
-            console.log("itemImageList:", itemImageList);
+                console.log("itemImageList:", itemImageList);
 
-            let Data = {
-                item: {
-                    itemClassNo: itemClassNo.value,
-                    itemName: itemName.value,
-                    itemPrice: itemPrice.value,
-                    itemState: itemState.value,
-                    itemQty: itemQty.value,
-                    minPlayer: minPlayers.value,
-                    maxPlayer: maxPlayers.value,
-                    gameTime: gameTime.value,
-                    itemProdDescription: itemProdDescription.value,
-                },
+                Data = {
+                    item: {
+                        itemClassNo: itemClassNo.value,
+                        itemName: itemName.value,
+                        itemPrice: itemPrice.value,
+                        itemState: itemState.value,
+                        itemQty: itemQty.value,
+                        minPlayer: minPlayers.value,
+                        maxPlayer: maxPlayers.value,
+                        gameTime: gameTime.value,
+                        itemProdDescription: itemProdDescription.value,
+                    },
 
-                itemImageList: itemImageList,
-            }
-            console.log(itemImageList);
-            console.log(Data);
+                    itemImageList: itemImageList,
+                }
+                console.log(itemImageList);
+                console.log(Data);
 
-            fetch('/PolyBrain/item/addItem', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json;charset=UTF-8',
-                },
-                body: JSON.stringify(Data),
-            })
-                .then(resp => resp.json())
-                .then(body => {
-                    console.log("Item Name Value:", itemName.value);
-                    const { success } = body;
-                    if (success) {
-                        for (let input of inputs) {
-                            input.disabled = true;
+                fetch('/PolyBrain/general/item/addItem', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=UTF-8',
+                    },
+                    body: JSON.stringify(Data),
+                })
+                    .then(resp => resp.json())
+                    .then(body => {
+                        console.log("Item Name Value:", itemName.value);
+                        const { success } = body;
+                        if (success) {
+                            for (let input of inputs) {
+                                input.disabled = true;
+                            }
+                            addsubmit.disabled = true;
+                            Swal.fire('新增成功').then(() => {
+                                window.location.href = "../item/itemConsole.html";
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: '新增失敗...',
+                                text: '有些地方發生錯誤，請聯繫系統管理員!',
+                            })
                         }
-                        addsubmit.disabled = true;
-                        Swal.fire('新增成功').then(() => {
-                            window.location.href = "../item/itemConsole.html";
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: '新增失敗...',
-                            text: '有些地方發生錯誤，請聯繫系統管理員!',
-                        })
-                    }
-                });
+                    });
+            }
         });
-
 
         //使用燈箱效果顯示確認取消對話框
         btnCancel.addEventListener('click', () => {
@@ -269,10 +277,20 @@ $(document).ready(function () {
                 cancelButtonText: '取消'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    console.log("ttt");
+                    console.log("取消並且清空itemImageList2");
+                    // 清空输入框的值
+                    $('#editItemNo').val('');
+                    $('#editItemclassno').val('');
+                    $('#editItemName').val('');
+                    $('#editPrice').val('');
+                    $('#editState').val('');
+                    $('#editQty').val('');
+                    $('#editProdDescription').val('');
+                    itemImageList2 = [];
                     // 若使用者確定取消，則關閉燈箱
-                    document.getElementById('add_lightbox').style.display = 'none';
+
                 }
+                document.getElementById('add_lightbox').style.display = 'none';
             });
         });
 
@@ -297,7 +315,7 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 // 若使用者確定取消，則發送刪除請求
-                fetch('http://localhost:8080/PolyBrain/item/remove', {
+                fetch('http://localhost:8080/PolyBrain/general/item/remove', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json;charset=UTF-8' },
                     body: JSON.stringify({ itemNo })
@@ -322,9 +340,9 @@ $(document).ready(function () {
         $('#editPrice').val(rowData.itemPrice);
         $('#editState').val(rowData.itemState);
         $('#editQty').val(rowData.itemQty);
-        $('#minPlayers').val(rowData.minPlayer);
-        $('#maxPlayers').val(rowData.maxPlayer);
-        $('#gameTime').val(rowData.gameTime);
+        // $('#minPlayers').val(rowData.minPlayer);
+        // $('#maxPlayers').val(rowData.maxPlayer);
+        // $('#gameTime').val(rowData.gameTime);
         $('#editProdDescription').val(rowData.itemProdDescription);
         var imgWrap2 = $('.upload_img-wrap2');
 
@@ -333,8 +351,6 @@ $(document).ready(function () {
             itemImageList2.push(imgObj.itemImg);
             imgArray2.push(imgObj); // 添加到 imgArray2 中
         });
-
-
         // 清空之前的顯示，以免重複顯示
         imgWrap2.empty();
 
@@ -371,8 +387,11 @@ $(document).ready(function () {
                 if (editPrice.value <= 99) {
                     errorMsg += '<li>售價有誤請再確認';
                 }
-                if (editQty.value < 1 && editState.value == 2) {
+                if (editQty.value < 1 && editState.value == 1) {
                     errorMsg += '<li>庫存量為0，不得上架';
+                }
+                if (editQty.value > 0 && editState.value == 2) {
+                    errorMsg += '<li>仍有庫存量，狀態不該為售完';
                 }
                 if (errorMsg !== '') {
                     const errorList = errorMsg.split('<li>').filter(item => item !== '').map((item, index) => {
@@ -404,7 +423,7 @@ $(document).ready(function () {
                 console.log(itemImageList);
                 console.log(Data);
 
-                fetch('/PolyBrain/item/addItem', {
+                fetch('/PolyBrain/general/item/addItem', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json;charset=UTF-8',
@@ -419,11 +438,13 @@ $(document).ready(function () {
                             window.location.href = "../item/itemConsole.html";
                         });
 
-                    }).catch(Swal.fire({
-                        icon: 'error',
-                        title: '修改失敗...',
-                        text: '有些地方發生錯誤，請聯繫系統管理員!',
-                    }));
+                    }).catch(
+                    //     Swal.fire({
+                    //     icon: 'error',
+                    //     title: '123...',
+                    //     text: '有些地方發生錯誤，請聯繫系統管理員!',
+                    // })
+                );
             }
         });
     });
@@ -459,6 +480,7 @@ $(document).ready(function () {
 
 itemImageList = [];
 itemImageList2 = [];
+itemIndexMap = {};
 function ImgUpload() {
     var imgWrap = "";
     var imgArray = [];
@@ -522,6 +544,7 @@ function ImgUpload() {
 }
 
 function ImgUpload2() {
+    itemImageList2 = [];
     var imgWrap2 = "";
     imgArray2 = [];
     $('.upload_inputfile').each(function () {
@@ -555,7 +578,9 @@ function ImgUpload2() {
 
                         var reader = new FileReader();
                         reader.onload = function (e) {
+                            const index = $(".upload_img-close2").length
                             itemImageList2.push(e.target.result); // 把圖片的Base64字串存到陣列
+                            itemIndexMap[index] = e.target.result
                             var html = "<div class='upload_img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload_img-close2").length + "' data-file='" + f.name + "' class='img-bg add_img-bg'><div class='upload_img-close2'></div></div></div>";
                             imgWrap2.append(html);
                             iterator++;
@@ -572,9 +597,11 @@ function ImgUpload2() {
         var index = $(this).parent().data("number");
         if (index >= 0 && index < itemImageList2.length) {
             itemImageList2.splice(index, 1); // 根据索引删除图像数据
-        }   
+            delete itemIndexMap[index];
+        }
         $(this).parent().parent().remove();
         console.log(itemImageList2);
+        console.log(itemIndexMap);
     });
-    
+
 }

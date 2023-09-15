@@ -4,13 +4,16 @@ window.addEventListener('DOMContentLoaded', event => {
     const queryString = window.location.search;//當前URL中的查詢參數部分（包括 ? 字符以及之後的部分）
     const itemNo = new URLSearchParams(queryString).get('itemNo'); //從url解析查詢參數 並取出產品編號
     getItemDetail(itemNo);
+
+
+
 });
 
 //取得主商品的詳細資訊
 function getItemDetail(itemNo) {
     const itemDetail = document.getElementById("itemDetail");
     // 發送請求獲取商品數據
-    fetch("http://localhost:8080/PolyBrain/selectServlet?value=selectID&itemID=" + itemNo, {
+    fetch("http://localhost:8080/PolyBrain/general/selectServlet?value=selectID&itemID=" + itemNo, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
     })
@@ -30,17 +33,17 @@ function getItemDetail(itemNo) {
                         <h1 class="display-5 fw-bolder">${data.itemName}</h1>
                         <div class="fs-5 mb-5">
                             <span>$${data.itemPrice}</span>
-                            <br>剩餘數量：${data.itemQty}
+                            <br>已售出：${data.itemSales} 個
+                            <br>剩餘數量：${data.itemQty} 個
                                 <br>遊戲人數：${data.minPlayer}人到${data.maxPlayer}人
                                 </div>
                                 <p class="lead">遊戲介紹：${data.itemProdDescription}</p>
                                 <div class="d-flex">
                                     <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
-                                    <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                    <button onclick="addCart(${data.itemNo})" class="btn btn-outline-dark flex-shrink-0" type="button">
                                         <i class="bi-cart-fill me-1"></i>
                                         加入購物車
                                     </button>
-                                    <a class="btn btn-outline-dark mt-auto " href="#" style="width: 100px" margin: 30px>收藏</a>
                         </div>
                     </div >
                 </div >
@@ -57,9 +60,7 @@ function getItemDetail(itemNo) {
                 dotImages.push(data.itemImg[i].itemImg);
             }
 
-
-
-            console.log(dotImages);
+            // console.log(dotImages);
 
             $(document).ready(function () {
                 var owl = $(".owl-carousel");
@@ -112,12 +113,101 @@ function getItemDetail(itemNo) {
         });
 }
 
+//加入購物車
+function addCart(itemNo) {
+
+    quantity = $("#inputQuantity").val();
+    const cartItem = {
+        // memNo: parseInt(memNo),
+        itemNo: parseInt(itemNo),
+        quantity: parseInt(quantity)
+    };
+
+    sessionStorage.setItem('currentPage', window.location.href);
+    fetch("http://localhost:8080/PolyBrain/loginRequired/CartInsert", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        body: JSON.stringify(cartItem)
+    })
+        .then(resp => {
+            console.log(resp.status);
+            if (resp.status == 401) {
+                alert('帳號未登入，跳轉至登入頁面');
+                window.location.href = 'http://localhost:8080/PolyBrain/view/member/login.html';
+                throw new Error('錯誤訊息');
+            } else if (resp.ok) {
+                // 請求成功
+                return resp.json();
+            }
+        }) // 解析JSON響應
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: '成功加入購物車',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        })
+        .catch(error => {
+            // 處理錯誤
+            console.error('獲取數據時出現問題:', error);
+        });
+}
+
+//加入收藏
+function addTrace(itemNo) {
+    memNo = "1";
+    quantity = $("#inputQuantity").val();
+
+    const cartItem = {
+        memNo: parseInt(memNo),
+        itemNo: parseInt(itemNo),
+        quantity: parseInt(quantity)
+    };
+
+
+    fetch("http://localhost:8080/PolyBrain/CartInsert", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        body: JSON.stringify(cartItem)
+    })
+        .then(response => response.json()) // 解析JSON響應
+        .then(data => {
+
+        })
+        .catch(error => {
+            // 處理錯誤
+            console.error('獲取數據時出現問題:', error);
+        });
+
+
+    // 检查当前按钮文本是否为 "收藏"
+    const addButton = document.getElementById("addTrace");
+    if (addButton.textContent === "收藏") {
+        // 如果是 "收藏"，则执行添加收藏的逻辑
+        // 在这里添加处理收藏的代码
+
+        // 更改按钮文本为 "取消收藏"
+        addButton.textContent = "取消收藏";
+    } else {
+        // 如果按钮文本是 "取消收藏"，则执行取消收藏的逻辑
+        // 在这里添加处理取消收藏的代码
+
+        // 更改按钮文本为 "收藏"
+        addButton.textContent = "收藏";
+    }
+
+}
+
 //取得廣告的商品資訊
 function randomItem(itemClassNo, itemNo) {   //將itemNo傳入
     const relatedClass = document.getElementById("relatedClass");
 
     // 發送請求獲取商品數據
-    fetch("http://localhost:8080/PolyBrain/selectServlet?value=selectClass&ItemClass=" + itemClassNo, {
+    fetch("http://localhost:8080/PolyBrain/general/selectServlet?value=selectClass&ItemClass=" + itemClassNo, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
     })
@@ -129,7 +219,7 @@ function randomItem(itemClassNo, itemNo) {   //將itemNo傳入
             // 將Data隨機打亂
             shuffleArray(newData);
 
-            console.log(newData)
+            // console.log(newData)
             for (i = 0; i < newData.length && i < 4; i++) { //取打亂後的前四個商品進行展示
 
                 const cardColumn = document.createElement('div');
@@ -139,7 +229,7 @@ function randomItem(itemClassNo, itemNo) {   //將itemNo傳入
                 <!-- Product image-->
                 <div class="image-container">
                 <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=${newData[i].itemNo}">
-                <img class="card-img-top" src="${newData[i].itemImg[0].itemImg}" alt="商品圖片" itemState ="${newData[i].itemState}">
+                <img class="card-img-top" src="${newData[i].itemImg[0].itemImg}" alt="商品圖片" itemState ="${newData[i].itemState}" itemSales="${newData[i].itemSales}">
                 </a>
                 </div>
                 <!-- Product details-->
@@ -164,10 +254,15 @@ function randomItem(itemClassNo, itemNo) {   //將itemNo傳入
                 const cardImgTop = cardColumn.querySelector('.card-img-top');
                 // 取得 itemState 属性的值
                 const itemState = cardImgTop.getAttribute('itemState');
+                // 取得 itemSales 属性的值
+                const itemSales = parseInt(cardImgTop.getAttribute('itemSales'));
 
                 // 如果是已售完狀態，插入 Sale 符號
                 if (itemState === '2') {
                     cardImgTop.insertAdjacentHTML('beforebegin', '<div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem" >已售完</div>');
+                }
+                if (itemSales >= 100) {
+                    cardImgTop.insertAdjacentHTML('beforebegin', '<div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem" >HOT!</div>');
                 }
             }
         })
@@ -179,9 +274,52 @@ function randomItem(itemClassNo, itemNo) {   //將itemNo傳入
 
 }
 
+//打亂順序
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]]; // 交换元素位置
     }
 }
+
+//會員列表展開用
+$(document).ready(function () {
+    validateMemStatus();
+});
+async function validateMemStatus() {
+    const response = await fetch('/PolyBrain/general/validateMemStatus', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json; charset:utf-8' },
+    })
+        .then(resp => resp.json())
+        .then(data => {
+            console.log(data);
+            const { memNo, memName, loginStatus } = data;
+            $('ul#dropdown-menu').append(`
+            <li><a class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/Member_Information.jsp">會員專區</a></li>
+            <li><a class="dropdown-item" href="http://localhost:8080/PolyBrain/view/CartTrace/Cart.jsp">購物車</a></li>
+<li><hr class="dropdown-divider" /></li>
+`);
+            if (loginStatus) {
+                $('span#memName').text(memName);
+                $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/logout.jsp">登出</a></li>');
+                let memDetail = [memNo, memName];
+                return memDetail;
+            } else {
+                $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/login.html">登入</a></li>');
+            }
+        });
+    return response;
+}
+
+let bidEventList = document.querySelectorAll('.bidEventList');
+bidEventList.forEach(link => {
+    link.addEventListener('click', function (event) {
+        event.preventDefault();
+        const biddingEvent = link.getAttribute('data-event-id');
+        const bidEventURL = 'http://localhost:8080/PolyBrain/view/bid/BidOnItemPage2.jsp';
+        const url = `${bidEventURL}?bidEventId=${biddingEvent}`;
+        window.location.href = url;
+    });
+});
+

@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Table(name="bid_Order_Detail")
+@Table(name="BID_ORDER_DETAIL")
 @Data
 @Entity
 @NoArgsConstructor

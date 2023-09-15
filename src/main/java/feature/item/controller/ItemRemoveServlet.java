@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import static core.util.CommonUtil.json2Pojo;
 
-    @WebServlet("/item/remove")
+    @WebServlet("/general/item/remove")
     public class ItemRemoveServlet extends HttpServlet {
         private static final long serialVersionUID = 1L;
         private ItemService service = new ItemServiceImpl();
