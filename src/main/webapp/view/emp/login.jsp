@@ -45,11 +45,13 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-5">
                         <div class="card shadow-lg border-0 rounded-lg mt-5">
+                            <div style="text-align: right;">
+                                <a href="http://localhost:8080/PolyBrain/view/member/login.html">前台登入</a>
+                            </div>
                             <div class="card-header"><h3 class="text-center my-4" style="font-weight: bold;">後台登入</h3></div>
                             <div class="card-body">
                                 <form action="LoginController"  method="post">
-
-
+                            </div>
                                     <div class="form-floating mb-3">
                                         <input class="form-control" id="email" name="email"type="email" placeholder="name@example.com" autocomplete="username"/>
                                         <label for="email">帳號</label>
