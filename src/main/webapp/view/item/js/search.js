@@ -523,8 +523,8 @@ async function validateMemStatus() {
             console.log(data);
             const { memNo, memName, loginStatus } = data;
             $('ul#dropdown-menu').append(`
-<li><a class="dropdown-item" href="#!">會員專區</a></li>
-<li><a class="dropdown-item" href="#!">購物車</a></li>
+            <li><a class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/Member_Information.jsp">會員專區</a></li>
+            <li><a class="dropdown-item" href="http://localhost:8080/PolyBrain/view/CartTrace/Cart.jsp">購物車</a></li>
 <li><hr class="dropdown-divider" /></li>
 `);
             if (loginStatus) {
