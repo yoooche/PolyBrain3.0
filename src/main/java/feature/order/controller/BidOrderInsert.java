@@ -2,7 +2,6 @@ package feature.order.controller;
 
 import core.util.CommonUtil;
 import feature.bid.vo.BidOrderDetailVo;
-import feature.item.dto.AddItemDTO;
 import feature.order.service.OrderService;
 
 import javax.servlet.ServletException;
@@ -12,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/loginRequired/findMemBidOrder")
-public class MemberBidOrder extends HttpServlet {
+@WebServlet("/loginRequired/insertBidOrderDetail")
+public class BidOrderInsert extends HttpServlet {
     private static final long serialVersionUID = 1L;
     CommonUtil commonUtil = new CommonUtil();
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -41,6 +40,7 @@ public class MemberBidOrder extends HttpServlet {
         bidOrderDetailVo.setReceiverPhone(receiverPhone);
 
         new OrderService().addBidOrderDetail(bidOrderDetailVo);
+        Integer bodNo = bidOrderDetailVo.getBodNo();
 
 
     }
