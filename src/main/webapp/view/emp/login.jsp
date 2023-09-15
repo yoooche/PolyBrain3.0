@@ -18,59 +18,45 @@
     <!--        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>-->
 </head>
 <body class="bg-dark">
-<nav  class="sb-topnav navbar navbar-expand bg-primary">
-    <!-- Sidebar Toggle-->
-    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars" style="color: white;"></i></button>
-    <!-- Navbar Brand-->
-    <span class="brand_name">
-                <img class="brand_img" src="./images/PolyBrain_Logo.png">
-            </span>
-    <!-- Navbar-->
-    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#!">設定</a></li>
-                <li><a class="dropdown-item" href="#!">主題</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#!">登出</a></li>
-            </ul>
-        </li>
-    </ul>
-</nav>
+
 <div id="layoutAuthentication">
     <div id="layoutAuthentication_content">
         <main>
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-lg-5">
-                        <div class="card shadow-lg border-0 rounded-lg mt-5">
-                            <div style="text-align: right;">
-                                <a href="http://localhost:8080/PolyBrain/view/member/login.html">前台登入</a>
+                    <div class="col-lg-5" >
+                        <div class="card shadow-lg border-0 rounded-lg mt-5" style="width: 700px; height: 500px; margin: 0 -100px; background-color: rgb(60, 60, 60);">
+                            <div style="background-color: rgb(60, 60, 60); text-align: center; padding: 10px; width: 505px;">
+                                <a>
+                                    <img src="../logo/PolyBrain_Logo.png" style="width: 200px; height: auto; margin-top: 30px; margin-left: 175px;">
+                                </a>
                             </div>
-                            <div class="card-header"><h3 class="text-center my-4" style="font-weight: bold;">後台登入</h3></div>
+
+                            <div style="text-align: right;">
+                                <h1 class="h4 text-gray-900 mb-4" style="color: white; margin-right: 290px;">- 後台登入 -</h1>
+                            </div>
                             <div class="card-body">
                                 <form action="LoginController"  method="post">
+                                    <div class="form-group" style="width: 400px; margin: 0 auto; display: flex; align-items: center;">
+                                        <label for="email" style="color: white; flex: 1;">帳號</label>
+                                        <input class="form-control" id="email" name="email" type="email" placeholder="name@example.com" autocomplete="username" style="height: 50px; width: 90%;">
+                                    </div>
+                                    <br>
+                                    <div class="form-group" style="width: 400px; margin: 0 auto; display: flex; align-items: center;">
+                                        <label for="password" style="color: white; flex: 1;">密碼</label>
+                                        <input class="form-control" id="password" name="password" type="password" placeholder="Password" autocomplete="current-password" style="height: 50px; width: 90%;">
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div id="errMsg"></div>
+                                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0"style="width: 400px; margin: 0 305;">
+                                            <button id="btn_login"  class="btn btn-primary">登入</button>
+                                    </div>
+                                    <hr style="border-color: white;">
+                                    <div style="text-align: center;">
+                                        <a href="http://localhost:8080/PolyBrain/view/member/login.html">前台登入</a>
+                                    </div>
                             </div>
-                                    <div class="form-floating mb-3">
-                                        <input class="form-control" id="email" name="email"type="email" placeholder="name@example.com" autocomplete="username"/>
-                                        <label for="email">帳號</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input class="form-control" id="password" name="password" type="password" placeholder="Password" autocomplete="current-password"/>
-                                        <label for="password">密碼</label>
-                                    </div>
 
-
-
-                                    <div id="errMsg"></div>
-                                    <div class="form-check mb-3">
-                                        <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
-                                        <label class="form-check-label" for="inputRememberPassword">記住我的帳號及密碼</label>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                        <button id="btn_login"  class="btn btn-primary">登入</button>
-                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -79,20 +65,7 @@
             </div>
         </main>
     </div>
-    <div id="layoutAuthentication_footer">
-        <footer class="py-4 bg-light mt-auto">
-            <div class="container-fluid px-4">
-                <div class="d-flex align-items-center justify-content-between small">
-                    <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                    <div>
-                        <a href="#">Privacy Policy</a>
-                        &middot;
-                        <a href="#">Terms &amp; Conditions</a>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </div>
+
 </div>
 <script src="./js/scripts.js"></script>
 <script src="./js/login.js"></script>
