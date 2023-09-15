@@ -19,7 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
-@WebServlet("/selectServlet")
+@WebServlet("/general/selectServlet")
 public class ItemServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private ItemService service = new ItemServiceImpl();

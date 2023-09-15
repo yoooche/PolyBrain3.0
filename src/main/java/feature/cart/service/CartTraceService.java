@@ -74,10 +74,14 @@ public class CartTraceService {
     }
 
     public Boolean addToCart(CartTraceVO cartTraceVO){
+       Integer memno = cartTraceVO.getMemNo();
+        System.out.println("這是會員編號"+memno);
+       Integer ItemNo = cartTraceVO.getItemNo();
+        System.out.println("這是產品編號"+ItemNo);
+        Integer Qty = cartTraceVO.getQuantity();
+        System.out.println("這是數量"+Qty);
         return dao.insertToCart(cartTraceVO) > 0;
     }
-
-
 
 
 }

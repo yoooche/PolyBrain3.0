@@ -3,7 +3,7 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
-		<property name="hibernate.connection.datasource">java:comp/env/jdbc/polybrain_mem</property>
+		<property name="hibernate.connection.datasource">java:comp/env/jdbc/polybrain</property>
 		<property name="hibernate.current_session_context_class">thread</property>
 		
 		
@@ -20,6 +20,7 @@
 		<mapping class="feature.mem.vo.MemVo" />
 		<mapping class="feature.bid.vo.BidItemVo" />
 		<mapping class="feature.bid.vo.BidItemPicVo" />
+		<mapping class="feature.bid.vo.BidOrderDetailVo" />
 		<mapping class="feature.bid.vo.BidEventVo" />
 		<mapping class="feature.bid.vo.BidOrderVo" />
 		<mapping class="feature.item.vo.Item" />

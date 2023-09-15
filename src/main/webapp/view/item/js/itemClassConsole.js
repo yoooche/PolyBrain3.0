@@ -25,7 +25,7 @@ $(document).ready(function () {
         }
 
         //從資料庫獲取遊戲類別及對應的編號
-        fetch('http://localhost:8080/PolyBrain/item/ItemClass', {
+        fetch('http://localhost:8080/PolyBrain/general/item/ItemClass', {
             method: 'GET'
         })
             .then(response => {
@@ -105,7 +105,7 @@ $(document).ready(function () {
                 }
             },
             preConfirm: (value) => {
-                fetch('http://localhost:8080/PolyBrain/item/addItemClass', {
+                fetch('http://localhost:8080/PolyBrain/general/item/addItemClass', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json;charset=UTF-8',
@@ -141,7 +141,7 @@ $(document).ready(function () {
                 }
             },
             preConfirm: (value) => {
-                fetch('http://localhost:8080/PolyBrain/item/addItemClass', {
+                fetch('http://localhost:8080/PolyBrain/general/item/addItemClass', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json;charset=UTF-8',
@@ -189,7 +189,7 @@ $(document).ready(function () {
       }).then((result) => {
         if (result.isConfirmed) {
             // 在確認按鈕點擊後觸發刪除請求
-            fetch('http://localhost:8080/PolyBrain/item/ClassRemove', {
+            fetch('http://localhost:8080/PolyBrain/general/item/ClassRemove', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json;charset=UTF-8',
@@ -205,8 +205,9 @@ $(document).ready(function () {
                         '刪除!',
                         '該類別已從資料庫移除',
                         'success'
-                    );
-                    location.reload(); // 成功后刷新页面
+                    ).then(() =>{
+                        location.reload();// 成功后刷新页面
+                    })
                 }
             });
         } else if (

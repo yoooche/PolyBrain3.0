@@ -101,8 +101,8 @@ public class BidOrderMail {
                     "</html>", true);
 
 //            FileSystemResource img = new FileSystemResource(
-//                    new File("view/logo/PolyBrain_Logo.png"));
-                            //這個路徑要修正
+//                    new File("http://localhost:8080/PolyBrain/view/lgog/PolyBrain_Logo.png"));
+//                            //這個路徑要修正
 //            messageHelper.addInline("1", img);
 
             // 傳送郵件
