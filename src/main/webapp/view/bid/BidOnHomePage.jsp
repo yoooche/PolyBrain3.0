@@ -381,6 +381,25 @@
         color: white;
         margin-left: 12px;
     }
+    /* 调整图片容器的position属性，以便其子元素（包括Sale标签）可以使用z-index */
+    .image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%;
+            overflow: hidden;
+        }
+
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            /* 图像宽度占满容器 */
+            height: 100%;
+            /* 高度占满容器 */
+            object-fit: contain;
+            /* 保持原始比例并填充容器 */
+        }
     </style>
 
 
@@ -437,11 +456,13 @@
                         </li>
                         <li class="nav-item"><a class="nav-link" href="../head/question.html">常見問題</a></li>
                         <li>
-                            <a href="../CartTrace/Cart.jsp" id="submitLink"
-                                class="btn btn-outline-dark" style="color: #ffffff">
-                                <i class="bi-cart-fill me-1" style="color: #ffffff"></i>
-                                購物車
-                            </a>
+                            <form method="post" action="http://localhost:8080/PolyBrain/loginRequired/CartServlet">
+                                <input type="hidden" name="action" value="getAll" id="actionInput">
+                                <button type="submit" class="btn text-white">
+                                    <i class="bi-cart-fill me-1" style="color: #ffffff"></i>
+                                    購物車
+                                </button>
+                            </form>
                         </li>
                         <span id="memName" style="margin-left:12px;"></span>
                         <li class="nav-item dropdown">
@@ -580,49 +601,93 @@
     </div>
 
     <nav>
-        <!--圈圈區-->
-        <div class="row">
-            <div class="col-lg-4">
-                <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
-                     xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140"
-                     preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
-                </svg>
-
-                <h2>Heading</h2>
-                <p>And lastly this, the third column of representative placeholder content.</p>
-                <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
-            </div>
-
-            <div class="col-lg-4">
-                <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
-                     xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140"
-                     preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
-                </svg>
-
-                <h2>Heading</h2>
-                <p>Another exciting bit of representative placeholder content. This time, we've moved on to the second column.</p>
-                <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
-            </div><!-- /.col-lg-4 -->
-
-            <div class="col-lg-4">
-                <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
-                     xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140"
-                     preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
-                </svg>
-
-                <h2>Heading</h2>
-                <p>And lastly this, the third column of representative placeholder content.</p>
-                <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+        <article class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"
+                    id="itemList">
+                <div class="col mb-5">
+                    <div class="card">
+                        <div class="image-container">
+                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=1060">
+                                <img class="card-img-top" src="../item/img/25.png" />
+                            </a>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bolder">多諾米王國</h5>
+                                $2500
+                            </div>
+                        </div>
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center">
+                                <button class="btn btn-outline-dark mt-auto">加入購物車</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-5">
+                    <div class="card">
+                        <div class="image-container">
+                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=1052">
+                                <img class="card-img-top" src="../item/img/22.jpg" />
+                            </a>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bolder">卡卡頌</h5>
+                                $1500
+                            </div>
+                        </div>
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center">
+                                <button class="btn btn-outline-dark mt-auto">加入購物車</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-5">
+                    <div class="card">
+                        <div class="image-container">
+                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=1105">
+                                <img class="card-img-top" src="../item/img/21.jpg" />
+                            </a>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bolder">富饒之城2</h5>
+                                $850
+                            </div>
+                        </div>
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center">
+                                <button class="btn btn-outline-dark mt-auto">加入購物車</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-5">
+                    <div class="card">
+                        <div class="image-container">
+                            <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=1104">
+                                <img class="card-img-top" src="../item/img/24.jpg" />
+                            </a>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bolder">矮人礦坑</h5>
+                                $350
+                            </div>
+                        </div>
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center">
+                                <button class="btn btn-outline-dark mt-auto">加入購物車</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-            <!--圈圈區-->
-
+        </article>
 
             <!-- START THE FEATURETTES -->
 
