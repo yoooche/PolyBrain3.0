@@ -1,5 +1,11 @@
 package feature.order.service;
 
+import feature.bid.dao.BidOrderDao;
+import feature.bid.dao.BidOrderDaoImpl;
+import feature.bid.service.BiddingService;
+import feature.bid.vo.BidOrderDetailVo;
+import feature.bid.vo.BidOrderVo;
+import feature.cart.service.CartTraceService;
 import feature.cart.vo.CartItemImgDTO;
 import feature.item.service.ItemServiceImpl;
 import feature.item.vo.Item;
@@ -10,6 +16,7 @@ import feature.order.vo.ItemOrderDetailVO;
 import feature.order.vo.ItemOrderVO;
 import feature.order.vo.OrderDetailDTO;
 
+import javax.servlet.jsp.tagext.TryCatchFinally;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +24,8 @@ public class OrderService {
 
     private ItemOrderDAOImpl dao;
     private ItemServiceImpl ItemServiceDao;
+    private CartTraceService cartTraceServiceDao;
+    private BidOrderDao bidOrderDao;
 
     public OrderService() {
         dao = new ItemOrderDAOImpl();
@@ -38,6 +47,7 @@ public class OrderService {
     public ItemOrderVO getOneOrder(Integer orderNo) {
         return dao.selectById(orderNo);
     }
+
 
     public List<ItemOrderVO> getAll() {
         System.out.println("aaa");
@@ -65,11 +75,18 @@ public class OrderService {
     }
 
     public boolean deleteById(Integer orderNo) {
-        return dao.deleteById(orderNo) > 0;
+        try {
+            dao.deleteDetailById(orderNo);
+            dao.deleteById(orderNo) ;
+            return true;
+        }catch (Exception e) {
+            return false;
+        }
     }
 
-    public Integer addAnOrderDetail(List<CartItemImgDTO> cartItemImgDTOList, Integer orderNo) {
+    public Integer addAnOrderDetail(List<CartItemImgDTO> cartItemImgDTOList, Integer orderNo ,Integer memNo) {
         ItemServiceDao = new ItemServiceImpl();
+        cartTraceServiceDao = new CartTraceService();
         for (int i = 0; i < cartItemImgDTOList.size(); i++) {
 
 
@@ -91,9 +108,16 @@ public class OrderService {
             item.setItemQty(cartItemImgDTOList.get(i).getItemQty() - cartItemImgDTOList.get(i).getQuantity());
 
             ItemServiceDao.edit(item);
-            System.out.println("更改商品成功");
+            System.out.println("商品總數更改成功");
+
+
+
+            cartTraceServiceDao.deleteByMemItemNo(memNo, cartItemImgDTOList.get(i).getItemNo());
+            System.out.println("哈囉" + cartItemImgDTOList.get(i).getItemNo());
+            System.out.println("購物車刪除成功");
 
         }
+
         return 1;
     }
 
@@ -102,6 +126,7 @@ public class OrderService {
     }
 
     public  List<OrderDetailDTO> selectOrderDetail(Integer orderNo){
+        ItemServiceDao = new ItemServiceImpl();
         List<Item> itemList = new ArrayList<Item>();
         ItemOrderVO itemOrderVO = dao.selectById(orderNo);
         List<ItemOrderDetailVO> itemOrderDetailVOList = dao.getDetailByOrderNumber(orderNo);
@@ -112,14 +137,24 @@ public class OrderService {
             itemList.add(ItemServiceDao.FindByItemId(itemOrderDetailVOList.get(i).getItemNo()));
 
             orderDetailDTO.setItemOrderVO(itemOrderVO);
+            orderDetailDTO.setItemSales(itemOrderDetailVOList.get(i).getItemSales());
+            orderDetailDTO.setItemPrice(itemList.get(i).getItemPrice());
             orderDetailDTO.setItemImg(itemList.get(i).getItemImg().get(0).getItemImg());
             orderDetailDTO.setItemName(itemList.get(i).getItemName());
-            orderDetailDTO.setItemSales(orderDetailDTOList.get(i).getItemSales());
-            orderDetailDTO.setItemPrice(orderDetailDTOList.get(i).getItemPrice());
             orderDetailDTOList.add(orderDetailDTO);
         }
 
         return orderDetailDTOList;
     }
+
+    public Integer addBidOrderDetail (BidOrderDetailVo bidOrderDetailVo){
+        return dao.insertBidOrderDetail(bidOrderDetailVo);
+    }
+    public BidOrderVo getBidOneOrder(Integer orderNo) {
+        bidOrderDao = new BidOrderDaoImpl();
+        return bidOrderDao.selectById(orderNo);
+    }
+
+
 
 }

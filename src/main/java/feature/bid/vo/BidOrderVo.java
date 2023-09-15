@@ -18,7 +18,7 @@ public class BidOrderVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "BID_ORDER_NO", insertable = false, updatable = false)
+    @Column(name = "BID_ORDER_NO")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer bidOrderNo;
 
@@ -45,4 +45,8 @@ public class BidOrderVo implements Serializable {
     @OneToOne
     @JoinColumn(name = "BID_ITEM_NO", updatable = false, insertable = false)
     private BidItemVo bidItemVo;
+
+    @OneToOne
+    @JoinColumn(name = "BID_ORDER_NO", updatable = false, insertable = false)
+    private BidOrderDetailVo bidOrderDetailVo;
 }

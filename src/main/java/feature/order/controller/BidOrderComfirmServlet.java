@@ -1,19 +1,19 @@
 package feature.order.controller;
 
 import core.util.CommonUtil;
+import feature.bid.vo.BidOrderVo;
 import feature.order.service.OrderService;
-import feature.order.vo.ItemOrderVO;
-import feature.order.vo.OrderDetailDTO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
-@WebServlet("/loginRequired/findAllOrderDetail")
-public class MemberOrderDetail extends HttpServlet {
+
+@WebServlet("/loginRequired/bidOrderConfirm")
+public class BidOrderComfirmServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     CommonUtil commonUtil = new CommonUtil();
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -21,12 +21,20 @@ public class MemberOrderDetail extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
+        HttpSession session = req.getSession();
         req.setCharacterEncoding("UTF-8");
-        List<OrderDetailDTO> itemOrderDetailVOList = new OrderService().selectOrderDetail(2);
-        System.out.println(itemOrderDetailVOList);
-        commonUtil.writePojo2Json(res, itemOrderDetailVOList);
+        Integer orderNo = Integer.valueOf(req.getParameter("orderNo"));
+        System.out.println("orderNo: " + orderNo);
+
+        BidOrderVo bidOrderVo = new OrderService().getBidOneOrder(orderNo);
+
+        System.out.println("bidOrderVo: "+bidOrderVo);
+        commonUtil.writePojo2Json(res, bidOrderVo);
+
 
     }
 
 }
+
+
+

@@ -66,7 +66,7 @@
 	</ul>
 </c:if>
 
-<form method="post" action="order.tw" name="form1">
+<form method="post" action="/PolyBrain/view/order/order.tw" name="test1">
 <table>
 	<tr>
 		<td>會員編號:<font color=red><b></b></font></td>
@@ -85,12 +85,9 @@
 		<td>收件人電話 :</td>
 		<td><input type="text" name="receiverPhone" value="<%=itemordervo.getReceiverPhone()%>" ></td>
 	</tr>
-
-
-
-
 </table>
 <br>
+
 <input type="hidden" name="test1" value="update">
 <input type="hidden" name="orderNo" value="<%=itemordervo.getOrderNo()%>">
 <input type="submit" value="送出修改">

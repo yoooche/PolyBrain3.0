@@ -11312,3 +11312,16 @@ table.dataTable.dtr-inline > tbody > tr[role="row"] > th.control:before {
   max-width: 100px; /* 设置最大宽度 */
   max-height: 100px; /* 设置最大高度 */
 }
+.custom-item {
+  margin-bottom: 10px; /* 控制商品信息之间的垂直间距 */
+}
+
+.item-label {
+  font-weight: bold; /* 加粗标签文字 */
+  margin-right: 5px; /* 控制标签和值之间的水平间距 */
+}
+
+.item-value {
+  font-size: 14px; /* 控制值文字的大小 */
+  color: #333; /* 控制值文字的颜色 */
+}

@@ -227,6 +227,7 @@ public class BiddingServiceImpl implements BiddingService{
     @Override
     public BidOrderVo orderWithoutBid(Integer bidEventNo, Integer memNo) {
         BidEventVo bidEventVo = bidEventDao.selectById(bidEventNo);
+        BidOrderMail bidOrderMail = new BidOrderMail();
 
         bidOrderVo.setBidEventNo(bidEventNo);
         bidOrderVo.setBidItemNo(bidEventVo.getBidItemNo());
@@ -238,7 +239,7 @@ public class BiddingServiceImpl implements BiddingService{
 
         System.out.println(b);
         System.out.println(b.getBidOrderNo());
-        mailService.sendMail(b.getBidOrderNo());
+        bidOrderMail.sendBidOrderMail(b.getBidOrderNo());
         System.out.println("郵件發出");
         return bidOrderVo;
     }
