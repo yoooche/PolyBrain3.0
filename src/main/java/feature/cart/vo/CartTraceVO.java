@@ -18,10 +18,10 @@ import java.util.Objects;
 
 public class CartTraceVO {
     @Id
-    @Column(name="MEM_NO" ,insertable = false,updatable = false)
+    @Column(name="MEM_NO", updatable = false)
     private Integer memNo;
     @Id
-    @Column(name="ITEM_NO", insertable = false, updatable = false)
+    @Column(name="ITEM_NO", updatable = false)
     private Integer itemNo;
     @Column(name="quantity")
     private Integer quantity;

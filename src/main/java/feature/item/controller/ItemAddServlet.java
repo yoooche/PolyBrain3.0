@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-@WebServlet("/item/addItem")
+@WebServlet("/general/item/addItem")
 public class ItemAddServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private ItemService service = new ItemServiceImpl();
@@ -56,6 +56,7 @@ public class ItemAddServlet extends HttpServlet {
                 service2.editImg(itemImageList, itemNo);
             }
             CommonUtil.writePojo2Json(response,item);
+            return;
         }
     }
 }
