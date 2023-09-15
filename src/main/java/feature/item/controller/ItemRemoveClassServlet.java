@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import static core.util.CommonUtil.json2Pojo;
 
-@WebServlet("/item/ClassRemove")
+@WebServlet("/general/item/ClassRemove")
 public class ItemRemoveClassServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
