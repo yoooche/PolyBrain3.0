@@ -1,6 +1,7 @@
 package feature.item.dao;
 
 import feature.item.vo.Item;
+import feature.order.vo.ItemOrderVO;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.jetbrains.annotations.NotNull;
@@ -44,7 +45,7 @@ public class ItemDaoImpl implements ItemDao{
 
     //單筆查詢
     public Item SelectByItemId(Integer itemid) {
-        return getSession().get(Item.class,itemid);}
+        return getSession().get(Item.class, itemid);}
 
     //搜尋依照商品名稱搜尋
     public List<Item> SelectByItemName(String itemName) {
@@ -101,27 +102,19 @@ public class ItemDaoImpl implements ItemDao{
     }
 
     public static void main(String[] args) {
-//        List<Item> list = new ItemDaoImpl().selectAll();
-//        String s1 = .toString();
-//        System.out.println(list.get(0).getItemImg().get(0).getItemImg());
-
 
         List<Item> listAAA = new ArrayList<Item>();
-        listAAA.add(new ItemDaoImpl().SelectByItemId(195));
-        listAAA.add(new ItemDaoImpl().SelectByItemId(196));
+        ItemDaoImpl itemDao = new ItemDaoImpl();
 
-        for(Item item: listAAA){
-            System.out.println(item.getItemNo());
-            System.out.println(item.getGameTime());
-        }
+
+
+        Item item = new Item();
+        item = itemDao.SelectByItemId(101);
+        System.out.println("印出"+item);
+
+
+        System.out.println(new ItemDaoImpl().SelectByItemId(194).getItemNo());
 
     }
 
-//    public Item SelectByItemClass(@NotNull Item itemclassno) {
-//        final String hql = "FROM Item WHERE itemClassNo = :icn";
-//        return getSession()
-//                .createQuery(hql, Item.class)
-//                .setParameter("icn", itemclassno.getItemClassNo())
-//                .getSingleResult();
-//    }
  }

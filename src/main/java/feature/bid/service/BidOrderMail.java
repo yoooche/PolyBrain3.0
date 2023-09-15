@@ -1,60 +1,50 @@
-package feature.mail.service;
+package feature.bid.service;
 
 
 import feature.bid.dao.BidOrderDaoImpl;
 import feature.bid.vo.BidOrderVo;
 import feature.mem.dao.MemDaoImpl;
 import feature.mem.vo.MemVo;
-import feature.order.dao.impl.ItemOrderDAOImpl;
-import feature.order.vo.ItemOrderVO;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
+import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.util.Properties;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.servlet.ServletContext;
 
-public class MailService {
-    private ItemOrderDAOImpl itemOrderDao;
+public class BidOrderMail {
     private BidOrderDaoImpl bidOrderDao;
     private MemDaoImpl memDao;
 
 
     // 設定傳送郵件:至收信人的Email信箱,Email主旨,Email內容
-    public void sendMail(Integer orderNo) {
-
+    public void sendBidOrderMail(Integer orderNo) {
         Integer memNo = null;
         Integer orderTotal = null;
 
 
-        if (orderNo >= 7001) {
+        if (orderNo >= 1) {
+            System.out.println("這是一筆競標訂單");
             bidOrderDao = new BidOrderDaoImpl();
             BidOrderVo bidOrderVo = bidOrderDao.selectById(orderNo);
             memNo = bidOrderVo.getMemNo();
+            System.out.println(memNo);
+            System.out.println("訂單編號" + orderNo);
             orderTotal = bidOrderVo.getFinalPrice();
-        }
-
-        else if (orderNo >= 1) {
-            itemOrderDao = new ItemOrderDAOImpl();
-            ItemOrderVO itemOrderVO = itemOrderDao.selectById(orderNo);
-            memNo = itemOrderVO.getMemNo();
-            orderTotal = itemOrderVO.getOrderTotal();
-        }
-        else{
+            System.out.println(orderTotal);
+        } else {
             return;
         }
+
 
         try {
             memDao = new MemDaoImpl();
             MemVo memVo = memDao.selectById(memNo);
             String memName = memVo.getMemName();
             String memEmail = memVo.getMemEmail();
+            System.out.println(memName);
+            System.out.println(memEmail);
 
 
             JavaMailSenderImpl senderImpl = new JavaMailSenderImpl();
@@ -97,7 +87,7 @@ public class MailService {
                     "            <p style=\"font-size: 1.1rem;color: #F0F8FF;\">有關訂單的查詢或要聯絡 <span style=\"font-weight: bold;\">PolyBrain</span><br></p>" +
                     "            <p style=\"font-size: 1.1rem;color: #F0F8FF;\">請登入以下連結。<br></p>" +
                     "            <button style=\"background-color: #d2b48c; border-radius:5px; width: 85%; height: 40px;\">" +
-                    "                <a href=\"http://localhost:8080/PolyBrain\"" +
+                    "                <a href=\"http://localhost:8080/PolyBrain/view/bid/BidOnHomePage.html\"" +
                     "                    style=\"text-decoration: none;color: #000000;font-size: 1.1rem;\">訂單連結</a></button><br>" +
                     "            <p style=\"font-size: 1.1rem; color: #F0F8FF;\">親愛的貴賓:<strong> " + memName.toString() + "</strong> <br></p>" +
                     "            <p style=\"font-size: 1.1rem;color: #F0F8FF;\">感謝您在<strong>PolyBrain桌桌訂購</strong><br></p>" +
@@ -110,10 +100,10 @@ public class MailService {
                     "</body>" +
                     "</html>", true);
 
-            FileSystemResource img = new FileSystemResource(
-                    new File("C:\\PolyBrain3.0-workspace\\PolyBrain3.0\\src\\main\\webapp\\view\\logo\\JennyBluePoly.png"));
+//            FileSystemResource img = new FileSystemResource(
+//                    new File("view/logo/PolyBrain_Logo.png"));
                             //這個路徑要修正
-            messageHelper.addInline("1", img);
+//            messageHelper.addInline("1", img);
 
             // 傳送郵件
             senderImpl.send(mailMessage);
@@ -124,11 +114,6 @@ public class MailService {
             System.out.println("傳送失敗!");
             e.printStackTrace();
         }
-    }
-
-    public static void main(String args[]) {
-        MailService mailService = new MailService();
-        mailService.sendMail(7001);
     }
 
 }

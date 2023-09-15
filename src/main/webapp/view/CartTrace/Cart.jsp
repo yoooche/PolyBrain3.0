@@ -27,6 +27,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
+
     <title>PolyBrain購物車</title>
 
 
@@ -273,6 +274,22 @@
                     var itemQtyinput = itemQtyElements[index];
                     var deleteBtn = deleteBtnElements[index];
                     var rowMother = rowMotherElements[index];
+                    document.querySelector('#submitBtn').addEventListener('click', function () {
+
+                        console.log('cartQuantityElements.length'+cartQuantityElements.length);
+                        if (cartQuantityElements.length != 0) { //情境是: 進來頁面直接按結帳，這是在判斷購物車有沒有商品
+                            currentItemNoValue = itemNoinput.value;
+                            currentQuantityValue = input.value;
+                            submitFormToConfirmOrder();
+                        }
+                        else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: '你尚未購買東西喔!',
+                            });
+                        }
+
+                    });
 
                     deleteBtn.addEventListener('click', function () {
                         Swal.fire({
@@ -359,26 +376,13 @@
 
 
             }
-            document.querySelector('#submitBtn').addEventListener('click', function () {
-    
-    
-                if (cartQuantityElements.length != 0) { //情境是: 進來頁面直接按結帳，這是在判斷購物車有沒有商品
-                    submitFormToConfirmOrder();
-                }
-                else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: '你尚未購買東西喔!',
-                    });
-                }
-    
-            });
         })
+
 
 
         function submitUpdateForm() {
             return new Promise((resolve, reject) => {
-                fetch('http://localhost:8080/PolyBrain/view/CartTrace/CartServlet', {
+                fetch('/PolyBrain/loginRequired/CartServlet', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/x-www-form-urlencoded'
@@ -394,6 +398,8 @@
                     .then(data => {
                         console.log(data.message);
                         resolve();
+                        location.reload();
+
                     })
                     .catch(error => {
                         reject(error);
@@ -402,25 +408,23 @@
         }
 
         function submitFormToConfirmOrder() {
-
             console.log("in2");
 
             submitUpdateForm()
                 .then(() => {
-                    fetch('http://localhost:8080/PolyBrain/view/CartTrace/ConfirmOrder', {
+                    fetch('/PolyBrain/loginRequired/ConfirmOrder', {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/x-www-form-urlencoded' //
                         },
                         body: new URLSearchParams({
                             action: 'getAll',
-                            quantity: 1,
-                            itemNo: currentItemNoValue
+                            // quantity: currentQuantityValue,
+                            // itemNo: currentItemNoValue
                         })
                     })
                         .then(() => {
                             window.location.href = "http://localhost:8080/PolyBrain/view/CartTrace/CartTrace.jsp";
-
                         })
 
                 })
@@ -479,6 +483,7 @@
     </script>
 
  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
 
 </body>
 <!-- Footer-->

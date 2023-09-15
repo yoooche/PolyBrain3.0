@@ -43,7 +43,7 @@
             </a>
 
         </div>
-
+        
         <div class="container">
             <div class="row">
                 <div class="col-md-4 order-md-2 mb-4">
@@ -55,24 +55,26 @@
                             <li class="list-group-item d-flex justify-content-between lh-condensed">
                                 <div>
                                     <h6 class="my-0">${cartItemImgDTO.itemName}</h6>
-                                    <small id="cartQuantity"class="text-muted">${cartItemImgDTO.quantity}</small>
+                                    <small id="cartQuantity" class="text-muted">${cartItemImgDTO.quantity}</small>
                                 </div>
                                 <span class="cartPrice" id="cartPrice"
-                                value="${cartItemImgDTO.itemPrice * cartItemImgDTO.quantity}">
-                                   $ ${cartItemImgDTO.itemPrice * cartItemImgDTO.quantity}
+                                    value="${cartItemImgDTO.itemPrice * cartItemImgDTO.quantity}">
+                                    $ ${cartItemImgDTO.itemPrice * cartItemImgDTO.quantity}
                                 </span>
                             </li>
                         </c:forEach>
-                        <li class="list-group-item " style="display: none;"id="transFormPrice">
+                        <li class="list-group-item " style="display: none;" id="transFormPrice">
                         </li>
-                            <li class="list-group-item d-flex justify-content-between lh-condensed" id="orderTotal">
-                            </li>
+                        <li class="list-group-item d-flex justify-content-between lh-condensed " id="orderTotal" value="">
+                        </li>
 
                     </ul>
                 </div>
 
                 <div class="col-md-8 order-md-1">
-                    <form method="post" action="<%=request.getContextPath()%>/view/CartTrace/ConfirmOrder">
+                    
+                    <form method="post" action="/PolyBrain/loginRequired/ConfirmOrder" id="confirmOrder">
+                        <input type="hidden" id="orderTotal1" name="orderTotal" value="">
                         <div class="container">
                             <h4 class="mb-3">填寫付款資訊</h4>
 
@@ -94,13 +96,13 @@
                             </div>
 
                             <div class=" row twzipcode">
-                                <div class="col-md-6 mb-3" data-role="county" data-style="d-block w-100">
-                                    <label for="county">Country</label>
+                                <div class="col-md-6 mb-3" data-role="county" data-style="d-block w-100" id="county">
+                                    <label for="county">縣市</label>
                                     <div class="invalid-feedback"> Please select a valid country. </div>
                                 </div>
 
-                                <div class="col-md-6 mb-3" data-role="district" data-style="d-block w-100">
-                                    <label for="state">state</label>
+                                <div class="col-md-6 mb-3" data-role="district" data-style="d-block w-100" id="state">
+                                    <label for="state">地區</label>
                                     <div class="invalid-feedback"> Please provide a valid state. </div>
                                 </div>
                                 <div>
@@ -116,7 +118,7 @@
 
                             <div class="form-row">
                                 <label for="receiverMethod">寄送方式：</label>
-                                <select id="receiverMethod" name="receiverMethod" required >
+                                <select id="receiverMethod" name="receiverMethod" required>
                                     <option value="default" selected>請選擇寄送方式...</option>
                                     <option value="mail">郵寄</option>
                                     <option value="storePickup">超商取貨</option>
@@ -153,15 +155,27 @@
         var transFormPriceElement = document.querySelector('#transFormPrice');
         var cartPriceElements = document.querySelectorAll('.cartPrice');
         var orderTotal = document.querySelector('#orderTotal')
+        var orderTotal1 = document.querySelector('#orderTotal1')
         var total = 0;
 
-        for(var i = 0; i < cartPriceElements.length ;i++){
+        for (var i = 0; i < cartPriceElements.length; i++) {
             total += parseInt(cartPriceElements[i].textContent.match(/\d+/));
         }
-        orderTotal.textContent="總計: "+ total;
+        orderTotal.textContent = "總計: " + total;
+        orderTotal1.value = total ;
+        // fetch('http://localhost:8080/PolyBrain/view/CartTrace/ConfirmOrder', {
+        //     method: 'POST',
+        //     headers: {
+        //         'content-type': 'application/x-www-form-urlencoded' //
+        //     },
+        //     body: new URLSearchParams({
+        //         action: 'orderConfirm',
+        //         total: total,
+        //     })
+        // })
 
         var receiverMethodElement = document.querySelector('#receiverMethod');
-        receiverMethodElement.addEventListener('change', function(){
+        receiverMethodElement.addEventListener('change', function () {
             var selectedOption = receiverMethodElement.options[receiverMethodElement.selectedIndex];
 
             if (selectedOption.value === 'default') {
@@ -172,15 +186,25 @@
 
             }
         })
-        
 
 
 
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.querySelector('form'); // 获取表单元素
+            form.addEventListener('submit', function (event) {
+                var countySelect = document.querySelector('select[name="county"]');
+                var districtSelect = document.querySelector('select[name="district"]');
+                var errorMsgElement = document.querySelector('#errorMsg');
 
-
-
-
-
+                // 检查是否等于插件的默认值
+                if (countySelect.value === '' || districtSelect.value === '0') {
+                    event.preventDefault(); // 阻止表单提交
+                    errorMsgElement.textContent = '請選擇縣市和地區。'; // 显示错误消息
+                } else {
+                    errorMsgElement.textContent = ''; // 清除错误消息
+                }
+            });
+        });
 
     </script>
 
@@ -190,4 +214,3 @@
 </body>
 
 </html>
-

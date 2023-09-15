@@ -35,7 +35,7 @@ public class ItemDAOimplPeter implements CoreDao {
         try {
 
             con = ds.getConnection();
-            pstmt = con.prepareStatement("delete from item_trace where mem_no = ? AND item_no =?");
+            pstmt = con.prepareStatement("delete from cart where mem_no = ? AND item_no =?");
             pstmt.setInt(1, memNo);
             pstmt.setInt(2, itemNo);
 

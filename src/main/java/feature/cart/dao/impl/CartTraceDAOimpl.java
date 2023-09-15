@@ -22,7 +22,8 @@ public class CartTraceDAOimpl implements CartTraceDAO {
     static {
         try {
             Context ctx = new InitialContext();
-            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/boardgame");
+            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/polybrain");
+
         } catch (NamingException e) {
             e.printStackTrace();
         }
@@ -80,7 +81,7 @@ public class CartTraceDAOimpl implements CartTraceDAO {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        final String sql = "Select * From item_trace where mem_no = ? Order By item_no ";
+        final String sql = "Select * From cart where mem_no = ? Order By item_no ";
         try {
             con = ds.getConnection();
             pstmt = con.prepareStatement(sql);
@@ -127,7 +128,7 @@ public class CartTraceDAOimpl implements CartTraceDAO {
         try {
 
             con = ds.getConnection();
-            pstmt = con.prepareStatement("delete from item_trace where mem_no = ? AND item_no =?");
+            pstmt = con.prepareStatement("delete from cart where mem_no = ? AND item_no =?");
             pstmt.setInt(1, memNo);
             pstmt.setInt(2, itemNo);
             pstmt.executeUpdate();
@@ -185,6 +186,11 @@ public class CartTraceDAOimpl implements CartTraceDAO {
             return -1;
         }
 
+    }
+
+    public static void main(String[] args) {
+        List<CartTraceVO> list = new CartTraceDAOimpl().selectCartByMemNo(1001);
+        System.out.println(list);
     }
 
 
