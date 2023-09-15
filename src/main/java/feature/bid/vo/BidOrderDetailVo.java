@@ -31,4 +31,8 @@ public class BidOrderDetailVo {
 
     @Column(name = "receiver_method")
     private Integer receiverMethod;
+
+    @OneToOne
+    @JoinColumn(name = "BID_ORDER_NO", updatable = false, insertable = false)
+    private BidOrderVo bidOrderVo;
 }

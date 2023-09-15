@@ -33,7 +33,7 @@ function fetchAndBuildTable() {
 
 
 function sendToController() {
-    fetch("/PolyBrain/loginRequired/bidSearchMemOrder", {
+    fetch("/PolyBrain/loginRequired/bidAllOrderBackEnd", {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
@@ -52,8 +52,8 @@ function sendToController() {
 //動態填表格
 function buildTable() {
 
-    table = $("#memberBidOrder").DataTable({
-        id: "memberBidOrder",
+    table = $("#bidOrderBackEnd").DataTable({
+        id: "bidOrderBackEnd",
         "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "全部"]],
         "processing": true,
         "destroy": true,
@@ -74,6 +74,9 @@ function buildTable() {
                 data: "bidOrderNo",
             },
             {
+                data: "bidOrderVo.bidItemVo.bidItemName",
+            },
+            {
                 data: "receiverName",
             },
             {
@@ -92,6 +95,7 @@ function buildTable() {
             {
                 data: "bidOrderVo.finalPrice",
             },
+
         ],
         language: {      // 語言設定
             "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json"
@@ -104,13 +108,6 @@ function buildTable() {
         ]
 
     });
-
-
-
-
-
-
-
 
     // $(document).on('click', '.orderDetailBtn', function () {
     //     fetch("http://localhost:8080/PolyBrain/findAllOrderDetail", {

@@ -17,25 +17,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <!-- Bootstrap icons-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
     <title>PolyBrain購物車</title>
 
 
     <style>
-        /* 會員名稱調整 */
-     #memName {
-           line-height: 2.3;  /* 调整为所需的值 */
-            text-shadow: 2px 2px 2px rgba(0,0,0,0.3);
-            color: white;
-            margin-left: 12px;
-        }
         table#table-1 {
             background-color: #CCCCFF;
             border: 2px solid black;
@@ -79,86 +72,24 @@
             width: auto;
             margin: 0;
         }
-        .row {
-    --bs-gutter-x: 0;
-    --bs-gutter-y: 0;
-}
     </style>
 
 </head>
 
-<body class="d-flex flex-column h-100">
-  <main class="flex-shrink-0">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container px-5">
-                <a class="navbar-brand" href="index.html">
-                 <img src="../logo/PolyBrain_Logo.png" style="width: 110px; height: auto; margin-bottom: 5px;"></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation"><span
-                        class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-list"> 添加 nav-list 類別 -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="buyitem" href="#" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">商城</a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                                <li><a class="dropdown-item" href="../item/search.html">商品資訊</a></li>
-                                <li><a class="dropdown-item" href="../order/memberOrder.html">商城訂單查詢</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="buybid" href="#" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">競標</a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                                <li><a class="dropdown-item" href="../bid/BidOnHomePage.html">熱門競標</a></li>
-                                <li><a class="dropdown-item" href="../order/bidOrderFront.html">競標訂單查詢</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="mybooking" href="#" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">預約場地</a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                                <li><a class="dropdown-item" href="../book/Calendar.html">現在預約</a></li>
-                                <li><a class="dropdown-item" href="../book/BookingCheck.html">預約場地查詢</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="discuss" href="../forum/mainpage/index.jsp" role="button">討論區</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="memberdistrict" href="../member/Member_Information.jsp" role="button">會員中心</a>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="../head/question.html">常見問題</a></li>
-                        <li>
-                            <a href="http://localhost:8080/PolyBrain/view/CartTrace/Cart.jsp" id="submitLink"
-                                class="btn btn-outline-dark" style="color: #ffffff">
-                                <i class="bi-cart-fill me-1" style="color: #ffffff"></i>
-                                購物車
-                            </a>
-                        </li>
-                        <span id="memName" style="margin-left:12px;"></span>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                            <ul id="dropdown-menu" class="dropdown-menu dropdown-menu-end"
-                                aria-labelledby="navbarDropdown">
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+<body>
+
     <div class="container">
         <div class="row">
 
 
-          <div>
-                        <h3 style="margin-top: 20px;">購物車詳情 👇</h3>
-          </div>
+            <table id="table-1">
+                <tr>
+                    <td>
+                        <h3>購物車</h3>
+                        <h4><a href="select.jsp">回首頁</a></h4>
+                    </td>
+                </tr>
+            </table>
 
             <table>
                 <tr>
@@ -199,21 +130,18 @@
             </table>
             <div id="cartTotal"></div>
             <!-- <form method="post" action="<%=request.getContextPath()%>/view/CartTrace/ConfirmOrder"> -->
-      <div class="row justify-content-end">
-    <div class="col-md-6 text-end">
-    <a href="http://localhost:8080/PolyBrain/view/item/search.html" class="btn btn-secondary btn-sm canceled">返回商城</a>
-        <button id="submitBtn" type="submit" class="btn btn-primary btn-sm">
-            結帳
-        </button>
-    </div>
-</div>
-</div>
+            <button id="submitBtn" type="submit" class="btn btn-primary btn-lg">
+                結帳
+            </button>
+            <a href="#" class="canceled">返回商城</a>
+        </div>
         <!-- </form> -->
 
 
     </div>
 
     <script>
+
 
         var currentQuantityValue;
         var currentItemNoValue;
@@ -259,6 +187,10 @@
             }
 
             resetTotal();
+
+
+
+
             for (var i = 0; i < cartQuantityElements.length; i++) {
                 (function (index) {
                     var input = cartQuantityElements[index];
@@ -267,7 +199,7 @@
                     var deleteBtn = deleteBtnElements[index];
                     var rowMother = rowMotherElements[index];
                     document.querySelector('#submitBtn').addEventListener('click', function () {
-                        console.log("345");
+
                         console.log('cartQuantityElements.length'+cartQuantityElements.length);
                         if (cartQuantityElements.length != 0) { //情境是: 進來頁面直接按結帳，這是在判斷購物車有沒有商品
                             currentItemNoValue = itemNoinput.value;
@@ -432,68 +364,8 @@
 
 
     </script>
-<script>
-        $(document).ready(function(){
-            validateMemStatus();
-        });
-    async function validateMemStatus() {
-    const response = await fetch('/PolyBrain/general/validateMemStatus', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json; charset:utf-8' },
-    })
-    .then(resp => resp.json())
-    .then(data => {
-    console.log(data);
-    const { memNo, memName, loginStatus } = data;
-    $('ul#dropdown-menu').append(`
-    <li><a class="dropdown-item" href="#!">會員專區</a></li>
-    <li><a class="dropdown-item" href="#!">購物車</a></li>
-    <li><hr class="dropdown-divider" /></li>
-    `);
-    if (loginStatus) {
-    $('span#memName').text(memName);
-    $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/logout.jsp">登出</a></li>');
-    let memDetail = [memNo, memName];
-    return memDetail;
-    } else {
-    $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/login.html">登入</a></li>');
-    }
-    });
-    return response;
-    }
-
-          let bidEventList = document.querySelectorAll('.bidEventList');
-        bidEventList.forEach(link => {
-            link.addEventListener('click', function (event) {
-                event.preventDefault();
-                const biddingEvent = link.getAttribute('data-event-id');
-                const bidEventURL = 'http://localhost:8080/PolyBrain/view/bid/BidOnItemPage2.jsp';
-                const url = `${bidEventURL}?bidEventId=${biddingEvent}`;
-                window.location.href = url;
-            });
-        });
-    </script>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
-<!-- Footer-->
-    <footer class="bg-dark py-4 mt-auto fixed-bottom" >
-        <div class="container px-5">
-            <div class="row align-items-center justify-content-between flex-column flex-sm-row">
-                <div class="col-auto">
-                    <div class="small m-0 text-white">Copyright © 2023 PolyBrain. All rights reserved. </div>
-                </div>
-                <div class="col-auto">
-                    <a class="link-light small" href="Privacy.html">隱私權協定</a>
-                    <span class="text-white mx-1">&middot;</span>
-                    <a class="link-light small" href="Forus.html">關於我們</a>
-                    <span class="text-white mx-1">&middot;</span>
-                    <a href="mailto:ps66391@gmail.com?subject=聯絡我們的請求&body=請在此寫下您的問題。"
-                       title="用 Email 轉寄" onclick="return confirm('您確定要前往email寄信?');">
-                        <img src="img/信封.jpg" >
-                    </a>
-                </div>
-            </div>
-        </div>
-    </footer>
+
 </html>
