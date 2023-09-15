@@ -67,7 +67,7 @@ function getProduct(move, numberpage, set) {
                     <div class="card">
                         <div class="image-container">
                             <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=${item.itemNo}">
-                                <img class="card-img-top" src="${item.itemImg[0].itemImg}" alt="商品圖片" itemState ="${item.itemState}">
+                                <img class="card-img-top" src="${item.itemImg[0].itemImg}" alt="商品圖片" itemState ="${item.itemState}" itemSales="${item.itemSales}">
                             </a>
                         </div>
                         <div class="card-body p-4">
@@ -78,6 +78,9 @@ function getProduct(move, numberpage, set) {
                             </div>
                             <div class="text-center">
                             遊戲人數：${item.minPlayer}人到${item.maxPlayer}人
+                            </div>
+                            <div class="text-center">
+                            銷售量：${item.itemSales} 個
                             </div>
                         </div>
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
@@ -93,10 +96,15 @@ function getProduct(move, numberpage, set) {
                 const cardImgTop = cardColumn.querySelector('.card-img-top');
                 // 取得 itemState 属性的值
                 const itemState = cardImgTop.getAttribute('itemState');
+                // 取得 itemSales 属性的值
+                const itemSales = parseInt(cardImgTop.getAttribute('itemSales'));
 
                 // 如果是已售完狀態，插入 Sale 符號
                 if (itemState === '2') {
                     cardImgTop.insertAdjacentHTML('beforebegin', '<div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem" >已售完</div>');
+                }
+                if (itemSales >= 100){
+                    cardImgTop.insertAdjacentHTML('beforebegin', '<div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem" >HOT!</div>');
                 }
             });
 
@@ -396,7 +404,7 @@ function OrderBy(orderBy) {
             queryParams.orderBy = "itemNo DESC";
             break;
         case 2:
-            queryParams.orderBy = "itemSales ASC";
+            queryParams.orderBy = "itemSales DESC";
             break;
     }
 

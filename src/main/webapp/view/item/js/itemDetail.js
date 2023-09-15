@@ -229,7 +229,7 @@ function randomItem(itemClassNo, itemNo) {   //將itemNo傳入
                 <!-- Product image-->
                 <div class="image-container">
                 <a href="http://localhost:8080/PolyBrain/view/item/itemDetail.html?itemNo=${newData[i].itemNo}">
-                <img class="card-img-top" src="${newData[i].itemImg[0].itemImg}" alt="商品圖片" itemState ="${newData[i].itemState}">
+                <img class="card-img-top" src="${newData[i].itemImg[0].itemImg}" alt="商品圖片" itemState ="${newData[i].itemState}" itemSales="${newData[i].itemSales}">
                 </a>
                 </div>
                 <!-- Product details-->
@@ -254,10 +254,15 @@ function randomItem(itemClassNo, itemNo) {   //將itemNo傳入
                 const cardImgTop = cardColumn.querySelector('.card-img-top');
                 // 取得 itemState 属性的值
                 const itemState = cardImgTop.getAttribute('itemState');
+                // 取得 itemSales 属性的值
+                const itemSales = parseInt(cardImgTop.getAttribute('itemSales'));
 
                 // 如果是已售完狀態，插入 Sale 符號
                 if (itemState === '2') {
                     cardImgTop.insertAdjacentHTML('beforebegin', '<div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem" >已售完</div>');
+                }
+                if (itemSales >= 100) {
+                    cardImgTop.insertAdjacentHTML('beforebegin', '<div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem" >HOT!</div>');
                 }
             }
         })

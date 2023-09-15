@@ -167,6 +167,13 @@ $(document).ready(function () {
         //點擊送出按鈕後使用燈箱效果顯示確認取消對話框
         addsubmit.addEventListener('click', () => {
             let errorMsg = '';
+            // 获取DataTable的数据
+            const data = dataTable.rows().data().toArray();
+
+            // 检查是否存在具有相同名称的商品
+            if (isDuplicateName = data.some(row => row.itemName === itemName.value)){
+                errorMsg += '<li>已有同名遊戲存在';
+            }
             if (itemClassNo.value == 0) {
                 errorMsg += '<li>請選擇遊戲類別';
             }
@@ -188,6 +195,7 @@ $(document).ready(function () {
             if (gameTime.value == 0) {
                 errorMsg += '<li>請選擇遊戲時間';
             }
+
             if (errorMsg !== '') {
                 const errorList = errorMsg.split('<li>').filter(item => item !== '').map((item, index) => {
                     return `<li><span style="margin-right: 10px;">${index + 1}.</span>${item}</li>`;
@@ -199,58 +207,61 @@ $(document).ready(function () {
                     title: '新增商品失敗...',
                     html: `<ul style="text-align: left; padding-left: 120px; list-style-position: inside;">${errorList}</ul>`,
                 });
-                return;
-            }
+            } else {
+                // 如果没有错误消息，将默认图片路径添加到请求中
+                if (itemImageList.length === 0) {
+                    itemImageList.push('img/nopic.jpg');
+                }
 
-            console.log("itemImageList:", itemImageList);
+                console.log("itemImageList:", itemImageList);
 
-            Data = {
-                item: {
-                    itemClassNo: itemClassNo.value,
-                    itemName: itemName.value,
-                    itemPrice: itemPrice.value,
-                    itemState: itemState.value,
-                    itemQty: itemQty.value,
-                    minPlayer: minPlayers.value,
-                    maxPlayer: maxPlayers.value,
-                    gameTime: gameTime.value,
-                    itemProdDescription: itemProdDescription.value,
-                },
+                Data = {
+                    item: {
+                        itemClassNo: itemClassNo.value,
+                        itemName: itemName.value,
+                        itemPrice: itemPrice.value,
+                        itemState: itemState.value,
+                        itemQty: itemQty.value,
+                        minPlayer: minPlayers.value,
+                        maxPlayer: maxPlayers.value,
+                        gameTime: gameTime.value,
+                        itemProdDescription: itemProdDescription.value,
+                    },
 
-                itemImageList: itemImageList,
-            }
-            console.log(itemImageList);
-            console.log(Data);
+                    itemImageList: itemImageList,
+                }
+                console.log(itemImageList);
+                console.log(Data);
 
-            fetch('/PolyBrain/general/item/addItem', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json;charset=UTF-8',
-                },
-                body: JSON.stringify(Data),
-            })
-                .then(resp => resp.json())
-                .then(body => {
-                    console.log("Item Name Value:", itemName.value);
-                    const { success } = body;
-                    if (success) {
-                        for (let input of inputs) {
-                            input.disabled = true;
+                fetch('/PolyBrain/general/item/addItem', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=UTF-8',
+                    },
+                    body: JSON.stringify(Data),
+                })
+                    .then(resp => resp.json())
+                    .then(body => {
+                        console.log("Item Name Value:", itemName.value);
+                        const { success } = body;
+                        if (success) {
+                            for (let input of inputs) {
+                                input.disabled = true;
+                            }
+                            addsubmit.disabled = true;
+                            Swal.fire('新增成功').then(() => {
+                                window.location.href = "../item/itemConsole.html";
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: '新增失敗...',
+                                text: '有些地方發生錯誤，請聯繫系統管理員!',
+                            })
                         }
-                        addsubmit.disabled = true;
-                        Swal.fire('新增成功').then(() => {
-                            window.location.href = "../item/itemConsole.html";
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: '新增失敗...',
-                            text: '有些地方發生錯誤，請聯繫系統管理員!',
-                        })
-                    }
-                });
+                    });
+            }
         });
-
 
         //使用燈箱效果顯示確認取消對話框
         btnCancel.addEventListener('click', () => {
@@ -277,7 +288,7 @@ $(document).ready(function () {
                     $('#editProdDescription').val('');
                     itemImageList2 = [];
                     // 若使用者確定取消，則關閉燈箱
-                  
+
                 }
                 document.getElementById('add_lightbox').style.display = 'none';
             });
