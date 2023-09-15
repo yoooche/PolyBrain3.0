@@ -370,11 +370,13 @@
                         </li>
                         <li class="nav-item"><a class="nav-link" href="../head/question.html">常見問題</a></li>
                         <li>
-                            <a href="http://localhost:8080/PolyBrain/view/CartTrace/Cart.jsp" id="submitLink"
-                                class="btn btn-outline-dark" style="color: #ffffff">
-                                <i class="bi-cart-fill me-1" style="color: #ffffff"></i>
-                                購物車
-                            </a>
+                            <form method="post" action="http://localhost:8080/PolyBrain/loginRequired/CartServlet">
+                                <input type="hidden" name="action" value="getAll" id="actionInput">
+                                <button type="submit" class="btn text-white">
+                                    <i class="bi-cart-fill me-1" style="color: #ffffff"></i>
+                                    購物車
+                                </button>
+                            </form>
                         </li>
                         <span id="memName" style="margin-left:12px;"></span>
                         <li class="nav-item dropdown">
@@ -562,7 +564,7 @@
                 </div>
             </div>
         </footer>
-        <script src="./js/search.js"></script>
+        <script src="./js/trace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>

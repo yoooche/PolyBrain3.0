@@ -21,13 +21,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <link href="./css/bootstrap.min.css" rel="stylesheet">
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <title>PolyBrain購物車</title>
 
 
@@ -204,7 +201,7 @@
             <!-- <form method="post" action="<%=request.getContextPath()%>/view/CartTrace/ConfirmOrder"> -->
       <div class="row justify-content-end">
     <div class="col-md-6 text-end">
-    <a href="#" class="btn btn-secondary btn-sm canceled">返回商城</a>
+    <a href="http://localhost:8080/PolyBrain/view/item/search.html" class="btn btn-secondary btn-sm canceled">返回商城</a>
         <button id="submitBtn" type="submit" class="btn btn-primary btn-sm">
             結帳
         </button>
@@ -217,7 +214,6 @@
     </div>
 
     <script>
-
 
         var currentQuantityValue;
         var currentItemNoValue;
@@ -263,10 +259,6 @@
             }
 
             resetTotal();
-
-
-
-
             for (var i = 0; i < cartQuantityElements.length; i++) {
                 (function (index) {
                     var input = cartQuantityElements[index];
@@ -275,7 +267,7 @@
                     var deleteBtn = deleteBtnElements[index];
                     var rowMother = rowMotherElements[index];
                     document.querySelector('#submitBtn').addEventListener('click', function () {
-
+                        console.log("345");
                         console.log('cartQuantityElements.length'+cartQuantityElements.length);
                         if (cartQuantityElements.length != 0) { //情境是: 進來頁面直接按結帳，這是在判斷購物車有沒有商品
                             currentItemNoValue = itemNoinput.value;
@@ -482,8 +474,6 @@
         });
     </script>
 
- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-
 
 </body>
 <!-- Footer-->
@@ -500,7 +490,7 @@
                     <span class="text-white mx-1">&middot;</span>
                     <a href="mailto:ps66391@gmail.com?subject=聯絡我們的請求&body=請在此寫下您的問題。"
                        title="用 Email 轉寄" onclick="return confirm('您確定要前往email寄信?');">
-                        <img src="images/信封.jpg" >
+                        <img src="img/信封.jpg" >
                     </a>
                 </div>
             </div>
