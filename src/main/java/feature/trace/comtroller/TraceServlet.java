@@ -28,7 +28,7 @@ public class TraceServlet extends HttpServlet {
         if (memNo != null) {
             // 调用服务方法获取与 memNo 相关的所有数据
             String jsonData = service.getAllTraceData(memNo);
-            System.out.println(jsonData);
+//            System.out.println(jsonData);
             // 设置响应类型为 JSON
             res.setContentType("application/json");
 

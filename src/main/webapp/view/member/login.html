@@ -34,35 +34,39 @@
             <div class="card o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
-                    <div class="row">
-                        <div class="col-lg-5 d-none d-lg-block bg-register-image" style="background-image: url('/PolyBrain/view/member/image/登入畫面圖.jpg');"></div>
+                    <div class="row" style="background-color: rgb(60, 60, 60);">
+                        <div class="col-lg-5 d-none d-lg-block bg-register-image" style="background-image: url('/PolyBrain/view/member/image/登入畫面圖.jpg');" style="margin-right: 50px;"></div>
                         <div class="col-lg-6">
-                            <div class="p-5">
-                                <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">歡迎回來</h1>
-                                </div>
+                            <div style="background-color: rgb(60, 60, 60); text-align: center; padding: 10px; width: 505px;">
+                                <a href="http://localhost:8080/PolyBrain/view/emp/login.jsp">
+                                    <img src="../logo/PolyBrain_Logo.png" style="width: 250px; height: auto; margin-top: 40px;" alt="前台登入隱藏暗道">
+                                </a>
+                            </div>
+                            <div class="p-5" style="margin-left: 50px; background-color: rgb(60, 60, 60); text-align: center;">
+
+                                <h1 class="h4 text-gray-900 mb-4" style="color: #f0f0f0 !important; font-weight: 400;">- 歡迎回來 -</h1>
+
+
                                     <div class="form-group">
                                         <input type="email" id="memEmail" name="memEmail" class="form-control form-control-user"
                                                 aria-describedby="emailHelp"
-                                               placeholder="請輸入電子郵件">
+                                               placeholder="請輸入電子郵件" style="height: 50px;">
                                         <span id="emailMsg" style="visibility: hidden; color: red;">請輸入電子郵件</span>
                                     </div>
                                     <div class="form-group">
                                         <input type="password" id="memPwd" name="memPwd" class="form-control form-control-user"
-                                                placeholder="請輸入密碼">
+                                                placeholder="請輸入密碼" style="height: 50px;">
                                         <span id="passwordMsg" style="visibility: hidden; color: red;">請輸入密碼</span>
                                     </div>
                                     <div class="form-group">
-                                        <div class="custom-control custom-checkbox small">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck">
-                                            <label class="custom-control-label" for="customCheck">記住我</label>
-                                        </div>
                                     </div>
                                     <button class="btn btn-primary btn-user btn-block loginSubmit">登入</button>
 
                                     <p id="checkMsg1" style="visibility: hidden;color: red;font-size: 10px;margin-top: 30px;">
                                         你的帳號或密碼不正確，請再試一次</p>
-                                    <hr>
+                                        <hr style="border-color: #f0f0f0;">
+
+                                    <div style="color: #f0f0f0;"></div>
                                 <div class="text-center">
                                     <a class="small" href="register.jsp">註冊會員</a>
                                 </div>
@@ -105,7 +109,7 @@ $(document).on("click", "button.loginSubmit", function(e){
 
     if(loginSuccess){
         $("span#emailMsg").css("visibility", "hidden"); 
-		$("span#passwordMsg").css("visibility", "hidden");
+  $("span#passwordMsg").css("visibility", "hidden");
         console.log('123');
 
         fetch('/PolyBrain/general/login', {
@@ -125,7 +129,7 @@ $(document).on("click", "button.loginSubmit", function(e){
                 if(currentPage){
                     window.location.href = currentPage;
                 }else{
-                    window.location.href = '/PolyBrain/view/bid/BidOnHomePage.html';
+                    window.location.href = '/PolyBrain/view/bid/BidOnHomePage.html ';
                 }
             }else{
                 $('p#checkMsg1').css('visibility', 'visible');

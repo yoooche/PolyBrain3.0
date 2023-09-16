@@ -10,13 +10,14 @@ import java.util.Map;
 import java.util.Set;
 
 public class TraceService {
-    private final Jedis jedis;
-
-    public TraceService() {
-        this.jedis = new Jedis("localhost", 6379);
-    }
+//    private final Jedis jedis;
+//
+//    public TraceService() {
+//        this.jedis = new Jedis("localhost", 6379);
+//    }
 
     public void addTrace(Integer memNo, traceVO trace) {
+        Jedis jedis = new Jedis("localhost", 6379);
         try {
             String memNoKey = "memNo:" + memNo;
             String itemNoKey = "memtrace:" + memNo + ":" + trace.getItemNo();
@@ -36,6 +37,7 @@ public class TraceService {
 
 
     public String getAllTraceData(Integer memNo) {
+        Jedis jedis = new Jedis("localhost", 6379);
         try {
             String memtracePrefix = "memtrace:" + memNo + ":";
             Set<String> itemNoKeys = jedis.keys(memtracePrefix + "*");
@@ -47,7 +49,7 @@ public class TraceService {
 
                 // 添加调试语句
                 System.out.println("itemNoKey: " + itemNoKey);
-                System.out.println("traceData: " + traceData);
+//                System.out.println("traceData: " + traceData);
 
                 itemDetails.add(traceData);
             }
@@ -69,15 +71,17 @@ public class TraceService {
         return new Gson().toJson(dataList);
     }
 
-    public void removeTrace(Integer memNo, Integer itemNo) {
+    public void removeTrace(Integer memNo, String itemNo) {
+        Jedis jedis = new Jedis("localhost", 6379);
         try {
+            System.out.println("執行刪除收藏 itemNo= " + itemNo);
             // 检查 itemNo 是否有效
             if (itemNo != null) {
-                String memtraceKey = "memtrace:" + memNo;
-                String itemNoKey = String.valueOf(itemNo);
+                String memtraceKey = "memtrace:" + memNo + ":" + itemNo;
+//                String itemNoKey = String.valueOf(itemNo);
 
                 // 使用 Redis HDEL 命令删除指定字段
-                jedis.hdel(memtraceKey, itemNoKey);
+                jedis.del(memtraceKey);
             } else {
                 // 如果 itemNo 无效，您可以选择如何处理
                 // 例如，可以抛出异常，返回错误消息，或者执行其他操作
