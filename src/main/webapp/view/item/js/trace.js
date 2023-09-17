@@ -202,16 +202,17 @@ function addTrace(Trace) {
                 window.location.href = 'http://localhost:8080/PolyBrain/view/member/login.html';
                 throw new Error('錯誤訊息');
             } else if (resp.ok) {
-                Swal.fire({
-                    icon: 'success',
-                    title: '收藏成功',
-                    showConfirmButton: false,
-                    timer: 1500
-                  })
                 // 請求成功
                 return resp.json();
             }
         }) // 解析JSON響應
+        .then(data => {
+            Trace.itemNo = data.itemNo;
+            Trace.itemImg = data.itemImg[0].itemImg;
+            Trace.itemName = data.itemName;
+            Trace.itemPrice = data.itemPrice;
+            console.log(Trace);
+        })
         .catch(error => {
             // 處理錯誤
             console.error('獲取數據時出現問題:', error);
@@ -487,6 +488,7 @@ $(document).ready(function () {
         loop: true, // 循環播放
         autoplay: true,
         autoplayTimeout: 5000,
+        autoplayHoverPause: true,
         smartSpeed: 500,
         margin: 10, // 外距 10px
         nav: true,
@@ -523,7 +525,6 @@ async function validateMemStatus() {
             const { memNo, memName, loginStatus } = data;
             $('ul#dropdown-menu').append(`
             <li><a class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/Member_Information.jsp">會員專區</a></li>
-            <li><a class="dropdown-item" href="http://localhost:8080/PolyBrain/view/item/itemTrace.html">我的收藏</a></li>
             <li><a class="dropdown-item" href="http://localhost:8080/PolyBrain/view/CartTrace/Cart.jsp">購物車</a></li>
 <li><hr class="dropdown-divider" /></li>
 `);
