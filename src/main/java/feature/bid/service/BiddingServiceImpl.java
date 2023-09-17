@@ -26,7 +26,7 @@ public class BiddingServiceImpl implements BiddingService{
     private final BidOrderDao bidOrderDao;
     private final BidOrderVo bidOrderVo;
     private final BidItemPicDao bidItemPicDao;
-    private final MailService mailService;
+    private final BidOrderMail bidOrderMail;
     Jedis jedis = new Jedis("localhost", 6379);
     public BiddingServiceImpl(){
         bidItemDao = new BidItemDaoImpl();
@@ -35,7 +35,7 @@ public class BiddingServiceImpl implements BiddingService{
         bidOrderDao = new BidOrderDaoImpl();
         bidOrderVo = new BidOrderVo();
         bidItemPicDao = new BidItemPicDaoImpl();
-        mailService = new MailService();
+        bidOrderMail = new BidOrderMail();
     }
     @Override
     public List<BidItemVo> viewAll() {
@@ -219,7 +219,7 @@ public class BiddingServiceImpl implements BiddingService{
             BidOrderVo b = bidOrderDao.insert(bidOrderVo);
             System.out.println(b);
             System.out.println(b.getBidOrderNo());
-            mailService.sendMail(b.getBidOrderNo());
+            bidOrderMail.sendBidOrderMail(b.getBidOrderNo());
 
         });
     }
@@ -227,7 +227,6 @@ public class BiddingServiceImpl implements BiddingService{
     @Override
     public BidOrderVo orderWithoutBid(Integer bidEventNo, Integer memNo) {
         BidEventVo bidEventVo = bidEventDao.selectById(bidEventNo);
-        BidOrderMail bidOrderMail = new BidOrderMail();
 
         bidOrderVo.setBidEventNo(bidEventNo);
         bidOrderVo.setBidItemNo(bidEventVo.getBidItemNo());
@@ -237,10 +236,6 @@ public class BiddingServiceImpl implements BiddingService{
         BidOrderVo b = bidOrderDao.insert(bidOrderVo);
         System.out.println("訂單成立");
 
-        System.out.println(b);
-        System.out.println(b.getBidOrderNo());
-        bidOrderMail.sendBidOrderMail(b.getBidOrderNo());
-        System.out.println("郵件發出");
         return bidOrderVo;
     }
 

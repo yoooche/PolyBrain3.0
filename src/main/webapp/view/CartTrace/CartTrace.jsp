@@ -24,25 +24,100 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+
+
+
+
     <style>
         .logoImg {
             max-width: 200px;
             height: auto;
             margin: 0;
         }
+
+
+          /* 會員名稱調整 */
+              #memName {
+                line-height: 2.35;  /* 调整为所需的值 */
+                text-shadow: 2px 2px 2px rgba(0,0,0,0.3);
+                color: white;
+                margin-left: 12px;
+              }
     </style>
 </head>
 
 <body>
-    <div class="container">
+<body>
 
-        <div class="mt-4 image-wrapper">
-
-            <a href="select.jsp" style="display:inline-block; ">
-                <img class="d-block mb-3 logoImg " src="../logo/JennyBluePoly.png" alt="">
-            </a>
-
-        </div>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container px-5">
+                <a class="navbar-brand" href="../head/Facepage.jsp">
+                    <img src="../logo/PolyBrain_Logo.png" style="width: 110px; height: auto; margin-bottom: 5px;"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation"><span
+                        class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-list"> 添加 nav-list 類別 -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="buyitem" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">商城</a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                <li><a class="dropdown-item" href="../item/search.html">商品資訊</a></li>
+                                <li><a class="dropdown-item" href="../order/memberOrder.html">商城訂單查詢</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="buybid" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">競標</a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                <li><a class="dropdown-item" href="../bid/BidOnHomePage.html">熱門競標</a></li>
+                                <li><a class="dropdown-item" href="../order/bidOrderFront.html">競標訂單查詢</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="mybooking" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">預約場地</a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                <li><a class="dropdown-item" href="../book/Calendar.html">現在預約</a></li>
+                                <li><a class="dropdown-item" href="../book/BookingCheck.html">預約場地查詢</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="discuss" href="../forum/mainpage/index.jsp" role="button">討論區</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="memberdistrict" href="../member/Member_Information.jsp"
+                                role="button">會員中心</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="../head/question.html">常見問題</a></li>
+                        <li>
+                            <a href="../CartTrace/Cart.jsp" id="submitLink"
+                                class="btn btn-outline-dark" style="color: #ffffff">
+                                <i class="bi-cart-fill me-1" style="color: #ffffff"></i>
+                                購物車
+                            </a>
+                        </li>
+                        <span id="memName" style="margin-left:12px;"></span>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                            <ul id="dropdown-menu" class="dropdown-menu dropdown-menu-end"
+                                aria-labelledby="navbarDropdown">
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         
         <div class="container">
             <div class="row">
@@ -203,6 +278,47 @@
                 } else {
                     errorMsgElement.textContent = ''; // 清除错误消息
                 }
+            });
+        });
+
+
+        $(document).ready(function(){
+            validateMemStatus();
+        });
+    async function validateMemStatus() {
+    const response = await fetch('/PolyBrain/general/validateMemStatus', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json; charset:utf-8' },
+    })
+    .then(resp => resp.json())
+    .then(data => {
+    console.log(data);
+    const { memNo, memName, loginStatus } = data;
+    $('ul#dropdown-menu').append(`
+    <li><a class="dropdown-item" href="#!">會員專區</a></li>
+    <li><a class="dropdown-item" href="#!">購物車</a></li>
+    <li><hr class="dropdown-divider" /></li>
+    `);
+    if (loginStatus) {
+    $('span#memName').text(memName);
+    $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/logout.jsp">登出</a></li>');
+    let memDetail = [memNo, memName];
+    return memDetail;
+    } else {
+    $('ul#dropdown-menu').append('<li><a id="logOut" class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/login.html">登入</a></li>');
+    }
+    });
+    return response;
+    }
+
+          let bidEventList = document.querySelectorAll('.bidEventList');
+        bidEventList.forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                const biddingEvent = link.getAttribute('data-event-id');
+                const bidEventURL = 'http://localhost:8080/PolyBrain/view/bid/BidOnItemPage2.jsp';
+                const url = `${bidEventURL}?bidEventId=${biddingEvent}`;
+                window.location.href = url;
             });
         });
 

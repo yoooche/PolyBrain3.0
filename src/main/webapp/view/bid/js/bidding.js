@@ -87,12 +87,14 @@ async function getBiddingItemPics(){
         for(let bidItemPic of data){ 
             const imgEle = document.createElement('img'); //從資料庫拿多張圖，每次迭代生成一張
             imgEle.src = "data:image/jpeg;base64,"+ bidItemPic; //這是一張完整的img標籤圖片
+            imgEle.style.borderRadius = "20px";
+
             imgArea.appendChild(imgEle); //串接放到大圖的區塊獨自展示
 
             let str = `
                 <div class="img-item">
                     <a href="#" data-id="${j}">
-                        <img src="data:image/jpeg;base64,${bidItemPic}">
+                        <img src="data:image/jpeg;base64,${bidItemPic}" style="border-radius: 20px;">
                     </a>
                 </div>
             `;
@@ -170,6 +172,7 @@ async function getBiddingItemInfo(){
         // 商品類別
         $('.product-content h2').text(data.bidItemName);
         $('.product-content h3').text(data.gamePublisher);
+        $('#bidItemDescribeArea').val(data.bidItemDescribe);
         $('#btn_class').text(`底價 $ ${data.floorPrice}`);
         $('#btn_directivePrice').text(`直購價 $ ${data.directivePrice}`);
         
@@ -201,7 +204,7 @@ function buyWithoutBidding(){
     .then(data => {
         console.log(data);
         sessionStorage.setItem("bidOrderVo", JSON.stringify(data));
-        window.location.href = 'http://localhost:8080/PolyBrain/view/test/test.html';
+        window.location.href = 'http://localhost:8080/PolyBrain/view/order/bidOrderConfirm.html';
     })
     .catch(error => {
         console.log("error", error);

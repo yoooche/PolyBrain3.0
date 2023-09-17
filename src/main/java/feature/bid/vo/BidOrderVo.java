@@ -49,4 +49,6 @@ public class BidOrderVo implements Serializable {
     @OneToOne
     @JoinColumn(name = "BID_ORDER_NO", updatable = false, insertable = false)
     private BidOrderDetailVo bidOrderDetailVo;
+
+
 }
