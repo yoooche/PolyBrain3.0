@@ -487,7 +487,6 @@ $(document).ready(function () {
         loop: true, // 循環播放
         autoplay: true,
         autoplayTimeout: 5000,
-        autoplayHoverPause: true,
         smartSpeed: 500,
         margin: 10, // 外距 10px
         nav: true,

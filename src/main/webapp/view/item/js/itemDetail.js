@@ -184,6 +184,30 @@ function getItem(itemNo) {
             console.error('獲取數據時出現問題:', error);
         });
 }
+// 獲取需收藏的商品資訊
+function getItem(itemNo) {
+    console.log("收藏前收集資料");
+    console.log(itemNo);
+    Trace = {};
+    // 發送請求獲取商品數據
+    fetch("http://localhost:8080/PolyBrain/general/selectServlet?value=selectID&itemID=" + itemNo, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+    })
+        .then(response => response.json()) // 解析JSON響應
+        .then(data => {
+            Trace.itemNo = data.itemNo;
+            Trace.itemImg = data.itemImg[0].itemImg;
+            Trace.itemName = data.itemName;
+            Trace.itemPrice = data.itemPrice;
+            console.log(Trace);
+            addTrace(Trace)
+        })
+        .catch(error => {
+            // 處理錯誤
+            console.error('獲取數據時出現問題:', error);
+        });
+}
 //收到商品數據丟入資料庫收藏
 function addTrace(Trace) {
     console.log("開始將資料加入收藏");
@@ -201,17 +225,16 @@ function addTrace(Trace) {
                 window.location.href = 'http://localhost:8080/PolyBrain/view/member/login.html';
                 throw new Error('錯誤訊息');
             } else if (resp.ok) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '收藏成功',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
                 // 請求成功
                 return resp.json();
             }
         }) // 解析JSON響應
-        .then(data => {
-            Trace.itemNo = data.itemNo;
-            Trace.itemImg = data.itemImg[0].itemImg;
-            Trace.itemName = data.itemName;
-            Trace.itemPrice = data.itemPrice;
-            console.log(Trace);
-        })
         .catch(error => {
             // 處理錯誤
             console.error('獲取數據時出現問題:', error);
@@ -313,6 +336,7 @@ async function validateMemStatus() {
             const { memNo, memName, loginStatus } = data;
             $('ul#dropdown-menu').append(`
             <li><a class="dropdown-item" href="http://localhost:8080/PolyBrain/view/member/Member_Information.jsp">會員專區</a></li>
+            <li><a class="dropdown-item" href="http://localhost:8080/PolyBrain/view/item/itemTrace.html">我的收藏</a></li>
             <li><a class="dropdown-item" href="http://localhost:8080/PolyBrain/view/CartTrace/Cart.jsp">購物車</a></li>
 <li><hr class="dropdown-divider" /></li>
 `);
